@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/Arkumida.props" />
+</Project>
