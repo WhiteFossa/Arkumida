@@ -1,2 +1,2 @@
-C:\Non work\Arkumida\Arkumida\vueapp\obj\Debug\vueapp.esproj.SuggestedBindingRedirects.cache
-C:\Non work\Arkumida\Arkumida\vueapp\obj\Debug\vueapp.esproj.CoreCompileInputs.cache
+C:/Non work/Arkumida/Arkumida/vueapp/obj/Debug/vueapp.esproj.SuggestedBindingRedirects.cache
+C:/Non work/Arkumida/Arkumida/vueapp/obj/Debug/vueapp.esproj.CoreCompileInputs.cache

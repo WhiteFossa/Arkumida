@@ -25,7 +25,7 @@ module.exports = {
         },
         proxy: {
             '^/weatherforecast': {
-                target: 'https://localhost:7288/'
+                target: 'http://localhost:5220'
             }
         },
         port: 5002
