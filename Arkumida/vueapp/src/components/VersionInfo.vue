@@ -31,6 +31,6 @@
     </div>
     <div v-else>
         <!-- Shown after load -->
-        <div>Version: {{ versionString }}</div>
+        <div class="version-info">Version: {{ versionString }}</div>
     </div>
 </template>

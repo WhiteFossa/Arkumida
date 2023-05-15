@@ -1,0 +1,14 @@
+/* Body */
+/*body {
+    padding: 0.5rem;
+    color: hsl(208, 100%, 90%);
+    background-color: hsl(253, 100%, 15%);
+}*/
+
+/* Version info */
+.version-info {
+    color: hsl(240, 12%, 27%);
+    background-color: hsl(240, 11%, 98%);
+    font-size: 0.8rem;
+    text-align: center;
+}
