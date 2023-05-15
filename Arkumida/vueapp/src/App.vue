@@ -1,11 +1,10 @@
 <script setup>
     import MainPage from './components/MainPage.vue'
-    import VersionInfo from './components/VersionInfo.vue'
+    import FooterComponent from './components/FooterComponent.vue'
 </script>
 
 <template>
     <MainPage />
     
-    <!-- Version info string -->
-    <VersionInfo />
+    <FooterComponent />
 </template>

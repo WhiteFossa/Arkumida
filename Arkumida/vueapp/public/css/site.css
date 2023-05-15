@@ -5,6 +5,48 @@
     background-color: hsl(253, 100%, 15%);
 }*/
 
+/* Footer stuff start */
+
+/* Footer */
+.footer {
+    background: hsl(240, 11%, 98%);
+    box-shadow: 0 -1px 0 0 hsl(225, 5%, 85%), 0 0 0 1px hsl(228, 10%, 90%);
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+    color: hsl(240, 12%, 27%);
+}
+
+/* Footer info column */
+.footer-info-column {
+    
+}
+
+/* Footer useful column */
+.footer-useful-column {
+    margin-left: 128px;
+    width: 144px;
+}
+
+/* Footer developers column */
+.footer-developers-column {
+    margin-left: 128px;
+    width: 144px;
+}
+
+/* Footer friends column */
+.footer-friends-column {
+    margin-left: 128px;
+    width: 144px;
+}
+
+/* Footer partners column */
+.footer-partners-column {
+    margin-left: 128px;
+    width: 144px;
+}
+
+/* Footer stuff end */
+
 /* Version info */
 .version-info {
     color: hsl(240, 12%, 27%);
@@ -22,4 +64,11 @@
 .loading-symbol-image {
     width: 1.0rem;
     height: 1.0rem;
+}
+
+/* Horizontal flex (centered) */
+.horizontal-flex-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
