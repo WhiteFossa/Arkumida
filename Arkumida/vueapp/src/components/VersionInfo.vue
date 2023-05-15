@@ -1,4 +1,7 @@
-﻿<script setup>
+﻿<!-- Shows version info -->
+<script setup>
+    import LoadingSymbol from './LoadingSymbol.vue'
+
     import { ref, onMounted } from 'vue'
     
     // True if loading under way
@@ -16,18 +19,17 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        isLoading.value = !isLoading.value
-    
         const versionInfo = await (await fetch(`api/VersionInfo/Get`)).json()
         versionString.value = versionInfo.versionString
+
+        isLoading.value = false
     }
 
 </script>
 
 <template>
     <div v-if="isLoading">
-        <!-- Loading message -->
-        <h1>Loading...</h1>
+        <LoadingSymbol />
     </div>
     <div v-else>
         <!-- Shown after load -->

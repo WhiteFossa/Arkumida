@@ -12,3 +12,14 @@
     font-size: 0.8rem;
     text-align: center;
 }
+
+/* Loading symbol */
+.loading-symbol {
+    text-align: center;
+}
+
+/* Loading symbol image */
+.loading-symbol-image {
+    width: 1.0rem;
+    height: 1.0rem;
+}
