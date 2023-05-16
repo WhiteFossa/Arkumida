@@ -1,16 +1,23 @@
+/* Fonts */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-stretch: 100%;
+    src: url(../fonts/opensans.woff2) format('woff2');
+}
+
 /* Body */
-/*body {
-    padding: 0.5rem;
-    color: hsl(208, 100%, 90%);
-    background-color: hsl(253, 100%, 15%);
-}*/
+body {
+    font-family: 'Open Sans', sans-serif;
+}
 
 /* Footer stuff start */
 
 /* Footer */
 .footer {
     background: hsl(240, 11%, 98%);
-    box-shadow: 0 -1px 0 0 hsl(225, 5%, 85%), 0 0 0 1px hsl(228, 10%, 90%);
+    box-shadow: 0 0.1rem 0 0 hsl(225, 5%, 85%), 0 0 0 0.1rem hsl(228, 10%, 90%);
     padding-top: 5rem;
     padding-bottom: 1rem;
     color: hsl(240, 12%, 27%);
@@ -23,26 +30,39 @@
 
 /* Footer useful column */
 .footer-useful-column {
-    margin-left: 128px;
-    width: 144px;
+    margin-left: 7rem;
+    width: 8rem;
 }
 
 /* Footer developers column */
 .footer-developers-column {
-    margin-left: 128px;
-    width: 144px;
+    margin-left: 7rem;
+    width: 8rem;
 }
 
 /* Footer friends column */
 .footer-friends-column {
-    margin-left: 128px;
-    width: 144px;
+    margin-left: 7rem;
+    width: 8rem;
 }
 
 /* Footer partners column */
 .footer-partners-column {
-    margin-left: 128px;
-    width: 144px;
+    margin-left: 7rem;
+    width: 8rem;
+}
+
+/* Footer columns top texts */
+.footer-column-header {
+    font-weight: bold;
+    color: hsl(243, 48%, 9%);
+}
+
+/* Footer text block */
+.footer-block {
+    line-height: 20px;
+    display: block;
+    margin-top: 16px;
 }
 
 /* Footer stuff end */
