@@ -7,24 +7,20 @@
     // True if loading under way
     const isLoading = ref(true)
 
-    const friends = ref([
-        { id: '1da68e2d-8e11-485f-a40e-78a4414e8792', text: 'Фосса', title: 'Блог Белой Фоссы', url: 'https://fossa.life' },
-        { id: '1da68e2d-8e11-485f-a40e-78a4414e8793', text: 'Aaz', title: 'YiffYuff.RU', url: 'https://yiffyuff.ru' },
-    ])
+    // Site friends
+    const friends = ref([])
     
     // OnMounted hook
     onMounted(async () =>
     {
-      await OnLoad();
+        await OnLoad();
     })
     
     // Called when page is loaded
     async function OnLoad()
     {
-      //const versionInfo = await (await fetch(`api/VersionInfo/Get`)).json()
-      //versionString.value = versionInfo.versionString
-    
-      isLoading.value = false
+        friends.value = (await (await fetch(`api/SiteFriends/Get`)).json()).friends
+        isLoading.value = false
     }
 
 </script>
@@ -36,7 +32,7 @@
     <div v-else>
         <!-- Shown after load -->
         <div class="footer-block" v-for="friend in friends" :key="friend.id">
-            <a :href="friend.url" :title="friend.title">{{ friend.text }}</a>
+            <a :href="friend.url" :title="friend.title">{{ friend.name }}</a>
         </div>
     </div>
 </template>
