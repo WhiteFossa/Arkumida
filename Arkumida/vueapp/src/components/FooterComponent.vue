@@ -2,6 +2,7 @@
 <script setup>
     import VersionInfo from './VersionInfo.vue'
     import SiteFriends from "./SiteFriends.vue";
+    import SitePartners from "./SitePartners.vue";
 
 </script>
 
@@ -60,7 +61,7 @@
                     Реклама
                 </div>
                 <div>
-                    Useful
+                    <SitePartners />
                 </div>
             </div>
         </div>
