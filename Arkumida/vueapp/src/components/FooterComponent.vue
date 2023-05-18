@@ -24,7 +24,17 @@
                     Полезное
                 </div>
                 <div>
-                    Useful
+                    <div class="footer-block">
+                        <a href="/allImages" title="Все рисунки к рассказам">Все рисунки</a> к рассказам.
+                    </div>
+
+                    <div class="footer-block">
+                        Наши <a href="/ourBanners" title="Наши кнопки">кнопки</a>.
+                    </div>
+
+                    <div class="footer-block">
+                        Наши <a href="/ourPrograms" title="Наши программы">программы</a>.
+                    </div>
                 </div>
             </div>
             

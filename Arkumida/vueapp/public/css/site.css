@@ -60,9 +60,9 @@ body {
 
 /* Footer text block */
 .footer-block {
-    line-height: 20px;
+    line-height: 1.2rem;
     display: block;
-    margin-top: 16px;
+    margin-top: 1rem;
 }
 
 /* Footer stuff end */

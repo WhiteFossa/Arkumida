@@ -16,6 +16,6 @@ public class VersionInfoController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<VersionInfoResponse>> GetVersionInfoAsync()
     {
-        return Ok(new VersionInfoResponse("Arkumida-A mk.1"));
+        return Ok(new VersionInfoResponse("Аркумида-А мод. 1"));
     }
 }
