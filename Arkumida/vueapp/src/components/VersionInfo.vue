@@ -19,9 +19,7 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        const versionInfo = await (await fetch(`api/VersionInfo/Get`)).json()
-        versionString.value = versionInfo.versionString
-
+        versionString.value = (await (await fetch(`api/SiteInfo/Version`)).json()).versionString
         isLoading.value = false
     }
 

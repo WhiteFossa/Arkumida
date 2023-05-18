@@ -3,6 +3,7 @@
     import VersionInfo from './VersionInfo.vue'
     import SiteFriends from "./SiteFriends.vue";
     import SitePartners from "./SitePartners.vue";
+    import FooterSiteInfo from "./FooterSiteInfo.vue";
 
 </script>
 
@@ -12,10 +13,7 @@
             
             <div class="footer-info-column">
                 <div>
-                    furtails-logo
-                </div>
-                <div>
-                    
+                    <FooterSiteInfo />
                 </div>
             </div>
 

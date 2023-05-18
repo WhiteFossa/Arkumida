@@ -28,6 +28,14 @@ body {
     
 }
 
+/* Footer info text block */
+.footer-info-block {
+    line-height: 1.2rem;
+    display: block;
+    margin-top: 1rem;
+    max-width: 16rem;
+}
+
 /* Footer useful column */
 .footer-useful-column {
     margin-left: 7rem;
@@ -63,6 +71,11 @@ body {
     line-height: 1.2rem;
     display: block;
     margin-top: 1rem;
+}
+
+/* Footer site logo */
+.footer-site-logo {
+    height: 25px;
 }
 
 /* Footer stuff end */
