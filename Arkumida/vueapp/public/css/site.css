@@ -16,13 +16,8 @@ body {
 
 /* Header */
 .header {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
     padding: 1em 2em;
     background: hsl(0, 0%, 100%);
-    align-items: center;
 }
 
 /* Header stuff end */
@@ -125,13 +120,34 @@ body {
     flex-direction: row;
 }
 
-/* Horizontal flex (centered) */
-.horizontal-flex-center {
+/* Flex (centered) */
+.flex-center {
     justify-content: center;
 }
 
-/* Footer site logo */
+/* Flex - space between */
+.flex-space-between
+{
+    justify-content: space-between;
+}
+
+/* Telegram group logo */
 .telegram-group-logo {
     width: 20px;
     height: 20px;
+}
+
+/* Bold text */
+.bold {
+    font-weight: bold;
+}
+
+/* Remove text decoration */
+.remove-text-decoration {
+    text-decoration: none;
+}
+
+/* Dark-colored text */
+.dark-text {
+    color: hsl(243, 48%, 9%);
 }

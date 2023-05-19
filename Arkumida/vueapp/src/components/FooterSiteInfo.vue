@@ -3,8 +3,10 @@
 import LoadingSymbol from './LoadingSymbol.vue'
 
 import { ref, onMounted } from 'vue'
-import AtomComponent from "@/components/AtomComponent.vue";
+
 import TelegramGroup from "@/components/TelegramGroup.vue";
+import OpdsLink from "@/components/OpdsLink.vue";
+import AtomLink from "@/components/AtomLink.vue";
 
 // True if loading under way
 const isLoading = ref(true)
@@ -45,8 +47,9 @@ async function OnLoad()
             Крупнейшая русскоязычная библиотека фурри рассказов. Любая тематика от йиффа до экшена. В базе большое количество текстов.
         </div>
         <div class="footer-block horizontal-flex footer-icons-gapped-flex">
-            <AtomComponent />
+            <AtomLink />
             <TelegramGroup />
+            <OpdsLink />
         </div>
     </div>
 </template>

@@ -36,8 +36,16 @@ async function OnLoad()
     </div>
     <div v-else>
         <!-- Shown after load -->
-        <div>
-            <a :href="siteUrl" :title="siteTitle"><img src="/images/logo.png" :alt="siteTitle" /></a>
+        <div class="horizontal-flex flex-space-between">
+            <div>
+                <a :href="siteUrl" :title="siteTitle"><img src="/images/logo.png" :alt="siteTitle" /></a>
+            </div>
+            <div>
+                Central menu will be here
+            </div>
+            <div>
+                Right menu will be here
+            </div>
         </div>
     </div>
 </template>
