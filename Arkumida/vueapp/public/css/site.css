@@ -12,6 +12,21 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+/* Header stuff start */
+
+/* Header */
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1em 2em;
+    background: hsl(0, 0%, 100%);
+    align-items: center;
+}
+
+/* Header stuff end */
+
 /* Footer stuff start */
 
 /* Footer */
@@ -78,6 +93,11 @@ body {
     height: 25px;
 }
 
+/* Footer icon gapped flex*/
+.footer-icons-gapped-flex {
+    column-gap: 0.5rem;
+}
+
 /* Footer stuff end */
 
 /* Version info */
@@ -99,9 +119,19 @@ body {
     height: 1.0rem;
 }
 
-/* Horizontal flex (centered) */
-.horizontal-flex-center {
+/* Horizontal flex */
+.horizontal-flex {
     display: flex;
     flex-direction: row;
+}
+
+/* Horizontal flex (centered) */
+.horizontal-flex-center {
     justify-content: center;
+}
+
+/* Footer site logo */
+.telegram-group-logo {
+    width: 20px;
+    height: 20px;
 }

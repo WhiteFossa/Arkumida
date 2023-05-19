@@ -28,4 +28,14 @@ public class SiteInfoController : ControllerBase
     {
         return Ok(new SiteUrlResponse("https://furtails.pw", "furtails.pw"));
     }
+    
+    /// <summary>
+    /// Get telegram chat info
+    /// </summary>
+    [Route("api/SiteInfo/TelegramGroup")]
+    [HttpGet]
+    public async Task<ActionResult<TelegramGroupResponse>> GetTelegramGroupInfoAsync()
+    {
+        return Ok(new TelegramGroupResponse("https://t.me/joinchat/Fwu72wsdu6L-ufQKIi7JqQ", "Официальный чат Furtails"));
+    }
 }

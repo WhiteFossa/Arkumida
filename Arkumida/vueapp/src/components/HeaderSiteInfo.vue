@@ -1,10 +1,8 @@
-<!-- Shows site info for footer -->
+<!-- Shows site info for header -->
 <script setup>
 import LoadingSymbol from './LoadingSymbol.vue'
 
 import { ref, onMounted } from 'vue'
-import AtomComponent from "@/components/AtomComponent.vue";
-import TelegramGroup from "@/components/TelegramGroup.vue";
 
 // True if loading under way
 const isLoading = ref(true)
@@ -39,14 +37,7 @@ async function OnLoad()
     <div v-else>
         <!-- Shown after load -->
         <div>
-            <a :href="siteUrl" :title="siteTitle"><img class="footer-site-logo" src="/images/logo.png" :alt="siteTitle" /></a>
-        </div>
-        <div class="footer-info-block">
-            Крупнейшая русскоязычная библиотека фурри рассказов. Любая тематика от йиффа до экшена. В базе большое количество текстов.
-        </div>
-        <div class="footer-block horizontal-flex footer-icons-gapped-flex">
-            <AtomComponent />
-            <TelegramGroup />
+            <a :href="siteUrl" :title="siteTitle"><img src="/images/logo.png" :alt="siteTitle" /></a>
         </div>
     </div>
 </template>
