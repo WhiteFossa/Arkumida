@@ -151,3 +151,32 @@ body {
 .dark-text {
     color: hsl(243, 48%, 9%);
 }
+
+/* Menu stuff starts here */
+
+/* Central menu item */
+.central-menu-link {
+    color: hsl(0, 0%, 0%);
+    text-decoration: none;
+    font-weight: bold;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    display: inline-block;
+}
+
+/* Central menu item (hovered) */
+.central-menu-link:hover {
+    border-bottom: 2px solid #427fed;
+}
+
+/* Central menu item without hoverability */
+.central-menu-link-nohover {
+    color: hsl(0, 0%, 0%);
+    text-decoration: none;
+    font-weight: bold;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    display: inline-block;
+}
+
+/* Menu stuff ends here */
