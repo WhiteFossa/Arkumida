@@ -1,16 +1,42 @@
 <!-- Shows central menu -->
 <script setup>
 
-import AtomLink from "@/components/AtomLink.vue";
-import TelegramGroup from "@/components/TelegramGroup.vue";
+    import AtomLink from "@/components/AtomLink.vue";
+    import TelegramGroup from "@/components/TelegramGroup.vue";
+    
+    import { ref, onMounted } from 'vue'
+    import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    
+    // True if loading under way
+    const isLoading = ref(true)
+    
+    // Menu items
+    const menuItems = ref([])
+    
+    // OnMounted hook
+    onMounted(async () =>
+    {
+        await OnLoad();
+    })
+    
+    // Called when page is loaded
+    async function OnLoad()
+    {
+        menuItems.value = (await (await fetch(`api/MainMenu/Items`)).json()).items
+        isLoading.value = false
+    }
+
 </script>
 
 <template>
-    <div>
+    <div v-if="isLoading">
+        <LoadingSymbol />
+    </div>
+    <div v-else>
         <nav>
-            <a class="central-menu-link" href="/item1" title="Item 1">Item 1</a>
-            <a class="central-menu-link" href="/item2" title="Item 2">Item 2</a>
-            <a class="central-menu-link" href="/item3" title="Item 3">Item 3</a>
+            <span v-for="menuItem in menuItems" :key="menuItem.url">
+                <a class="central-menu-link" :href="menuItem.url" :title="menuItem.title">{{ menuItem.text }}</a>
+            </span>
             
             <div class="central-menu-link-nohover">
                 <AtomLink />
