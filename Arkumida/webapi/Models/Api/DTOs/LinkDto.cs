@@ -37,10 +37,7 @@ public class LinkDto
             throw new ArgumentException("Link URL mustn't be empty.", nameof(url));
         }
         
-        if (string.IsNullOrWhiteSpace(text))
-        {
-            throw new ArgumentException("Link text mustn't be empty.", nameof(text));
-        }
+        // Text is not being checked for emptiness because children (like ImagedLinkDto) may have empty text
         
         if (string.IsNullOrWhiteSpace(title))
         {
