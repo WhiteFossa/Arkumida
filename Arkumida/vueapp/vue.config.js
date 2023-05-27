@@ -1,3 +1,4 @@
+/*
 module.exports = {
     devServer:
     {
@@ -11,4 +12,4 @@ module.exports = {
         },
         port: 5002
     }
-}
+}*/

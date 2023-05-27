@@ -6,6 +6,9 @@
     
     import { ref, onMounted } from 'vue'
     import LoadingSymbol from "@/components/LoadingSymbol.vue";
+
+    // API base URL
+    const apiBaseUrl = process.env.VUE_APP_API_URL
     
     // True if loading under way
     const isLoading = ref(true)
@@ -22,7 +25,7 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        menuItems.value = (await (await fetch(`api/MainMenu/Items`)).json()).items
+        menuItems.value = (await (await fetch(apiBaseUrl + `/api/MainMenu/Items`)).json()).items
         isLoading.value = false
     }
 

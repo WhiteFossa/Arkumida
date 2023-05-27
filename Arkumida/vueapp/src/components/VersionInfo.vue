@@ -3,6 +3,9 @@
     import LoadingSymbol from './LoadingSymbol.vue'
 
     import { ref, onMounted } from 'vue'
+
+    // API base URL
+    const apiBaseUrl = process.env.VUE_APP_API_URL
     
     // True if loading under way
     const isLoading = ref(true)
@@ -19,7 +22,7 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        versionString.value = (await (await fetch(`api/SiteInfo/Version`)).json()).versionString
+        versionString.value = (await (await fetch(apiBaseUrl + `/api/SiteInfo/Version`)).json()).versionString
         isLoading.value = false
     }
 

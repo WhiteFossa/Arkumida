@@ -8,6 +8,9 @@ import TelegramGroup from "@/components/TelegramGroup.vue";
 import OpdsLink from "@/components/OpdsLink.vue";
 import AtomLink from "@/components/AtomLink.vue";
 
+// API base URL
+const apiBaseUrl = process.env.VUE_APP_API_URL
+
 // True if loading under way
 const isLoading = ref(true)
 
@@ -26,7 +29,7 @@ onMounted(async () =>
 // Called when page is loaded
 async function OnLoad()
 {
-    const siteInfo = await (await fetch(`api/SiteInfo/Url`)).json()
+    const siteInfo = await (await fetch(apiBaseUrl + `/api/SiteInfo/Url`)).json()
     siteUrl.value = siteInfo.siteUrl
     siteTitle.value = siteInfo.siteTitle
     isLoading.value = false
