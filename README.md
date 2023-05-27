@@ -11,13 +11,13 @@ docker build -f dockerfile-webapi -t arkumida-webapi .
 Configure reverse proxy in a such way (example for Apache):
 
 ##############################################################################
-#                           api.arkumida.fossa.life                         #
+#                           api.arkumida.furtails.pw                         #
 ##############################################################################
 <VirtualHost *:80>
-    ServerName api.arkumida.fossa.life
+    ServerName api.arkumida.furtails.pw
     ServerAdmin whitefossa@protonmail.com
-    ErrorLog "/webroot/vhosts/api.arkumida.fossa.life/logs/error.log"
-    CustomLog "/webroot/vhosts/api.arkumida.fossa.life/logs/access.log" combined
+    ErrorLog "/webroot/vhosts/api.arkumida.furtails.pw/logs/error.log"
+    CustomLog "/webroot/vhosts/api.arkumida.furtails.pw/logs/access.log" combined
 
     ProxyPass / http://127.0.0.1:5220/
     ProxyPassReverse / http://127.0.0.1:5220/
@@ -25,17 +25,17 @@ Configure reverse proxy in a such way (example for Apache):
 </VirtualHost>
 
 <VirtualHost *:443>
-    ServerName api.arkumida.fossa.life
+    ServerName api.arkumida.furtails.pw
     ServerAdmin whitefossa@protonmail.com
-    ErrorLog "/webroot/vhosts/api.arkumida.fossa.life/logs/error.log"
-    CustomLog "/webroot/vhosts/api.arkumida.fossa.life/logs/access.log" combined
+    ErrorLog "/webroot/vhosts/api.arkumida.furtails.pw/logs/error.log"
+    CustomLog "/webroot/vhosts/api.arkumida.furtails.pw/logs/access.log" combined
 
     ProxyPass / http://127.0.0.1:5220/
     ProxyPassReverse / http://127.0.0.1:5220/
     ProxyRequests Off
 
 	SSLEngine on
-	SSLCertificateFile "/etc/letsencrypt/live/api.arkumida.fossa.life/cert.pem"
-	SSLCertificateKeyFile "/etc/letsencrypt/live/api.arkumida.fossa.life/privkey.pem"
-	SSLCertificateChainFile "/etc/letsencrypt/live/api.arkumida.fossa.life/fullchain.pem"
+	SSLCertificateFile "/etc/letsencrypt/live/api.arkumida.furtails.pw/cert.pem"
+	SSLCertificateKeyFile "/etc/letsencrypt/live/api.arkumida.furtails.pw/privkey.pem"
+	SSLCertificateChainFile "/etc/letsencrypt/live/api.arkumida.furtails.pw/fullchain.pem"
 </VirtualHost>
