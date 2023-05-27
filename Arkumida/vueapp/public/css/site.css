@@ -10,6 +10,7 @@
 /* Body */
 body {
     font-family: 'Open Sans', sans-serif;
+    background-color: hsl(220, 9%, 94%);
 }
 
 /* Header stuff start */
@@ -18,6 +19,7 @@ body {
 .header {
     padding: 1em 2em;
     background: hsl(0, 0%, 100%);
+    box-shadow: 0 0.1rem 0 0 hsl(225, 5%, 85%),0 0 0 0.1rem hsl(228, 10%, 90%);
 }
 
 /* Header stuff end */
@@ -85,7 +87,7 @@ body {
 
 /* Footer site logo */
 .footer-site-logo {
-    height: 25px;
+    height: 2rem;
 }
 
 /* Footer icon gapped flex*/
@@ -138,8 +140,8 @@ body {
 
 /* Telegram group logo */
 .telegram-group-logo {
-    width: 20px;
-    height: 20px;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 /* Bold text */
@@ -186,7 +188,7 @@ body {
 
 /* Central menu item (hovered) */
 .central-menu-link:hover {
-    border-bottom: 2px solid #427fed;
+    border-bottom: 0.2rem solid hsl(219, 83%, 59%);
 }
 
 /* Central menu item without hoverability */
@@ -201,9 +203,9 @@ body {
 
 /* Right menu user avatar */
 .right-menu-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
     vertical-align: middle;
 }
 
@@ -223,3 +225,39 @@ body {
 }
 
 /* Menu stuff ends here */
+
+/* Top button */
+.top-button {
+    display: inline-block;
+    border: 0.2rem solid hsl(36, 100%, 84%);
+    border-radius: 3rem;
+    text-decoration: none;
+    width: 20rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    color: hsl(0, 0%, 0%);
+}
+
+/* Top button with small text */
+.top-button.top-button-with-small-text {
+    padding-bottom: 0;
+}
+
+/* Howered top button */
+.top-button:hover {
+    background-color: hsl(36, 100%, 84%);
+}
+
+/* Optional small text on top button */
+.top-button-small-text {
+    font-size: 0.7rem;
+    color: hsl(0, 0%, 36%);
+}
+
+/* Container for top buttons */
+.top-buttons-container {
+    justify-content: center;
+    gap: 5rem;
+}
