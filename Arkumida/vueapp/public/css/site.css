@@ -184,6 +184,7 @@ body {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     display: inline-block;
+    border-bottom: 0.2rem solid hsla(219, 83%, 59%, 0); /* To avoid shift up on hover */
 }
 
 /* Central menu item (hovered) */
