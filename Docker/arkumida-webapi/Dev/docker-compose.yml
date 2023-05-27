@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  # Burrows
+  burrows:
+    image: arkumida-webapi:latest
+    container_name: arkumida-webapi
+    restart: always
+
+    ports:
+        - 127.0.0.1:5220:80
+
+    networks:
+      - dev_arkumida-net
+
+networks:
+  dev_arkumida-net:
+    driver: bridge
+    external: false # Change me to true after infrastructure container implementation
+
+
