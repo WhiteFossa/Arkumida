@@ -12,6 +12,9 @@
     
     // Version string
     const versionString = ref(null)
+
+    // Sources URL
+    const sourcesUrl = ref(null)
     
     // OnMounted hook
     onMounted(async () =>
@@ -22,7 +25,11 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        versionString.value = (await (await fetch(apiBaseUrl + `/api/SiteInfo/Version`)).json()).versionString
+        const versionInfo = await (await fetch(apiBaseUrl + `/api/SiteInfo/Version`)).json()
+        
+        versionString.value = versionInfo.versionString
+        sourcesUrl.value = versionInfo.sourcesUrl
+        
         isLoading.value = false
     }
 
@@ -35,5 +42,15 @@
     <div v-else>
         <!-- Shown after load -->
         <div class="version-info">Версия: {{ versionString }}</div>
+        
+        <div class="sources-link">
+            <a :href="sourcesUrl" title="Исходные коды">Исходные коды</a>
+        </div>
+    </div>
+    
+    <div class="centered">
+        <a href="https://www.gnu.org/licenses/agpl-3.0.html" title="Лицензировано под AGPLv3 или более поздней версией">
+            <img src="/images/agplv3-with-text-162x68.png" alt="AGPLv3 logo" />
+        </a>
     </div>
 </template>

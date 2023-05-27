@@ -13,16 +13,29 @@ public class VersionInfoResponse
     [JsonPropertyName("versionString")]
     public string VersionString { get; }
 
+    /// <summary>
+    /// Site sources URL
+    /// </summary>
+    [JsonPropertyName("sourcesUrl")]
+    public string SourcesUrl { get; }
+
     public VersionInfoResponse
     (
-        string versionString
+        string versionString,
+        string sourcesUrl
     )
     {
         if (string.IsNullOrWhiteSpace(versionString))
         {
             throw new ArgumentException("Version string must not be empty.", nameof(versionString));
         }
+        
+        if (string.IsNullOrWhiteSpace(sourcesUrl))
+        {
+            throw new ArgumentException("Sources URL must not be empty.", nameof(sourcesUrl));
+        }
 
         VersionString = versionString;
+        SourcesUrl = sourcesUrl;
     }
 }

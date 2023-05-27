@@ -5,7 +5,7 @@ import TopButton from "@/components/TopButton.vue";
 </script>
 
 <template>
-    <body>
+    <body class="body-container">
         <!-- Main page code -->
         
         <!-- Top buttons -->
