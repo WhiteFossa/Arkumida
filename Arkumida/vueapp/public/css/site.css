@@ -299,4 +299,42 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
+
+/* Search stuff starts here */
+
+/* Search as a whole */
+.search {
+    background-color: hsl(199, 74%, 79%);
+    border: 0.1rem solid hsl(195, 56%, 62%);
+    border-radius: 0.2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+/* Search controls live here*/
+.search-container {
+    gap: 0.5rem;
+}
+
+/* Search text is being entered here */
+.search-text-area {
+    flex: 99%;
+    font-size: inherit;
+    border: 0.1rem solid hsl(195, 56%, 62%);
+    border-radius: 0.2rem;
+}
+
+/* Search button */
+.search-button {
+    flex: 1%;
+    font-size: inherit;
+    border: 0.1rem solid hsl(195, 56%, 62%);
+    border-radius: 0.2rem;
+}
+
+/* Search stuff ends here */

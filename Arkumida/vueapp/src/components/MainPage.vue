@@ -1,6 +1,7 @@
 <script setup>
 
 import TopButton from "@/components/TopButton.vue";
+import SearchComponent from "@/components/SearchComponent.vue";
 
 </script>
 
@@ -14,6 +15,9 @@ import TopButton from "@/components/TopButton.vue";
             <TopButton href="/collectiveTranslation" text="Совместный перевод" smallText="Сейчас переводятся: 2"/>
             <TopButton href="/contests" text="Конкурсы" />
         </div>
+        
+        <!-- Search -->
+        <SearchComponent />
         
         <h1>Furtails.pw</h1>
     </div>
