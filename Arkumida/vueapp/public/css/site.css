@@ -338,3 +338,26 @@ body {
 }
 
 /* Search stuff ends here */
+
+/* Texts statistics starts here */
+
+/* Statistics as a whole */
+.texts-statistics {
+    background-color: hsl(0, 0%, 100%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Total amount of texts */
+.texts-statistics-total-texts {
+    color: hsl(0, 100%, 30%);
+}
+
+/* Texts statistics ends here */

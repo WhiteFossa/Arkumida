@@ -2,6 +2,7 @@
 
 import TopButton from "@/components/TopButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
+import TextsStatisticsComponent from "@/components/TextsStatisticsComponent.vue";
 
 </script>
 
@@ -18,6 +19,9 @@ import SearchComponent from "@/components/SearchComponent.vue";
         
         <!-- Search -->
         <SearchComponent />
+        
+        <!-- Texts statistics -->
+        <TextsStatisticsComponent />
         
         <h1>Furtails.pw</h1>
     </div>
