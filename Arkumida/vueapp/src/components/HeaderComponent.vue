@@ -7,7 +7,7 @@
 
 <template>
     <header class="header">
-        <div class="horizontal-flex flex-space-between flex-cross-center">
+        <div class="horizontal-flex flex-cross-center header-container">
             <div>
                 <HeaderSiteInfo />
             </div>

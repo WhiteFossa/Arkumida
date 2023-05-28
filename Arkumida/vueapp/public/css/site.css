@@ -15,18 +15,28 @@ body {
 
 /* Body container */
 .body-container {
-    max-width: 1225px;
+    max-width: 100rem;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 /* Header stuff start */
 
 /* Header */
 .header {
-    padding: 1em 2em;
+    padding: 1rem 2rem;
     background: hsl(0, 0%, 100%);
     box-shadow: 0 0.1rem 0 0 hsl(225, 5%, 85%),0 0 0 0.1rem hsl(228, 10%, 90%);
+}
+
+/* Container with header content */
+.header-container {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    column-gap: 10rem;
+    row-gap: 2rem;
 }
 
 /* Header stuff end */
@@ -40,6 +50,13 @@ body {
     padding-top: 5rem;
     padding-bottom: 1rem;
     color: hsl(240, 12%, 27%);
+}
+
+/* Footer container */
+.footer-container {
+    flex-wrap: wrap;
+    column-gap: 10rem;
+    row-gap: 2rem;
 }
 
 /* Footer info column */
@@ -57,26 +74,26 @@ body {
 
 /* Footer useful column */
 .footer-useful-column {
-    margin-left: 7rem;
-    width: 8rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 /* Footer developers column */
 .footer-developers-column {
-    margin-left: 7rem;
-    width: 8rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 /* Footer friends column */
 .footer-friends-column {
-    margin-left: 7rem;
-    width: 8rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 /* Footer partners column */
 .footer-partners-column {
-    margin-left: 7rem;
-    width: 8rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 /* Footer columns top texts */
@@ -102,7 +119,7 @@ body {
     column-gap: 0.5rem;
 }
 
-/* Footer stuff end */
+/* Footer stuff ends here */
 
 /* Version info */
 .version-info {
@@ -279,5 +296,7 @@ body {
 
 /* Container for top buttons */
 .top-buttons-container {
-    justify-content: space-around;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 }

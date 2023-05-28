@@ -5,7 +5,7 @@ import TopButton from "@/components/TopButton.vue";
 </script>
 
 <template>
-    <body class="body-container">
+    <div class="body-container">
         <!-- Main page code -->
         
         <!-- Top buttons -->
@@ -16,5 +16,5 @@ import TopButton from "@/components/TopButton.vue";
         </div>
         
         <h1>Furtails.pw</h1>
-    </body>
+    </div>
 </template>

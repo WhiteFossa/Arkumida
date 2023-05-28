@@ -9,7 +9,7 @@
 
 <template>
     <footer class="footer">
-        <div class="horizontal-flex flex-center">
+        <div class="horizontal-flex flex-center footer-container">
             
             <div class="footer-info-column">
                 <div>
