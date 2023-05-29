@@ -1,0 +1,84 @@
+<!-- Text short info -->
+<script setup>
+
+    import { defineProps } from 'vue'
+    import { Guid } from 'guid-typescript'
+    import { ref, onMounted } from 'vue'
+    import moment from 'moment'
+    import LoadingSymbol from './LoadingSymbol.vue'
+    
+    const props = defineProps({
+        id: Guid
+    })
+    
+    // API base URL
+    const apiBaseUrl = process.env.VUE_APP_API_URL
+    
+    // True if loading under way
+    const isLoading = ref(true)
+    
+    // Text info
+    const textInfo = ref(null)
+
+    const authorLinkHref = ref(null)
+    const authorLinkTitle = ref(null)
+    
+    const textLinkHref = ref(null)
+
+    const addTime = ref(null)
+    
+    const commentsHref = ref(null)
+    
+    // OnMounted hook
+    onMounted(async () =>
+    {
+        await OnLoad();
+    })
+    
+    // Called when page is loaded
+    async function OnLoad()
+    {
+        textInfo.value = await (await fetch(apiBaseUrl + `/api/Texts/GetInfo/` + props.id)).json()
+        
+        authorLinkHref.value = "/texts/byAuthor/" + textInfo.value.textInfo.author.entityId
+        authorLinkTitle.value = "Все произведения автора " + textInfo.value.textInfo.author.name
+        
+        textLinkHref.value = "/texts/" + textInfo.value.textInfo.entityId
+
+        addTime.value = moment(textInfo.value.textInfo.addTime).format('HH:mm DD.MM.YYYY')
+
+        commentsHref.value = "/texts/discuss/" + textInfo.value.textInfo.entityId
+        
+        isLoading.value = false
+    }
+
+</script>
+
+<template>
+    <div v-if="isLoading">
+        <LoadingSymbol />
+    </div>
+    <div v-else>
+        <div class="text-short-info-block">
+            <div class="text-short-info-block-title-line">
+                <a class="text-short-info-author-link" :href="authorLinkHref" :title="authorLinkTitle">{{ textInfo.textInfo.author.name }}</a>&nbsp;<a class="text-short-info-text-link" :href="textLinkHref">«{{ textInfo.textInfo.title }}»</a>
+            </div>
+            
+            <div class="text-short-info-block-statistics-line">
+                {{ addTime }}&nbsp;
+                <img class="text-short-info-block-statistics-line-images" src="/images/glazz.png" alt="Количество просмотров" title="Количество просмотров" />&nbsp;{{ textInfo.textInfo.viewsCount }}&nbsp;
+                
+                <span v-if="textInfo.textInfo.commentsCount === 0">
+                    <img class="text-short-info-block-statistics-line-images" src="/images/oblako.png" alt="Количество комментариев" title="Количество комментариев" />&nbsp;0
+                </span>
+                <span v-else>
+                    <a class="text-short-info-block-comments-link" :href="commentsHref" title="Количество комментариев">
+                        <img class="text-short-info-block-statistics-line-images" src="/images/oblako.png" alt="Количество комментариев" title="Количество комментариев" />&nbsp;{{ textInfo.textInfo.commentsCount }}
+                    </a>
+                </span>
+
+                &nbsp;<img class="text-short-info-block-statistics-line-images" src="/images/vote.png" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-short-info-block-votes-for" v-if="textInfo.textInfo.votesFor > 0">{{ textInfo.textInfo.votesFor }}</span><span v-else>Нет</span>
+            </div>
+        </div>
+    </div>
+</template>

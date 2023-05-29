@@ -361,3 +361,88 @@ body {
 }
 
 /* Texts statistics ends here */
+
+/* Logo and texts container */
+.logo-and-texts-container {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    column-gap: 1rem;
+    row-gap: 2rem;
+}
+
+/* Class for main logo */
+.main-logo {
+    width: 417px;
+    height: 622px;
+}
+
+/* Texts short info stuff starts here */
+
+/* Text short infos are live here */
+.texts-short-info-blocks-container {
+    flex: auto;
+    margin-left: 1rem;
+}
+
+/* Text short info block */
+.text-short-info-block {
+    background-color: hsl(87, 89%, 93%);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border: 0.1rem solid hsl(87, 89%, 80%);
+    border-radius: 0.2rem;
+}
+
+/* Text short info title line */
+.text-short-info-block-title-line {
+    font-size: 1.1rem;
+}
+
+/* Text short info - author link */
+.text-short-info-author-link {
+    color: hsl(0, 0%, 0%);
+    text-decoration: none;
+}
+
+.text-short-info-author-link:hover {
+    text-decoration: underline;
+}
+
+/* Text short info - text link */
+.text-short-info-text-link {
+    color: hsl(17, 36%, 24%);
+    text-decoration: none;
+}
+
+.text-short-info-text-link:hover {
+    text-decoration: underline;
+}
+
+/* Text short info - statistics line */
+.text-short-info-block-statistics-line {
+    font-size: 0.9rem;
+}
+
+/* Images in statistics line*/
+.text-short-info-block-statistics-line-images {
+    width: 16px;
+    height: 16px;
+    margin-bottom: -2px;
+}
+
+/* Comments link (for case when there are comments) */
+.text-short-info-block-comments-link {
+    color: hsl(0, 0%, 0%);
+}
+
+/* Votes for text */
+.text-short-info-block-votes-for {
+    color: hsl(120, 100%, 25%);
+}
+
+/* Texts short info ends here */

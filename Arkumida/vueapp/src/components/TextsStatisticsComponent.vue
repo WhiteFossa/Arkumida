@@ -33,7 +33,7 @@
 
         totalTexts.value = textsStatistics.totalTexts
         readToday.value = textsStatistics.readToday
-        lastAdd.value = moment(textsStatistics.lastAddTime).format('hh:mm DD.MM.YYYY')
+        lastAdd.value = moment(textsStatistics.lastAddTime).format('HH:mm DD.MM.YYYY')
         
         isLoading.value = false
     }
