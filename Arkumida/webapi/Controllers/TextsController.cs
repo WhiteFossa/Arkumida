@@ -38,6 +38,7 @@ public class TextsController : ControllerBase
                             new TextTagDto(new Guid("fa6ef372-6182-425f-94e0-1148ddfd07de"), "1", "F/F"),
                             new TextTagDto(new Guid("14607fef-7415-4eb6-ba92-eaa5b66f3592"), "2", "Снафф")
                         },
+                        TextType.Story,
                         SpecialTextType.Normal
                     ));
             
@@ -58,6 +59,7 @@ public class TextsController : ControllerBase
                         {
                             new TextTagDto(new Guid("5a8c370d-aed3-41e1-adf6-175a56388e7f"), "3", "M/F")
                         },
+                        TextType.Novel,
                         SpecialTextType.Normal
                     ));
             

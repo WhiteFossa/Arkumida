@@ -6,6 +6,7 @@
     import { ref, onMounted } from 'vue'
     import moment from 'moment'
     import LoadingSymbol from './LoadingSymbol.vue'
+    import TagSmall from "@/components/TagSmall.vue";
     
     const props = defineProps({
         id: Guid
@@ -29,6 +30,10 @@
     
     const commentsHref = ref(null)
     
+    const textTypeName = ref(null)
+    const textTypeHref = ref(null)
+    const textTypeTitle = ref(null)
+    
     // OnMounted hook
     onMounted(async () =>
     {
@@ -49,6 +54,37 @@
 
         commentsHref.value = "/texts/discuss/" + textInfo.value.textInfo.entityId
         
+        textTypeHref.value = "/texts/byType/" + textInfo.value.textInfo.type
+        switch (textInfo.value.textInfo.type)
+        {
+            // Story
+            case 0:
+                textTypeName.value = "Рассказы"
+                textTypeTitle.value = "Все рассказы"
+                break;
+
+            // Novel
+            case 1:
+                textTypeName.value = "Повести и Романы"
+                textTypeTitle.value = "Все повести и романы"
+                break;
+
+            // Poetry
+            case 2:
+                textTypeName.value = "Стихи"
+                textTypeTitle.value = "Все стихи"
+                break;
+
+            // Comics
+            case 3:
+                textTypeName.value = "Комиксы"
+                textTypeTitle.value = "Все комиксы"
+                break;
+                
+            default:
+                new Error("Unknown text type.")
+        }
+        
         isLoading.value = false
     }
 
@@ -60,10 +96,13 @@
     </div>
     <div v-else>
         <div class="text-short-info-block">
+            
+            <!-- Autho and title line -->
             <div class="text-short-info-block-title-line">
                 <a class="text-short-info-author-link" :href="authorLinkHref" :title="authorLinkTitle">{{ textInfo.textInfo.author.name }}</a>&nbsp;<a class="text-short-info-text-link" :href="textLinkHref">«{{ textInfo.textInfo.title }}»</a>
             </div>
             
+            <!-- Statistics line -->
             <div class="text-short-info-block-statistics-line">
                 {{ addTime }}&nbsp;
                 <img class="text-short-info-block-statistics-line-images" src="/images/glazz.png" alt="Количество просмотров" title="Количество просмотров" />&nbsp;{{ textInfo.textInfo.viewsCount }}&nbsp;
@@ -78,6 +117,24 @@
                 </span>
 
                 &nbsp;<img class="text-short-info-block-statistics-line-images" src="/images/vote.png" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-short-info-block-votes-for" v-if="textInfo.textInfo.votesFor > 0">{{ textInfo.textInfo.votesFor }}</span><span v-else>Нет</span>
+            </div>
+            
+            <!-- Type and tags line -->
+            <div class="text-short-info-block-type-and-tags-line">
+                
+                <!-- Type -->
+                <a class="text-short-info-block-text-type-link" :href="textTypeHref" :title="textTypeTitle">
+                    <strong>
+                        {{ textTypeName }}
+                    </strong>
+                </a>
+                
+                <!-- Tags -->
+                #:
+                
+                <span v-for="tag in textInfo.textInfo.tags" :key="tag.entityId">
+                    <TagSmall :id="tag.entityId" :humanReadableId="tag.humanReadableId" :text="tag.tag" /><span v-if="tag.entityId !== textInfo.textInfo.tags[textInfo.textInfo.tags.length - 1].entityId">, </span>
+                </span>
             </div>
         </div>
     </div>

@@ -54,6 +54,12 @@ public class TextInfoDto : IdedEntityDto
     public IReadOnlyCollection<TextTagDto> Tags { get; private set; }
 
     /// <summary>
+    /// Text type
+    /// </summary>
+    [JsonPropertyName("type")]
+    public TextType Type { get; private set; }
+    
+    /// <summary>
     /// Special text type
     /// </summary>
     [JsonPropertyName("specialType")]
@@ -71,6 +77,7 @@ public class TextInfoDto : IdedEntityDto
         int votesFor,
         int votesAgainst,
         IReadOnlyCollection<TextTagDto> tags,
+        TextType type,
         SpecialTextType specialType
     ) : base(id, humanReadableId)
     {
@@ -113,6 +120,7 @@ public class TextInfoDto : IdedEntityDto
         VotesAgainst = votesAgainst;
 
         Tags = tags ?? throw new ArgumentNullException(nameof(tags), "Tags must not be null");
+        Type = type;
         SpecialType = specialType;
     }
 }

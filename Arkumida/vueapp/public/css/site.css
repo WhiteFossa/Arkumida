@@ -445,4 +445,30 @@ body {
     color: hsl(120, 100%, 25%);
 }
 
+/* Text short info - type and tags line */
+.text-short-info-block-type-and-tags-line {
+    font-size: 0.9rem;
+}
+
+/* Text type link */
+.text-short-info-block-text-type-link {
+    color: hsl(0, 0%, 0%);
+    text-decoration: none;
+}
+
+.text-short-info-block-text-type-link:hover
+{
+    text-decoration: underline;
+}
+
 /* Texts short info ends here */
+
+/* Link in small tag */
+.small-tag-link {
+    color: hsl(0, 0%, 0%);
+    text-decoration: none;
+}
+
+.small-tag-link:hover {
+    text-decoration: underline;
+}
