@@ -33,6 +33,8 @@ import ShortTextInfo from "@/components/ShortTextInfo.vue";
             <div class="texts-short-info-blocks-container">
                 <ShortTextInfo id="0e9fc697-31d6-4776-bf7e-05950936b4de" />
                 <ShortTextInfo id="185d7cc9-83e7-4de3-b1d8-5f8d50af6a88" />
+                <ShortTextInfo id="e77c2183-2c49-4e56-a7a5-576f674f1403" />
+                <ShortTextInfo id="a4ade7ba-7c67-4ba7-abb9-06d11b98d2b6" />
             </div>
         </div>
     </div>

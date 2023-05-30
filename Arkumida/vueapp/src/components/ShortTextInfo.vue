@@ -34,6 +34,8 @@
     const textTypeHref = ref(null)
     const textTypeTitle = ref(null)
     
+    const textInfoClasses = ref(null)
+    
     // OnMounted hook
     onMounted(async () =>
     {
@@ -85,6 +87,32 @@
                 new Error("Unknown text type.")
         }
         
+        textInfoClasses.value = "text-short-info-block"
+        switch (textInfo.value.textInfo.specialType)
+        {
+            // Normal text
+            case 0:
+                break;
+
+            // Contest
+            case 1:
+                textInfoClasses.value += " text-short-info-block-contest";
+                break;
+
+            // Sandbox
+            case 2:
+                textInfoClasses.value += " text-short-info-block-sandbox";
+                break;
+
+            // Snuff
+            case 3:
+                textInfoClasses.value += " text-short-info-block-snuff";
+                break;
+            
+            default:
+                new Error("Unknown text type.")
+        }
+        
         isLoading.value = false
     }
 
@@ -95,7 +123,7 @@
         <LoadingSymbol />
     </div>
     <div v-else>
-        <div class="text-short-info-block">
+        <div :class="textInfoClasses">
             
             <!-- Autho and title line -->
             <div class="text-short-info-block-title-line">

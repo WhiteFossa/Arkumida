@@ -398,6 +398,21 @@ body {
     border-radius: 0.2rem;
 }
 
+/* Text from contest */
+.text-short-info-block.text-short-info-block-contest {
+    border: 0.25rem solid hsl(63, 99%, 47%);
+}
+
+/* Snuff text */
+.text-short-info-block.text-short-info-block-snuff {
+    border: 0.25rem solid hsl(1, 74%, 88%);
+}
+
+/* Poor-quality text */
+.text-short-info-block.text-short-info-block-sandbox {
+    border: 0.25rem solid hsl(0, 0%, 78%);
+}
+
 /* Text short info title line */
 .text-short-info-block-title-line {
     font-size: 1.1rem;
