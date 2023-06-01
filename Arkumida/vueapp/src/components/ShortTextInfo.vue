@@ -101,19 +101,19 @@
             // Contest
             case 1:
                 textInfoClasses.value += " text-short-info-block-contest"
-                leftIcons.value.push({ "type": "contest", "url": "" });
+                leftIcons.value.push({ "type": 0, "url": "" });
                 break
 
             // Sandbox
             case 2:
                 textInfoClasses.value += " text-short-info-block-sandbox"
-                leftIcons.value.push({ "type": "sandbox", "url": "" });
+                leftIcons.value.push({ "type": 1, "url": "" });
                 break
 
             // Snuff
             case 3:
                 textInfoClasses.value += " text-short-info-block-snuff"
-                leftIcons.value.push({ "type": "snuff", "url": "" });
+                leftIcons.value.push({ "type": 2, "url": "" });
                 break
             
             default:
@@ -121,11 +121,11 @@
         }
         
         // Debuggin'
-        leftIcons.value.push({ "type": "mlp", "url": "" });
+        leftIcons.value.push({ "type": 5, "url": "" });
         
-        rightIcons.value.push({ "type": "illustrations", "url": "" });
-        rightIcons.value.push({ "type": "incomplete", "url": "" });
-        rightIcons.value.push({ "type": "series", "url": "http://fchan.us" });
+        rightIcons.value.push({ "type": 3, "url": "" });
+        rightIcons.value.push({ "type": 4, "url": "" });
+        rightIcons.value.push({ "type": 6, "url": "http://fchan.us" });
         
         isLoading.value = false
     }

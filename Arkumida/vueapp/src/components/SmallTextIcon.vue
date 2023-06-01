@@ -4,7 +4,7 @@
     import { ref, defineProps } from 'vue'
     
     const props = defineProps({
-        type: String,
+        type: Number,
         url: { type: String, default: "" }
     })
     
@@ -15,43 +15,43 @@
     switch (props.type)
     {
         // Contest
-        case "contest":
+        case 0:
             iconUrl.value += "icon_contest.png"
             iconText.value = "Конкурсное произведение"
             break
     
         // Sandbox
-        case "sandbox":
+        case 1:
             iconUrl.value += "icon_sandbox.png"
             iconText.value = "Песочница"
             break
     
         // Snuff
-        case "snuff":
+        case 2:
             iconUrl.value += "icon_snuff.png"
             iconText.value = "Снафф"
             break
 
         // Have illustrations
-        case "illustrations":
+        case 3:
             iconUrl.value += "icon_illustrations.png"
             iconText.value = "Есть иллюстрации"
             break
 
         // Incomplete
-        case "incomplete":
+        case 4:
             iconUrl.value += "icon_incomplete.png"
             iconText.value = "Не закончено"
             break
 
         // MLP
-        case "mlp":
+        case 5:
             iconUrl.value += "icon_mlp.png"
             iconText.value = "MLP"
             break
 
         // Series
-        case "series":
+        case 6:
             iconUrl.value += "icon_series.png"
             iconText.value = "Часть серии"
             break

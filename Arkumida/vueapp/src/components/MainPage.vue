@@ -26,7 +26,7 @@ import ShortTextInfo from "@/components/ShortTextInfo.vue";
         <TextsStatisticsComponent />
         
         <!-- Logo and texts list -->
-        <div class="horizontal-flex logo-and-texts-containero">
+        <div class="horizontal-flex logo-and-texts-container">
             <div>
                 <MainLogo />
             </div>

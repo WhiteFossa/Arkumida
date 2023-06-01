@@ -381,7 +381,6 @@ body {
 /* Text short infos are live here */
 .texts-short-info-blocks-container {
     flex: auto;
-    margin-left: 1rem;
 }
 
 /* Text short info block */
