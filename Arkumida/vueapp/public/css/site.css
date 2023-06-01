@@ -487,3 +487,9 @@ body {
 .small-tag-link:hover {
     text-decoration: underline;
 }
+
+/* Text icon (small) */
+.small-text-icon {
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+}

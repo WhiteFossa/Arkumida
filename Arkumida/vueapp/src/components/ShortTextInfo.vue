@@ -7,6 +7,7 @@
     import moment from 'moment'
     import LoadingSymbol from './LoadingSymbol.vue'
     import TagSmall from "@/components/TagSmall.vue";
+    import SmallTextIcon from "@/components/SmallTextIcon.vue";
     
     const props = defineProps({
         id: Guid
@@ -36,6 +37,9 @@
     
     const textInfoClasses = ref(null)
     
+    const leftIcons = ref([])
+    const rightIcons = ref([])
+    
     // OnMounted hook
     onMounted(async () =>
     {
@@ -63,25 +67,25 @@
             case 0:
                 textTypeName.value = "Рассказы"
                 textTypeTitle.value = "Все рассказы"
-                break;
+                break
 
             // Novel
             case 1:
                 textTypeName.value = "Повести и Романы"
                 textTypeTitle.value = "Все повести и романы"
-                break;
+                break
 
             // Poetry
             case 2:
                 textTypeName.value = "Стихи"
                 textTypeTitle.value = "Все стихи"
-                break;
+                break
 
             // Comics
             case 3:
                 textTypeName.value = "Комиксы"
                 textTypeTitle.value = "Все комиксы"
-                break;
+                break
                 
             default:
                 new Error("Unknown text type.")
@@ -92,26 +96,36 @@
         {
             // Normal text
             case 0:
-                break;
+                break
 
             // Contest
             case 1:
-                textInfoClasses.value += " text-short-info-block-contest";
-                break;
+                textInfoClasses.value += " text-short-info-block-contest"
+                leftIcons.value.push({ "type": "contest", "url": "" });
+                break
 
             // Sandbox
             case 2:
-                textInfoClasses.value += " text-short-info-block-sandbox";
-                break;
+                textInfoClasses.value += " text-short-info-block-sandbox"
+                leftIcons.value.push({ "type": "sandbox", "url": "" });
+                break
 
             // Snuff
             case 3:
-                textInfoClasses.value += " text-short-info-block-snuff";
-                break;
+                textInfoClasses.value += " text-short-info-block-snuff"
+                leftIcons.value.push({ "type": "snuff", "url": "" });
+                break
             
             default:
                 new Error("Unknown text type.")
         }
+        
+        // Debuggin'
+        leftIcons.value.push({ "type": "mlp", "url": "" });
+        
+        rightIcons.value.push({ "type": "illustrations", "url": "" });
+        rightIcons.value.push({ "type": "incomplete", "url": "" });
+        rightIcons.value.push({ "type": "series", "url": "http://fchan.us" });
         
         isLoading.value = false
     }
@@ -125,9 +139,20 @@
     <div v-else>
         <div :class="textInfoClasses">
             
-            <!-- Autho and title line -->
+            <!-- Author and title line -->
             <div class="text-short-info-block-title-line">
+                
+                <!-- Left icons -->
+                <span v-for="leftIcon in leftIcons" :key="leftIcon.type">
+                    <SmallTextIcon :type="leftIcon.type" :url="leftIcon.url" />
+                </span>
+                
                 <a class="text-short-info-author-link" :href="authorLinkHref" :title="authorLinkTitle">{{ textInfo.textInfo.author.name }}</a>&nbsp;<a class="text-short-info-text-link" :href="textLinkHref">«{{ textInfo.textInfo.title }}»</a>
+
+                <!-- Right icons -->
+                <span v-for="rightIcon in rightIcons" :key="rightIcon.type">
+                    <SmallTextIcon :type="rightIcon.type" :url="rightIcon.url" />
+                </span>
             </div>
             
             <!-- Statistics line -->
