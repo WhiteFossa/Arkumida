@@ -120,14 +120,19 @@
                 new Error("Unknown text type.")
         }
         
-        // Debuggin'
-        leftIcons.value.push({ "type": 5, "url": "" });
-        
-        rightIcons.value.push({ "type": 3, "url": "" });
-        rightIcons.value.push({ "type": 4, "url": "" });
-        rightIcons.value.push({ "type": 6, "url": "http://fchan.us" });
+        // Additional icons
+        AddIconToList(textInfo.value.textInfo.leftIcons, leftIcons)
+        AddIconToList(textInfo.value.textInfo.rightIcons, rightIcons)
         
         isLoading.value = false
+    }
+    
+    function AddIconToList(sourceIcons, iconsList)
+    {
+        sourceIcons.forEach(icon =>
+        {
+            iconsList.value.push({ "type": icon.type, "url": icon.url });
+        })
     }
 
 </script>

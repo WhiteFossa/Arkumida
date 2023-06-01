@@ -39,7 +39,9 @@ public class TextsController : ControllerBase
                             new TextTagDto(new Guid("14607fef-7415-4eb6-ba92-eaa5b66f3592"), "2", "Снафф")
                         },
                         TextType.Story,
-                        SpecialTextType.Snuff
+                        SpecialTextType.Snuff,
+                        new List<TextIconDto>(),
+                        new List<TextIconDto>() { new TextIconDto(TextIconType.Illustrations) }
                     ));
             
             case "185d7cc9-83e7-4de3-b1d8-5f8d50af6a88":
@@ -60,7 +62,9 @@ public class TextsController : ControllerBase
                             new TextTagDto(new Guid("5a8c370d-aed3-41e1-adf6-175a56388e7f"), "3", "M/F")
                         },
                         TextType.Novel,
-                        SpecialTextType.Sandbox
+                        SpecialTextType.Sandbox,
+                        new List<TextIconDto>(),
+                        new List<TextIconDto>() { new TextIconDto(TextIconType.Incomplete) }
                     ));
             
             case "e77c2183-2c49-4e56-a7a5-576f674f1403":
@@ -81,7 +85,9 @@ public class TextsController : ControllerBase
                             new TextTagDto(new Guid("5a8c370d-aed3-41e1-adf6-175a56388e7f"), "3", "M/F")
                         },
                         TextType.Poetry,
-                        SpecialTextType.Contest
+                        SpecialTextType.Contest,
+                        new List<TextIconDto>() { new TextIconDto(TextIconType.MLP) },
+                        new List<TextIconDto>() { new TextIconDto(TextIconType.Series, "/texts/bySeries/2b1d2462-084a-4566-b9e1-c68411b5e7e0") }
                     ));
             
             case "a4ade7ba-7c67-4ba7-abb9-06d11b98d2b6":
@@ -102,7 +108,9 @@ public class TextsController : ControllerBase
                             new TextTagDto(new Guid("00bb5088-27c6-4e8d-979c-da74df541b28"), "4", "M/M")
                         },
                         TextType.Comics,
-                        SpecialTextType.Normal
+                        SpecialTextType.Normal,
+                        new List<TextIconDto>(),
+                        new List<TextIconDto>()
                     ));
             
             default:

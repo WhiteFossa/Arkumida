@@ -65,6 +65,18 @@ public class TextInfoDto : IdedEntityDto
     [JsonPropertyName("specialType")]
     public SpecialTextType SpecialType { get; private set; }
 
+    /// <summary>
+    /// Additional left icons
+    /// </summary>
+    [JsonPropertyName("leftIcons")]
+    public IReadOnlyCollection<TextIconDto> LeftIcons { get; private set; }
+    
+    /// <summary>
+    /// Additional right icons
+    /// </summary>
+    [JsonPropertyName("rightIcons")]
+    public IReadOnlyCollection<TextIconDto> RightIcons { get; private set; }
+
     public TextInfoDto
     (
         Guid id,
@@ -78,7 +90,9 @@ public class TextInfoDto : IdedEntityDto
         int votesAgainst,
         IReadOnlyCollection<TextTagDto> tags,
         TextType type,
-        SpecialTextType specialType
+        SpecialTextType specialType,
+        IReadOnlyCollection<TextIconDto> leftIcons,
+        IReadOnlyCollection<TextIconDto> rightIcons
     ) : base(id, humanReadableId)
     {
         Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
@@ -122,5 +136,8 @@ public class TextInfoDto : IdedEntityDto
         Tags = tags ?? throw new ArgumentNullException(nameof(tags), "Tags must not be null");
         Type = type;
         SpecialType = specialType;
+
+        LeftIcons = leftIcons ?? throw new ArgumentNullException(nameof(leftIcons), "Left icons must not be null");
+        RightIcons = rightIcons ?? throw new ArgumentNullException(nameof(rightIcons), "Right icons must not be null");
     }
 }
