@@ -159,6 +159,12 @@ body {
     flex-direction: row;
 }
 
+/* Vertical flex */
+.vertical-flex {
+    display: flex;
+    flex-direction: column;
+}
+
 /* Flex (centered) */
 .flex-center {
     justify-content: center;
