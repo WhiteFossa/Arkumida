@@ -51,6 +51,8 @@
     {
         textInfo.value = await (await fetch(apiBaseUrl + `/api/Texts/GetInfo/` + props.id)).json()
         
+        console.log(textInfo.value)
+        
         authorLinkHref.value = "/texts/byAuthor/" + textInfo.value.textInfo.author.entityId
         authorLinkTitle.value = "Все произведения автора " + textInfo.value.textInfo.author.name
         
