@@ -376,10 +376,15 @@ body {
     row-gap: 2rem;
 }
 
-/* Class for main logo */
-.main-logo {
-    width: 417px;
-    height: 622px;
+/* Main logo container */
+.main-logo-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Class for main logo iamge */
+.main-logo-image {
+    height: 38rem;
 }
 
 /* Texts short info stuff starts here */
