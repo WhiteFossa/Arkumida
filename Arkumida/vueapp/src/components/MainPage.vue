@@ -1,10 +1,39 @@
 <script setup>
+    import TopButton from "@/components/TopButton.vue";
+    import SearchComponent from "@/components/SearchComponent.vue";
+    import TextsStatisticsComponent from "@/components/TextsStatisticsComponent.vue";
+    import MainLogo from "@/components/MainLogo.vue";
+    import ShortTextInfosContainer from "@/components/ShortTextInfosContainer.vue";
+    import {ref} from "vue";
 
-import TopButton from "@/components/TopButton.vue";
-import SearchComponent from "@/components/SearchComponent.vue";
-import TextsStatisticsComponent from "@/components/TextsStatisticsComponent.vue";
-import MainLogo from "@/components/MainLogo.vue";
-import ShortTextInfosContainer from "@/components/ShortTextInfosContainer.vue";
+    const shortTextsInfosDisplayMode = ref("")
+    const newestButtonClass = ref("")
+    const mostPopularButtonClass = ref("")
+
+    // By default we are showing the newest texts
+    ToggleNewestShortTextsInfosMode()
+
+    // Switch to "newest" mode
+    async function ToggleNewestShortTextsInfosMode()
+    {
+        if (shortTextsInfosDisplayMode.value !== "newest")
+        {
+            shortTextsInfosDisplayMode.value = "newest"
+            newestButtonClass.value = "texts-short-infos-button-active"
+            mostPopularButtonClass.value = "texts-short-infos-button"
+        }
+    }
+
+    // Switch to "most popular" mode
+    async function ToggleMostPopularShortTextsInfosMode()
+    {
+        if (shortTextsInfosDisplayMode.value !== "mostPopular")
+        {
+            shortTextsInfosDisplayMode.value = "mostPopular"
+            newestButtonClass.value = "texts-short-infos-button"
+            mostPopularButtonClass.value = "texts-short-infos-button-active"
+        }
+    }
 
 </script>
 
@@ -28,11 +57,20 @@ import ShortTextInfosContainer from "@/components/ShortTextInfosContainer.vue";
         <!-- Logo and texts list -->
         <div class="horizontal-flex logo-and-texts-container">
             <div class="main-logo-container">
-                <MainLogo />
+                <div>
+                    <div class="horizontal-flex texts-short-infos-buttons-container">
+                        <!-- Texts list control buttons -->
+                        <button :class="newestButtonClass" @click="ToggleNewestShortTextsInfosMode">Новые</button>
+                        <button :class="mostPopularButtonClass" @click="ToggleMostPopularShortTextsInfosMode">Популярные</button>
+                    </div>
+
+                    <MainLogo />
+                </div>
             </div>
             
             <!-- Texts container -->
-            <ShortTextInfosContainer dataSource="/api/Texts/Popular" />
+            <ShortTextInfosContainer v-if="shortTextsInfosDisplayMode === 'newest'" dataSource="/api/Texts/Latest" />
+            <ShortTextInfosContainer v-if="shortTextsInfosDisplayMode === 'mostPopular'" dataSource="/api/Texts/Popular" />
         </div>
     </div>
 </template>
