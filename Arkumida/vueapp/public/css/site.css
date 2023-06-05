@@ -384,7 +384,8 @@ body {
 
 /* Class for main logo iamge */
 .main-logo-image {
-    height: 38rem;
+    width: 35rem;
+    max-width: 90vw;
 }
 
 /* Texts short info stuff starts here */
