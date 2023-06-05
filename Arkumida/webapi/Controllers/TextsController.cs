@@ -526,4 +526,37 @@ public class TextsController : ControllerBase
         
         return Ok(new TextsInfosListResponse(textInfos, remaining));
     }
+    
+    /// <summary>
+    /// Get most popular texts
+    /// </summary>
+    [Route("api/Texts/Popular")]
+    [HttpGet]
+    public async Task<ActionResult<TextsInfosListResponse>> GetPopularTexts(int skip, int take)
+    {
+        if (skip < 0)
+        {
+            return BadRequest("Skip must be non-negative.");
+        }
+
+        if (take <= 0)
+        {
+            return BadRequest("Take must be positive.");
+        }
+
+        if (skip > _texts.Count())
+        {
+            return BadRequest("Skip too big.");
+        }
+
+        var textInfos = _texts
+            .OrderByDescending(t => t.ViewsCount)
+            .Skip(skip)
+            .Take(take)
+            .ToList();
+
+        var remaining = Math.Max(0, _texts.Count - (skip + take));
+        
+        return Ok(new TextsInfosListResponse(textInfos, remaining));
+    }
 }

@@ -1,9 +1,13 @@
 <!-- Text short info -->
 <script setup>
-    import { ref, onMounted, watch } from 'vue'
+import {ref, onMounted, watch, defineProps} from 'vue'
     import LoadingSymbol from "@/components/LoadingSymbol.vue";
     import ShortTextInfo from "@/components/ShortTextInfo.vue";
-    
+
+    const props = defineProps({
+        dataSource: String // Data source for component, like "/api/Texts/Latest"
+    })
+
     // API base URL
     const apiBaseUrl = process.env.VUE_APP_API_URL
     
@@ -11,7 +15,7 @@
     const isLoading = ref(true)
     
     // How many texts can be displayed at once
-    const takeSize = 7;
+    const takeSize = 10;
     
     // Skip this amount of texts
     const skip = ref(0)
@@ -40,8 +44,8 @@
     async function LoadTexts()
     {
         isLoading.value = true
-        
-        const response = await (await fetch(apiBaseUrl + `/api/Texts/Latest?skip=` + skip.value + `&take=` + takeSize)).json()
+
+        const response = await (await fetch(apiBaseUrl + props.dataSource + `?skip=` + skip.value + `&take=` + takeSize)).json()
         texts.value = response.textInfos
         remaining.value = response.remainingTexts
 

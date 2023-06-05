@@ -32,7 +32,7 @@ import ShortTextInfosContainer from "@/components/ShortTextInfosContainer.vue";
             </div>
             
             <!-- Texts container -->
-            <ShortTextInfosContainer />
+            <ShortTextInfosContainer dataSource="/api/Texts/Popular" />
         </div>
     </div>
 </template>

@@ -503,14 +503,15 @@ body {
 
 /* Arrows in container with short texts infos */
 .texts-short-infos-container-arrows-buttons {
-    border: 0.1rem solid hsl(225, 5%, 85%);
+    border: 0.2rem solid hsl(225, 100%, 80%);
     border-radius: 1rem;
-    background: hsla(0, 100%, 100%, 0);
+    background: hsl(36, 100%, 84%);
     width: 3rem;
 }
 
 .texts-short-infos-container-arrows-buttons:hover {
-    background: hsl(240, 11%, 98%);
+    background: hsl(36, 100%, 60%);
+    border: 0.2rem solid hsl(225, 100%, 35%);
 }
 
 /* Icons on arrows buttons*/
