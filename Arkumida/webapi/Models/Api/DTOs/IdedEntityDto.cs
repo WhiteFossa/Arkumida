@@ -14,23 +14,23 @@ public class IdedEntityDto
     public Guid Id { get; private set; }
 
     /// <summary>
-    /// Human-readable ID (mostly for compatibility with old site)
+    /// Furry-readable ID (mostly for compatibility with old site)
     /// </summary>
-    [JsonPropertyName("humanReadableId")]
-    public string HumanReadableId { get; private set; }
+    [JsonPropertyName("furryReadableId")]
+    public string FurryReadableId { get; private set; }
 
     public IdedEntityDto
     (
         Guid id,
-        string humanReadableId
+        string furryReadableId
     )
     {
-        if (string.IsNullOrWhiteSpace(humanReadableId))
+        if (string.IsNullOrWhiteSpace(furryReadableId))
         {
-            throw new ArgumentException("Human readable ID must be populated.", nameof(humanReadableId));
+            throw new ArgumentException("Furry readable ID must be populated.", nameof(furryReadableId));
         }
 
         Id = id;
-        HumanReadableId = humanReadableId;
+        FurryReadableId = furryReadableId;
     }
 }

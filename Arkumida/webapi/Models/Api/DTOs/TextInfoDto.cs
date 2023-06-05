@@ -80,7 +80,7 @@ public class TextInfoDto : IdedEntityDto
     public TextInfoDto
     (
         Guid id,
-        string humanReadableId,
+        string furryReadableId,
         AuthorDto author,
         string title,
         DateTime addTime,
@@ -93,7 +93,7 @@ public class TextInfoDto : IdedEntityDto
         SpecialTextType specialType,
         IReadOnlyCollection<TextIconDto> leftIcons,
         IReadOnlyCollection<TextIconDto> rightIcons
-    ) : base(id, humanReadableId)
+    ) : base(id, furryReadableId)
     {
         Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
 

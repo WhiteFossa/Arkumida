@@ -16,9 +16,9 @@ public class AuthorDto : IdedEntityDto
     public AuthorDto
     (
         Guid id,
-        string humanReadableId,
+        string furryReadableId,
         string name
-    ) : base(id, humanReadableId)
+    ) : base(id, furryReadableId)
     {
         if (string.IsNullOrWhiteSpace(name))
         {

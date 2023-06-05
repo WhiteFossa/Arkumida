@@ -16,9 +16,9 @@ public class TextTagDto : IdedEntityDto
     public TextTagDto
     (
         Guid id,
-        string humanReadableId,
+        string furryReadableId,
         string tag
-    ) : base(id, humanReadableId)
+    ) : base(id, furryReadableId)
     {
         if (string.IsNullOrWhiteSpace(tag))
         {

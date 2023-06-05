@@ -193,7 +193,7 @@
                 #:
                 
                 <span v-for="tag in textInfo.textInfo.tags" :key="tag.entityId">
-                    <TagSmall :id="tag.entityId" :humanReadableId="tag.humanReadableId" :text="tag.tag" /><span v-if="tag.entityId !== textInfo.textInfo.tags[textInfo.textInfo.tags.length - 1].entityId">, </span>
+                    <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== textInfo.textInfo.tags[textInfo.textInfo.tags.length - 1].entityId">, </span>
                 </span>
             </div>
         </div>

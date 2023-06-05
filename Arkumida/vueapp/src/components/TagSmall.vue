@@ -6,7 +6,7 @@
     
     const props = defineProps({
         id: Guid,
-        humanReadableId: String,
+        furryReadableId: String,
         text: String
     })
     
