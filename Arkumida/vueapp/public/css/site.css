@@ -498,3 +498,24 @@ body {
     margin-left: 0.1rem;
     margin-right: 0.1rem;
 }
+
+/* Container with short texts infos starts here */
+
+/* Arrows in container with short texts infos */
+.texts-short-infos-container-arrows-buttons {
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 1rem;
+    background: hsla(0, 100%, 100%, 0);
+    width: 3rem;
+}
+
+.texts-short-infos-container-arrows-buttons:hover {
+    background: hsl(240, 11%, 98%);
+}
+
+/* Icons on arrows buttons*/
+.texts-short-infos-container-arrows-buttons-images {
+    width: 1rem;
+}
+
+/* Container with short texts infos ends here */

@@ -19,6 +19,11 @@
     // Texts
     const texts = ref([])
     
+    // How many texts can be additionally loaded
+    const remaining = ref(Number.MAX_VALUE)
+
+    watch(skip, LoadTexts)
+    
     // OnMounted hook
     onMounted(async () =>
     {
@@ -36,7 +41,9 @@
     {
         isLoading.value = true
         
-        texts.value = (await (await fetch(apiBaseUrl + `/api/Texts/Latest?skip=` + skip.value + `&take=` + takeSize)).json()).textInfos
+        const response = await (await fetch(apiBaseUrl + `/api/Texts/Latest?skip=` + skip.value + `&take=` + takeSize)).json()
+        texts.value = response.textInfos
+        remaining.value = response.remainingTexts
 
         isLoading.value = false
     }
@@ -55,10 +62,11 @@
     // Move down (e.g. skip ++)
     async function MoveDown()
     {
-        skip.value += takeSize
+        if (remaining.value > 0)
+        {
+            skip.value += takeSize
+        }
     }
-
-    watch(skip, LoadTexts)
 
 </script>
 
@@ -68,13 +76,17 @@
     </div>
     
     <div class="vertical-flex texts-short-info-blocks-container">
-        <button @click="MoveUp">&lt;&lt;</button>
+        <div class="centered">
+            <button v-if="skip > 0" class="texts-short-infos-container-arrows-buttons" @click="MoveUp"><img class="texts-short-infos-container-arrows-buttons-images" src="/images/arrow_up.svg" alt="Up arrow" /></button>
+        </div>
 
         <div v-if="!isLoading">
             <ShortTextInfo :id="text.entityId" v-for="text in texts" :key="text.entityId"/>
         </div>
 
-        <button @click="MoveDown">&gt;&gt;</button>
+        <div class="centered">
+            <button v-if="remaining > 0" class="texts-short-infos-container-arrows-buttons" @click="MoveDown"><img class="texts-short-infos-container-arrows-buttons-images" src="/images/arrow_down.svg" alt="Down arrow" /></button>
+        </div>
     </div>
     
 </template>

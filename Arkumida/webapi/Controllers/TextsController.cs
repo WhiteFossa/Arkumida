@@ -397,7 +397,7 @@ public class TextsController : ControllerBase
             new Guid("d0c4e825-2b7c-4168-88c5-c9853fdff8d8"),
             "19",
             new AuthorDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-            "Тестовый рассказ 6",
+            "Тестовый рассказ 15",
             new DateTime(2023, 06, 01, 18, 02, 03),
             1000,
             20,
@@ -418,7 +418,7 @@ public class TextsController : ControllerBase
             new Guid("9dfc470a-72fa-43b3-a0e3-2c75ab74b31c"),
             "20",
             new AuthorDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-            "Тестовый рассказ 6",
+            "Тестовый рассказ 16",
             new DateTime(2023, 06, 01, 19, 02, 03),
             1000,
             20,
@@ -439,8 +439,29 @@ public class TextsController : ControllerBase
             new Guid("ad9ff7c8-bd38-464c-8544-148376c6a172"),
             "21",
             new AuthorDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-            "Тестовый рассказ 21",
+            "Тестовый рассказ 17",
             new DateTime(2023, 06, 01, 20, 02, 03),
+            1000,
+            20,
+            10,
+            0,
+            new List<TextTagDto>()
+            {
+                new TextTagDto(new Guid("5a8c370d-aed3-41e1-adf6-175a56388e7f"), "3", "M/F")
+            },
+            TextType.Story,
+            SpecialTextType.Normal,
+            new List<TextIconDto>(),
+            new List<TextIconDto>()
+        ),
+        
+        new TextInfoDto
+        (
+            new Guid("ca5999e8-92e0-4f04-b41a-090ae759c384"),
+            "22",
+            new AuthorDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+            "Тестовый рассказ 18",
+            new DateTime(2023, 06, 01, 21, 02, 03),
             1000,
             20,
             10,
@@ -487,7 +508,12 @@ public class TextsController : ControllerBase
 
         if (take <= 0)
         {
-            return BadRequest("Take must be positive");
+            return BadRequest("Take must be positive.");
+        }
+
+        if (skip > _texts.Count())
+        {
+            return BadRequest("Skip too big.");
         }
 
         var textInfos = _texts
@@ -496,6 +522,8 @@ public class TextsController : ControllerBase
             .Take(take)
             .ToList();
 
-        return Ok(new TextsInfosListResponse(textInfos));
+        var remaining = Math.Max(0, _texts.Count - (skip + take));
+        
+        return Ok(new TextsInfosListResponse(textInfos, remaining));
     }
 }
