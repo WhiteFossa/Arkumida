@@ -8,6 +8,7 @@
     import LoadingSymbol from './LoadingSymbol.vue'
     import TagSmall from "@/components/TagSmall.vue";
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
+    import LongTextInfo from "@/components/LongTextInfo.vue";
     
     const props = defineProps({
         id: Guid
@@ -39,6 +40,9 @@
     
     const leftIcons = ref([])
     const rightIcons = ref([])
+
+    // If true, then long info popup is shown
+    const isLongInfoShown = ref(false)
     
     // OnMounted hook
     onMounted(async () =>
@@ -137,6 +141,16 @@
         })
     }
 
+    async function ShowLongTextInfo()
+    {
+        isLongInfoShown.value = true
+    }
+
+    async function HideLongTextInfo()
+    {
+        isLongInfoShown.value = false
+    }
+
 </script>
 
 <template>
@@ -144,22 +158,32 @@
         <LoadingSymbol />
     </div>
     <div v-else>
+
+        <LongTextInfo v-if="isLongInfoShown === true" @closePopup="HideLongTextInfo"/>
+
         <div :class="textInfoClasses">
             
             <!-- Author and title line -->
-            <div class="text-short-info-block-title-line">
-                
-                <!-- Left icons -->
-                <span v-for="leftIcon in leftIcons" :key="leftIcon.type">
-                    <SmallTextIcon :type="leftIcon.type" :url="leftIcon.url" />
-                </span>
-                
-                <a class="text-short-info-author-link" :href="authorLinkHref" :title="authorLinkTitle">{{ textInfo.textInfo.author.name }}</a>&nbsp;<a class="text-short-info-text-link" :href="textLinkHref">«{{ textInfo.textInfo.title }}»</a>
+            <div class="horizontal-flex text-short-info-block-title-line">
+                <div>
+                    <!-- Left icons -->
+                    <span v-for="leftIcon in leftIcons" :key="leftIcon.type">
+                        <SmallTextIcon :type="leftIcon.type" :url="leftIcon.url" />
+                    </span>
 
-                <!-- Right icons -->
-                <span v-for="rightIcon in rightIcons" :key="rightIcon.type">
-                    <SmallTextIcon :type="rightIcon.type" :url="rightIcon.url" />
-                </span>
+                        <a class="text-short-info-author-link" :href="authorLinkHref" :title="authorLinkTitle">{{ textInfo.textInfo.author.name }}</a>&nbsp;<a class="text-short-info-text-link" :href="textLinkHref">«{{ textInfo.textInfo.title }}»</a>
+
+                        <!-- Right icons -->
+                        <span v-for="rightIcon in rightIcons" :key="rightIcon.type">
+                        <SmallTextIcon :type="rightIcon.type" :url="rightIcon.url" />
+                    </span>
+                </div>
+
+                <div>
+                    <!-- Full info button -->
+                    <button class="text-long-info-button" @click="ShowLongTextInfo">Подробнее</button>
+                </div>
+
             </div>
             
             <!-- Statistics line -->

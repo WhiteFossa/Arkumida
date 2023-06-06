@@ -463,6 +463,7 @@ body {
 /* Text short info title line */
 .text-short-info-block-title-line {
     font-size: 1.1rem;
+    justify-content: space-between;
 }
 
 /* Text short info - author link */
@@ -562,3 +563,77 @@ body {
 }
 
 /* Container with short texts infos ends here */
+
+/* Long text info stuff starts here */
+
+/* Button for showing text long info */
+.text-long-info-button {
+    background-color: hsl(207, 90%, 54%);
+    color: hsl(0, 0%, 100%);
+    font-size: 0.85rem;
+    border: 0 none hsl(0, 0%, 0%);
+    border-radius: 0.5rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.text-long-info-button:hover {
+    background-color: hsl(207, 90%, 44%);
+}
+
+/* Long text info stuff ends here */
+
+/* Popup upper layer */
+.popup-upper-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    text-align: center;
+}
+
+/* Popup lower layer */
+.popup-lower-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    text-align: center;
+    background: hsla(0, 0%, 10%, 0.8);
+}
+
+/* Popup itself */
+.popup {
+    background: hsl(87, 89%, 93%);
+    border: 0.2rem solid hsl(87, 100%, 80%);
+    border-radius: 0.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 2rem;
+}
+
+/* Popup close button */
+.popup-close-button {
+    background: transparent;
+    border: 0 none hsl(0, 100%, 100%);
+    position: absolute;
+    right: 0.3rem;
+    top: 0.5rem;
+}
+
+/* Popup close button image */
+.popup-close-button-image {
+    width: 1rem;
+    height: 1rem;
+}

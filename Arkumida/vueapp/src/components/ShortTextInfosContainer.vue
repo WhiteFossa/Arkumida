@@ -1,6 +1,6 @@
 <!-- Text short info -->
 <script setup>
-import {ref, onMounted, watch, defineProps} from 'vue'
+    import {ref, onMounted, watch, defineProps} from 'vue'
     import LoadingSymbol from "@/components/LoadingSymbol.vue";
     import ShortTextInfo from "@/components/ShortTextInfo.vue";
 
