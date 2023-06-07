@@ -5,15 +5,15 @@ namespace webapi.Models.Api.DTOs;
 /// <summary>
 /// Author
 /// </summary>
-public class AuthorDto : IdedEntityDto
+public class CreatureDto : IdedEntityDto
 {
     /// <summary>
-    /// Author name
+    /// Creature name
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; private set; }
 
-    public AuthorDto
+    public CreatureDto
     (
         Guid id,
         string furryReadableId,

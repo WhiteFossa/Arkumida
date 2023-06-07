@@ -9,7 +9,19 @@ public class TextInfoDto : IdedEntityDto
     /// Text author
     /// </summary>
     [JsonPropertyName("author")]
-    public AuthorDto Author { get; private set; }
+    public CreatureDto Author { get; private set; }
+    
+    /// <summary>
+    /// Text translator (may be null)
+    /// </summary>
+    [JsonPropertyName("translator")]
+    public CreatureDto Translator { get; private set; }
+    
+    /// <summary>
+    /// Text publisher
+    /// </summary>
+    [JsonPropertyName("publisher")]
+    public CreatureDto Publisher { get; private set; }
 
     /// <summary>
     /// Text title
@@ -77,11 +89,31 @@ public class TextInfoDto : IdedEntityDto
     [JsonPropertyName("rightIcons")]
     public IReadOnlyCollection<TextIconDto> RightIcons { get; private set; }
 
+    /// <summary>
+    /// Short text description
+    /// </summary>
+    [JsonPropertyName("description")]
+    public string Description { get; private set; }
+
+    /// <summary>
+    /// Text size in characters
+    /// </summary>
+    [JsonPropertyName("sizeInCharacters")]
+    public int SizeInCharacters { get; private set; }
+
+    /// <summary>
+    /// Text size in pages (initially made for comics)
+    /// </summary>
+    [JsonPropertyName("sizeInPages")]
+    public int SizeInPages { get; private set; }
+
     public TextInfoDto
     (
         Guid id,
         string furryReadableId,
-        AuthorDto author,
+        CreatureDto author,
+        CreatureDto translator,
+        CreatureDto publisher,
         string title,
         DateTime addTime,
         int viewsCount,
@@ -92,45 +124,46 @@ public class TextInfoDto : IdedEntityDto
         TextType type,
         SpecialTextType specialType,
         IReadOnlyCollection<TextIconDto> leftIcons,
-        IReadOnlyCollection<TextIconDto> rightIcons
+        IReadOnlyCollection<TextIconDto> rightIcons,
+        string description,
+        int sizeInCharacters,
+        int sizeInPages
     ) : base(id, furryReadableId)
     {
         Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
+        Translator = translator;
+        Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must not be null");
 
         if (string.IsNullOrWhiteSpace(title))
         {
             throw new ArgumentException("Title must be populated.", nameof(title));
         }
-
         Title = title;
+        
         AddTime = addTime;
 
         if (viewsCount < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(viewsCount), "Views count must be positive");
         }
-        
         ViewsCount = viewsCount;
         
         if (commentsCount < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(commentsCount), "Comments count must be positive");
         }
-
         CommentsCount = commentsCount;
         
         if (votesFor < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(votesFor), "Votes for must be positive");
         }
-
         VotesFor = votesFor;
         
         if (votesAgainst < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(votesAgainst), "Votes against must be positive");
         }
-
         VotesAgainst = votesAgainst;
 
         Tags = tags ?? throw new ArgumentNullException(nameof(tags), "Tags must not be null");
@@ -139,5 +172,24 @@ public class TextInfoDto : IdedEntityDto
 
         LeftIcons = leftIcons ?? throw new ArgumentNullException(nameof(leftIcons), "Left icons must not be null");
         RightIcons = rightIcons ?? throw new ArgumentNullException(nameof(rightIcons), "Right icons must not be null");
+        
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            throw new ArgumentException("Description must be populated.", nameof(description));
+        }
+
+        Description = description;
+        
+        if (sizeInCharacters <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(sizeInCharacters), "Size in characters must be greater than 0.");
+        }
+        SizeInCharacters = sizeInCharacters;
+        
+        if (sizeInPages <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(sizeInPages), "Size in pages must be greater than 0.");
+        }
+        SizeInPages = sizeInPages;
     }
 }
