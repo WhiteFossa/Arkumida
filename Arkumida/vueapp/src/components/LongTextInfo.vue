@@ -1,11 +1,21 @@
 <script setup>
 
-import {defineEmits, defineProps, onMounted, ref} from 'vue'
-import {Guid} from "guid-typescript";
-import LoadingSymbol from "@/components/LoadingSymbol.vue";
-import SmallTextIcon from "@/components/SmallTextIcon.vue";
-import moment from "moment/moment";
-import TagSmall from "@/components/TagSmall.vue";
+    import {defineEmits, defineProps, onMounted, ref} from 'vue'
+    import {Guid} from "guid-typescript";
+    import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    import SmallTextIcon from "@/components/SmallTextIcon.vue";
+    import moment from "moment/moment";
+    import TagSmall from "@/components/TagSmall.vue";
+    import {
+        constAllComics,
+        constAllNovels, constAllPoetry,
+        constAllStories,
+        constAllTextsByAuthor,
+        constAllTextsByPublisher,
+        constAllTextsByTranslator, constComics, constNovels, constPoetry,
+        constStories
+    } from "@/js/constants";
+    import {AddIconToList} from "@/js/libArkumida";
 
     const emit = defineEmits(['closePopup'])
 
@@ -53,7 +63,7 @@ import TagSmall from "@/components/TagSmall.vue";
         textInfo.value = await (await fetch(apiBaseUrl + `/api/Texts/GetInfo/` + props.id)).json()
 
         authorLinkHref.value = "/texts/byAuthor/" + textInfo.value.textInfo.author.entityId
-        authorLinkTitle.value = "Все произведения автора " + textInfo.value.textInfo.author.name
+        authorLinkTitle.value = constAllTextsByAuthor + textInfo.value.textInfo.author.name
 
         textLinkHref.value = "/texts/" + textInfo.value.textInfo.entityId
 
@@ -62,12 +72,12 @@ import TagSmall from "@/components/TagSmall.vue";
         commentsHref.value = "/texts/discuss/" + textInfo.value.textInfo.entityId
 
         publisherLinkHref.value = "/texts/byPublisher/" + textInfo.value.textInfo.publisher.entityId
-        publisherLinkTitle.value = "Все произведения, размещённые пользователем " + textInfo.value.textInfo.publisher.name
+        publisherLinkTitle.value = constAllTextsByPublisher + textInfo.value.textInfo.publisher.name
 
         if (textInfo.value.textInfo.translator !== null)
         {
             translatorLinkHref.value = "/texts/byTranslator/" + textInfo.value.textInfo.translator.entityId
-            translatorLinkTitle.value = "Все произведения, переведённые пользователем " + textInfo.value.textInfo.translator.name
+            translatorLinkTitle.value = constAllTextsByTranslator + textInfo.value.textInfo.translator.name
         }
 
         switch (textInfo.value.textInfo.specialType)
@@ -103,26 +113,26 @@ import TagSmall from "@/components/TagSmall.vue";
         {
             // Story
             case 0:
-                textTypeName.value = "Рассказы"
-                textTypeTitle.value = "Все рассказы"
+                textTypeName.value = constStories
+                textTypeTitle.value = constAllStories
                 break
 
             // Novel
             case 1:
-                textTypeName.value = "Повести и Романы"
-                textTypeTitle.value = "Все повести и романы"
+                textTypeName.value = constNovels
+                textTypeTitle.value = constAllNovels
                 break
 
             // Poetry
             case 2:
-                textTypeName.value = "Стихи"
-                textTypeTitle.value = "Все стихи"
+                textTypeName.value = constPoetry
+                textTypeTitle.value = constAllPoetry
                 break
 
             // Comics
             case 3:
-                textTypeName.value = "Комиксы"
-                textTypeTitle.value = "Все комиксы"
+                textTypeName.value = constComics
+                textTypeTitle.value = constAllComics
                 break
 
             default:
@@ -141,14 +151,6 @@ import TagSmall from "@/components/TagSmall.vue";
     async function DoNothing()
     {
 
-    }
-
-    function AddIconToList(sourceIcons, iconsList)
-    {
-        sourceIcons.forEach(icon =>
-        {
-            iconsList.value.push({ "type": icon.type, "url": icon.url });
-        })
     }
 
 </script>

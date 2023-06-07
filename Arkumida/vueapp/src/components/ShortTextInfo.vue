@@ -9,6 +9,16 @@
     import TagSmall from "@/components/TagSmall.vue";
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
     import LongTextInfo from "@/components/LongTextInfo.vue";
+    import {
+        constAllComics,
+        constAllNovels, constAllPoetry,
+        constAllStories,
+        constAllTextsByAuthor, constComics,
+        constNovels,
+        constPoetry,
+        constStories
+    } from "@/js/constants";
+    import {AddIconToList} from "@/js/libArkumida";
     
     const props = defineProps({
         id: Guid
@@ -56,7 +66,7 @@
         textInfo.value = await (await fetch(apiBaseUrl + `/api/Texts/GetInfo/` + props.id)).json()
         
         authorLinkHref.value = "/texts/byAuthor/" + textInfo.value.textInfo.author.entityId
-        authorLinkTitle.value = "Все произведения автора " + textInfo.value.textInfo.author.name
+        authorLinkTitle.value = constAllTextsByAuthor + textInfo.value.textInfo.author.name
         
         textLinkHref.value = "/texts/" + textInfo.value.textInfo.entityId
 
@@ -69,26 +79,26 @@
         {
             // Story
             case 0:
-                textTypeName.value = "Рассказы"
-                textTypeTitle.value = "Все рассказы"
+                textTypeName.value = constStories
+                textTypeTitle.value = constAllStories
                 break
 
             // Novel
             case 1:
-                textTypeName.value = "Повести и Романы"
-                textTypeTitle.value = "Все повести и романы"
+                textTypeName.value = constNovels
+                textTypeTitle.value = constAllNovels
                 break
 
             // Poetry
             case 2:
-                textTypeName.value = "Стихи"
-                textTypeTitle.value = "Все стихи"
+                textTypeName.value = constPoetry
+                textTypeTitle.value = constAllPoetry
                 break
 
             // Comics
             case 3:
-                textTypeName.value = "Комиксы"
-                textTypeTitle.value = "Все комиксы"
+                textTypeName.value = constComics
+                textTypeTitle.value = constAllComics
                 break
                 
             default:
@@ -129,14 +139,6 @@
         AddIconToList(textInfo.value.textInfo.rightIcons, rightIcons)
         
         isLoading.value = false
-    }
-    
-    function AddIconToList(sourceIcons, iconsList)
-    {
-        sourceIcons.forEach(icon =>
-        {
-            iconsList.value.push({ "type": icon.type, "url": icon.url });
-        })
     }
 
     async function ShowLongTextInfo()
