@@ -9,16 +9,8 @@
     import TagSmall from "@/components/TagSmall.vue";
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
     import LongTextInfo from "@/components/LongTextInfo.vue";
-    import {
-        constAllComics,
-        constAllNovels, constAllPoetry,
-        constAllStories,
-        constAllTextsByAuthor, constComics,
-        constNovels,
-        constPoetry,
-        constStories
-    } from "@/js/constants";
     import {AddIconToList} from "@/js/libArkumida";
+    import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
     
     const props = defineProps({
         id: Guid
@@ -66,7 +58,7 @@
         textInfo.value = await (await fetch(apiBaseUrl + `/api/Texts/GetInfo/` + props.id)).json()
         
         authorLinkHref.value = "/texts/byAuthor/" + textInfo.value.textInfo.author.entityId
-        authorLinkTitle.value = constAllTextsByAuthor + textInfo.value.textInfo.author.name
+        authorLinkTitle.value = Messages.AllTextsByAuthor + textInfo.value.textInfo.author.name
         
         textLinkHref.value = "/texts/" + textInfo.value.textInfo.entityId
 
@@ -78,27 +70,27 @@
         switch (textInfo.value.textInfo.type)
         {
             // Story
-            case 0:
-                textTypeName.value = constStories
-                textTypeTitle.value = constAllStories
+            case TextType.Story:
+                textTypeName.value = Messages.Stories
+                textTypeTitle.value = Messages.AllStories
                 break
 
             // Novel
-            case 1:
-                textTypeName.value = constNovels
-                textTypeTitle.value = constAllNovels
+            case TextType.Novel:
+                textTypeName.value = Messages.Novels
+                textTypeTitle.value = Messages.AllNovels
                 break
 
             // Poetry
-            case 2:
-                textTypeName.value = constPoetry
-                textTypeTitle.value = constAllPoetry
+            case TextType.Poetry:
+                textTypeName.value = Messages.Poetry
+                textTypeTitle.value = Messages.AllPoetry
                 break
 
             // Comics
-            case 3:
-                textTypeName.value = constComics
-                textTypeTitle.value = constAllComics
+            case TextType.Comics:
+                textTypeName.value = Messages.Comics
+                textTypeTitle.value = Messages.AllComics
                 break
                 
             default:
@@ -109,25 +101,25 @@
         switch (textInfo.value.textInfo.specialType)
         {
             // Normal text
-            case 0:
+            case SpecialTextType.Normal:
                 break
 
             // Contest
-            case 1:
+            case SpecialTextType.Contest:
                 textInfoClasses.value += " text-short-info-block-contest"
-                leftIcons.value.push({ "type": 0, "url": "" });
+                leftIcons.value.push({ "type": TextIconType.Contest, "url": "" });
                 break
 
             // Sandbox
-            case 2:
+            case SpecialTextType.Sandbox:
                 textInfoClasses.value += " text-short-info-block-sandbox"
-                leftIcons.value.push({ "type": 1, "url": "" });
+                leftIcons.value.push({ "type": TextIconType.Sandbox, "url": "" });
                 break
 
             // Snuff
-            case 3:
+            case SpecialTextType.Snuff:
                 textInfoClasses.value += " text-short-info-block-snuff"
-                leftIcons.value.push({ "type": 2, "url": "" });
+                leftIcons.value.push({ "type": TextIconType.Snuff, "url": "" });
                 break
             
             default:

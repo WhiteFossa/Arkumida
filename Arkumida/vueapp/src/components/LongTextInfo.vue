@@ -6,16 +6,8 @@
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
     import moment from "moment/moment";
     import TagSmall from "@/components/TagSmall.vue";
-    import {
-        constAllComics,
-        constAllNovels, constAllPoetry,
-        constAllStories,
-        constAllTextsByAuthor,
-        constAllTextsByPublisher,
-        constAllTextsByTranslator, constComics, constNovels, constPoetry,
-        constStories
-    } from "@/js/constants";
-    import {AddIconToList} from "@/js/libArkumida";
+    import {AddIconToList, BytesToKilobytesFormatted} from "@/js/libArkumida";
+    import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
 
     const emit = defineEmits(['closePopup'])
 
@@ -63,7 +55,7 @@
         textInfo.value = await (await fetch(apiBaseUrl + `/api/Texts/GetInfo/` + props.id)).json()
 
         authorLinkHref.value = "/texts/byAuthor/" + textInfo.value.textInfo.author.entityId
-        authorLinkTitle.value = constAllTextsByAuthor + textInfo.value.textInfo.author.name
+        authorLinkTitle.value = Messages.AllTextsByAuthor + textInfo.value.textInfo.author.name
 
         textLinkHref.value = "/texts/" + textInfo.value.textInfo.entityId
 
@@ -72,33 +64,33 @@
         commentsHref.value = "/texts/discuss/" + textInfo.value.textInfo.entityId
 
         publisherLinkHref.value = "/texts/byPublisher/" + textInfo.value.textInfo.publisher.entityId
-        publisherLinkTitle.value = constAllTextsByPublisher + textInfo.value.textInfo.publisher.name
+        publisherLinkTitle.value = Messages.AllTextsByPublisher + textInfo.value.textInfo.publisher.name
 
         if (textInfo.value.textInfo.translator !== null)
         {
             translatorLinkHref.value = "/texts/byTranslator/" + textInfo.value.textInfo.translator.entityId
-            translatorLinkTitle.value = constAllTextsByTranslator + textInfo.value.textInfo.translator.name
+            translatorLinkTitle.value = Messages.AllTextsByTranslator + textInfo.value.textInfo.translator.name
         }
 
         switch (textInfo.value.textInfo.specialType)
         {
             // Normal text
-            case 0:
+            case SpecialTextType.Normal:
                 break
 
             // Contest
-            case 1:
-                leftIcons.value.push({ "type": 0, "url": "" });
+            case SpecialTextType.Contest:
+                leftIcons.value.push({ "type": TextIconType.Contest, "url": "" });
                 break
 
             // Sandbox
-            case 2:
-                leftIcons.value.push({ "type": 1, "url": "" });
+            case SpecialTextType.Sandbox:
+                leftIcons.value.push({ "type": TextIconType.Sandbox, "url": "" });
                 break
 
             // Snuff
-            case 3:
-                leftIcons.value.push({ "type": 2, "url": "" });
+            case SpecialTextType.Snuff:
+                leftIcons.value.push({ "type": TextIconType.Snuff, "url": "" });
                 break
 
             default:
@@ -112,27 +104,27 @@
         switch (textInfo.value.textInfo.type)
         {
             // Story
-            case 0:
-                textTypeName.value = constStories
-                textTypeTitle.value = constAllStories
+            case TextType.Story:
+                textTypeName.value = Messages.Stories
+                textTypeTitle.value = Messages.AllStories
                 break
 
             // Novel
-            case 1:
-                textTypeName.value = constNovels
-                textTypeTitle.value = constAllNovels
+            case TextType.Novel:
+                textTypeName.value = Messages.Novels
+                textTypeTitle.value = Messages.AllNovels
                 break
 
             // Poetry
-            case 2:
-                textTypeName.value = constPoetry
-                textTypeTitle.value = constAllPoetry
+            case TextType.Poetry:
+                textTypeName.value = Messages.Poetry
+                textTypeTitle.value = Messages.AllPoetry
                 break
 
             // Comics
-            case 3:
-                textTypeName.value = constComics
-                textTypeTitle.value = constAllComics
+            case TextType.Comics:
+                textTypeName.value = Messages.Comics
+                textTypeTitle.value = Messages.AllComics
                 break
 
             default:
@@ -208,7 +200,10 @@
                     <span v-if="textInfo.textInfo.translator !== null">
                         Переводчик: <a class="text-long-info-translator-link" :href="translatorLinkHref" :title="translatorLinkTitle"><strong>{{ textInfo.textInfo.translator.name }}</strong></a>
                     </span>
-                    Размер: <strong>{{ textInfo.textInfo.sizeInCharacters }} симв.</strong> / <strong>{{ textInfo.textInfo.sizeInPages }} стр.</strong>
+                    Размер:
+                    <span v-if="textInfo.textInfo.type === TextType.Comics"><strong>{{ textInfo.textInfo.sizeInPages }} стр.</strong></span>
+                    <span v-else><strong>{{ BytesToKilobytesFormatted(textInfo.textInfo.sizeInBytes) }} Кб</strong></span>
+
                 </div>
 
                 <!-- Text description -->

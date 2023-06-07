@@ -7,7 +7,13 @@ function AddIconToList(sourceIcons, iconsList)
     })
 }
 
+function BytesToKilobytesFormatted(sizeInBytes)
+{
+    return (sizeInBytes / 1024).toFixed(1);
+}
+
 export
 {
-    AddIconToList
+    AddIconToList,
+    BytesToKilobytesFormatted
 }

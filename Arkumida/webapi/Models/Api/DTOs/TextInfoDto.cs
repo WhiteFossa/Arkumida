@@ -96,10 +96,10 @@ public class TextInfoDto : IdedEntityDto
     public string Description { get; private set; }
 
     /// <summary>
-    /// Text size in characters
+    /// Text size in bytes
     /// </summary>
-    [JsonPropertyName("sizeInCharacters")]
-    public int SizeInCharacters { get; private set; }
+    [JsonPropertyName("sizeInBytes")]
+    public int SizeInBytes { get; private set; }
 
     /// <summary>
     /// Text size in pages (initially made for comics)
@@ -126,7 +126,7 @@ public class TextInfoDto : IdedEntityDto
         IReadOnlyCollection<TextIconDto> leftIcons,
         IReadOnlyCollection<TextIconDto> rightIcons,
         string description,
-        int sizeInCharacters,
+        int sizeInBytes,
         int sizeInPages
     ) : base(id, furryReadableId)
     {
@@ -180,15 +180,15 @@ public class TextInfoDto : IdedEntityDto
 
         Description = description;
         
-        if (sizeInCharacters <= 0)
+        if (sizeInBytes < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(sizeInCharacters), "Size in characters must be greater than 0.");
+            throw new ArgumentOutOfRangeException(nameof(sizeInBytes), "Size in bytes must be positive."); // 0 is OK for comics
         }
-        SizeInCharacters = sizeInCharacters;
+        SizeInBytes = sizeInBytes;
         
-        if (sizeInPages <= 0)
+        if (sizeInPages < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(sizeInPages), "Size in pages must be greater than 0.");
+            throw new ArgumentOutOfRangeException(nameof(sizeInPages), "Size in pages must be positive."); // 0 is OK for non-comics
         }
         SizeInPages = sizeInPages;
     }
