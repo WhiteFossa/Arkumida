@@ -583,6 +583,103 @@ body {
     background-color: hsl(207, 90%, 44%);
 }
 
+/* Text long info block */
+.text-long-info-block {
+    line-height: 1.5rem;
+}
+
+/* Text long info title line */
+.text-long-info-block-title-line {
+    font-size: 1.1rem;
+}
+
+/* Text long info - author link */
+.text-long-info-author-link {
+    color: hsl(0, 0%, 0%);
+    text-decoration: none;
+}
+
+.text-long-info-author-link:hover {
+    text-decoration: underline;
+}
+
+/* Text long info - text link */
+.text-long-info-text-link {
+    color: hsl(17, 36%, 24%);
+    text-decoration: none;
+}
+
+.text-long-info-text-link:hover {
+    text-decoration: underline;
+}
+
+/* Text long info - statistics line */
+.text-long-info-block-statistics-line {
+    font-size: 0.9rem;
+}
+
+/* Images in statistics line*/
+.text-long-info-block-statistics-line-images {
+    width: 16px;
+    height: 16px;
+    margin-bottom: -2px;
+}
+
+/* Comments link (for case when there are comments) */
+.text-long-info-block-comments-link {
+    color: hsl(0, 0%, 0%);
+}
+
+/* Votes for text */
+.text-long-info-block-votes-for {
+    color: hsl(120, 100%, 25%);
+}
+
+/* Text long info - publisher line */
+.text-long-info-block-publisher-line {
+    font-size: 0.9rem;
+}
+
+/* Text long info - publisher link */
+.text-long-info-publisher-link {
+    color: hsl(0, 0%, 0%);
+    text-decoration: none;
+}
+
+.text-long-info-publisher-link:hover {
+    text-decoration: underline;
+}
+
+/* Text long info - translator link */
+.text-long-info-translator-link {
+    color: hsl(0, 0%, 0%);
+    text-decoration: none;
+}
+
+.text-long-info-translator-link:hover {
+    text-decoration: underline;
+}
+
+/* Text long info - description */
+.text-long-info-block-description {
+}
+
+/* Text long info - type and tags line */
+.text-long-info-block-type-and-tags-line {
+    font-size: 0.9rem;
+}
+
+/* Text type link */
+.text-long-info-block-text-type-link {
+    color: hsl(0, 0%, 0%);
+    text-decoration: none;
+}
+
+.text-long-info-block-text-type-link:hover
+{
+    text-decoration: underline;
+}
+
 /* Long text info stuff ends here */
 
 /* Popup upper layer */
@@ -593,7 +690,6 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: 2000;
-    text-align: center;
 }
 
 /* Popup lower layer */
@@ -604,7 +700,6 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: 1000;
-    text-align: center;
     background: hsla(0, 0%, 10%, 0.8);
 }
 
@@ -621,6 +716,7 @@ body {
     padding-bottom: 1rem;
     padding-left: 1rem;
     padding-right: 2rem;
+    min-width: 60vw;
 }
 
 /* Popup close button */

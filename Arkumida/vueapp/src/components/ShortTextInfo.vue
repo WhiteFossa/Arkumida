@@ -55,8 +55,6 @@
     {
         textInfo.value = await (await fetch(apiBaseUrl + `/api/Texts/GetInfo/` + props.id)).json()
         
-        console.log(textInfo.value)
-        
         authorLinkHref.value = "/texts/byAuthor/" + textInfo.value.textInfo.author.entityId
         authorLinkTitle.value = "Все произведения автора " + textInfo.value.textInfo.author.name
         
@@ -159,7 +157,7 @@
     </div>
     <div v-else>
 
-        <LongTextInfo v-if="isLongInfoShown === true" @closePopup="HideLongTextInfo"/>
+        <LongTextInfo v-if="isLongInfoShown === true" @closePopup="HideLongTextInfo" :id="props.id"/>
 
         <div :class="textInfoClasses">
             
@@ -167,16 +165,12 @@
             <div class="horizontal-flex text-short-info-block-title-line">
                 <div>
                     <!-- Left icons -->
-                    <span v-for="leftIcon in leftIcons" :key="leftIcon.type">
-                        <SmallTextIcon :type="leftIcon.type" :url="leftIcon.url" />
-                    </span>
+                    <SmallTextIcon v-for="leftIcon in leftIcons" :key="leftIcon.type" :type="leftIcon.type" :url="leftIcon.url" />
 
-                        <a class="text-short-info-author-link" :href="authorLinkHref" :title="authorLinkTitle">{{ textInfo.textInfo.author.name }}</a>&nbsp;<a class="text-short-info-text-link" :href="textLinkHref">«{{ textInfo.textInfo.title }}»</a>
+                    <a class="text-short-info-author-link" :href="authorLinkHref" :title="authorLinkTitle">{{ textInfo.textInfo.author.name }}</a>&nbsp;<a class="text-short-info-text-link" :href="textLinkHref">«{{ textInfo.textInfo.title }}»</a>
 
-                        <!-- Right icons -->
-                        <span v-for="rightIcon in rightIcons" :key="rightIcon.type">
-                        <SmallTextIcon :type="rightIcon.type" :url="rightIcon.url" />
-                    </span>
+                    <!-- Right icons -->
+                    <SmallTextIcon v-for="rightIcon in rightIcons" :key="rightIcon.type" :type="rightIcon.type" :url="rightIcon.url" />
                 </div>
 
                 <div>
@@ -200,7 +194,7 @@
                     </a>
                 </span>
 
-                &nbsp;<img class="text-short-info-block-statistics-line-images" src="/images/vote.png" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-short-info-block-votes-for" v-if="textInfo.textInfo.votesFor > 0">{{ textInfo.textInfo.votesFor }}</span><span v-else>Нет</span>
+                &nbsp;<img class="text-short-info-block-statistics-line-images" src="/images/vote.png" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-short-info-block-votes-for" v-if="textInfo.textInfo.votesFor > 0">+<strong>{{ textInfo.textInfo.votesFor }}</strong></span><span v-else>Нет</span>
             </div>
             
             <!-- Type and tags line -->
