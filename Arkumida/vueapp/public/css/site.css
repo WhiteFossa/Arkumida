@@ -282,6 +282,7 @@ body {
     font-size: 1.5rem;
     text-align: center;
     color: hsl(0, 0%, 0%);
+    cursor: pointer;
 }
 
 /* Top button with small text */
@@ -341,6 +342,7 @@ body {
     font-size: inherit;
     border: 0.1rem solid hsl(195, 56%, 62%);
     border-radius: 0.2rem;
+    cursor: pointer;
 }
 
 /* Search stuff ends here */
@@ -406,6 +408,7 @@ body {
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
     font-size: 1.1rem;
+    cursor: pointer;
 }
 
 .texts-short-infos-button:hover {
@@ -550,6 +553,7 @@ body {
     border-radius: 1rem;
     background: hsl(36, 100%, 84%);
     width: 6rem;
+    cursor: pointer;
 }
 
 .texts-short-infos-container-arrows-buttons:hover {
@@ -572,11 +576,12 @@ body {
     color: hsl(0, 0%, 100%);
     font-size: 0.85rem;
     border: 0 none hsl(0, 0%, 0%);
-    border-radius: 0.5rem;
+    border-radius: 0.2rem;
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    cursor: pointer;
 }
 
 .text-long-info-button:hover {
@@ -733,3 +738,39 @@ body {
     width: 1rem;
     height: 1rem;
 }
+
+/* Donate to Redgerra stuff starts here */
+
+/* Donate to Redgerra block */
+.donate-to-redgerra {
+    background: hsl(0, 0%, 100%);
+    border-radius: 0.2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 1rem;
+    border: 0.2rem solid hsl(228, 10%, 90%);
+}
+
+/* Donate to Redgerra - avatar */
+.donate-to-redgerra-avatar {
+    width: 3rem;
+    border-radius: 1.5rem;
+    vertical-align: middle;
+}
+
+/* Donate to Redgerra - details button */
+.donate-to-redgerra-button {
+    color: hsl(0, 0%, 100%);
+    background: hsl(10, 100%, 50%);
+    border: 0 solid hsl(0, 0%, 0%);
+    border-radius: 0.2rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    cursor: pointer;
+}
+
+/* Donate to Redgerra stuff ends here */

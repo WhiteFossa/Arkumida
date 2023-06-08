@@ -5,6 +5,7 @@
     import MainLogo from "@/components/MainLogo.vue";
     import ShortTextInfosContainer from "@/components/ShortTextInfosContainer.vue";
     import {ref} from "vue";
+    import DonateToRedgerra from "@/components/DonateToRedgerra.vue";
 
     const shortTextsInfosDisplayMode = ref("")
     const newestButtonClass = ref("")
@@ -72,5 +73,8 @@
             <ShortTextInfosContainer v-if="shortTextsInfosDisplayMode === 'newest'" dataSource="/api/Texts/Latest" />
             <ShortTextInfosContainer v-if="shortTextsInfosDisplayMode === 'mostPopular'" dataSource="/api/Texts/Popular" />
         </div>
+
+        <!-- Donate to Redgerra -->
+        <DonateToRedgerra />
     </div>
 </template>
