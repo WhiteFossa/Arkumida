@@ -40,6 +40,11 @@ public class Tag : IdedEntity
     /// </summary>
     public CategoryTagDto ToCategoryTagDto()
     {
+        if (!IsCategory)
+        {
+            throw new InvalidOperationException($"Tag with ID={Id} is not a category tag.");
+        }
+        
         return new CategoryTagDto(Id, FurryReadableId, Name, TextsCount);
     }
 }

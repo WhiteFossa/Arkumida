@@ -22,13 +22,26 @@ public class CategoriesController : ControllerBase
     /// </summary>
     [Route("api/Categories/List")]
     [HttpGet]
-    public async Task<ActionResult<CategoriesTagsListResponse>> GetCategories()
+    public async Task<ActionResult<CategoriesTagsListResponse>> GetCategoriesAsync()
     {
         return Ok(new CategoriesTagsListResponse
         (
             (await _tagsService.GetCategoriesTagsAsync())
             .Select(t => t.ToCategoryTagDto())
             .ToList())
+        );
+    }
+
+    /// <summary>
+    /// Get category by ID
+    /// </summary>
+    [Route("api/Categories/{id}")]
+    [HttpGet]
+    public async Task<ActionResult<CategoryTagResponse>> GetCategoryByIdAsync(Guid id)
+    {
+        return Ok
+        (
+            new CategoryTagResponse((await _tagsService.GetTagByIdAsync(id)).ToCategoryTagDto())
         );
     }
 }

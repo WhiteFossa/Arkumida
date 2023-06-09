@@ -6,6 +6,7 @@
     import ShortTextInfosContainer from "@/components/ShortTextInfosContainer.vue";
     import {ref} from "vue";
     import DonateToRedgerra from "@/components/DonateToRedgerra.vue";
+    import CategoriesContainer from "@/components/CategoriesContainer.vue";
 
     const shortTextsInfosDisplayMode = ref("")
     const newestButtonClass = ref("")
@@ -76,5 +77,28 @@
 
         <!-- Donate to Redgerra -->
         <DonateToRedgerra />
+
+        <!-- Categories and tags -->
+        <div class="horizontal-flex categories-and-tags-contaner">
+            <div class="categories-container">
+                <div class="categories-and-tags-title">
+                    Разделы
+                </div>
+
+                <div>
+                    <CategoriesContainer />
+                </div>
+            </div>
+
+            <div class="tags-container">
+                <div class="categories-and-tags-title">
+                    Теги
+                </div>
+
+                <div>
+                    Теги будут тут
+                </div>
+            </div>
+        </div>
     </div>
 </template>
