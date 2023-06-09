@@ -1,6 +1,15 @@
+using webapi.Services.Abstract;
+using webapi.Services.Implementations;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
+
+#region Scoped
+
+builder.Services.AddScoped<ITagsService, TagsService>();
+
+#endregion
 
 builder.Services.AddControllers();
 

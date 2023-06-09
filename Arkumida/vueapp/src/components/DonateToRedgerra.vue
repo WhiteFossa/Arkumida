@@ -31,7 +31,7 @@
 
             <LoadingSymbol v-if="isLoading"/>
             <span v-else>
-                Перевод на карту в Украину по <a :href="donateInfo.donatePageUrl">ссылке</a> на номер карты <strong>{{ donateInfo.donateCardNumber }}</strong>.
+                Перевод на карту в Украину по <a :href="donateInfo.donatePageUrl">ссылке</a>, номер карты &mdash; <strong>{{ donateInfo.donateCardNumber }}</strong>.
             </span>
         </span>
     </div>
