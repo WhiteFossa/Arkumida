@@ -44,3 +44,12 @@ export class TextIconType
     static Series = 6
 }
 
+// Category tag types
+export class CategoryTagType
+{
+    static Normal = 0
+    static Snuff = 1
+    static Sandbox = 2
+    static Contest = 3
+}
+

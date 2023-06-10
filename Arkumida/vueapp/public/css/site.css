@@ -360,7 +360,7 @@ body {
     padding-bottom: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    font-size: 0.9rem;
+    /*font-size: 0.9rem;*/
 }
 
 /* Total amount of texts */
@@ -437,7 +437,7 @@ body {
 /* Text short info block */
 .text-short-info-block {
     background-color: hsl(87, 89%, 93%);
-    font-size: 0.9rem;
+    /*font-size: 0.9rem;*/
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     padding-top: 0.5rem;
@@ -491,7 +491,7 @@ body {
 
 /* Text short info - statistics line */
 .text-short-info-block-statistics-line {
-    font-size: 0.9rem;
+    /*font-size: 0.9rem;*/
 }
 
 /* Images in statistics line*/
@@ -513,7 +513,7 @@ body {
 
 /* Text short info - type and tags line */
 .text-short-info-block-type-and-tags-line {
-    font-size: 0.9rem;
+    /*font-size: 0.9rem;*/
 }
 
 /* Text type link */
@@ -620,7 +620,7 @@ body {
 
 /* Text long info - statistics line */
 .text-long-info-block-statistics-line {
-    font-size: 0.9rem;
+    /*font-size: 0.9rem;*/
 }
 
 /* Images in statistics line*/
@@ -642,7 +642,7 @@ body {
 
 /* Text long info - publisher line */
 .text-long-info-block-publisher-line {
-    font-size: 0.9rem;
+    /*font-size: 0.9rem;*/
 }
 
 /* Text long info - publisher link */
@@ -671,7 +671,7 @@ body {
 
 /* Text long info - type and tags line */
 .text-long-info-block-type-and-tags-line {
-    font-size: 0.9rem;
+    /*font-size: 0.9rem;*/
 }
 
 /* Text type link */
@@ -782,6 +782,7 @@ body {
     justify-content: space-between;
     margin-top: 1rem;
     gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 /* Title for categories and tags */
@@ -792,12 +793,12 @@ body {
 
 /* Categories are here */
 .categories-container {
-    width: 40%
+    flex: auto;
 }
 
 /* Tags are here */
 .tags-container {
-    width: 60%;
+    flex: 60%;
 }
 
 /* One category */
@@ -814,6 +815,49 @@ body {
 /* Link in category block */
 .category-link {
     color: hsl(0, 0%, 0%);
+}
+
+/* Special categories markers */
+.special-category-marker {
+    display: inline-block;
+    float: right;
+}
+
+
+/* Color marker for special categories */
+.category-color-marker {
+    width: 1.0rem;
+    height: 1.0rem;
+    margin-bottom: -0.1rem;
+    border-radius: 0.2rem;
+    display: inline-block;
+}
+
+/* Color marker for snuff category */
+.category-color-marker.category-color-marker-snuff {
+    background: hsl(1, 74%, 88%);
+}
+
+/* Color marker for sandbox category */
+.category-color-marker.category-color-marker-sandbox {
+    background: hsl(0, 0%, 78%);
+}
+
+/* Color marker for constest category */
+.category-color-marker.category-color-marker-contest {
+    background: hsl(63, 99%, 47%);
+}
+
+/* Sandbox category text description */
+.sandbox-category-text-description {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    background: hsl(36, 100%, 84%);
+    border-radius: 0.2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
 }
 
 /* Categories and tags ends here */

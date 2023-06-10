@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using webapi.Models.Api.Enums;
 
 namespace webapi.Models.Api.DTOs;
 
@@ -18,13 +19,20 @@ public class CategoryTagDto : IdedEntityDto
     /// </summary>
     [JsonPropertyName("textsCount")]
     public int TextsCount { get; private set; }
-    
+
+    /// <summary>
+    /// Special type for category tag
+    /// </summary>
+    [JsonPropertyName("type")]
+    public CategoryTagType Type { get; private set; }
+
     public CategoryTagDto
     (
         Guid id,
         string furryReadableId,
         string tag,
-        int textsCount
+        int textsCount,
+        CategoryTagType type
     ) : base(id, furryReadableId)
     {
         if (string.IsNullOrWhiteSpace(tag))
@@ -38,5 +46,7 @@ public class CategoryTagDto : IdedEntityDto
             throw new ArgumentOutOfRangeException(nameof(textsCount), "Texts count must be non-negative.");
         }
         TextsCount = textsCount;
+
+        Type = type;
     }
 }

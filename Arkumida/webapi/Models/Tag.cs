@@ -1,4 +1,5 @@
 using webapi.Models.Api.DTOs;
+using webapi.Models.Api.Enums;
 
 namespace webapi.Models;
 
@@ -28,6 +29,11 @@ public class Tag : IdedEntity
     public int TextsCount { get; set; }
 
     /// <summary>
+    /// Category tag type - special types for category tags
+    /// </summary>
+    public CategoryTagType CategoryTagType { get; set; }
+
+    /// <summary>
     /// Generate TextTagDto from tag
     /// </summary>
     public TextTagDto ToTextTagDto()
@@ -45,6 +51,6 @@ public class Tag : IdedEntity
             throw new InvalidOperationException($"Tag with ID={Id} is not a category tag.");
         }
         
-        return new CategoryTagDto(Id, FurryReadableId, Name, TextsCount);
+        return new CategoryTagDto(Id, FurryReadableId, Name, TextsCount, CategoryTagType);
     }
 }
