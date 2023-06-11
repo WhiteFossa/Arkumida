@@ -1,0 +1,103 @@
+<script setup>
+
+    import {defineProps, onMounted, ref} from "vue";
+    import {Guid} from "guid-typescript";
+    import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    import {TagSizeCategory} from "@/js/constants";
+
+    const props = defineProps({
+        id: Guid
+    })
+
+    const apiBaseUrl = process.env.VUE_APP_API_URL
+
+    const isLoading = ref(true)
+
+    const tagInfo = ref(null)
+
+    const tagHref = ref(null)
+
+    const tagSizeClass = ref(null)
+
+    onMounted(async () =>
+    {
+        await OnLoad();
+    })
+
+    async function OnLoad()
+    {
+        tagInfo.value = (await (await fetch(apiBaseUrl + `/api/Tags/` + props.id)).json()).tag
+
+        tagHref.value = "/texts/byTag/" + props.id
+
+        switch (tagInfo.value.sizeCategory)
+        {
+            case TagSizeCategory.Cat0:
+                tagSizeClass.value = "tag-size-class0";
+                break;
+
+            case TagSizeCategory.Cat1:
+                tagSizeClass.value = "tag-size-class1";
+                break;
+
+            case TagSizeCategory.Cat2:
+                tagSizeClass.value = "tag-size-class2";
+                break;
+
+            case TagSizeCategory.Cat3:
+                tagSizeClass.value = "tag-size-class3";
+                break;
+
+            case TagSizeCategory.Cat4:
+                tagSizeClass.value = "tag-size-class4";
+                break;
+
+            case TagSizeCategory.Cat5:
+                tagSizeClass.value = "tag-size-class5";
+                break;
+
+            case TagSizeCategory.Cat6:
+                tagSizeClass.value = "tag-size-class6";
+                break;
+
+            case TagSizeCategory.Cat7:
+                tagSizeClass.value = "tag-size-class7";
+                break;
+
+            case TagSizeCategory.Cat8:
+                tagSizeClass.value = "tag-size-class8";
+                break;
+
+            case TagSizeCategory.Cat9:
+                tagSizeClass.value = "tag-size-class9";
+                break;
+
+            case TagSizeCategory.Cat10:
+                tagSizeClass.value = "tag-size-class10";
+                break;
+
+            case TagSizeCategory.Cat11:
+                tagSizeClass.value = "tag-size-class11";
+                break;
+
+            case TagSizeCategory.Cat12:
+                tagSizeClass.value = "tag-size-class12";
+                break;
+
+            case TagSizeCategory.Cat13:
+                tagSizeClass.value = "tag-size-class13";
+                break;
+
+            default:
+                new Error("Unknown tag size category.")
+        }
+
+        isLoading.value = false
+    }
+
+</script>
+
+<template>
+    <span v-if="isLoading"><LoadingSymbol /></span>
+    <a v-else :class="tagSizeClass" :href="tagHref">{{ tagInfo.tag }}</a>
+</template>

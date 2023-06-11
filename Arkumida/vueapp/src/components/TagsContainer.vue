@@ -1,15 +1,13 @@
 <script setup>
-
-    // API base URL
+    import TagComponent from "@/components/TagComponent.vue";
     import {onMounted, ref} from "vue";
-    import CategoryComponent from "@/components/CategoryComponent.vue";
     import LoadingSymbol from "@/components/LoadingSymbol.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
     const isLoading = ref(true)
 
-    const categories = ref([])
+    const tags = ref([])
 
     onMounted(async () =>
     {
@@ -18,12 +16,11 @@
 
     async function OnLoad()
     {
-        const response = await (await fetch(apiBaseUrl + '/api/Categories/List')).json()
-        categories.value = response.categoriesTags
+        const response = await (await fetch(apiBaseUrl + '/api/Tags/List')).json()
+        tags.value = response.tags
 
         isLoading.value = false
     }
-
 </script>
 
 <template>
@@ -32,6 +29,9 @@
     </div>
 
     <div v-else>
-        <CategoryComponent :id="category.entityId" v-for="category in categories" :key="category.entityId" />
+        <span v-for="tag in tags" :key="tag.entityId">
+            <TagComponent :id="tag.entityId" />
+            <span v-if="tag.entityId !== tags[tags.length - 1].entityId"><pre class="inline-block"> </pre></span>
+        </span>
     </div>
 </template>

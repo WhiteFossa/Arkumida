@@ -34,11 +34,16 @@ public class Tag : IdedEntity
     public CategoryTagType CategoryTagType { get; set; }
 
     /// <summary>
+    /// Tag size category
+    /// </summary>
+    public TagSizeCategory SizeCategory { get; set; }
+
+    /// <summary>
     /// Generate TextTagDto from tag
     /// </summary>
     public TextTagDto ToTextTagDto()
     {
-        return new TextTagDto(Id, FurryReadableId, Name);
+        return new TextTagDto(Id, FurryReadableId, Name, SizeCategory);
     }
 
     /// <summary>

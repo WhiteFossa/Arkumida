@@ -53,3 +53,21 @@ export class CategoryTagType
     static Contest = 3
 }
 
+// Tags size categories
+export class TagSizeCategory
+{
+    static Cat0 = 0
+    static Cat1 = 1
+    static Cat2 = 2
+    static Cat3 = 3
+    static Cat4 = 4
+    static Cat5 = 5
+    static Cat6 = 6
+    static Cat7 = 7
+    static Cat8 = 8
+    static Cat9 = 9
+    static Cat10 = 10
+    static Cat11 = 11
+    static Cat12 = 12
+    static Cat13 = 13
+}

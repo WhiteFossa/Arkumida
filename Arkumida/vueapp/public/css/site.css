@@ -860,4 +860,78 @@ body {
     padding-bottom: 0.2rem;
 }
 
+/* Tags size classes starts here */
+
+.tag-size-class0 {
+    color: hsl(325, 70%, 4%);
+    font-size: 0.8rem;
+}
+
+.tag-size-class1 {
+    color: hsl(325, 70%, 5.5%);
+    font-size: 0.9rem;
+}
+
+.tag-size-class2 {
+    color: hsl(325, 70%, 7%);
+    font-size: 1.0rem;
+}
+
+.tag-size-class3 {
+    color: hsl(325, 70%, 10.5%);
+    font-size: 1.1rem;
+}
+
+.tag-size-class4 {
+    color: hsl(325, 70%, 14%);
+    font-size: 1.2rem;
+}
+
+.tag-size-class5 {
+    color: hsl(325, 70%, 15.5%);
+    font-size: 1.3rem;
+}
+
+.tag-size-class6 {
+    color: hsl(325, 70%, 17%);
+    font-size: 1.4rem;
+}
+
+.tag-size-class7 {
+    color: hsl(325, 70%, 19%);
+    font-size: 1.5rem;
+}
+
+.tag-size-class8 {
+    color: hsl(325, 70%, 21%);
+    font-size: 1.6rem;
+}
+
+.tag-size-class9 {
+    color: hsl(325, 70%, 26.5%);
+    font-size: 1.7rem;
+}
+
+.tag-size-class10 {
+    color: hsl(325, 70%, 32%);
+    font-size: 1.8rem;
+}
+
+.tag-size-class11 {
+    color: hsl(325, 70%, 43%);
+    font-size: 1.9rem;
+}
+
+.tag-size-class12 {
+    color: hsl(325, 70%, 54%);
+    font-size: 2.0rem;
+}
+
+.tag-size-class13 {
+    color: hsl(325, 70%, 60%);
+    font-size: 2.1rem;
+}
+
+/* Tags size classes ends here */
+
 /* Categories and tags ends here */
