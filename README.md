@@ -3,7 +3,11 @@ Furtails.pw next generation
 
 # Build and run on Docker
 
-# Webapi image
+# Infrastructure
+
+Build image: $ docker build -f dockerfile-arkumida-infrastructure -t arkumida-infrastructure-postgres .
+
+# WebAPI image
 
 docker build -f dockerfile-webapi -t arkumida-webapi .
 

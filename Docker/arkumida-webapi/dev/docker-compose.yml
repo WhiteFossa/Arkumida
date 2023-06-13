@@ -12,11 +12,11 @@ services:
         - 127.0.0.1:5220:80
 
     networks:
-      - dev_arkumida-net
+      - arkumida-net
 
 networks:
-  dev_arkumida-net:
+  arkumida-net:
     driver: bridge
-    external: false # Change me to true after infrastructure container implementation
+    external: true # Change me to true after infrastructure container implementation
 
 

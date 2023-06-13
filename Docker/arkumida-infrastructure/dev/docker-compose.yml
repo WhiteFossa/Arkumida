@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+
+  # PostgreSQL
+  arkumida-postgresql:
+    image: arkumida-infrastructure-postgres
+    container_name: arkumida-postgresql
+    restart: always
+
+    ports:
+      - 127.0.0.1:5433:5432 # Do not need it in Prod
+
+    environment:
+      POSTGRES_PASSWORD: ju3iyNYcWvfv7Rx3ZCv50FFBwaAU4V
+
+    volumes:
+      - arkumida_postgresql_data:/var/lib/postgresql/data
+
+    networks:
+      - arkumida-net
+
+  # Adminer
+  arkumida-adminer:
+    image: adminer
+    container_name: arkumida-adminer
+    restart: always
+
+    ports:
+      - 127.0.0.1:9082:8080
+
+    networks:
+      - arkumida-net
+volumes:
+
+  # Arkumida postgresql database storage
+  arkumida_postgresql_data:
+
+networks:
+  arkumida-net:
+    driver: bridge
