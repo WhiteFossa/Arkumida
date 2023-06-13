@@ -1,3 +1,7 @@
+using System.IO.Compression;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using webapi.Dao;
 using webapi.Services.Abstract;
 using webapi.Services.Implementations;
 
@@ -5,29 +9,67 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 
-#region Scoped
+#region DI
 
-builder.Services.AddScoped<ITagsService, TagsService>();
+    #region Scoped
+
+    builder.Services.AddScoped<ITagsService, TagsService>();
+
+    #endregion
 
 #endregion
 
 builder.Services.AddControllers();
 
-// CORS
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy
+#region Compression
+    // Compression
+    builder.Services.AddResponseCompression(options =>
+    {
+        options.EnableForHttps = false; // Do not turn on, security risk: https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression?view=aspnetcore-6.0
+        options.Providers.Add<BrotliCompressionProvider>(); // Brotli is widespread
+        options.Providers.Add<GzipCompressionProvider>(); // GZIP as fallback
+    });
+            
+    builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
+    {
+        options.Level = CompressionLevel.SmallestSize;
+    });
+
+    builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+    {
+        options.Level = CompressionLevel.SmallestSize;
+    });
+#endregion
+
+#region CORS
+    // CORS
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy
+        (
+            policy =>
+            {
+                policy.WithOrigins
+                    (
+                        "http://localhost:8080",
+                        "https://arkumida.furtails.pw"
+                    );
+            }
+        );
+    });
+#endregion
+
+#region  DB Contexts
+
+    // Main
+    builder.Services.AddDbContext<MainDbContext>
     (
-        policy =>
-        {
-            policy.WithOrigins
-                (
-                    "http://localhost:8080",
-                    "https://arkumida.furtails.pw"
-                );
-        }
+        options
+            =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("MainConnection"), o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)), ServiceLifetime.Transient
     );
-});
+
+#endregion
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

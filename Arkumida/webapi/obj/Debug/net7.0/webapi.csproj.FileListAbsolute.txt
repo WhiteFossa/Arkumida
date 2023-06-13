@@ -64,3 +64,13 @@ C:/Non work/Arkumida/Arkumida/webapi/obj/Debug/net7.0/ref/webapi.dll
 /home/fossa/Projects/Arkumida/Arkumida/webapi/obj/Debug/net7.0/webapi.pdb
 /home/fossa/Projects/Arkumida/Arkumida/webapi/obj/Debug/net7.0/webapi.genruntimeconfig.cache
 /home/fossa/Projects/Arkumida/Arkumida/webapi/obj/Debug/net7.0/ref/webapi.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/Humanizer.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Design.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Relational.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/Microsoft.Extensions.DependencyModel.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/Mono.TextTemplating.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/Npgsql.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/fossa/Projects/Arkumida/Arkumida/webapi/bin/Debug/net7.0/System.CodeDom.dll
