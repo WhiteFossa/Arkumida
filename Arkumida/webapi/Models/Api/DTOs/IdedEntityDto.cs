@@ -11,13 +11,13 @@ public class IdedEntityDto
     /// Entity Id
     /// </summary>
     [JsonPropertyName("entityId")]
-    public Guid Id { get; private set; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// Furry-readable ID (mostly for compatibility with old site)
     /// </summary>
     [JsonPropertyName("furryReadableId")]
-    public string FurryReadableId { get; private set; }
+    public string FurryReadableId { get; set; }
 
     public IdedEntityDto
     (

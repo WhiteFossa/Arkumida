@@ -1,3 +1,4 @@
+using webapi.Dao.Models.Enums;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Enums;
 
@@ -8,6 +9,11 @@ namespace webapi.Models;
 /// </summary>
 public class Tag : IdedEntity
 {
+    /// <summary>
+    /// Tag subtype
+    /// </summary>
+    public TagSubtype Subtype { get; set; }
+    
     /// <summary>
     /// Tag name
     /// </summary>
@@ -57,5 +63,13 @@ public class Tag : IdedEntity
         }
         
         return new CategoryTagDto(Id, FurryReadableId, Name, TextsCount, CategoryTagType);
+    }
+
+    /// <summary>
+    /// Generate TagDto from tag model
+    /// </summary>
+    public TagDto ToTagDto()
+    {
+        return new TagDto(Id, FurryReadableId, Subtype, Name, IsCategory, CategoryOrder, CategoryTagType);
     }
 }

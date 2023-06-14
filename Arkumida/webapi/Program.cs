@@ -2,6 +2,10 @@ using System.IO.Compression;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao;
+using webapi.Dao.Abstract;
+using webapi.Dao.Implementations;
+using webapi.Mappers.Abstract;
+using webapi.Mappers.Implementations;
 using webapi.Services.Abstract;
 using webapi.Services.Implementations;
 
@@ -13,7 +17,15 @@ var builder = WebApplication.CreateBuilder(args);
 
     #region Scoped
 
+    builder.Services.AddScoped<ITagsDao, TagsDao>();
+
     builder.Services.AddScoped<ITagsService, TagsService>();
+
+    #endregion
+
+    #region Singletons
+
+    builder.Services.AddSingleton<ITagsMapper, TagsMapper>();
 
     #endregion
 

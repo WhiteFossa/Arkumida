@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using webapi.Dao.Models;
 
 namespace webapi.Dao;
 
@@ -7,6 +8,12 @@ namespace webapi.Dao;
 /// </summary>
 public class MainDbContext : DbContext
 {
+    /// <summary>
+    /// Tags
+    /// </summary>
+    public DbSet<TagDbo> Tags { get; set; }
+    
+    
     public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
     {
     }

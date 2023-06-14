@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using webapi.Dao;
@@ -11,9 +12,11 @@ using webapi.Dao;
 namespace webapi.Dao.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230613190152_AddTags")]
+    partial class AddTags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,15 +38,17 @@ namespace webapi.Dao.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("FurryReadableId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsCategory")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Subtype")
+                    b.Property<int>("TagSubtype")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

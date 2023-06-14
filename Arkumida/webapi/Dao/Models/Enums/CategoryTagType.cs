@@ -1,4 +1,4 @@
-namespace webapi.Models.Api.Enums;
+namespace webapi.Dao.Models.Enums;
 
 /// <summary>
 /// Possible category tag types

@@ -33,11 +33,7 @@ public class TextsController : ControllerBase
             27,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("916e6329-3975-468e-b765-405c7d487058")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("a4b220ed-13f4-4c05-a706-36a978fb74b8")).Result.ToTextTagDto()
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Snuff,
             new List<TextIconDto>(),
@@ -60,10 +56,7 @@ public class TextsController : ControllerBase
             0,
             0,
             10,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto()
-            },
+            new List<TextTagDto>(),
             TextType.Novel,
             SpecialTextType.Sandbox,
             new List<TextIconDto>(),
@@ -86,10 +79,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto()
-            },
+            new List<TextTagDto>(),
             TextType.Poetry,
             SpecialTextType.Contest,
             new List<TextIconDto>() { new TextIconDto(TextIconType.MLP) },
@@ -112,10 +102,7 @@ public class TextsController : ControllerBase
             40,
             20,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-            },
+            new List<TextTagDto>(),
             TextType.Comics,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -138,12 +125,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -166,12 +148,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -194,12 +171,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -222,12 +194,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -250,12 +217,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -278,12 +240,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -306,12 +263,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -334,12 +286,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -362,12 +309,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
@@ -390,12 +332,7 @@ public class TextsController : ControllerBase
             20,
             10,
             0,
-            new List<TextTagDto>()
-            {
-                _tagsService.GetTagByIdAsync(new Guid("acc0abbf-4d12-432f-99db-8ffd5854ee22")).Result.ToTextTagDto(),
-                _tagsService.GetTagByIdAsync(new Guid("79bd0d5e-b34c-48a5-8989-8644524de5f6")).Result.ToTextTagDto()
-                
-            },
+            new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
