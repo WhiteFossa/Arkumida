@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "n4VqiE6GRiIQtvA3jxm7Ip/97thwLkRYc11uskKs8fuNa7qX0M480O9B8DnTJbT1J5W8qh4M/8nBZWZa29tdoA==",
+  "success": true,
+  "projectFilePath": "/home/fossa/Projects/Arkumida/furtails-importer/furtails-importer/furtails-importer.csproj",
+  "expectedPackageFiles": [
+    "/home/fossa/.nuget/packages/dapper/2.0.138/dapper.2.0.138.nupkg.sha512",
+    "/home/fossa/.nuget/packages/mysqlconnector/2.2.6/mysqlconnector.2.2.6.nupkg.sha512"
+  ],
+  "logs": []
+}
