@@ -8,14 +8,17 @@ namespace furtails_importer.Importers;
 /// </summary>
 public class MainImporter
 {
-    const string connectionString = "Server=localhost; User ID=root; Password=504Pi5gFfUlfCcoiBTuT3IHXViPzEq; Database=furtails";
+    public const string ConnectionString = "Server=localhost; User ID=root; Password=504Pi5gFfUlfCcoiBTuT3IHXViPzEq; Database=furtails";
     
+    public const string BaseUrl = @"http://localhost:5220/api/";
+
     public async Task ImportAsync()
     {
-        await using (var connection = new MySqlConnection(connectionString))
+        await using (var connection = new MySqlConnection(ConnectionString))
+        using (var httpClient = new HttpClient())
         {
             // Importing tags
-            var tagsImporter = new TagsImporter(connection);
+            var tagsImporter = new TagsImporter(connection, httpClient);
 
             await tagsImporter.Import();
         }

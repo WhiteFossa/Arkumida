@@ -1,4 +1,4 @@
-namespace webapi.Dao.Models.Enums;
+namespace furtails_importer.WebClientStuff.Enums;
 
 /// <summary>
 /// Subtype for tags (type of action, species and so on)
