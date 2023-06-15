@@ -869,67 +869,67 @@ body {
 
 .tag-size-class1 {
     color: hsl(325, 70%, 5.5%);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .tag-size-class2 {
     color: hsl(325, 70%, 7%);
-    font-size: 1.0rem;
+    font-size: 0.9rem;
 }
 
 .tag-size-class3 {
     color: hsl(325, 70%, 10.5%);
-    font-size: 1.1rem;
+    font-size: 0.95rem;
 }
 
 .tag-size-class4 {
     color: hsl(325, 70%, 14%);
-    font-size: 1.2rem;
+    font-size: 1.0rem;
 }
 
 .tag-size-class5 {
     color: hsl(325, 70%, 15.5%);
-    font-size: 1.3rem;
+    font-size: 1.05rem;
 }
 
 .tag-size-class6 {
     color: hsl(325, 70%, 17%);
-    font-size: 1.4rem;
+    font-size: 1.1rem;
 }
 
 .tag-size-class7 {
     color: hsl(325, 70%, 19%);
-    font-size: 1.5rem;
+    font-size: 1.15rem;
 }
 
 .tag-size-class8 {
     color: hsl(325, 70%, 21%);
-    font-size: 1.6rem;
+    font-size: 1.2rem;
 }
 
 .tag-size-class9 {
     color: hsl(325, 70%, 26.5%);
-    font-size: 1.7rem;
+    font-size: 1.25rem;
 }
 
 .tag-size-class10 {
     color: hsl(325, 70%, 32%);
-    font-size: 1.8rem;
+    font-size: 1.3rem;
 }
 
 .tag-size-class11 {
     color: hsl(325, 70%, 43%);
-    font-size: 1.9rem;
+    font-size: 1.35rem;
 }
 
 .tag-size-class12 {
     color: hsl(325, 70%, 54%);
-    font-size: 2.0rem;
+    font-size: 1.4rem;
 }
 
 .tag-size-class13 {
     color: hsl(325, 70%, 60%);
-    font-size: 2.1rem;
+    font-size: 1.45rem;
 }
 
 /* Tags size classes ends here */

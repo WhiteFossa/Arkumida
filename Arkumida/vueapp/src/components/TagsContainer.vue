@@ -30,7 +30,7 @@
 
     <div v-else>
         <span v-for="tag in tags" :key="tag.entityId">
-            <TagComponent :id="tag.entityId" />
+            <TagComponent :id="tag.entityId" :furryReadableId="tag.furryReadableId" :sizeCategory="tag.sizeCategory" :tag="tag.tag" />
             <span v-if="tag.entityId !== tags[tags.length - 1].entityId"><pre class="inline-block"> </pre></span>
         </span>
     </div>

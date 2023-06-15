@@ -2,18 +2,14 @@
 
     import {defineProps, onMounted, ref} from "vue";
     import {Guid} from "guid-typescript";
-    import LoadingSymbol from "@/components/LoadingSymbol.vue";
     import {TagSizeCategory} from "@/js/constants";
 
     const props = defineProps({
-        id: Guid
+        id: Guid,
+        furryReadableId: String,
+        sizeCategory: Number,
+        tag: String
     })
-
-    const apiBaseUrl = process.env.VUE_APP_API_URL
-
-    const isLoading = ref(true)
-
-    const tagInfo = ref(null)
 
     const tagHref = ref(null)
 
@@ -26,11 +22,9 @@
 
     async function OnLoad()
     {
-        tagInfo.value = (await (await fetch(apiBaseUrl + `/api/Tags/` + props.id)).json()).tag
-
         tagHref.value = "/texts/byTag/" + props.id
 
-        switch (tagInfo.value.sizeCategory)
+        switch (props.sizeCategory)
         {
             case TagSizeCategory.Cat0:
                 tagSizeClass.value = "tag-size-class0";
@@ -91,13 +85,10 @@
             default:
                 new Error("Unknown tag size category.")
         }
-
-        isLoading.value = false
     }
 
 </script>
 
 <template>
-    <span v-if="isLoading"><LoadingSymbol /></span>
-    <a v-else :class="tagSizeClass" :href="tagHref">{{ tagInfo.tag }}</a>
+    <a :class="tagSizeClass" :href="tagHref">{{ props.tag }}</a>
 </template>
