@@ -32,6 +32,12 @@
     </div>
 
     <div v-else>
-        <CategoryComponent :id="category.entityId" v-for="category in categories" :key="category.entityId" />
+        <CategoryComponent
+            :id="category.entityId"
+            :furryReadableId="category.furryReadableId"
+            :type="category.type"
+            :textsCount="category.textsCount"
+            :tag="category.tag"
+            v-for="category in categories" :key="category.entityId" />
     </div>
 </template>

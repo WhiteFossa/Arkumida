@@ -6,14 +6,12 @@
     import {CategoryTagType} from "@/js/constants";
 
     const props = defineProps({
-        id: Guid
+        id: Guid,
+        furryReadableId: String,
+        type: Number,
+        textsCount: Number,
+        tag: String
     })
-
-    const apiBaseUrl = process.env.VUE_APP_API_URL
-
-    const isLoading = ref(true)
-
-    const categoryInfo = ref(null)
 
     const tagLinkHref = ref(null)
 
@@ -26,13 +24,11 @@
 
     async function OnLoad()
     {
-        categoryInfo.value = (await (await fetch(apiBaseUrl + `/api/Categories/` + props.id)).json()).categoryTag
-
-        tagLinkHref.value = "/texts/byTag/" + categoryInfo.value.entityId
+        tagLinkHref.value = "/texts/byTag/" + props.id
 
         colorMarkerClasses.value = "category-color-marker";
 
-        switch (categoryInfo.value.type)
+        switch (props.type)
         {
             case CategoryTagType.Normal:
                 break;
@@ -52,8 +48,6 @@
             default:
                 new Error("Unknown category tag type.")
         }
-
-        isLoading.value = false
     }
 
 </script>
@@ -64,11 +58,11 @@
     </div>
     <div v-else>
         <div class="category-block">
-            <a class="category-link" :href="tagLinkHref" :title="categoryInfo.tag">{{ categoryInfo.tag }}</a> ({{ categoryInfo.textsCount }})
+            <a class="category-link" :href="tagLinkHref" :title="props.tag">{{ props.tag }}</a> ({{ props.textsCount }})
 
-            <span v-if="categoryInfo.type === CategoryTagType.Sandbox" class="sandbox-category-text-description">(рассказы, требующие доработки)</span>
+            <span v-if="props.type === CategoryTagType.Sandbox" class="sandbox-category-text-description">(рассказы, требующие доработки)</span>
 
-            <div v-if="categoryInfo.type !== CategoryTagType.Normal" class="special-category-marker">
+            <div v-if="props.type !== CategoryTagType.Normal" class="special-category-marker">
                 <div :class="colorMarkerClasses"></div>
             </div>
         </div>

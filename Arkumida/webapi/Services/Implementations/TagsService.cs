@@ -42,7 +42,11 @@ public class TagsService : ITagsService
 
     public async Task<IReadOnlyCollection<Tag>> GetCategoriesTagsAsync()
     {
-        return _tagsMapper.Map(await _tagsDao.GetCategoryTagsAsync());
+        var tags = _tagsMapper.Map(await _tagsDao.GetCategoryTagsAsync());
+
+        await PostprocessTags(tags);
+
+        return tags;
     }
 
     public async Task<IReadOnlyCollection<Tag>> GetAllTagsAsync(TagSubtype? subtype = null)
