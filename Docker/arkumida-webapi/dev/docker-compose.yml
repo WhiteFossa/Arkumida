@@ -17,6 +17,6 @@ services:
 networks:
   arkumida-net:
     driver: bridge
-    external: true # Change me to true after infrastructure container implementation
+    external: true
 
 
