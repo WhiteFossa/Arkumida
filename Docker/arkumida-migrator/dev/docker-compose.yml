@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+
+  arkumida-migrator:
+    image: arkumida-migrator:latest
+    container_name: arkumida-migrator
+
+    networks:
+      - arkumida-net
+
+networks:
+  arkumida-net:
+    driver: bridge
+    external: true
+
+

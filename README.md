@@ -6,10 +6,17 @@ Furtails.pw next generation
 # Infrastructure
 
 Build image: $ docker build -f dockerfile-arkumida-infrastructure -t arkumida-infrastructure-postgres .
+Run container: $ docker-compose up -d
+
+# Apply migrations
+
+Build image: $ docker build -f dockerfile-migrator -t arkumida-migrator .
+Run container: $ docker-compose up
 
 # WebAPI image
 
 docker build -f dockerfile-webapi -t arkumida-webapi .
+Run container: $ docker-compose up -d
 
 # Configure reverse proxy for API server
 Configure reverse proxy in a such way (example for Apache):
