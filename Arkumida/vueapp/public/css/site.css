@@ -801,10 +801,24 @@ body {
     flex: 60%;
 }
 
+/* Tags are grouped in subtypes, this is container with one subtype */
+.tags-subtype-container {
+    background-color: hsl(38, 38%, 92%);
+    border: 0.1rem solid hsl(36, 100%, 84%);
+    border-radius: 0.2rem;
+
+    margin-bottom: 0.2rem;
+
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
 /* One category */
 .category-block {
     background-color: hsl(199, 74%, 79%);
-    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
     border-radius: 0.2rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -933,5 +947,7 @@ body {
 }
 
 /* Tags size classes ends here */
+
+
 
 /* Categories and tags ends here */

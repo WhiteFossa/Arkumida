@@ -1,13 +1,22 @@
 <script setup>
     import TagComponent from "@/components/TagComponent.vue";
-    import {onMounted, ref} from "vue";
+    import {defineProps, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    import {TagSubtype} from "@/js/constants";
+
+    const props = defineProps({
+        subtype: TagSubtype
+    })
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
     const isLoading = ref(true)
 
     const tags = ref([])
+
+    const tagsSpacer = ref(" ")
+
+    const subtypeName = ref(null)
 
     onMounted(async () =>
     {
@@ -16,8 +25,30 @@
 
     async function OnLoad()
     {
-        const response = await (await fetch(apiBaseUrl + '/api/Tags/List')).json()
+        const response = await (await fetch(apiBaseUrl + '/api/Tags/List?subtype=' + props.subtype)).json()
         tags.value = response.tags
+
+        switch(props.subtype)
+        {
+            case TagSubtype.Participants:
+                subtypeName.value = "Участники"
+                break;
+
+            case TagSubtype.Species:
+                subtypeName.value = "Виды"
+                break;
+
+            case TagSubtype.Setting:
+                subtypeName.value = "Сеттинг"
+                break;
+
+            case TagSubtype.Actions:
+                subtypeName.value = "Действия"
+                break;
+
+            default:
+                new Error("Unknown tag subtype.")
+        }
 
         isLoading.value = false
     }
@@ -28,10 +59,12 @@
         <LoadingSymbol />
     </div>
 
-    <div v-else>
+    <div v-else class="tags-subtype-container">
+        {{ subtypeName }}:
+
         <span v-for="tag in tags" :key="tag.entityId">
             <TagComponent :id="tag.entityId" :furryReadableId="tag.furryReadableId" :sizeCategory="tag.sizeCategory" :tag="tag.tag" />
-            <span v-if="tag.entityId !== tags[tags.length - 1].entityId"><pre class="inline-block"> </pre></span>
+            <span v-if="tag.entityId !== tags[tags.length - 1].entityId">{{ tagsSpacer }}</span>
         </span>
     </div>
 </template>

@@ -8,6 +8,7 @@
     import DonateToRedgerra from "@/components/DonateToRedgerra.vue";
     import CategoriesContainer from "@/components/CategoriesContainer.vue";
     import TagsContainer from "@/components/TagsContainer.vue";
+    import {TagSubtype} from "@/js/constants";
 
     const shortTextsInfosDisplayMode = ref("")
     const newestButtonClass = ref("")
@@ -97,7 +98,10 @@
                 </div>
 
                 <div>
-                    <TagsContainer />
+                    <TagsContainer :subtype="TagSubtype.Participants" />
+                    <TagsContainer :subtype="TagSubtype.Species" />
+                    <TagsContainer :subtype="TagSubtype.Setting" />
+                    <TagsContainer :subtype="TagSubtype.Actions" />
                 </div>
             </div>
         </div>

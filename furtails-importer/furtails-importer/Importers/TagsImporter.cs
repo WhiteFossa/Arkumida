@@ -46,7 +46,7 @@ public class TagsImporter
             {
                 Id = Guid.NewGuid(),
                 FurryReadableId = tag.Id.ToString(),
-                Subtype = category.IsCategory ? TagSubtype.Category : GroupIdToTagSubtype(tag.GroupId),
+                Subtype = GroupIdToTagSubtype(tag.GroupId),
                 Name = tag.Name,
                 IsCategory = category.IsCategory,
                 CategoryOrder = category.Order,

@@ -71,3 +71,13 @@ export class TagSizeCategory
     static Cat12 = 12
     static Cat13 = 13
 }
+
+// Tags subtypes
+export class TagSubtype
+{
+    static Participants = 1
+    static Species = 2
+    static Setting = 3
+    static Actions = 4
+    static Category = 5
+}

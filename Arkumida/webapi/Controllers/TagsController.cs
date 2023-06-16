@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using webapi.Dao.Models.Enums;
 using webapi.Models;
 using webapi.Models.Api.Requests;
 using webapi.Models.Api.Responses;
@@ -27,11 +28,11 @@ public class TagsController : ControllerBase
     /// </summary>
     [Route("api/Tags/List")]
     [HttpGet]
-    public async Task<ActionResult<TextTagsListResponse>> GetTagsAsync()
+    public async Task<ActionResult<TextTagsListResponse>> GetTagsAsync([FromQuery]TagSubtype? subtype = null)
     {
         return Ok(new TextTagsListResponse
             (
-                (await _tagsService.GetAllTagsAsync())
+                (await _tagsService.GetAllTagsAsync(subtype))
                 .Select(t => t.ToTextTagDto())
                 .ToList())
         );
