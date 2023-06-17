@@ -15,19 +15,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region DI
 
-    #region Scoped
+#region Scoped
 
-    builder.Services.AddScoped<ITagsDao, TagsDao>();
+builder.Services.AddScoped<ITagsDao, TagsDao>();
+builder.Services.AddScoped<ITextsSectionsVariantsDao, TextsSectionsVariantsDao>();
 
-    builder.Services.AddScoped<ITagsService, TagsService>();
+builder.Services.AddScoped<ITagsService, TagsService>();
+builder.Services.AddScoped<ITextsSectionsVariantsService, TextsSectionsVariantsService>();
 
-    #endregion
+#endregion
 
-    #region Singletons
+#region Singletons
 
-    builder.Services.AddSingleton<ITagsMapper, TagsMapper>();
+builder.Services.AddSingleton<ITagsMapper, TagsMapper>();
+builder.Services.AddSingleton<ITextsSectionsVariantsMapper, TextsSectionsVariantsMapper>();
 
-    #endregion
+#endregion
 
 #endregion
 

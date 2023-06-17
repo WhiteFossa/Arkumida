@@ -1,3 +1,5 @@
+using webapi.Models.Api.DTOs;
+
 namespace webapi.Models;
 
 /// <summary>
@@ -19,4 +21,12 @@ public class TextSectionVariant
     /// Variant creation time
     /// </summary>
     public DateTime CreationTime { get; set; }
+
+    /// <summary>
+    /// To DTO
+    /// </summary>
+    public TextSectionVariantDto ToDto()
+    {
+        return new TextSectionVariantDto(Id, Content, CreationTime);
+    }
 }

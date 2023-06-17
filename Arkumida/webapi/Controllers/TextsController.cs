@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Enums;
+using webapi.Models.Api.Requests;
 using webapi.Models.Api.Responses;
 using webapi.Services.Abstract;
 
@@ -12,13 +13,13 @@ namespace webapi.Controllers;
 [ApiController]
 public class TextsController : ControllerBase
 {
-    private readonly ITagsService _tagsService;
+    private readonly ITextsSectionsVariantsService _variantsService;
     
     private IList<TextInfoDto> _texts = new List<TextInfoDto>();
 
-    public TextsController(ITagsService tagsService)
+    public TextsController(ITextsSectionsVariantsService variantsService)
     {
-        _tagsService = tagsService;
+        _variantsService = variantsService;
         
         _texts.Add(new TextInfoDto
         (
@@ -424,5 +425,31 @@ public class TextsController : ControllerBase
         var remaining = Math.Max(0, _texts.Count - (skip + take));
         
         return Ok(new TextsInfosListResponse(textInfos, remaining));
+    }
+    
+    /// <summary>
+    /// Create new text section variant
+    /// </summary>
+    [Route("api/TextSectionVariant/Create")]
+    [HttpPost]
+    public async Task<ActionResult<CreateTextSectionVariantResponse>> CreateTextSectionVariantAsync([FromBody] CreateTextSectionVariantRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        if (request.Variant == null)
+        {
+            return BadRequest("Variant must not be null.");
+        }
+
+        var variantToCreate = request.Variant.ToTextSectionVariant();
+        await _variantsService.CreateVariantAsync(variantToCreate);
+
+        return Ok
+        (
+            new CreateTextSectionVariantResponse(variantToCreate.ToDto())
+        );
     }
 }

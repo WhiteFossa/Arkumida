@@ -69,6 +69,8 @@ public class TagsService : ITagsService
 
     public async Task CreateTagAsync(Tag tag)
     {
+        _ = tag ?? throw new ArgumentNullException(nameof(tag), "Tag must be populated.");
+        
         var dbTag = _tagsMapper.Map(tag);
 
         await _tagsDao.CreateTagAsync(dbTag);
