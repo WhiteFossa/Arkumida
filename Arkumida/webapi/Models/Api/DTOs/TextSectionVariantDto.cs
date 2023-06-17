@@ -25,6 +25,11 @@ public class TextSectionVariantDto
     [JsonPropertyName("creationTime")]
     public DateTime CreationTime { get; set; }
 
+    public TextSectionVariantDto()
+    {
+        
+    }
+    
     public TextSectionVariantDto
     (
         Guid id,

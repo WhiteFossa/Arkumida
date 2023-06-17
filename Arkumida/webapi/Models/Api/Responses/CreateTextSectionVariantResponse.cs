@@ -12,7 +12,7 @@ public class CreateTextSectionVariantResponse
     /// Variant
     /// </summary>
     [JsonPropertyName("variant")]
-    public TextSectionVariantDto Variant { get; set; }
+    public TextSectionVariantDto Variant { get; private set; }
 
     public CreateTextSectionVariantResponse
     (

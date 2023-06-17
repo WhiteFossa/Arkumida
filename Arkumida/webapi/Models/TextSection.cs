@@ -1,3 +1,5 @@
+using webapi.Models.Api.DTOs;
+
 namespace webapi.Models;
 
 /// <summary>
@@ -20,4 +22,9 @@ public class TextSection
     /// Translation variants
     /// </summary>
     public IList<TextSectionVariant> Variants { get; set; }
+
+    public TextSectionDto ToDto()
+    {
+        return new TextSectionDto(Id, OriginalText, Variants.Select(v => v.ToDto()).ToList());
+    }
 }

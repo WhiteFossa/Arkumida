@@ -19,9 +19,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ITagsDao, TagsDao>();
 builder.Services.AddScoped<ITextsSectionsVariantsDao, TextsSectionsVariantsDao>();
+builder.Services.AddScoped<ITextsSectionsDao, TextsesSectionsDao>();
 
 builder.Services.AddScoped<ITagsService, TagsService>();
 builder.Services.AddScoped<ITextsSectionsVariantsService, TextsSectionsVariantsService>();
+builder.Services.AddScoped<ITextsSectionsService, TextsSectionsService>();
 
 #endregion
 
@@ -29,6 +31,7 @@ builder.Services.AddScoped<ITextsSectionsVariantsService, TextsSectionsVariantsS
 
 builder.Services.AddSingleton<ITagsMapper, TagsMapper>();
 builder.Services.AddSingleton<ITextsSectionsVariantsMapper, TextsSectionsVariantsMapper>();
+builder.Services.AddSingleton<ITextsSectionsMapper, TextsSectionsMapper>();
 
 #endregion
 

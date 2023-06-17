@@ -14,12 +14,18 @@ namespace webapi.Controllers;
 public class TextsController : ControllerBase
 {
     private readonly ITextsSectionsVariantsService _variantsService;
+    private readonly ITextsSectionsService _sectionsService;
     
     private IList<TextInfoDto> _texts = new List<TextInfoDto>();
 
-    public TextsController(ITextsSectionsVariantsService variantsService)
+    public TextsController
+    (
+        ITextsSectionsVariantsService variantsService,
+        ITextsSectionsService sectionsService
+    )
     {
         _variantsService = variantsService;
+        _sectionsService = sectionsService;
         
         _texts.Add(new TextInfoDto
         (
@@ -430,7 +436,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Create new text section variant
     /// </summary>
-    [Route("api/TextSectionVariant/Create")]
+    [Route("api/TextsSectionsVariants/Create")]
     [HttpPost]
     public async Task<ActionResult<CreateTextSectionVariantResponse>> CreateTextSectionVariantAsync([FromBody] CreateTextSectionVariantRequest request)
     {
@@ -451,5 +457,48 @@ public class TextsController : ControllerBase
         (
             new CreateTextSectionVariantResponse(variantToCreate.ToDto())
         );
+    }
+
+    /// <summary>
+    /// Create new text section
+    /// </summary>
+    [Route("api/TextsSections/Create")]
+    [HttpPost]
+    public async Task<ActionResult<CreateTextSectionResponse>> CreateTextSectionAsync([FromBody] CreateTextSectionRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        if (request.Section == null)
+        {
+            return BadRequest("Variant must not be null.");
+        }
+
+        var sectionToCreate = request.Section.ToTextSection();
+        await _sectionsService.CreateSectionAsync(sectionToCreate);
+
+        return Ok
+        (
+            new CreateTextSectionResponse(sectionToCreate.ToDto())
+        );
+    }
+
+    /// <summary>
+    /// Add variant to section
+    /// </summary>
+    [Route("api/TextsSections/AddVariant")]
+    [HttpPost]
+    public async Task<ActionResult> AddVariantToSectionAsync([FromBody] AddVariantToSectionRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        await _sectionsService.AddVariantToSection(request.SectionId, request.VariantId);
+
+        return Ok("Success");
     }
 }
