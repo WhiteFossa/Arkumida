@@ -12,15 +12,21 @@ public class MainImporter
     
     public const string BaseUrl = @"http://localhost:5220/api/";
 
+    public const string TextsDbRoot = @"/home/fossa/Projects/Arkumida-private/furtails-site/furtails/public/filedb/texts/";
+
     public async Task ImportAsync()
     {
         await using (var connection = new MySqlConnection(ConnectionString))
         using (var httpClient = new HttpClient())
         {
             // Importing tags
-            var tagsImporter = new TagsImporter(connection, httpClient);
-
-            await tagsImporter.Import();
+            // TODO: Uncomment me
+            //var tagsImporter = new TagsImporter(connection, httpClient);
+            //await tagsImporter.Import();
+            
+            // Importing texts
+            var textsImporter = new TextsImporter(connection, httpClient);
+            await textsImporter.Import();
         }
     }
 }
