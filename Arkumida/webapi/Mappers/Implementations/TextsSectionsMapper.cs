@@ -34,6 +34,7 @@ public class TextsSectionsMapper : ITextsSectionsMapper
         {
             Id = section.Id,
             OriginalText = section.OriginalText,
+            Order = section.Order,
             Variants = _variantsMapper.Map(section.Variants).ToList()
         };
     }
@@ -49,6 +50,7 @@ public class TextsSectionsMapper : ITextsSectionsMapper
         {
             Id = section.Id,
             OriginalText = section.OriginalText,
+            Order = section.Order,
             Variants = _variantsMapper.Map(section.Variants).ToList()
         };
     }

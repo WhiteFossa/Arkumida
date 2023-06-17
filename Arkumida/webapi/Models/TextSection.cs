@@ -17,6 +17,11 @@ public class TextSection
     /// contains actual text
     /// </summary>
     public string OriginalText { get; set; }
+    
+    /// <summary>
+    /// Sections are ordered by this field (to get a meaningful text)
+    /// </summary>
+    public int Order { get; set; }
 
     /// <summary>
     /// Translation variants
@@ -25,6 +30,6 @@ public class TextSection
 
     public TextSectionDto ToDto()
     {
-        return new TextSectionDto(Id, OriginalText, Variants.Select(v => v.ToDto()).ToList());
+        return new TextSectionDto(Id, OriginalText, Order, Variants.Select(v => v.ToDto()).ToList());
     }
 }

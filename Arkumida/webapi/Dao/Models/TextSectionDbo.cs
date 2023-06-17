@@ -20,6 +20,11 @@ public class TextSectionDbo
     public string OriginalText { get; set; }
 
     /// <summary>
+    /// Sections are ordered by this field (to get a meaningful text)
+    /// </summary>
+    public int Order { get; set; }
+
+    /// <summary>
     /// Translation variants
     /// </summary>
     public IList<TextSectionVariantDbo> Variants { get; set; }
