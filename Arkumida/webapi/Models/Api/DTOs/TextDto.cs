@@ -67,13 +67,8 @@ public class TextDto
             throw new ArgumentException("Title must be populated.", nameof(title));
         }
         Title = title;
-
-        if (string.IsNullOrWhiteSpace(description))
-        {
-            throw new ArgumentException("Description must be populated.", nameof(description));
-        }
-        Description = description;
-
+        
+        Description = description; // May be empty
         Sections = (sections ?? throw new ArgumentNullException(nameof(sections), "Sections mustn't be null.")).ToList();
     }
 

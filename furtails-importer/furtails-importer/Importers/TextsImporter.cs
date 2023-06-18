@@ -1,6 +1,12 @@
+using System.Collections.ObjectModel;
+using System.Net.Http.Json;
+using System.Text.Json;
 using Dapper;
 using furtails_importer.Dbos;
 using furtails_importer.Models;
+using furtails_importer.WebClientStuff.Dtos;
+using furtails_importer.WebClientStuff.Requests;
+using furtails_importer.WebClientStuff.Responses;
 using MySqlConnector;
 
 namespace furtails_importer.Importers;
@@ -51,7 +57,8 @@ public class TextsImporter
                 from ft_objects"
             )
             .ToList();
-        
+
+        var textOrder = 0;
         foreach (var text in texts)
         {
             if (text.IsDeleted != 0)
@@ -163,9 +170,44 @@ public class TextsImporter
             else if (text.Type == 4) // Comics
             {
                 // Not supported yet
+                continue;
             }
             
             // Now we have text model ready
+
+            // Text
+            var textId = await AddTextToArkumidaAsync(new TextDto()
+            {
+                Id = Guid.Empty,
+                CreateTime = text.CreateTime.ToUniversalTime(),
+                LastUpdateTime = (text.UpdateTime.HasValue ? text.UpdateTime.Value : text.CreateTime).ToUniversalTime(),
+                Title = text.Title,
+                Description = text.Description,
+                Sections = new Collection<TextSectionDto>()
+            });
+
+            // Creating its sections
+            var sectionOrder = 0;
+            foreach (var section in textModel.Sections)
+            {
+                var sectionId = await AddTextSectionToArkumidaAsync(new TextSectionDto()
+                {
+                    Id = Guid.Empty,
+                    OriginalText = section.OriginalText,
+                    Order = sectionOrder,
+                    Variants = new List<TextSectionVariantDto>()
+                });
+
+                // Adding section to text
+                await AttachSectionToTextAsync(textId, sectionId);
+                
+                // Adding variants here
+                
+                sectionOrder ++;
+                Console.WriteLine($"Section { sectionOrder }/{ textModel.Sections.Count }, Text { textOrder }/{ texts.Count }");
+            }
+
+            textOrder++;
         }
     }
 
@@ -249,5 +291,44 @@ public class TextsImporter
                 new { textId = textId }
             )
             .ToList();
+    }
+    
+    private async Task<Guid> AddTextToArkumidaAsync(TextDto textDto)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Texts/Create", new CreateTextRequest() { Text = textDto });
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+            
+        var responseData = JsonSerializer.Deserialize<CreateTextResponse>(await response.Content.ReadAsStringAsync());
+
+        //Console.WriteLine($"Text { responseData.Text.Title } successfully imported.");
+
+        return responseData.Text.Id;
+    }
+    
+    private async Task<Guid> AddTextSectionToArkumidaAsync(TextSectionDto sectionDto)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}TextsSections/Create", new CreateTextSectionRequest() { Section = sectionDto});
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+            
+        var responseData = JsonSerializer.Deserialize<CreateTextSectionResponse>(await response.Content.ReadAsStringAsync());
+
+        //Console.WriteLine($"Section { responseData.Section.Id } successfully imported.");
+
+        return responseData.Section.Id;
+    }
+    
+    private async Task AttachSectionToTextAsync(Guid textId, Guid sectionId)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Texts/AddSection", new AddSectionToTextRequest() { TextId = textId, SectionId = sectionId });
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
     }
 }

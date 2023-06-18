@@ -20,9 +20,8 @@ public class MainImporter
         using (var httpClient = new HttpClient())
         {
             // Importing tags
-            // TODO: Uncomment me
-            //var tagsImporter = new TagsImporter(connection, httpClient);
-            //await tagsImporter.Import();
+            var tagsImporter = new TagsImporter(connection, httpClient);
+            await tagsImporter.Import();
             
             // Importing texts
             var textsImporter = new TextsImporter(connection, httpClient);
