@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models;
+using webapi.Dao.Models.Enums;
 
 namespace webapi.Dao.Implementations;
 
@@ -24,23 +25,51 @@ public class TextsDao : ITextsDao
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task AddSectionToText(Guid textId, Guid sectionId)
+    public async Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take)
     {
-        var text = _dbContext
-            .Texts
-            .Include(t => t.Sections)
-            .Single(t => t.Id == textId);
-
-        var section = _dbContext
-            .TextsSections
-            .Single(ts => ts.Id == sectionId);
-        
-        text.Sections.Add(section);
-
-        var affected = await _dbContext.SaveChangesAsync();
-        if (affected != 1)
+        if (skip < 0)
         {
-            throw new InvalidOperationException($"Expected to update 1 row, actually updated { affected } rows!");
+            throw new ArgumentOutOfRangeException(nameof(skip), "Skip must not be negative.");
         }
+
+        if (take <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(take), "Take must be positive.");
+        }
+
+        IQueryable<TextDbo> orderedSource = _dbContext
+            .Texts;
+        
+        switch (orderMode)
+        {
+            case TextOrderMode.Latest:
+                orderedSource = orderedSource.OrderByDescending(t => t.CreateTime);
+                break;
+            
+            case TextOrderMode.Popular:
+                throw new NotImplementedException("Not implemented yet!");
+            
+            default:
+                throw new ArgumentException("Unknown ordering mode.", nameof(orderMode));
+        }
+
+        return await orderedSource
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync();
+    }
+
+    public async Task<TextDbo> GetTextMetadataByIdAsync(Guid textId)
+    {
+        return await _dbContext
+            .Texts
+            .SingleAsync(t => t.Id == textId);
+    }
+
+    public async Task<int> GetTotalTextsCountAsync()
+    {
+        return await _dbContext
+            .Texts
+            .CountAsync();
     }
 }

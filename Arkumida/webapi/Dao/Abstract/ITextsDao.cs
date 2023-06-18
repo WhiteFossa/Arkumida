@@ -1,4 +1,5 @@
 using webapi.Dao.Models;
+using webapi.Dao.Models.Enums;
 
 namespace webapi.Dao.Abstract;
 
@@ -13,6 +14,25 @@ public interface ITextsDao
     /// Create text
     /// </summary>
     Task CreateTextAsync(TextDbo text);
+
+    #endregion
+
+    #region Get
+
+    /// <summary>
+    /// Get some texts metadata (i.e. actual content is NOT loaded)
+    /// </summary>
+    Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take);
+
+    /// <summary>
+    /// Get text metadata by text Id. Actual text content is NOT loaded
+    /// </summary>
+    Task<TextDbo> GetTextMetadataByIdAsync(Guid textId);
+    
+    /// <summary>
+    /// Get total texts count
+    /// </summary>
+    Task<int> GetTotalTextsCountAsync();
 
     #endregion
 }

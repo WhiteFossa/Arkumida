@@ -1,4 +1,6 @@
+using webapi.Dao.Models.Enums;
 using webapi.Models;
+using webapi.Models.Api.DTOs;
 
 namespace webapi.Services.Abstract;
 
@@ -11,4 +13,19 @@ public interface ITextsService
     /// Create new text
     /// </summary>
     Task CreateTextAsync(Text text);
+
+    /// <summary>
+    /// Get some texts metadata from database
+    /// </summary>
+    Task<IReadOnlyCollection<TextInfoDto>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take);
+
+    /// <summary>
+    /// Get text metadata by text ID
+    /// </summary>
+    Task<TextInfoDto> GetTextMetadataByIdAsync(Guid textId);
+
+    /// <summary>
+    /// Get total texts count
+    /// </summary>
+    Task<int> GetTotalTextsCountAsync();
 }
