@@ -1,3 +1,5 @@
+using webapi.Models.Api.DTOs;
+
 namespace webapi.Models;
 
 /// <summary>
@@ -34,4 +36,9 @@ public class Text
     /// Text sections
     /// </summary>
     public IList<TextSection> Sections { get; set; }
+
+    public TextDto ToDto()
+    {
+        return new TextDto(Id, CreateTime, LastUpdateTime, Title, Description, Sections.Select(s => s.ToDto()).ToList());
+    }
 }

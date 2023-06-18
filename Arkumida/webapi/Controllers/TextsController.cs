@@ -15,17 +15,20 @@ public class TextsController : ControllerBase
 {
     private readonly ITextsSectionsVariantsService _variantsService;
     private readonly ITextsSectionsService _sectionsService;
+    private readonly ITextsService _textsService;
     
     private IList<TextInfoDto> _texts = new List<TextInfoDto>();
 
     public TextsController
     (
         ITextsSectionsVariantsService variantsService,
-        ITextsSectionsService sectionsService
+        ITextsSectionsService sectionsService,
+        ITextsService textsService
     )
     {
         _variantsService = variantsService;
         _sectionsService = sectionsService;
+        _textsService = textsService;
         
         _texts.Add(new TextInfoDto
         (
@@ -473,7 +476,7 @@ public class TextsController : ControllerBase
 
         if (request.Section == null)
         {
-            return BadRequest("Variant must not be null.");
+            return BadRequest("Section must not be null.");
         }
 
         var sectionToCreate = request.Section.ToTextSection();
@@ -497,7 +500,50 @@ public class TextsController : ControllerBase
             return BadRequest("Request must be provided.");
         }
 
-        await _sectionsService.AddVariantToSection(request.SectionId, request.VariantId);
+        await _sectionsService.AddVariantToSectionAsync(request.SectionId, request.VariantId);
+
+        return Ok("Success");
+    }
+    
+    /// <summary>
+    /// Create new text
+    /// </summary>
+    [Route("api/Texts/Create")]
+    [HttpPost]
+    public async Task<ActionResult<CreateTextResponse>> CreateTextAsync([FromBody] CreateTextRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        if (request.Text == null)
+        {
+            return BadRequest("Text must not be null.");
+        }
+
+        var textToCreate = request.Text.ToText();
+        await _textsService.CreateTextAsync(textToCreate);
+
+        return Ok
+        (
+            new CreateTextResponse(textToCreate.ToDto())
+        );
+    }
+    
+    /// <summary>
+    /// Add section to text
+    /// </summary>
+    [Route("api/Texts/AddSection")]
+    [HttpPost]
+    public async Task<ActionResult> AddSectionToTextAsync([FromBody] AddSectionToTextRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        await _textsService.AddSectionToTextAsync(request.TextId, request.SectionId);
 
         return Ok("Success");
     }

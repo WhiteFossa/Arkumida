@@ -15,5 +15,5 @@ public interface ITextsSectionsService
     /// <summary>
     /// Add existing variant to section
     /// </summary>
-    Task AddVariantToSection(Guid sectionId, Guid variantId);
+    Task AddVariantToSectionAsync(Guid sectionId, Guid variantId);
 }

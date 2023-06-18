@@ -4,13 +4,13 @@ using webapi.Models.Api.DTOs;
 namespace webapi.Models.Api.Requests;
 
 /// <summary>
-/// Request to create new text section
+/// Request to create a new text
 /// </summary>
-public class CreateTextSectionRequest
+public class CreateTextRequest
 {
     /// <summary>
-    /// Section
+    /// Text
     /// </summary>
-    [JsonPropertyName("section")]
-    public TextSectionDto Section { get; set; }
+    [JsonPropertyName("text")]
+    public TextDto Text { get; set; }
 }

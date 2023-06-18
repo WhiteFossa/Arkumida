@@ -32,7 +32,7 @@ public class TextsSectionsService : ITextsSectionsService
         section.Id = dbSection.Id;
     }
 
-    public async Task AddVariantToSection(Guid sectionId, Guid variantId)
+    public async Task AddVariantToSectionAsync(Guid sectionId, Guid variantId)
     {
         await _sectionsDao.AddVariantToSection(sectionId, variantId);
     }

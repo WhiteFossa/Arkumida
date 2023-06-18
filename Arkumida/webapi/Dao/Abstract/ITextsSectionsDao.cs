@@ -10,7 +10,7 @@ public interface ITextsSectionsDao
     #region Create / Update
     
     /// <summary>
-    /// Create text section variant
+    /// Create text section
     /// </summary>
     Task CreateTextSectionAsync(TextSectionDbo section);
 
