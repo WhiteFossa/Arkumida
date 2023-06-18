@@ -38,13 +38,7 @@ public class TextSectionVariantDto
     )
     {
         Id = id;
-        
-        if (string.IsNullOrWhiteSpace(content))
-        {
-            throw new ArgumentException("Content must not be empty.", nameof(content));
-        }
-        Content = content;
-
+        Content = content; // It may be empty
         CreationTime = creationTime;
     }
 

@@ -14,10 +14,5 @@ public interface ITextsDao
     /// </summary>
     Task CreateTextAsync(TextDbo text);
 
-    /// <summary>
-    /// Add existing section to text
-    /// </summary>
-    Task AddSectionToText(Guid textId, Guid sectionId);
-
     #endregion
 }

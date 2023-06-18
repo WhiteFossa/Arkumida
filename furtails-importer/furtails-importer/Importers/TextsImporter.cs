@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Dapper;
 using furtails_importer.Dbos;
+using furtails_importer.Helpers;
 using furtails_importer.Models;
 using furtails_importer.WebClientStuff.Dtos;
 using furtails_importer.WebClientStuff.Requests;
@@ -58,7 +59,7 @@ public class TextsImporter
             )
             .ToList();
 
-        var textOrder = 0;
+        var textNumber = 0;
         foreach (var text in texts)
         {
             if (text.IsDeleted != 0)
@@ -84,13 +85,13 @@ public class TextsImporter
                 {
                     var variantModel = new TextSectionVariant()
                     {
-                        Content = section.SectionRus,
+                        Content = TextsHelper.FixupText(section.SectionRus),
                         CreationTime = section.SaveDate
                     };
 
                     var sectionModel = new TextSection()
                     {
-                        OriginalText = section.SectionEng,
+                        OriginalText = TextsHelper.FixupText(section.SectionEng),
                         Variants = new List<TextSectionVariant>() { variantModel }
                     };
                     
@@ -108,7 +109,7 @@ public class TextsImporter
                 {
                     var sectionModel = new TextSection()
                     {
-                        OriginalText = part.OriginalText,
+                        OriginalText = TextsHelper.FixupText(part.OriginalText),
                         Variants = new List<TextSectionVariant>()
                     };
                     
@@ -118,7 +119,7 @@ public class TextsImporter
                     {
                         sectionModel.Variants.Add(new TextSectionVariant()
                         {
-                            Content = variant.Text,
+                            Content = TextsHelper.FixupText(variant.Text),
                             CreationTime = variant.CreateTime
                         });
                     }
@@ -131,7 +132,7 @@ public class TextsImporter
                 // Ordinary text, all-in-one-section-and-variant
                 var variantModel = new TextSectionVariant()
                 {
-                    Content = LoadTextById(text.Id),
+                    Content = TextsHelper.FixupText(LoadTextById(text.Id)),
                     CreationTime = DateTime.UtcNow
                 };
 
@@ -174,9 +175,7 @@ public class TextsImporter
             }
             
             // Now we have text model ready
-
-            // Text
-            var textId = await AddTextToArkumidaAsync(new TextDto()
+            var textToCreate = new TextDto()
             {
                 Id = Guid.Empty,
                 CreateTime = text.CreateTime.ToUniversalTime(),
@@ -184,30 +183,43 @@ public class TextsImporter
                 Title = text.Title,
                 Description = text.Description,
                 Sections = new Collection<TextSectionDto>()
-            });
+            };
 
-            // Creating its sections
             var sectionOrder = 0;
             foreach (var section in textModel.Sections)
             {
-                var sectionId = await AddTextSectionToArkumidaAsync(new TextSectionDto()
+                var sectionToCreate = new TextSectionDto()
                 {
                     Id = Guid.Empty,
                     OriginalText = section.OriginalText,
                     Order = sectionOrder,
                     Variants = new List<TextSectionVariantDto>()
-                });
+                };
+                
+                textToCreate
+                    .Sections
+                    .Add(sectionToCreate);
+                
+                foreach (var variant in section.Variants)
+                {
+                    var variantToCreate = new TextSectionVariantDto()
+                    {
+                        Id = Guid.Empty,
+                        Content = variant.Content,
+                        CreationTime = variant.CreationTime.ToUniversalTime()
+                    };
+                    
+                    sectionToCreate.Variants.Add(variantToCreate);
+                }
 
-                // Adding section to text
-                await AttachSectionToTextAsync(textId, sectionId);
-                
-                // Adding variants here
-                
-                sectionOrder ++;
-                Console.WriteLine($"Section { sectionOrder }/{ textModel.Sections.Count }, Text { textOrder }/{ texts.Count }");
+                sectionOrder++;
             }
 
-            textOrder++;
+            await AddTextToArkumidaAsync(textToCreate);
+            
+            Console.WriteLine($"Text { textNumber }");
+            
+            textNumber++;
         }
     }
 
@@ -303,14 +315,12 @@ public class TextsImporter
             
         var responseData = JsonSerializer.Deserialize<CreateTextResponse>(await response.Content.ReadAsStringAsync());
 
-        //Console.WriteLine($"Text { responseData.Text.Title } successfully imported.");
-
         return responseData.Text.Id;
     }
     
     private async Task<Guid> AddTextSectionToArkumidaAsync(TextSectionDto sectionDto)
     {
-        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}TextsSections/Create", new CreateTextSectionRequest() { Section = sectionDto});
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}TextsSections/Create", new CreateTextSectionRequest() { Section = sectionDto });
         if (!response.IsSuccessStatusCode)
         {
             throw new InvalidOperationException();
@@ -318,14 +328,34 @@ public class TextsImporter
             
         var responseData = JsonSerializer.Deserialize<CreateTextSectionResponse>(await response.Content.ReadAsStringAsync());
 
-        //Console.WriteLine($"Section { responseData.Section.Id } successfully imported.");
-
         return responseData.Section.Id;
     }
     
     private async Task AttachSectionToTextAsync(Guid textId, Guid sectionId)
     {
         var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Texts/AddSection", new AddSectionToTextRequest() { TextId = textId, SectionId = sectionId });
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+    }
+    
+    private async Task<Guid> AddTextVariantToArkumidaAsync(TextSectionVariantDto variantDto)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}TextsSectionsVariants/Create", new CreateTextSectionVariantRequest() { Variant = variantDto });
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+            
+        var responseData = JsonSerializer.Deserialize<CreateTextSectionVariantResponse>(await response.Content.ReadAsStringAsync());
+
+        return responseData.Variant.Id;
+    }
+    
+    private async Task AttachVariantToSectionAsync(Guid sectionId, Guid variantId)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}TextsSections/AddVariant", new AddVariantToSectionRequest() { SectionId = sectionId, VariantId = variantId });
         if (!response.IsSuccessStatusCode)
         {
             throw new InvalidOperationException();

@@ -31,9 +31,4 @@ public class TextsService : ITextsService
 
         text.Id = dbText.Id;
     }
-
-    public async Task AddSectionToTextAsync(Guid textId, Guid sectionId)
-    {
-        await _textsDao.AddSectionToText(textId, sectionId);
-    }
 }

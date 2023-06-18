@@ -18,13 +18,9 @@ var builder = WebApplication.CreateBuilder(args);
 #region Scoped
 
 builder.Services.AddScoped<ITagsDao, TagsDao>();
-builder.Services.AddScoped<ITextsSectionsVariantsDao, TextsSectionsVariantsDao>();
-builder.Services.AddScoped<ITextsSectionsDao, TextsesSectionsDao>();
 builder.Services.AddScoped<ITextsDao, TextsDao>();
 
 builder.Services.AddScoped<ITagsService, TagsService>();
-builder.Services.AddScoped<ITextsSectionsVariantsService, TextsSectionsVariantsService>();
-builder.Services.AddScoped<ITextsSectionsService, TextsSectionsService>();
 builder.Services.AddScoped<ITextsService, TextsService>();
 
 #endregion

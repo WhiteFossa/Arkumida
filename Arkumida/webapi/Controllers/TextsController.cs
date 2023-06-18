@@ -13,21 +13,15 @@ namespace webapi.Controllers;
 [ApiController]
 public class TextsController : ControllerBase
 {
-    private readonly ITextsSectionsVariantsService _variantsService;
-    private readonly ITextsSectionsService _sectionsService;
     private readonly ITextsService _textsService;
     
     private IList<TextInfoDto> _texts = new List<TextInfoDto>();
 
     public TextsController
     (
-        ITextsSectionsVariantsService variantsService,
-        ITextsSectionsService sectionsService,
         ITextsService textsService
     )
     {
-        _variantsService = variantsService;
-        _sectionsService = sectionsService;
         _textsService = textsService;
         
         _texts.Add(new TextInfoDto
@@ -436,74 +430,6 @@ public class TextsController : ControllerBase
         return Ok(new TextsInfosListResponse(textInfos, remaining));
     }
     
-    /// <summary>
-    /// Create new text section variant
-    /// </summary>
-    [Route("api/TextsSectionsVariants/Create")]
-    [HttpPost]
-    public async Task<ActionResult<CreateTextSectionVariantResponse>> CreateTextSectionVariantAsync([FromBody] CreateTextSectionVariantRequest request)
-    {
-        if (request == null)
-        {
-            return BadRequest("Request must be provided.");
-        }
-
-        if (request.Variant == null)
-        {
-            return BadRequest("Variant must not be null.");
-        }
-
-        var variantToCreate = request.Variant.ToTextSectionVariant();
-        await _variantsService.CreateVariantAsync(variantToCreate);
-
-        return Ok
-        (
-            new CreateTextSectionVariantResponse(variantToCreate.ToDto())
-        );
-    }
-
-    /// <summary>
-    /// Create new text section
-    /// </summary>
-    [Route("api/TextsSections/Create")]
-    [HttpPost]
-    public async Task<ActionResult<CreateTextSectionResponse>> CreateTextSectionAsync([FromBody] CreateTextSectionRequest request)
-    {
-        if (request == null)
-        {
-            return BadRequest("Request must be provided.");
-        }
-
-        if (request.Section == null)
-        {
-            return BadRequest("Section must not be null.");
-        }
-
-        var sectionToCreate = request.Section.ToTextSection();
-        await _sectionsService.CreateSectionAsync(sectionToCreate);
-
-        return Ok
-        (
-            new CreateTextSectionResponse(sectionToCreate.ToDto())
-        );
-    }
-
-    /// <summary>
-    /// Add variant to section
-    /// </summary>
-    [Route("api/TextsSections/AddVariant")]
-    [HttpPost]
-    public async Task<ActionResult> AddVariantToSectionAsync([FromBody] AddVariantToSectionRequest request)
-    {
-        if (request == null)
-        {
-            return BadRequest("Request must be provided.");
-        }
-
-        await _sectionsService.AddVariantToSectionAsync(request.SectionId, request.VariantId);
-
-        return Ok("Success");
-    }
     
     /// <summary>
     /// Create new text
@@ -529,22 +455,5 @@ public class TextsController : ControllerBase
         (
             new CreateTextResponse(textToCreate.ToDto())
         );
-    }
-    
-    /// <summary>
-    /// Add section to text
-    /// </summary>
-    [Route("api/Texts/AddSection")]
-    [HttpPost]
-    public async Task<ActionResult> AddSectionToTextAsync([FromBody] AddSectionToTextRequest request)
-    {
-        if (request == null)
-        {
-            return BadRequest("Request must be provided.");
-        }
-
-        await _textsService.AddSectionToTextAsync(request.TextId, request.SectionId);
-
-        return Ok("Success");
     }
 }

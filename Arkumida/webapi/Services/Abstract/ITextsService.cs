@@ -11,9 +11,4 @@ public interface ITextsService
     /// Create new text
     /// </summary>
     Task CreateTextAsync(Text text);
-
-    /// <summary>
-    /// Add existing section to text
-    /// </summary>
-    Task AddSectionToTextAsync(Guid textId, Guid sectionId);
 }

@@ -16,21 +16,12 @@ public class TextsDao : ITextsDao
     public async Task CreateTextAsync(TextDbo text)
     {
         _ = text ?? throw new ArgumentNullException(nameof(text), "Text must not be null.");
-
-        if (text.Sections.Any())
-        {
-            throw new InvalidOperationException("Do not pass sections when creating a text, attach them later.");
-        }
         
         await _dbContext
             .Texts
             .AddAsync(text);
         
-        var affected = await _dbContext.SaveChangesAsync();
-        if (affected != 1)
-        {
-            throw new InvalidOperationException($"Expected to insert 1 row, actually inserted { affected } rows!");
-        }
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task AddSectionToText(Guid textId, Guid sectionId)
