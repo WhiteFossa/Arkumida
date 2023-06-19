@@ -93,9 +93,19 @@ public class TagsService : ITagsService
 
     public IReadOnlyCollection<Tag> OrderTags(IEnumerable<Tag> tags)
     {
-        return tags
-            .OrderBy(t => t.Name)
-            .ToList();
+        var result = new List<Tag>();
+        
+        result.AddRange(tags.Where(t => t.Subtype == TagSubtype.Participants).OrderBy(t => t.Name)); // 1) Participants
+        result.AddRange(tags.Where(t => t.Subtype == TagSubtype.Species).OrderBy(t => t.Name)); // 2) Species
+        result.AddRange(tags.Where(t => t.Subtype == TagSubtype.Setting).OrderBy(t => t.Name)); // 3) Setting
+        result.AddRange(tags.Where(t => t.Subtype == TagSubtype.Actions).OrderBy(t => t.Name)); // 4) Actions
+
+        if (result.Count != tags.Count())
+        {
+            throw new InvalidOperationException("There is a bug somewhere! Looks like new TagSubtype was not added here.");
+        }
+
+        return result;
     }
 
     private async Task CalculateTagPopularityAsync(Tag tag)

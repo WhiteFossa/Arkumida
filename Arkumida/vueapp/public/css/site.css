@@ -360,7 +360,6 @@ body {
     padding-bottom: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    /*font-size: 0.9rem;*/
 }
 
 /* Total amount of texts */
@@ -437,7 +436,6 @@ body {
 /* Text short info block */
 .text-short-info-block {
     background-color: hsl(87, 89%, 93%);
-    /*font-size: 0.9rem;*/
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     padding-top: 0.5rem;
@@ -491,7 +489,6 @@ body {
 
 /* Text short info - statistics line */
 .text-short-info-block-statistics-line {
-    /*font-size: 0.9rem;*/
 }
 
 /* Images in statistics line*/
@@ -513,7 +510,7 @@ body {
 
 /* Text short info - type and tags line */
 .text-short-info-block-type-and-tags-line {
-    /*font-size: 0.9rem;*/
+    max-width: 60rem;
 }
 
 /* Text type link */
@@ -620,7 +617,6 @@ body {
 
 /* Text long info - statistics line */
 .text-long-info-block-statistics-line {
-    /*font-size: 0.9rem;*/
 }
 
 /* Images in statistics line*/
@@ -642,7 +638,6 @@ body {
 
 /* Text long info - publisher line */
 .text-long-info-block-publisher-line {
-    /*font-size: 0.9rem;*/
 }
 
 /* Text long info - publisher link */
@@ -671,7 +666,6 @@ body {
 
 /* Text long info - type and tags line */
 .text-long-info-block-type-and-tags-line {
-    /*font-size: 0.9rem;*/
 }
 
 /* Text type link */
