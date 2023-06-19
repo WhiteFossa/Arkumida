@@ -444,6 +444,7 @@ body {
     padding-right: 0.5rem;
     border: 0.1rem solid hsl(87, 89%, 80%);
     border-radius: 0.2rem;
+    max-width: 60rem;
 }
 
 /* Text from contest */
@@ -510,7 +511,6 @@ body {
 
 /* Text short info - type and tags line */
 .text-short-info-block-type-and-tags-line {
-    max-width: 60rem;
 }
 
 /* Text type link */
