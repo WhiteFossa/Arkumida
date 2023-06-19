@@ -33,6 +33,11 @@ public interface ITagsDao
     /// Get tag by ID. If tag is not found - throws an exception
     /// </summary>
     Task<TagDbo> GetTagByIdAsync(Guid id);
+    
+    /// <summary>
+    /// Get tag by name. Probably will be used only for import from old FT
+    /// </summary>
+    Task<TagDbo> GetTagByNameAsync(string name);
 
     #endregion
 }

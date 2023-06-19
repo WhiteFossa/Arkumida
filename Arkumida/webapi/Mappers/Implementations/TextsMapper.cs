@@ -7,10 +7,13 @@ namespace webapi.Mappers.Implementations;
 public class TextsMapper : ITextsMapper
 {
     private readonly ITextsSectionsMapper _sectionsMapper;
+    private readonly ITagsMapper _tagsMapper;
 
-    public TextsMapper(ITextsSectionsMapper sectionsMapper)
+    public TextsMapper(ITextsSectionsMapper sectionsMapper,
+        ITagsMapper tagsMapper)
     {
         _sectionsMapper = sectionsMapper;
+        _tagsMapper = tagsMapper;
     }
     
     public IReadOnlyCollection<Text> Map(IEnumerable<TextDbo> texts)
@@ -41,7 +44,8 @@ public class TextsMapper : ITextsMapper
             ReadsCount = text.ReadsCount,
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,
-            VotesMinus = text.VotesMinus
+            VotesMinus = text.VotesMinus,
+            Tags = _tagsMapper.Map(text.Tags).ToList()
         };
     }
 
@@ -63,7 +67,8 @@ public class TextsMapper : ITextsMapper
             ReadsCount = text.ReadsCount,
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,
-            VotesMinus = text.VotesMinus
+            VotesMinus = text.VotesMinus,
+            Tags = _tagsMapper.Map(text.Tags).ToList()
         };
     }
 

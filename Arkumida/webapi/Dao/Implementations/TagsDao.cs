@@ -60,4 +60,11 @@ public class TagsDao : ITagsDao
             .Tags
             .SingleAsync(t => t.Id == id);
     }
+
+    public async Task<TagDbo> GetTagByNameAsync(string name)
+    {
+        return await _dbContext
+            .Tags
+            .SingleAsync(t => t.Name.Equals(name));
+    }
 }

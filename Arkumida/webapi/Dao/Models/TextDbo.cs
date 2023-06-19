@@ -55,4 +55,8 @@ public class TextDbo
     /// </summary>
     public long VotesMinus { get; set; }
 
+    /// <summary>
+    /// Text's tags
+    /// </summary>
+    public IList<TagDbo> Tags { get; set; }
 }

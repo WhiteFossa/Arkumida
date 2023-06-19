@@ -6,6 +6,7 @@ using furtails_importer.Dbos;
 using furtails_importer.Helpers;
 using furtails_importer.Models;
 using furtails_importer.WebClientStuff.Dtos;
+using furtails_importer.WebClientStuff.Enums;
 using furtails_importer.WebClientStuff.Requests;
 using furtails_importer.WebClientStuff.Responses;
 using MySqlConnector;
@@ -174,6 +175,17 @@ public class TextsImporter
                 continue;
             }
             
+            // Loading tags
+            var textTagsRelations = LoadTextsToTagsRelations(text.Id);
+
+            var arkumidaTagsIds = new List<Guid>();
+            foreach (var tagRelation in textTagsRelations)
+            {
+                var tagName = LoadTagById(tagRelation.TagId).Name;
+
+                arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync(tagName)).Id);
+            }
+
             // Now we have text model ready
             var textToCreate = new TextDto()
             {
@@ -186,7 +198,17 @@ public class TextsImporter
                 ReadsCount = text.ReadsCount,
                 VotesCount = text.VotesCount,
                 VotesPlus = text.VotesPlus,
-                VotesMinus = text.VotesMinus
+                VotesMinus = text.VotesMinus,
+                Tags = arkumidaTagsIds.Select(tid => new TagDto()
+                {
+                    Id = tid, // Only ID important right now, because tag already exist
+                    FurryReadableId = "Not important",
+                    Name = "Not important",
+                    Subtype = TagSubtype.Actions,
+                    CategoryOrder = 0,
+                    IsCategory = false,
+                    CategoryTagType = CategoryTagType.Normal
+                }).ToList()
             };
 
             var sectionOrder = 0;
@@ -308,6 +330,41 @@ public class TextsImporter
             )
             .ToList();
     }
+
+    private List<FtTextTag> LoadTextsToTagsRelations(int textId)
+    {
+        return _connection.Query<FtTextTag>
+            (
+                @"select
+                    id as Id,
+                    fileId as TextId,
+                    tagId as TagId
+                from ft_objects_tags
+                where fileId = @textId",
+                new { textId = textId }
+            )
+            .ToList();
+    }
+
+    private FtTag LoadTagById(int tagId)
+    {
+        return _connection.Query<FtTag>
+            (
+                @"select
+                    id as Id,
+                    name as Name,
+                    isHidden as IsHidden,
+                    isWarning as IsWarning,
+                    groupId as GroupId,
+                    icon as Icon,
+                    access_mode as AccessMode,
+                    class as Class
+                from ft_tags
+                where id = @tagId",
+                new { tagId = tagId }
+            )
+            .Single();
+    }
     
     private async Task<Guid> AddTextToArkumidaAsync(TextDto textDto)
     {
@@ -364,5 +421,18 @@ public class TextsImporter
         {
             throw new InvalidOperationException();
         }
+    }
+
+    private async Task<TextTagDto> GetTagFromArkumidaByNameAsync(string name)
+    {
+        var response = await _httpClient.GetAsync($"{MainImporter.BaseUrl}Tags/ByName?name={ name.Replace("/", "%2F") }");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var responseData = JsonSerializer.Deserialize<TextTagResponse>(await response.Content.ReadAsStringAsync());
+
+        return responseData.Tag;
     }
 }

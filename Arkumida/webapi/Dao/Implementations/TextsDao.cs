@@ -18,6 +18,15 @@ public class TextsDao : ITextsDao
     {
         _ = text ?? throw new ArgumentNullException(nameof(text), "Text must not be null.");
         
+        // Loading tags
+        if (text.Tags != null)
+        {
+            text.Tags = text
+                .Tags
+                .Select(tag => _dbContext.Tags.Single(t => t.Id == tag.Id))
+                .ToList();
+        }
+        
         await _dbContext
             .Texts
             .AddAsync(text);
@@ -38,7 +47,8 @@ public class TextsDao : ITextsDao
         }
 
         IQueryable<TextDbo> orderedSource = _dbContext
-            .Texts;
+            .Texts
+            .Include(t => t.Tags);
         
         switch (orderMode)
         {
@@ -64,6 +74,7 @@ public class TextsDao : ITextsDao
     {
         return await _dbContext
             .Texts
+            .Include(t => t.Tags)
             .SingleAsync(t => t.Id == textId);
     }
 

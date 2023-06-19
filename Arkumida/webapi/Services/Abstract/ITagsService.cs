@@ -20,9 +20,19 @@ public interface ITagsService
     /// Get tag by ID
     /// </summary>
     Task<Tag> GetTagByIdAsync(Guid id);
+    
+    /// <summary>
+    /// Get tag by name
+    /// </summary>
+    Task<Tag> GetTagByNameAsync(string name);
 
     /// <summary>
     /// Create new tag
     /// </summary>
     Task CreateTagAsync(Tag tag);
+
+    /// <summary>
+    /// Order tags (for displaying in text info, for example)
+    /// </summary>
+    IReadOnlyCollection<Tag> OrderTags(IEnumerable<Tag> tags);
 }

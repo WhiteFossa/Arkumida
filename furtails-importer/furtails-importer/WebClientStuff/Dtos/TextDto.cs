@@ -63,4 +63,10 @@ public class TextDto
     /// </summary>
     [JsonPropertyName("votesMinus")]
     public long VotesMinus { get; set; }
+    
+    /// <summary>
+    /// Text tags
+    /// </summary>
+    [JsonPropertyName("tags")]
+    public IList<TagDto> Tags { get; set; }
 }

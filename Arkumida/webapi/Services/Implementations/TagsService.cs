@@ -67,6 +67,15 @@ public class TagsService : ITagsService
         return tag;
     }
 
+    public async Task<Tag> GetTagByNameAsync(string name)
+    {
+        var tag = _tagsMapper.Map(await _tagsDao.GetTagByNameAsync(name));
+
+        await PostprocessTags(new List<Tag>() { tag });
+
+        return tag;
+    }
+
     public async Task CreateTagAsync(Tag tag)
     {
         _ = tag ?? throw new ArgumentNullException(nameof(tag), "Tag must be populated.");
@@ -80,6 +89,13 @@ public class TagsService : ITagsService
         // New tag is not used yet
         tag.TextsCount = 0;
         tag.SizeCategory = TagSizeCategory.Cat0;
+    }
+
+    public IReadOnlyCollection<Tag> OrderTags(IEnumerable<Tag> tags)
+    {
+        return tags
+            .OrderBy(t => t.Name)
+            .ToList();
     }
 
     private async Task CalculateTagPopularityAsync(Tag tag)

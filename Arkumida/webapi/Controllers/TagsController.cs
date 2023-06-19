@@ -61,6 +61,30 @@ public class TagsController : ControllerBase
             new TextTagResponse(tag.ToTextTagDto())
         );
     }
+    
+    /// <summary>
+    /// Get tag by name
+    /// </summary>
+    [Route("api/Tags/ByName")]
+    [HttpGet]
+    public async Task<ActionResult<TextTagResponse>> GetTagByNameAsync([FromQuery] string name)
+    {
+        Tag tag = null;
+
+        try
+        {
+            tag = await _tagsService.GetTagByNameAsync(name);
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound("Tag with given name not found.");
+        }
+        
+        return Ok
+        (
+            new TextTagResponse(tag.ToTextTagDto())
+        );
+    }
 
     /// <summary>
     /// Create new tag

@@ -12,15 +12,21 @@ public class TextsService : ITextsService
 {
     private readonly ITextsDao _textsDao;
     private readonly ITextsMapper _textsMapper;
+    private readonly ITagsMapper _tagsMapper;
+    private readonly ITagsService _tagsService;
 
     public TextsService
     (
         ITextsDao textsDao,
-        ITextsMapper textsMapper
+        ITextsMapper textsMapper,
+        ITagsMapper tagsMapper,
+        ITagsService tagsService
     )
     {
         _textsDao = textsDao;
         _textsMapper = textsMapper;
+        _tagsMapper = tagsMapper;
+        _tagsService = tagsService;
     }
     
     public async Task CreateTextAsync(Text text)
@@ -63,7 +69,10 @@ public class TextsService : ITextsService
                 0,
                 tm.VotesPlus,
                 tm.VotesMinus,
-                new List<TextTagDto>(),
+                _tagsService
+                    .OrderTags(_tagsMapper.Map(tm.Tags))
+                    .Select(t => t.ToTextTagDto())
+                    .ToList(),
                 TextType.Story,
                 SpecialTextType.Normal,
                 new List<TextIconDto>(),
@@ -92,7 +101,10 @@ public class TextsService : ITextsService
             0,
             textMetadata.VotesPlus,
             textMetadata.VotesMinus,
-            new List<TextTagDto>(),
+            _tagsService
+                .OrderTags(_tagsMapper.Map(textMetadata.Tags))
+                .Select(t => t.ToTextTagDto())
+                .ToList(),
             TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),

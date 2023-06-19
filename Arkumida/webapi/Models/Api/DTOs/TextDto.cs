@@ -67,6 +67,12 @@ public class TextDto
     [JsonPropertyName("votesMinus")]
     public long VotesMinus { get; set; }
 
+    /// <summary>
+    /// Text tags
+    /// </summary>
+    [JsonPropertyName("tags")]
+    public IList<TagDto> Tags { get; set; }
+
     public TextDto()
     {
         
@@ -83,7 +89,8 @@ public class TextDto
         long readsCount,
         long votesCount,
         long votesPlus,
-        long votesMinus
+        long votesMinus,
+        IReadOnlyCollection<TagDto> tags
     )
     {
         Id = id;
@@ -122,6 +129,8 @@ public class TextDto
             throw new ArgumentOutOfRangeException(nameof(votesMinus), "Votes minus must be non-negative.");
         }
         VotesMinus = votesMinus;
+        
+        Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
     }
 
     public Text ToText()
@@ -137,7 +146,8 @@ public class TextDto
             ReadsCount = ReadsCount,
             VotesCount = VotesCount,
             VotesPlus = VotesPlus,
-            VotesMinus = VotesMinus
+            VotesMinus = VotesMinus,
+            Tags = Tags.Select(t => t.ToTag()).ToList()
         };
     }
 }

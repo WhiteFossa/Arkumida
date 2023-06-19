@@ -43,4 +43,9 @@ public class TagDbo
     /// Category type
     /// </summary>
     public CategoryTagType CategoryType { get; set; }
+    
+    /// <summary>
+    /// Tag's texts
+    /// </summary>
+    public IList<TextDbo> Texts { get; set; }
 }

@@ -56,6 +56,11 @@ public class Text
     /// Votes contra
     /// </summary>
     public long VotesMinus { get; set; }
+    
+    /// <summary>
+    /// Tags
+    /// </summary>
+    public IList<Tag> Tags { get; set; }
 
     public TextDto ToDto()
     {
@@ -70,7 +75,8 @@ public class Text
             ReadsCount,
             VotesCount,
             VotesPlus,
-            VotesMinus
+            VotesMinus,
+            Tags.Select(t => t.ToTagDto()).ToList()
         );
     }
 }

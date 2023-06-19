@@ -44,5 +44,11 @@ public class MainDbContext : DbContext
         modelBuilder
             .Entity<TextDbo>()
             .HasMany(t => t.Sections);
+        
+        // Text have many tags, tag have many texts
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasMany(text => text.Tags)
+            .WithMany(tag => tag.Texts);
     }
 }
