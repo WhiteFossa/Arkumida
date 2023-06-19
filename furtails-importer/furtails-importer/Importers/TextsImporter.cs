@@ -182,7 +182,8 @@ public class TextsImporter
                 LastUpdateTime = (text.UpdateTime.HasValue ? text.UpdateTime.Value : text.CreateTime).ToUniversalTime(),
                 Title = text.Title,
                 Description = text.Description,
-                Sections = new Collection<TextSectionDto>()
+                Sections = new Collection<TextSectionDto>(),
+                ReadsCount = text.ReadsCount
             };
 
             var sectionOrder = 0;

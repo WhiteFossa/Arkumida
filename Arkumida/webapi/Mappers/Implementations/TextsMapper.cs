@@ -37,7 +37,8 @@ public class TextsMapper : ITextsMapper
             LastUpdateTime = text.LastUpdateTime,
             Title = text.Title,
             Description = text.Description,
-            Sections = _sectionsMapper.Map(text.Sections).ToList()
+            Sections = _sectionsMapper.Map(text.Sections).ToList(),
+            ReadsCount = text.ReadsCount
         };
     }
 
@@ -55,7 +56,8 @@ public class TextsMapper : ITextsMapper
             LastUpdateTime = text.LastUpdateTime,
             Title = text.Title,
             Description = text.Description,
-            Sections = _sectionsMapper.Map(text.Sections).ToList()
+            Sections = _sectionsMapper.Map(text.Sections).ToList(),
+            ReadsCount = text.ReadsCount
         };
     }
 

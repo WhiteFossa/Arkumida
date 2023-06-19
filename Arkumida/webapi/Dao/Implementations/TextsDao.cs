@@ -47,7 +47,8 @@ public class TextsDao : ITextsDao
                 break;
             
             case TextOrderMode.Popular:
-                throw new NotImplementedException("Not implemented yet!");
+                orderedSource = orderedSource.OrderByDescending(t => t.ReadsCount);
+                break;
             
             default:
                 throw new ArgumentException("Unknown ordering mode.", nameof(orderMode));

@@ -35,4 +35,9 @@ public class TextDbo
     /// </summary>
     public IList<TextSectionDbo> Sections { get; set; }
 
+    /// <summary>
+    /// How many times text was read
+    /// </summary>
+    public long ReadsCount { get; set; }
+
 }

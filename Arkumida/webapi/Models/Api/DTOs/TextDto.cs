@@ -42,6 +42,12 @@ public class TextDto
     /// </summary>
     [JsonPropertyName("sections")]
     public IList<TextSectionDto> Sections { get; set; }
+    
+    /// <summary>
+    /// How many times text was read
+    /// </summary>
+    [JsonPropertyName("readsCount")]
+    public long ReadsCount { get; set; }
 
     public TextDto()
     {
@@ -55,7 +61,8 @@ public class TextDto
         DateTime lastUpdateTime,
         string title,
         string description,
-        IReadOnlyCollection<TextSectionDto> sections
+        IReadOnlyCollection<TextSectionDto> sections,
+        long readsCount
     )
     {
         Id = id;
@@ -70,6 +77,13 @@ public class TextDto
         
         Description = description; // May be empty
         Sections = (sections ?? throw new ArgumentNullException(nameof(sections), "Sections mustn't be null.")).ToList();
+
+        if (readsCount < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(readsCount), "Reads count must be non-negative.");
+        }
+        
+        ReadsCount = readsCount;
     }
 
     public Text ToText()
@@ -81,7 +95,8 @@ public class TextDto
             LastUpdateTime = LastUpdateTime,
             Title = Title,
             Description = Description,
-            Sections = Sections.Select(s => s.ToTextSection()).ToList()
+            Sections = Sections.Select(s => s.ToTextSection()).ToList(),
+            ReadsCount = ReadsCount
         };
     }
 }

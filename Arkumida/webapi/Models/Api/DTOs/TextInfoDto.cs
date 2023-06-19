@@ -39,7 +39,7 @@ public class TextInfoDto : IdedEntityDto
     /// Views count
     /// </summary>
     [JsonPropertyName("viewsCount")]
-    public int ViewsCount { get; private set; }
+    public long ViewsCount { get; private set; }
     
     /// <summary>
     /// Comments count
@@ -116,7 +116,7 @@ public class TextInfoDto : IdedEntityDto
         CreatureDto publisher,
         string title,
         DateTime addTime,
-        int viewsCount,
+        long viewsCount,
         int commentsCount,
         int votesFor,
         int votesAgainst,

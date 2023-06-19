@@ -36,9 +36,23 @@ public class Text
     /// Text sections
     /// </summary>
     public IList<TextSection> Sections { get; set; }
+    
+    /// <summary>
+    /// How many times text was read
+    /// </summary>
+    public long ReadsCount { get; set; }
 
     public TextDto ToDto()
     {
-        return new TextDto(Id, CreateTime, LastUpdateTime, Title, Description, Sections.Select(s => s.ToDto()).ToList());
+        return new TextDto
+        (
+            Id,
+            CreateTime,
+            LastUpdateTime,
+            Title,
+            Description,
+            Sections.Select(s => s.ToDto()).ToList(),
+            ReadsCount
+        );
     }
 }

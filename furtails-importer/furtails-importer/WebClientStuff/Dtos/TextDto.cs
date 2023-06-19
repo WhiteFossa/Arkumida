@@ -39,4 +39,10 @@ public class TextDto
     /// </summary>
     [JsonPropertyName("sections")]
     public IList<TextSectionDto> Sections { get; set; }
+    
+    /// <summary>
+    /// How many times text was read
+    /// </summary>
+    [JsonPropertyName("readsCount")]
+    public long ReadsCount { get; set; }
 }
