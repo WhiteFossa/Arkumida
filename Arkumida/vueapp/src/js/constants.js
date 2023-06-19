@@ -12,6 +12,11 @@ export class Messages
     static AllPoetry = "Все стихи"
     static Comics = "Комиксы"
     static AllComics = "Все комиксы"
+
+    static Participants = "Участники"
+    static Species = "Виды"
+    static Setting = "Сеттинг"
+    static Actions = "Действия"
 }
 
 // Text type

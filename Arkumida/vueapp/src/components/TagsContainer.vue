@@ -2,7 +2,7 @@
     import TagComponent from "@/components/TagComponent.vue";
     import {defineProps, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/LoadingSymbol.vue";
-    import {TagSubtype} from "@/js/constants";
+    import {Messages, TagSubtype} from "@/js/constants";
 
     const props = defineProps({
         subtype: TagSubtype
@@ -31,19 +31,19 @@
         switch(props.subtype)
         {
             case TagSubtype.Participants:
-                subtypeName.value = "Участники"
+                subtypeName.value = Messages.Participants
                 break;
 
             case TagSubtype.Species:
-                subtypeName.value = "Виды"
+                subtypeName.value = Messages.Species
                 break;
 
             case TagSubtype.Setting:
-                subtypeName.value = "Сеттинг"
+                subtypeName.value = Messages.Setting
                 break;
 
             case TagSubtype.Actions:
-                subtypeName.value = "Действия"
+                subtypeName.value = Messages.Actions
                 break;
 
             default:
@@ -60,7 +60,7 @@
     </div>
 
     <div v-else class="tags-subtype-container">
-        {{ subtypeName }}:
+        <strong>{{ subtypeName }}</strong>:
 
         <span v-for="tag in tags" :key="tag.entityId">
             <TagComponent :id="tag.entityId" :furryReadableId="tag.furryReadableId" :sizeCategory="tag.sizeCategory" :tag="tag.tag" />
