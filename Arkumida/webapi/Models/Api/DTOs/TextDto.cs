@@ -48,6 +48,24 @@ public class TextDto
     /// </summary>
     [JsonPropertyName("readsCount")]
     public long ReadsCount { get; set; }
+    
+    /// <summary>
+    /// Votes count for text
+    /// </summary>
+    [JsonPropertyName("votesCount")]
+    public long VotesCount { get; set; }
+
+    /// <summary>
+    /// Votes pro
+    /// </summary>
+    [JsonPropertyName("votesPlus")]
+    public long VotesPlus { get; set; }
+
+    /// <summary>
+    /// Votes contra
+    /// </summary>
+    [JsonPropertyName("votesMinus")]
+    public long VotesMinus { get; set; }
 
     public TextDto()
     {
@@ -62,7 +80,10 @@ public class TextDto
         string title,
         string description,
         IReadOnlyCollection<TextSectionDto> sections,
-        long readsCount
+        long readsCount,
+        long votesCount,
+        long votesPlus,
+        long votesMinus
     )
     {
         Id = id;
@@ -82,8 +103,25 @@ public class TextDto
         {
             throw new ArgumentOutOfRangeException(nameof(readsCount), "Reads count must be non-negative.");
         }
-        
         ReadsCount = readsCount;
+        
+        if (votesCount < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(votesCount), "Votes count must be non-negative.");
+        }
+        VotesCount = votesCount;
+        
+        if (votesPlus < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(votesPlus), "Votes plus must be non-negative.");
+        }
+        VotesPlus = votesPlus;
+        
+        if (votesMinus < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(votesMinus), "Votes minus must be non-negative.");
+        }
+        VotesMinus = votesMinus;
     }
 
     public Text ToText()
@@ -96,7 +134,10 @@ public class TextDto
             Title = Title,
             Description = Description,
             Sections = Sections.Select(s => s.ToTextSection()).ToList(),
-            ReadsCount = ReadsCount
+            ReadsCount = ReadsCount,
+            VotesCount = VotesCount,
+            VotesPlus = VotesPlus,
+            VotesMinus = VotesMinus
         };
     }
 }

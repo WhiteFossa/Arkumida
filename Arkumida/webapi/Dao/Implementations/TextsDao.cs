@@ -73,4 +73,11 @@ public class TextsDao : ITextsDao
             .Texts
             .CountAsync();
     }
+
+    public async Task<DateTime> GetLastTextAddTimeAsync()
+    {
+        return await _dbContext
+            .Texts
+            .MaxAsync(t => t.CreateTime);
+    }
 }

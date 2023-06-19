@@ -183,7 +183,10 @@ public class TextsImporter
                 Title = text.Title,
                 Description = text.Description,
                 Sections = new Collection<TextSectionDto>(),
-                ReadsCount = text.ReadsCount
+                ReadsCount = text.ReadsCount,
+                VotesCount = text.VotesCount,
+                VotesPlus = text.VotesPlus,
+                VotesMinus = text.VotesMinus
             };
 
             var sectionOrder = 0;

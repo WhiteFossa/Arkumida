@@ -61,8 +61,8 @@ public class TextsService : ITextsService
                 tm.CreateTime,
                 tm.ReadsCount,
                 0,
-                0,
-                0,
+                tm.VotesPlus,
+                tm.VotesMinus,
                 new List<TextTagDto>(),
                 TextType.Story,
                 SpecialTextType.Normal,
@@ -90,8 +90,8 @@ public class TextsService : ITextsService
             textMetadata.CreateTime,
             textMetadata.ReadsCount,
             0,
-            0,
-            0,
+            textMetadata.VotesPlus,
+            textMetadata.VotesMinus,
             new List<TextTagDto>(),
             TextType.Story,
             SpecialTextType.Normal,
@@ -106,5 +106,10 @@ public class TextsService : ITextsService
     public async Task<int> GetTotalTextsCountAsync()
     {
         return await _textsDao.GetTotalTextsCountAsync();
+    }
+
+    public async Task<DateTime> GetLastTextAddTimeAsync()
+    {
+        return await _textsDao.GetLastTextAddTimeAsync();
     }
 }

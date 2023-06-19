@@ -34,5 +34,10 @@ public interface ITextsDao
     /// </summary>
     Task<int> GetTotalTextsCountAsync();
 
+    /// <summary>
+    /// Get last text add time
+    /// </summary>
+    Task<DateTime> GetLastTextAddTimeAsync();
+
     #endregion
 }

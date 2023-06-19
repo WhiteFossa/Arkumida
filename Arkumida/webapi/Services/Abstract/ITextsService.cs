@@ -28,4 +28,9 @@ public interface ITextsService
     /// Get total texts count
     /// </summary>
     Task<int> GetTotalTextsCountAsync();
+
+    /// <summary>
+    /// Get last text add time
+    /// </summary>
+    Task<DateTime> GetLastTextAddTimeAsync();
 }

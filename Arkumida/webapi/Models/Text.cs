@@ -41,6 +41,21 @@ public class Text
     /// How many times text was read
     /// </summary>
     public long ReadsCount { get; set; }
+    
+    /// <summary>
+    /// Votes count for text
+    /// </summary>
+    public long VotesCount { get; set; }
+
+    /// <summary>
+    /// Votes pro
+    /// </summary>
+    public long VotesPlus { get; set; }
+
+    /// <summary>
+    /// Votes contra
+    /// </summary>
+    public long VotesMinus { get; set; }
 
     public TextDto ToDto()
     {
@@ -52,7 +67,10 @@ public class Text
             Title,
             Description,
             Sections.Select(s => s.ToDto()).ToList(),
-            ReadsCount
+            ReadsCount,
+            VotesCount,
+            VotesPlus,
+            VotesMinus
         );
     }
 }

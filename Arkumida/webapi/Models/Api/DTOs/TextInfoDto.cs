@@ -51,13 +51,13 @@ public class TextInfoDto : IdedEntityDto
     /// Votes for
     /// </summary>
     [JsonPropertyName("votesFor")]
-    public int VotesFor { get; private set; }
+    public long VotesFor { get; private set; }
     
     /// <summary>
     /// Votes agains
     /// </summary>
     [JsonPropertyName("votesAgainst")]
-    public int VotesAgainst { get; private set; }
+    public long VotesAgainst { get; private set; }
 
     /// <summary>
     /// Text tags
@@ -118,8 +118,8 @@ public class TextInfoDto : IdedEntityDto
         DateTime addTime,
         long viewsCount,
         int commentsCount,
-        int votesFor,
-        int votesAgainst,
+        long votesFor,
+        long votesAgainst,
         IReadOnlyCollection<TextTagDto> tags,
         TextType type,
         SpecialTextType specialType,

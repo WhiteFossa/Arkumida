@@ -38,7 +38,10 @@ public class TextsMapper : ITextsMapper
             Title = text.Title,
             Description = text.Description,
             Sections = _sectionsMapper.Map(text.Sections).ToList(),
-            ReadsCount = text.ReadsCount
+            ReadsCount = text.ReadsCount,
+            VotesCount = text.VotesCount,
+            VotesPlus = text.VotesPlus,
+            VotesMinus = text.VotesMinus
         };
     }
 
@@ -57,7 +60,10 @@ public class TextsMapper : ITextsMapper
             Title = text.Title,
             Description = text.Description,
             Sections = _sectionsMapper.Map(text.Sections).ToList(),
-            ReadsCount = text.ReadsCount
+            ReadsCount = text.ReadsCount,
+            VotesCount = text.VotesCount,
+            VotesPlus = text.VotesPlus,
+            VotesMinus = text.VotesMinus
         };
     }
 
