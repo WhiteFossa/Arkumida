@@ -38,6 +38,17 @@ public interface ITagsDao
     /// Get tag by name. Probably will be used only for import from old FT
     /// </summary>
     Task<TagDbo> GetTagByNameAsync(string name);
+    
+    /// <summary>
+    /// Get popularity for given tags
+    /// </summary>
+    Task<Dictionary<Guid, int>> GetTagsPopularity(IReadOnlyCollection<Guid> tagsIds);
+
+    /// <summary>
+    /// Get max texts count from all tags
+    /// </summary>
+    /// <returns></returns>
+    Task<int> GetMaxTextsCountAsync();
 
     #endregion
 }

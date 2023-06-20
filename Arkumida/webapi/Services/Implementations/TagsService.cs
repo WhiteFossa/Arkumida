@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models.Enums;
 using webapi.Mappers.Abstract;
@@ -52,7 +53,7 @@ public class TagsService : ITagsService
     public async Task<IReadOnlyCollection<Tag>> GetAllTagsAsync(TagSubtype? subtype = null)
     {
         var tags = _tagsMapper.Map(await _tagsDao.GetTagsAsync(subtype));
-
+        
         await PostprocessTags(tags);
 
         return tags;
@@ -108,40 +109,18 @@ public class TagsService : ITagsService
         return result;
     }
 
-    private async Task CalculateTagPopularityAsync(Tag tag)
-    {
-        var random = new Random();
-        tag.TextsCount = random.Next(0, 3000);
-    }
-    
-    private async Task CalculateTagsPopularityAsync(IReadOnlyCollection<Tag> tags)
-    {
-        var popularityTasks = new List<Task>();
-        foreach (var tag in tags)
-        {
-            popularityTasks.Add(CalculateTagPopularityAsync(tag));
-        }
-
-        Task.WaitAll(popularityTasks.ToArray());
-    }
-
     private async Task PostprocessTags(IReadOnlyCollection<Tag> tags)
     {
-        // Popularity have to be calculated among all tags, not only among given ones
-        var dbTags = _tagsMapper.Map(await _tagsDao.GetTagsAsync());
-        await CalculateTagsPopularityAsync(dbTags);
-        
-        // Tags, fed to method, may have no popularity, so take it from all tags collection
+        // Popularity
+        var popularity = await _tagsDao.GetTagsPopularity(tags.Select(t => t.Id).ToList());
         foreach (var tag in tags)
         {
-            tag.TextsCount = dbTags.Single(dt => dt.Id == tag.Id).TextsCount;
+            tag.TextsCount = popularity[tag.Id];
         }
-
-        var mostPopularTagTextsCount = dbTags
-            .Select(t => t.TextsCount)
-            .Max();
         
         // Size categories
+        var mostPopularTagTextsCount = await _tagsDao.GetMaxTextsCountAsync();
+        
         foreach (var tag in tags)
         {
             var normalizedPopularity = tag.TextsCount / (float)mostPopularTagTextsCount; // Tag popularity, normalized to [0; 1] range
@@ -154,7 +133,6 @@ public class TagsService : ITagsService
             
             tag.SizeCategory = _tagSizeCategories[sizeCategoryIndex];
         }
-
     }
     
 }

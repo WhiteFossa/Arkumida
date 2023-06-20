@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Dao.Models.Enums;
@@ -8,9 +9,15 @@ namespace webapi.Dao.Implementations;
 public class TagsDao : ITagsDao
 {
     private readonly MainDbContext _dbContext;
+    private ILogger _logger;
 
-    public TagsDao(MainDbContext dbContext)
+    public TagsDao
+    (
+        ILogger<TagsDao> logger,
+        MainDbContext dbContext
+    )
     {
+        _logger = logger;
         _dbContext = dbContext;
     }
     
@@ -66,5 +73,21 @@ public class TagsDao : ITagsDao
         return await _dbContext
             .Tags
             .SingleAsync(t => t.Name.Equals(name));
+    }
+
+    public async Task<Dictionary<Guid, int>> GetTagsPopularity(IReadOnlyCollection<Guid> tagsIds)
+    {
+        return await _dbContext
+            .Tags
+            .Select(t => new { Id = t.Id, Count = _dbContext.Texts.Count(tx => tx.Tags.Contains(t)) })
+            .ToDictionaryAsync(t => t.Id, t => t.Count);
+    }
+
+    public async Task<int> GetMaxTextsCountAsync()
+    {
+        return await _dbContext
+            .Tags
+            .Include(t => t.Texts)
+            .MaxAsync(t => t.Texts.Count);
     }
 }
