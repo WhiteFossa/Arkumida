@@ -148,12 +148,34 @@ public class TagsService : ITagsService
         // We filter-out hidden tags, so it is possible that some tags (=some of hidden tags) will have more texts than most popular tag //
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        var logMostPopularTagTextsCount = Math.Log10(mostPopularTagTextsCount + 1);
-        foreach (var tag in tags)
+        if (mostPopularTagTextsCount == 0)
         {
-            var normalizedPopularity = Math.Log10(tag.TextsCount + 1) / logMostPopularTagTextsCount; // Tag popularity, normalized to [0; 1] range
-            var sizeCategoryIndex = (int)Math.Floor(normalizedPopularity * (_tagSizeCategories.Count - 1));
-            tag.SizeCategory = _tagSizeCategories[sizeCategoryIndex];
+            // DB is empty, import is not done yet
+            foreach (var tag in tags)
+            {
+                tag.SizeCategory = TagSizeCategory.Cat0;
+            }
+        }
+        else
+        {
+            var logMostPopularTagTextsCount = Math.Log10(mostPopularTagTextsCount + 1);
+            foreach (var tag in tags)
+            {
+                var normalizedPopularity = Math.Log10(tag.TextsCount + 1) / logMostPopularTagTextsCount; // Tag popularity, normalized to [0; 1] range
+                
+                // Dirty protection against exceptions
+                if (normalizedPopularity > 1)
+                {
+                    normalizedPopularity = 1;
+                }
+                else if (normalizedPopularity < 0)
+                {
+                    normalizedPopularity = 0;
+                }
+                
+                var sizeCategoryIndex = (int)Math.Floor(normalizedPopularity * (_tagSizeCategories.Count - 1));
+                tag.SizeCategory = _tagSizeCategories[sizeCategoryIndex];
+            }
         }
     }
     
