@@ -79,6 +79,7 @@ public class TagsDao : ITagsDao
     {
         return await _dbContext
             .Tags
+            .Where(t => tagsIds.Contains(t.Id))
             .Select(t => new { Id = t.Id, Count = _dbContext.Texts.Count(tx => tx.Tags.Contains(t)) })
             .ToDictionaryAsync(t => t.Id, t => t.Count);
     }

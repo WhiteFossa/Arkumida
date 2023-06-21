@@ -26,6 +26,8 @@ public class TextsImporter
 
     public async Task Import()
     {
+        var categories = LoadCategories();
+        
         var texts = _connection.Query<FtText>
             (
                 @"select
@@ -185,6 +187,10 @@ public class TextsImporter
 
                 arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync(tagName)).Id);
             }
+            
+            // Adding category tags
+            var textCategory = categories.Single(c => c.Id == text.CategoryId);
+            arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync(textCategory.Name)).Id);
 
             // Now we have text model ready
             var textToCreate = new TextDto()
@@ -199,6 +205,7 @@ public class TextsImporter
                 VotesCount = text.VotesCount,
                 VotesPlus = text.VotesPlus,
                 VotesMinus = text.VotesMinus,
+                
                 Tags = arkumidaTagsIds.Select(tid => new TagDto()
                 {
                     Id = tid, // Only ID important right now, because tag already exist
@@ -364,6 +371,18 @@ public class TextsImporter
                 new { tagId = tagId }
             )
             .Single();
+    }
+    
+    private List<FtCategory> LoadCategories()
+    {
+        return _connection.Query<FtCategory>
+            (
+                @"select
+                    id as Id,
+                    name as Name
+                from ft_category"
+            )
+            .ToList();
     }
     
     private async Task<Guid> AddTextToArkumidaAsync(TextDto textDto)

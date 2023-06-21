@@ -100,6 +100,22 @@ public class TagsService : ITagsService
         result.AddRange(tags.Where(t => t.Subtype == TagSubtype.Species).OrderBy(t => t.Name)); // 2) Species
         result.AddRange(tags.Where(t => t.Subtype == TagSubtype.Setting).OrderBy(t => t.Name)); // 3) Setting
         result.AddRange(tags.Where(t => t.Subtype == TagSubtype.Actions).OrderBy(t => t.Name)); // 4) Actions
+        
+        // All other tags
+        result.AddRange(tags
+            .Where
+            (
+                t
+                    =>
+                t.Subtype != TagSubtype.Participants
+                &&
+                t.Subtype != TagSubtype.Species
+                &&
+                t.Subtype != TagSubtype.Setting
+                &&
+                t.Subtype != TagSubtype.Actions
+            )
+            .OrderBy(t => t.Name));
 
         if (result.Count != tags.Count())
         {
@@ -130,7 +146,11 @@ public class TagsService : ITagsService
             {
                 sizeCategoryIndex = _tagSizeCategories.Count - 1;
             }
-            
+            else if (sizeCategoryIndex < 0)
+            {
+                sizeCategoryIndex = 0;
+            }
+
             tag.SizeCategory = _tagSizeCategories[sizeCategoryIndex];
         }
     }
