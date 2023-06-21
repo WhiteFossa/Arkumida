@@ -45,6 +45,11 @@ public class Tag : IdedEntity
     public TagSizeCategory SizeCategory { get; set; }
 
     /// <summary>
+    /// If true, then tag is hidden (see TagDbo.cs for details)
+    /// </summary>
+    public bool IsHidden { get; set; }
+    
+    /// <summary>
     /// Generate TextTagDto from tag
     /// </summary>
     public TextTagDto ToTextTagDto()
@@ -70,6 +75,6 @@ public class Tag : IdedEntity
     /// </summary>
     public TagDto ToTagDto()
     {
-        return new TagDto(Id, FurryReadableId, Subtype, Name, IsCategory, CategoryOrder, CategoryTagType);
+        return new TagDto(Id, FurryReadableId, Subtype, Name, IsCategory, CategoryOrder, CategoryTagType, IsHidden);
     }
 }

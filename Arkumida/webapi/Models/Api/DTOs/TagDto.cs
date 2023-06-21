@@ -39,6 +39,12 @@ public class TagDto : IdedEntityDto
     [JsonPropertyName("categoryTagType")]
     public CategoryTagType CategoryTagType { get; set; }
     
+    /// <summary>
+    /// If true, then tag is hidden (see TagDbo.cs for details)
+    /// </summary>
+    [JsonPropertyName("isHidden")]
+    public bool IsHidden { get; set; }
+    
     public TagDto
     (
         Guid id,
@@ -47,7 +53,8 @@ public class TagDto : IdedEntityDto
         string name,
         bool isCategory,
         int categoryOrder,
-        CategoryTagType categoryTagType
+        CategoryTagType categoryTagType,
+        bool isHidden
     ) : base(id, furryReadableId)
     {
         Subtype = subtype;
@@ -61,6 +68,7 @@ public class TagDto : IdedEntityDto
         IsCategory = isCategory;
         CategoryOrder = categoryOrder;
         CategoryTagType = categoryTagType;
+        IsHidden = isHidden;
     }
 
     /// <summary>
@@ -79,7 +87,8 @@ public class TagDto : IdedEntityDto
             CategoryOrder = CategoryOrder,
             TextsCount = 0,
             CategoryTagType = CategoryTagType,
-            SizeCategory = TagSizeCategory.Cat0
+            SizeCategory = TagSizeCategory.Cat0,
+            IsHidden = IsHidden
         };
     }
 }
