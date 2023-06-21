@@ -46,4 +46,10 @@ public class TagDto
     /// </summary>
     [JsonPropertyName("categoryTagType")]
     public CategoryTagType CategoryTagType { get; set; }
+    
+    /// <summary>
+    /// If true, then tag is hidden (see TagDbo.cs for details)
+    /// </summary>
+    [JsonPropertyName("isHidden")]
+    public bool IsHidden { get; set; }
 }

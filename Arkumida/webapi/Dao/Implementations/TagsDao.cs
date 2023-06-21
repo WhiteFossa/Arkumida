@@ -88,6 +88,7 @@ public class TagsDao : ITagsDao
     {
         return await _dbContext
             .Tags
+            .Where(t => !t.IsHidden)
             .Include(t => t.Texts)
             .MaxAsync(t => t.Texts.Count);
     }

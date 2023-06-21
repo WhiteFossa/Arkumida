@@ -125,6 +125,13 @@ public class TagsService : ITagsService
         return result;
     }
 
+    public IReadOnlyCollection<Tag> FilterTags(IEnumerable<Tag> tags)
+    {
+        return tags
+            .Where(t => !t.IsHidden)
+            .ToList();
+    }
+
     private async Task PostprocessTags(IReadOnlyCollection<Tag> tags)
     {
         // Popularity
@@ -137,20 +144,15 @@ public class TagsService : ITagsService
         // Size categories
         var mostPopularTagTextsCount = await _tagsDao.GetMaxTextsCountAsync();
         
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // We filter-out hidden tags, so it is possible that some tags (=some of hidden tags) will have more texts than most popular tag //
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        var logMostPopularTagTextsCount = Math.Log10(mostPopularTagTextsCount + 1);
         foreach (var tag in tags)
         {
-            var normalizedPopularity = tag.TextsCount / (float)mostPopularTagTextsCount; // Tag popularity, normalized to [0; 1] range
-
-            var sizeCategoryIndex = (int)Math.Floor(normalizedPopularity * _tagSizeCategories.Count);
-            if (sizeCategoryIndex > _tagSizeCategories.Count - 1)
-            {
-                sizeCategoryIndex = _tagSizeCategories.Count - 1;
-            }
-            else if (sizeCategoryIndex < 0)
-            {
-                sizeCategoryIndex = 0;
-            }
-
+            var normalizedPopularity = Math.Log10(tag.TextsCount + 1) / logMostPopularTagTextsCount; // Tag popularity, normalized to [0; 1] range
+            var sizeCategoryIndex = (int)Math.Floor(normalizedPopularity * (_tagSizeCategories.Count - 1));
             tag.SizeCategory = _tagSizeCategories[sizeCategoryIndex];
         }
     }

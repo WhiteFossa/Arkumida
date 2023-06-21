@@ -69,8 +69,7 @@ public class TextsService : ITextsService
                 0,
                 tm.VotesPlus,
                 tm.VotesMinus,
-                _tagsService
-                    .OrderTags(_tagsMapper.Map(tm.Tags))
+                _tagsService.OrderTags(_tagsService.FilterTags(_tagsMapper.Map(tm.Tags)))
                     .Select(t => t.ToTextTagDto())
                     .ToList(),
                 TextType.Story,
@@ -102,7 +101,7 @@ public class TextsService : ITextsService
             textMetadata.VotesPlus,
             textMetadata.VotesMinus,
             _tagsService
-                .OrderTags(_tagsMapper.Map(textMetadata.Tags))
+                .OrderTags(_tagsService.FilterTags(_tagsMapper.Map(textMetadata.Tags)))
                 .Select(t => t.ToTextTagDto())
                 .ToList(),
             TextType.Story,

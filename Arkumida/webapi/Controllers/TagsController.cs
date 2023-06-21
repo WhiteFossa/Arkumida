@@ -32,7 +32,7 @@ public class TagsController : ControllerBase
     {
         return Ok(new TextTagsListResponse
             (
-                (await _tagsService.GetAllTagsAsync(subtype))
+                _tagsService.FilterTags(await _tagsService.GetAllTagsAsync(subtype))
                 .Select(t => t.ToTextTagDto())
                 .ToList())
         );

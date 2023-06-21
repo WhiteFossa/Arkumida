@@ -45,7 +45,7 @@ public interface ITagsDao
     Task<Dictionary<Guid, int>> GetTagsPopularity(IReadOnlyCollection<Guid> tagsIds);
 
     /// <summary>
-    /// Get max texts count from all tags
+    /// Get texts count from the most popular tag. HIDDEN TAGS AREN'T COUNTED
     /// </summary>
     /// <returns></returns>
     Task<int> GetMaxTextsCountAsync();

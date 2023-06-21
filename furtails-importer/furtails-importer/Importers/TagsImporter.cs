@@ -50,7 +50,8 @@ public class TagsImporter
                 Name = tag.Name,
                 IsCategory = category.IsCategory,
                 CategoryOrder = category.Order,
-                CategoryTagType = category.Type
+                CategoryTagType = category.Type,
+                IsHidden = false
             };
 
             await AddTagToArkumidaAsync(tagDto);
@@ -65,7 +66,8 @@ public class TagsImporter
             Name = "Рассказы",
             IsCategory = true,
             CategoryOrder = 700,
-            CategoryTagType = CategoryTagType.Normal
+            CategoryTagType = CategoryTagType.Normal,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(stories);
 
@@ -78,7 +80,8 @@ public class TagsImporter
             Name = "Повести и Романы",
             IsCategory = true,
             CategoryOrder = 800,
-            CategoryTagType = CategoryTagType.Normal
+            CategoryTagType = CategoryTagType.Normal,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(novels);
         
@@ -90,7 +93,8 @@ public class TagsImporter
             Name = "Стихи",
             IsCategory = true,
             CategoryOrder = 900,
-            CategoryTagType = CategoryTagType.Normal
+            CategoryTagType = CategoryTagType.Normal,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(poetry);
         
@@ -102,7 +106,8 @@ public class TagsImporter
             Name = "Логово Снарфа",
             IsCategory = true,
             CategoryOrder = 1000,
-            CategoryTagType = CategoryTagType.Snuff
+            CategoryTagType = CategoryTagType.Snuff,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(snurf);
         
@@ -114,7 +119,8 @@ public class TagsImporter
             Name = "Мастерская Гайки",
             IsCategory = true,
             CategoryOrder = 1100,
-            CategoryTagType = CategoryTagType.Normal
+            CategoryTagType = CategoryTagType.Normal,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(hackwrench);
         
@@ -126,7 +132,8 @@ public class TagsImporter
             Name = "Цитадель Метамор",
             IsCategory = true,
             CategoryOrder = 1200,
-            CategoryTagType = CategoryTagType.Normal
+            CategoryTagType = CategoryTagType.Normal,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(metamor);
         
@@ -138,7 +145,8 @@ public class TagsImporter
             Name = "Песочница",
             IsCategory = true,
             CategoryOrder = 1300,
-            CategoryTagType = CategoryTagType.Sandbox
+            CategoryTagType = CategoryTagType.Sandbox,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(sandbox);
         
@@ -150,7 +158,8 @@ public class TagsImporter
             Name = "Комиксы",
             IsCategory = true,
             CategoryOrder = 1400,
-            CategoryTagType = CategoryTagType.Normal
+            CategoryTagType = CategoryTagType.Normal,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(comics);
         
@@ -162,7 +171,8 @@ public class TagsImporter
             Name = "Конкурсные рассказы",
             IsCategory = true,
             CategoryOrder = 1500,
-            CategoryTagType = CategoryTagType.Contest
+            CategoryTagType = CategoryTagType.Contest,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(contest);
         
@@ -174,7 +184,8 @@ public class TagsImporter
             Name = "Chakona",
             IsCategory = true,
             CategoryOrder = 1600,
-            CategoryTagType = CategoryTagType.Normal
+            CategoryTagType = CategoryTagType.Normal,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(chakona);
         
@@ -186,7 +197,8 @@ public class TagsImporter
             Name = "Серии",
             IsCategory = true,
             CategoryOrder = 1700,
-            CategoryTagType = CategoryTagType.Normal
+            CategoryTagType = CategoryTagType.Normal,
+            IsHidden = true
         };
         await AddTagToArkumidaAsync(series);
     }
