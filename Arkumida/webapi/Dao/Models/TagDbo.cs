@@ -31,6 +31,7 @@ public class TagDbo
 
     /// <summary>
     /// If true, then this tag is category
+    /// Some categories are visible in text tags list (like "M/F"), some aren't (like "Novels") so we can't use this flag to hide tags
     /// </summary>
     public bool IsCategory { get; set; }
 
@@ -48,4 +49,12 @@ public class TagDbo
     /// Tag's texts
     /// </summary>
     public IList<TextDbo> Texts { get; set; }
+
+    /// <summary>
+    /// If true, then tag is hidden from:
+    /// - text tags list
+    /// - tags cloud
+    /// Such tag is ignored when calculating the size categories of tags
+    /// </summary>
+    public bool IsHidden { get; set; }
 }
