@@ -50,6 +50,11 @@ public class Tag : IdedEntity
     public bool IsHidden { get; set; }
     
     /// <summary>
+    /// Machine-readable tag meaning
+    /// </summary>
+    public TagMeaning Meaning { get; set; }
+    
+    /// <summary>
     /// Generate TextTagDto from tag
     /// </summary>
     public TextTagDto ToTextTagDto()
@@ -75,6 +80,6 @@ public class Tag : IdedEntity
     /// </summary>
     public TagDto ToTagDto()
     {
-        return new TagDto(Id, FurryReadableId, Subtype, Name, IsCategory, CategoryOrder, CategoryTagType, IsHidden);
+        return new TagDto(Id, FurryReadableId, Subtype, Name, IsCategory, CategoryOrder, CategoryTagType, IsHidden, Meaning);
     }
 }

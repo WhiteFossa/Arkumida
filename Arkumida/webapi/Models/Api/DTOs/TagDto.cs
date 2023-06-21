@@ -45,6 +45,12 @@ public class TagDto : IdedEntityDto
     [JsonPropertyName("isHidden")]
     public bool IsHidden { get; set; }
     
+    /// <summary>
+    /// Machine-readable tag meaning
+    /// </summary>
+    [JsonPropertyName("tagMeaning")]
+    public TagMeaning Meaning { get; set; }
+    
     public TagDto
     (
         Guid id,
@@ -54,7 +60,8 @@ public class TagDto : IdedEntityDto
         bool isCategory,
         int categoryOrder,
         CategoryTagType categoryTagType,
-        bool isHidden
+        bool isHidden,
+        TagMeaning meaning
     ) : base(id, furryReadableId)
     {
         Subtype = subtype;
@@ -69,6 +76,7 @@ public class TagDto : IdedEntityDto
         CategoryOrder = categoryOrder;
         CategoryTagType = categoryTagType;
         IsHidden = isHidden;
+        Meaning = meaning;
     }
 
     /// <summary>
@@ -88,7 +96,8 @@ public class TagDto : IdedEntityDto
             TextsCount = 0,
             CategoryTagType = CategoryTagType,
             SizeCategory = TagSizeCategory.Cat0,
-            IsHidden = IsHidden
+            IsHidden = IsHidden,
+            Meaning = Meaning
         };
     }
 }

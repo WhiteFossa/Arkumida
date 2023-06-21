@@ -35,7 +35,8 @@ public class TagsMapper : ITagsMapper
             TextsCount = 0, // This must be calculated outside of mapper
             CategoryTagType = tag.CategoryType,
             SizeCategory = TagSizeCategory.Cat0, // This must be calculated outside of mapper
-            IsHidden = tag.IsHidden
+            IsHidden = tag.IsHidden,
+            Meaning = tag.Meaning
         };
     }
 
@@ -55,7 +56,8 @@ public class TagsMapper : ITagsMapper
             IsCategory = tag.IsCategory,
             CategoryOrder = tag.CategoryOrder,
             CategoryType = tag.CategoryTagType,
-            IsHidden = tag.IsHidden
+            IsHidden = tag.IsHidden,
+            Meaning = tag.Meaning
         };
     }
 

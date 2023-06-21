@@ -44,7 +44,7 @@ public class TagDbo
     /// Category type
     /// </summary>
     public CategoryTagType CategoryType { get; set; }
-    
+
     /// <summary>
     /// Tag's texts
     /// </summary>
@@ -57,4 +57,10 @@ public class TagDbo
     /// Such tag is ignored when calculating the size categories of tags
     /// </summary>
     public bool IsHidden { get; set; }
+
+    /// <summary>
+    /// Machine-readable tag meaning
+    /// </summary>
+    public TagMeaning Meaning { get; set; }
+
 }
