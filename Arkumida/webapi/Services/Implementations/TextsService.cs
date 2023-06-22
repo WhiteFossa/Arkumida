@@ -3,7 +3,7 @@ using webapi.Dao.Models.Enums;
 using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
-using webapi.Models.Api.Enums;
+using webapi.Models.Enums;
 using webapi.Services.Abstract;
 
 namespace webapi.Services.Implementations;
@@ -28,7 +28,7 @@ public class TextsService : ITextsService
         _tagsMapper = tagsMapper;
         _tagsService = tagsService;
     }
-    
+
     public async Task CreateTextAsync(Text text)
     {
         _ = text ?? throw new ArgumentNullException(nameof(text), "Text mustn't be null.");
@@ -56,36 +56,50 @@ public class TextsService : ITextsService
         var textsMetadata = await _textsDao.GetTextsMetadataAsync(orderMode, skip, take);
 
         return textsMetadata
-            .Select(tm => new TextInfoDto
-            (
-                tm.Id,
-                "not_ready",
-                new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-                new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-                new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-                tm.Title,
-                tm.CreateTime,
-                tm.ReadsCount,
-                0,
-                tm.VotesPlus,
-                tm.VotesMinus,
-                _tagsService.OrderTags(_tagsService.FilterTags(_tagsMapper.Map(tm.Tags)))
-                    .Select(t => t.ToTextTagDto())
-                    .ToList(),
-                TextType.Story,
-                SpecialTextType.Normal,
-                new List<TextIconDto>(),
-                new List<TextIconDto>(),
-                tm.Description,
-                10000,
-                3
-            ))
+            .Select(tm =>
+            {
+                var tags = _tagsMapper.Map(tm.Tags);
+                
+                try
+                {
+                    return new TextInfoDto
+                    (
+                        tm.Id,
+                        "not_ready",
+                        new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+                        new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+                        new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+                        tm.Title,
+                        tm.CreateTime,
+                        tm.ReadsCount,
+                        0,
+                        tm.VotesPlus,
+                        tm.VotesMinus,
+                        _tagsService.OrderTags(tags)
+                            .Select(t => t.ToTextTagDto())
+                            .ToList(),
+                        SpecialTextType.Normal,
+                        new List<TextIconDto>(),
+                        new List<TextIconDto>(),
+                        tm.Description,
+                        10000,
+                        3
+                    );
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            })
             .ToList();
     }
 
     public async Task<TextInfoDto> GetTextMetadataByIdAsync(Guid textId)
     {
         var textMetadata = await _textsDao.GetTextMetadataByIdAsync(textId);
+
+        var textTags = _tagsMapper.Map(textMetadata.Tags);
 
         return new TextInfoDto
         (
@@ -101,10 +115,9 @@ public class TextsService : ITextsService
             textMetadata.VotesPlus,
             textMetadata.VotesMinus,
             _tagsService
-                .OrderTags(_tagsService.FilterTags(_tagsMapper.Map(textMetadata.Tags)))
+                .OrderTags(textTags)
                 .Select(t => t.ToTextTagDto())
                 .ToList(),
-            TextType.Story,
             SpecialTextType.Normal,
             new List<TextIconDto>(),
             new List<TextIconDto>(),

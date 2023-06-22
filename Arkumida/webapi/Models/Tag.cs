@@ -1,6 +1,6 @@
 using webapi.Dao.Models.Enums;
 using webapi.Models.Api.DTOs;
-using webapi.Models.Api.Enums;
+using webapi.Models.Enums;
 
 namespace webapi.Models;
 
@@ -59,7 +59,7 @@ public class Tag : IdedEntity
     /// </summary>
     public TextTagDto ToTextTagDto()
     {
-        return new TextTagDto(Id, FurryReadableId, Name, SizeCategory);
+        return new TextTagDto(Id, FurryReadableId, Name, IsCategory, SizeCategory);
     }
 
     /// <summary>

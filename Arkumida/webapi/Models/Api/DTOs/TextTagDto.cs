@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using webapi.Models.Api.Enums;
+using webapi.Models.Enums;
 
 namespace webapi.Models.Api.DTOs;
 
@@ -15,6 +15,12 @@ public class TextTagDto : IdedEntityDto
     public string Tag { get; private set; }
 
     /// <summary>
+    /// If true, then display it before hash
+    /// </summary>
+    [JsonPropertyName("isCategory")]
+    public bool IsCategory { get; private set; }
+    
+    /// <summary>
     /// Tag size category
     /// </summary>
     [JsonPropertyName("sizeCategory")]
@@ -25,6 +31,7 @@ public class TextTagDto : IdedEntityDto
         Guid id,
         string furryReadableId,
         string tag,
+        bool isCategory,
         TagSizeCategory sizeCategory
     ) : base(id, furryReadableId)
     {
@@ -33,6 +40,7 @@ public class TextTagDto : IdedEntityDto
             throw new ArgumentException("Tag must be populated.", nameof(tag));
         }
         Tag = tag;
+        IsCategory = isCategory;
 
         SizeCategory = sizeCategory;
     }

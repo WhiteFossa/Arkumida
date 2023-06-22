@@ -1,4 +1,4 @@
-namespace webapi.Models.Api.Enums;
+namespace webapi.Models.Enums;
 
 /// <summary>
 /// Additional (because some icons are drawn by frontend itself) icons for texts

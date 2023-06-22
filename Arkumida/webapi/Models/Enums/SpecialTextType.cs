@@ -1,4 +1,4 @@
-namespace webapi.Models.Api.Enums;
+namespace webapi.Models.Enums;
 
 /// <summary>
 /// Special text types

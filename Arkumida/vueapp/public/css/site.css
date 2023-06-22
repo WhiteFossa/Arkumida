@@ -513,13 +513,13 @@ body {
 .text-short-info-block-type-and-tags-line {
 }
 
-/* Text type link */
-.text-short-info-block-text-type-link {
+/* Category tag */
+.category-tag-link {
     color: hsl(0, 0%, 0%);
     text-decoration: none;
 }
 
-.text-short-info-block-text-type-link:hover
+.category-tag-link:hover
 {
     text-decoration: underline;
 }

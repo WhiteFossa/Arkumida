@@ -19,15 +19,6 @@ export class Messages
     static Actions = "Действия"
 }
 
-// Text type
-export class TextType
-{
-    static Story = 0
-    static Novel = 1
-    static Poetry = 2
-    static Comics = 3
-}
-
 // Special text type
 export class SpecialTextType
 {

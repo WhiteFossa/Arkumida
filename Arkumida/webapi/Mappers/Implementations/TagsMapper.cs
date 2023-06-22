@@ -1,7 +1,7 @@
 using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Models;
-using webapi.Models.Api.Enums;
+using webapi.Models.Enums;
 
 namespace webapi.Mappers.Implementations;
 

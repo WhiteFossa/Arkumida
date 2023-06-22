@@ -1,4 +1,4 @@
-namespace webapi.Models.Api.Enums;
+namespace webapi.Models.Enums;
 
 /// <summary>
 /// Tags size categories, from smallest to biggest

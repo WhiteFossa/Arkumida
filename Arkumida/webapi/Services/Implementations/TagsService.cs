@@ -3,7 +3,7 @@ using webapi.Dao.Abstract;
 using webapi.Dao.Models.Enums;
 using webapi.Mappers.Abstract;
 using webapi.Models;
-using webapi.Models.Api.Enums;
+using webapi.Models.Enums;
 using webapi.Services.Abstract;
 
 namespace webapi.Services.Implementations;
@@ -124,14 +124,7 @@ public class TagsService : ITagsService
 
         return result;
     }
-
-    public IReadOnlyCollection<Tag> FilterTags(IEnumerable<Tag> tags)
-    {
-        return tags
-            .Where(t => !t.IsHidden)
-            .ToList();
-    }
-
+    
     private async Task PostprocessTags(IReadOnlyCollection<Tag> tags)
     {
         // Popularity

@@ -10,7 +10,8 @@
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
     import LongTextInfo from "@/components/LongTextInfo.vue";
     import {AddIconToList} from "@/js/libArkumida";
-    import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
+    import {Messages, SpecialTextType, TextIconType } from "@/js/constants";
+    import CategoryTag from "@/components/CategoryTag.vue";
     
     const props = defineProps({
         id: Guid
@@ -34,10 +35,6 @@
     
     const commentsHref = ref(null)
     
-    const textTypeName = ref(null)
-    const textTypeHref = ref(null)
-    const textTypeTitle = ref(null)
-    
     const textInfoClasses = ref(null)
     
     const leftIcons = ref([])
@@ -45,7 +42,10 @@
 
     // If true, then long info popup is shown
     const isLongInfoShown = ref(false)
-    
+
+    const categoryTags = ref([])
+    const ordinaryTags = ref([])
+
     // OnMounted hook
     onMounted(async () =>
     {
@@ -65,38 +65,10 @@
         addTime.value = moment(textInfo.value.textInfo.addTime).format('HH:mm DD.MM.YYYY')
 
         commentsHref.value = "/texts/discuss/" + textInfo.value.textInfo.entityId
-        
-        textTypeHref.value = "/texts/byType/" + textInfo.value.textInfo.type
-        switch (textInfo.value.textInfo.type)
-        {
-            // Story
-            case TextType.Story:
-                textTypeName.value = Messages.Stories
-                textTypeTitle.value = Messages.AllStories
-                break
 
-            // Novel
-            case TextType.Novel:
-                textTypeName.value = Messages.Novels
-                textTypeTitle.value = Messages.AllNovels
-                break
+        categoryTags.value = textInfo.value.textInfo.tags.filter(function (t) { return t.isCategory === true; })
+        ordinaryTags.value = textInfo.value.textInfo.tags.filter(function (t) { return t.isCategory === false; })
 
-            // Poetry
-            case TextType.Poetry:
-                textTypeName.value = Messages.Poetry
-                textTypeTitle.value = Messages.AllPoetry
-                break
-
-            // Comics
-            case TextType.Comics:
-                textTypeName.value = Messages.Comics
-                textTypeTitle.value = Messages.AllComics
-                break
-                
-            default:
-                new Error("Unknown text type.")
-        }
-        
         textInfoClasses.value = "text-short-info-block"
         switch (textInfo.value.textInfo.specialType)
         {
@@ -193,19 +165,17 @@
             
             <!-- Type and tags line -->
             <div class="text-short-info-block-type-and-tags-line">
-                
-                <!-- Type -->
-                <a class="text-short-info-block-text-type-link" :href="textTypeHref" :title="textTypeTitle">
-                    <strong>
-                        {{ textTypeName }}
-                    </strong>
-                </a>
+
+                <!-- Categories -->
+                <span v-for="tag in categoryTags" :key="tag.entityId">
+                    <CategoryTag :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== categoryTags[categoryTags.length - 1].entityId">, </span>
+                </span>
                 
                 <!-- Tags -->
                 #:
                 
-                <span v-for="tag in textInfo.textInfo.tags" :key="tag.entityId">
-                    <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== textInfo.textInfo.tags[textInfo.textInfo.tags.length - 1].entityId">, </span>
+                <span v-for="tag in ordinaryTags" :key="tag.entityId">
+                    <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== ordinaryTags[ordinaryTags.length - 1].entityId">, </span>
                 </span>
             </div>
         </div>

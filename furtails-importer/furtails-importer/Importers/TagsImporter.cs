@@ -51,7 +51,8 @@ public class TagsImporter
                 IsCategory = category.IsCategory,
                 CategoryOrder = category.Order,
                 CategoryTagType = category.Type,
-                IsHidden = false
+                IsHidden = false,
+                Meaning = TagMeaning.Unspecified // Ordinary tags
             };
 
             await AddTagToArkumidaAsync(tagDto);
@@ -67,7 +68,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 700,
             CategoryTagType = CategoryTagType.Normal,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Stories
         };
         await AddTagToArkumidaAsync(stories);
 
@@ -81,7 +83,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 800,
             CategoryTagType = CategoryTagType.Normal,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Novels
         };
         await AddTagToArkumidaAsync(novels);
         
@@ -94,7 +97,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 900,
             CategoryTagType = CategoryTagType.Normal,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Poetry
         };
         await AddTagToArkumidaAsync(poetry);
         
@@ -107,7 +111,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 1000,
             CategoryTagType = CategoryTagType.Snuff,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Unspecified
         };
         await AddTagToArkumidaAsync(snurf);
         
@@ -120,7 +125,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 1100,
             CategoryTagType = CategoryTagType.Normal,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Unspecified
         };
         await AddTagToArkumidaAsync(hackwrench);
         
@@ -133,7 +139,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 1200,
             CategoryTagType = CategoryTagType.Normal,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Unspecified
         };
         await AddTagToArkumidaAsync(metamor);
         
@@ -146,7 +153,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 1300,
             CategoryTagType = CategoryTagType.Sandbox,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Unspecified
         };
         await AddTagToArkumidaAsync(sandbox);
         
@@ -159,7 +167,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 1400,
             CategoryTagType = CategoryTagType.Normal,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Comics
         };
         await AddTagToArkumidaAsync(comics);
         
@@ -172,7 +181,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 1500,
             CategoryTagType = CategoryTagType.Contest,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Unspecified
         };
         await AddTagToArkumidaAsync(contest);
         
@@ -185,7 +195,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 1600,
             CategoryTagType = CategoryTagType.Normal,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Unspecified
         };
         await AddTagToArkumidaAsync(chakona);
         
@@ -198,7 +209,8 @@ public class TagsImporter
             IsCategory = true,
             CategoryOrder = 1700,
             CategoryTagType = CategoryTagType.Normal,
-            IsHidden = true
+            IsHidden = true,
+            Meaning = TagMeaning.Unspecified
         };
         await AddTagToArkumidaAsync(series);
     }

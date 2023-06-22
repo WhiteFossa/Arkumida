@@ -52,4 +52,10 @@ public class TagDto
     /// </summary>
     [JsonPropertyName("isHidden")]
     public bool IsHidden { get; set; }
+    
+    /// <summary>
+    /// Machine-readable tag meaning
+    /// </summary>
+    [JsonPropertyName("tagMeaning")]
+    public TagMeaning Meaning { get; set; }
 }

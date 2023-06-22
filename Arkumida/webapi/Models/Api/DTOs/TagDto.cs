@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 using webapi.Dao.Models.Enums;
-using webapi.Models.Api.Enums;
+using webapi.Models.Enums;
 
 namespace webapi.Models.Api.DTOs;
 

@@ -35,9 +35,4 @@ public interface ITagsService
     /// Order tags (for displaying in text info, for example)
     /// </summary>
     IReadOnlyCollection<Tag> OrderTags(IEnumerable<Tag> tags);
-
-    /// <summary>
-    /// Remove hidden tags from output collection. Use it for all cases except GetCategoriesTagsAsync()
-    /// </summary>
-    IReadOnlyCollection<Tag> FilterTags(IEnumerable<Tag> tags);
 }
