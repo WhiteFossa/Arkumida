@@ -164,13 +164,7 @@ public class TextInfoDto : IdedEntityDto
 
         LeftIcons = leftIcons ?? throw new ArgumentNullException(nameof(leftIcons), "Left icons must not be null");
         RightIcons = rightIcons ?? throw new ArgumentNullException(nameof(rightIcons), "Right icons must not be null");
-        
-        if (string.IsNullOrWhiteSpace(description))
-        {
-            throw new ArgumentException("Description must be populated.", nameof(description));
-        }
-
-        Description = description;
+        Description = description; // Unfortunately there is some stories in old FT DB, where descriptions are empty
         
         if (sizeInBytes < 0)
         {

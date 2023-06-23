@@ -9,7 +9,7 @@
     import TagSmall from "@/components/TagSmall.vue";
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
     import LongTextInfo from "@/components/LongTextInfo.vue";
-    import {AddIconToList} from "@/js/libArkumida";
+    import {AddIconToList, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType } from "@/js/constants";
     import CategoryTag from "@/components/CategoryTag.vue";
     
@@ -66,8 +66,13 @@
 
         commentsHref.value = "/texts/discuss/" + textInfo.value.textInfo.entityId
 
-        categoryTags.value = textInfo.value.textInfo.tags.filter(function (t) { return t.isCategory === true; })
-        ordinaryTags.value = textInfo.value.textInfo.tags.filter(function (t) { return t.isCategory === false; })
+        categoryTags.value = FilterCategoryTags(textInfo.value.textInfo.tags)
+        if (categoryTags.value.length === 0)
+        {
+            new Error("At least one category tag must present.")
+        }
+
+        ordinaryTags.value = FilterOrdinaryTags(textInfo.value.textInfo.tags)
 
         textInfoClasses.value = "text-short-info-block"
         switch (textInfo.value.textInfo.specialType)
@@ -172,10 +177,12 @@
                 </span>
                 
                 <!-- Tags -->
-                #:
-                
-                <span v-for="tag in ordinaryTags" :key="tag.entityId">
-                    <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== ordinaryTags[ordinaryTags.length - 1].entityId">, </span>
+                <span v-if="ordinaryTags.length > 0">
+                    #:
+
+                    <span v-for="tag in ordinaryTags" :key="tag.entityId">
+                        <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== ordinaryTags[ordinaryTags.length - 1].entityId">, </span>
+                    </span>
                 </span>
             </div>
         </div>

@@ -6,8 +6,9 @@
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
     import moment from "moment/moment";
     import TagSmall from "@/components/TagSmall.vue";
-    import {AddIconToList, BytesToKilobytesFormatted} from "@/js/libArkumida";
-    import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
+    import {AddIconToList, BytesToKilobytesFormatted, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
+    import {Messages, SpecialTextType, TextIconType } from "@/js/constants";
+    import CategoryTag from "@/components/CategoryTag.vue";
 
     const emit = defineEmits(['closePopup'])
 
@@ -42,9 +43,8 @@
     const translatorLinkHref = ref(null)
     const translatorLinkTitle = ref(null)
 
-    const textTypeName = ref(null)
-    const textTypeHref = ref(null)
-    const textTypeTitle = ref(null)
+    const categoryTags = ref([])
+    const ordinaryTags = ref([])
 
     onMounted(async () =>
     {
@@ -71,6 +71,14 @@
             translatorLinkHref.value = "/texts/byTranslator/" + textInfo.value.textInfo.translator.entityId
             translatorLinkTitle.value = Messages.AllTextsByTranslator + textInfo.value.textInfo.translator.name
         }
+
+        categoryTags.value = FilterCategoryTags(textInfo.value.textInfo.tags)
+        if (categoryTags.value.length === 0)
+        {
+            new Error("At least one category tag must present.")
+        }
+
+        ordinaryTags.value = FilterOrdinaryTags(textInfo.value.textInfo.tags)
 
         switch (textInfo.value.textInfo.specialType)
         {
@@ -99,37 +107,6 @@
 
         AddIconToList(textInfo.value.textInfo.leftIcons, leftIcons)
         AddIconToList(textInfo.value.textInfo.rightIcons, rightIcons)
-
-        textTypeHref.value = "/texts/byType/" + textInfo.value.textInfo.type
-        switch (textInfo.value.textInfo.type)
-        {
-            // Story
-            case TextType.Story:
-                textTypeName.value = Messages.Stories
-                textTypeTitle.value = Messages.AllStories
-                break
-
-            // Novel
-            case TextType.Novel:
-                textTypeName.value = Messages.Novels
-                textTypeTitle.value = Messages.AllNovels
-                break
-
-            // Poetry
-            case TextType.Poetry:
-                textTypeName.value = Messages.Poetry
-                textTypeTitle.value = Messages.AllPoetry
-                break
-
-            // Comics
-            case TextType.Comics:
-                textTypeName.value = Messages.Comics
-                textTypeTitle.value = Messages.AllComics
-                break
-
-            default:
-                new Error("Unknown text type.")
-        }
 
         isLoading.value = false
     }
@@ -200,9 +177,7 @@
                     <span v-if="textInfo.textInfo.translator !== null">
                         Переводчик: <a class="text-long-info-translator-link" :href="translatorLinkHref" :title="translatorLinkTitle"><strong>{{ textInfo.textInfo.translator.name }}</strong></a>
                     </span>
-                    Размер:
-                    <span v-if="textInfo.textInfo.type === TextType.Comics"><strong>{{ textInfo.textInfo.sizeInPages }} стр.</strong></span>
-                    <span v-else><strong>{{ BytesToKilobytesFormatted(textInfo.textInfo.sizeInBytes) }} Кб</strong></span>
+                    Размер: <strong>{{ textInfo.textInfo.sizeInPages }} стр. / {{ BytesToKilobytesFormatted(textInfo.textInfo.sizeInBytes) }} Кб</strong>
 
                 </div>
 
@@ -214,18 +189,18 @@
                 <!-- Type and tags line -->
                 <div class="text-long-info-block-type-and-tags-line">
 
-                    <!-- Type -->
-                    <a class="text-long-info-block-text-type-link" :href="textTypeHref" :title="textTypeTitle">
-                        <strong>
-                            {{ textTypeName }}
-                        </strong>
-                    </a>
+                    <!-- Categories -->
+                    <span v-for="tag in categoryTags" :key="tag.entityId">
+                        <CategoryTag :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== categoryTags[categoryTags.length - 1].entityId">, </span>
+                    </span>
 
                     <!-- Tags -->
-                    #:
+                    <span v-if="ordinaryTags.length > 0">
+                        #:
 
-                    <span v-for="tag in textInfo.textInfo.tags" :key="tag.entityId">
-                        <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== textInfo.textInfo.tags[textInfo.textInfo.tags.length - 1].entityId">, </span>
+                        <span v-for="tag in ordinaryTags" :key="tag.entityId">
+                            <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== ordinaryTags[ordinaryTags.length - 1].entityId">, </span>
+                        </span>
                     </span>
                 </div>
             </div>

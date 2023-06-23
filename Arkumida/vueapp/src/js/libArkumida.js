@@ -12,8 +12,20 @@ function BytesToKilobytesFormatted(sizeInBytes)
     return (sizeInBytes / 1024).toFixed(1);
 }
 
+function FilterCategoryTags(tags)
+{
+    return tags.filter(function (t) { return t.isCategory === true; });
+}
+
+function FilterOrdinaryTags(tags)
+{
+    return tags.filter(function (t) { return t.isCategory === false; });
+}
+
 export
 {
     AddIconToList,
-    BytesToKilobytesFormatted
+    BytesToKilobytesFormatted,
+    FilterCategoryTags,
+    FilterOrdinaryTags
 }

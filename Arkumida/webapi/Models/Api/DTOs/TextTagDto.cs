@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using webapi.Dao.Models.Enums;
 using webapi.Models.Enums;
 
 namespace webapi.Models.Api.DTOs;
@@ -26,13 +27,20 @@ public class TextTagDto : IdedEntityDto
     [JsonPropertyName("sizeCategory")]
     public TagSizeCategory SizeCategory { get; private set; }
 
+    /// <summary>
+    /// Tag meaning
+    /// </summary>
+    [JsonPropertyName("meaning")]
+    public TagMeaning Meaning { get; private set; }
+
     public TextTagDto
     (
         Guid id,
         string furryReadableId,
         string tag,
         bool isCategory,
-        TagSizeCategory sizeCategory
+        TagSizeCategory sizeCategory,
+        TagMeaning meaning
     ) : base(id, furryReadableId)
     {
         if (string.IsNullOrWhiteSpace(tag))
@@ -41,7 +49,7 @@ public class TextTagDto : IdedEntityDto
         }
         Tag = tag;
         IsCategory = isCategory;
-
         SizeCategory = sizeCategory;
+        Meaning = meaning;
     }
 }

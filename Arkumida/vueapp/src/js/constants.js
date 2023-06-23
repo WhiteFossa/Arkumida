@@ -77,3 +77,15 @@ export class TagSubtype
     static Actions = 4
     static Category = 5
 }
+
+/// <summary>
+/// Machine-readable tag meaning
+/// </summary>
+export class TagMeaning
+{
+    static Unspecified = 0
+    static Stories = 1
+    static Novels = 2
+    static Poetry = 3
+    static Comics = 4
+}

@@ -59,7 +59,7 @@ public class Tag : IdedEntity
     /// </summary>
     public TextTagDto ToTextTagDto()
     {
-        return new TextTagDto(Id, FurryReadableId, Name, IsCategory, SizeCategory);
+        return new TextTagDto(Id, FurryReadableId, Name, IsCategory, SizeCategory, Meaning);
     }
 
     /// <summary>
