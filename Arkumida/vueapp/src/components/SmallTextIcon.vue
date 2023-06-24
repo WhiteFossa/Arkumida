@@ -58,7 +58,7 @@
             break
     
         default:
-            new Error("Unknown text type.")
+            throw new Error("Unknown text type.")
     }
 
 </script>

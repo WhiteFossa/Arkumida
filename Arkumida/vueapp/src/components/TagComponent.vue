@@ -83,7 +83,7 @@
                 break;
 
             default:
-                new Error("Unknown tag size category.")
+                throw new Error("Unknown tag size category.")
         }
     }
 

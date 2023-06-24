@@ -47,7 +47,7 @@
                 break;
 
             default:
-                new Error("Unknown tag subtype.")
+                throw new Error("Unknown tag subtype.")
         }
 
         isLoading.value = false

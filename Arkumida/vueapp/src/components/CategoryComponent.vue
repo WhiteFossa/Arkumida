@@ -46,7 +46,7 @@
                 break;
 
             default:
-                new Error("Unknown category tag type.")
+                throw new Error("Unknown category tag type.")
         }
     }
 

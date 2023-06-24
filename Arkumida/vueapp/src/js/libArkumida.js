@@ -42,7 +42,7 @@ function DetectTextType(tags)
 
     if (typeTagsCount !== 1)
     {
-        new Error("One and only one text type tag is allowed and required.");
+        throw new Error("One and only one text type tag is allowed and required.");
     }
 
     let isStory = tags.filter(function (t) { return t.meaning === TagMeaning.Stories; }).length === 1;

@@ -190,7 +190,13 @@ public class TextsImporter
             
             // Adding category tags
             var textCategory = categories.Single(c => c.Id == text.CategoryId);
+
             arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync(textCategory.Name)).Id);
+            if (textCategory.Name != "Рассказы" && textCategory.Name != "Повести и Романы" && textCategory.Name != "Стихи" && textCategory.Name != "Комиксы")
+            {
+                // No size category, in this case we need to add size category manually
+                arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Рассказы")).Id); // TODO: In future, we can try to detect correct size category by analyzing text size
+            }
 
             // Now we have text model ready
             var textToCreate = new TextDto()
@@ -375,7 +381,7 @@ public class TextsImporter
     
     private List<FtCategory> LoadCategories()
     {
-        return _connection.Query<FtCategory>
+        var result = _connection.Query<FtCategory>
             (
                 @"select
                     id as Id,
@@ -383,6 +389,16 @@ public class TextsImporter
                 from ft_category"
             )
             .ToList();
+
+        foreach (var category in result)
+        {
+            if (category.Name == "Конкурсные рассказы")
+            {
+                category.Name = "Конкурсные произведения";
+            }
+        }
+        
+        return result;
     }
     
     private async Task<Guid> AddTextToArkumidaAsync(TextDto textDto)

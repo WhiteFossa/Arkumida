@@ -83,7 +83,7 @@
         categoryTags.value = FilterCategoryTags(textInfo.value.textInfo.tags)
         if (categoryTags.value.length === 0)
         {
-            new Error("At least one category tag must present.")
+            throw new Error("At least one category tag must present.")
         }
 
         ordinaryTags.value = FilterOrdinaryTags(textInfo.value.textInfo.tags)
@@ -91,6 +91,7 @@
         textType.value = DetectTextType(textInfo.value.textInfo.tags)
 
         let specialTextType = DetectSpecialTextType(textInfo.value.textInfo.tags)
+
         switch (specialTextType)
         {
             // Normal text
@@ -113,7 +114,7 @@
                 break
 
             default:
-                new Error("Unknown text type.")
+                throw new Error("Unknown text type.")
         }
 
         AddIconToList(textInfo.value.textInfo.leftIcons, leftIcons)

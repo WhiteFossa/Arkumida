@@ -177,7 +177,7 @@ public class TagsImporter
             Id = Guid.NewGuid(),
             FurryReadableId = "contest",
             Subtype = TagSubtype.Category,
-            Name = "Конкурсные рассказы",
+            Name = "Конкурсные произведения",
             IsCategory = true,
             CategoryOrder = 1500,
             CategoryTagType = CategoryTagType.Contest,

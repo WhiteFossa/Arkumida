@@ -69,7 +69,7 @@
         categoryTags.value = FilterCategoryTags(textInfo.value.textInfo.tags)
         if (categoryTags.value.length === 0)
         {
-            new Error("At least one category tag must present.")
+            throw new Error("At least one category tag must present.")
         }
 
         ordinaryTags.value = FilterOrdinaryTags(textInfo.value.textInfo.tags)
@@ -101,7 +101,7 @@
                 break
             
             default:
-                new Error("Unknown text type.")
+                throw new Error("Unknown text type.")
         }
         
         // Additional icons
