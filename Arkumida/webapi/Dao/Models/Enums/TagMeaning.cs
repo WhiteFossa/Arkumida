@@ -13,20 +13,35 @@ public enum TagMeaning
     /// <summary>
     /// This tag marks stories category
     /// </summary>
-    Stories = 1,
+    TypeStories = 1,
     
     /// <summary>
     /// This tag marks novels category
     /// </summary>
-    Novels = 2,
+    TypeNovels = 2,
     
     /// <summary>
     /// This tag marks poetry category
     /// </summary>
-    Poetry = 3,
+    TypePoetry = 3,
     
     /// <summary>
     /// This tag marks comics category
     /// </summary>
-    Comics = 4
+    TypeComics = 4,
+
+    /// <summary>
+    /// Contest text (special type)
+    /// </summary>
+    SpecTypeContest = 5,
+    
+    /// <summary>
+    /// Poor-quality text (special type)
+    /// </summary>
+    SpecTypeSandbox = 6,
+    
+    /// <summary>
+    /// Snuff (special type)
+    /// </summary>
+    SpecTypeSnuff = 7
 }

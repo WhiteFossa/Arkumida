@@ -69,7 +69,7 @@ public class TagsImporter
             CategoryOrder = 700,
             CategoryTagType = CategoryTagType.Normal,
             IsHidden = true,
-            Meaning = TagMeaning.Stories
+            Meaning = TagMeaning.TypeStories
         };
         await AddTagToArkumidaAsync(stories);
 
@@ -84,7 +84,7 @@ public class TagsImporter
             CategoryOrder = 800,
             CategoryTagType = CategoryTagType.Normal,
             IsHidden = true,
-            Meaning = TagMeaning.Novels
+            Meaning = TagMeaning.TypeNovels
         };
         await AddTagToArkumidaAsync(novels);
         
@@ -98,7 +98,7 @@ public class TagsImporter
             CategoryOrder = 900,
             CategoryTagType = CategoryTagType.Normal,
             IsHidden = true,
-            Meaning = TagMeaning.Poetry
+            Meaning = TagMeaning.TypePoetry
         };
         await AddTagToArkumidaAsync(poetry);
         
@@ -112,7 +112,7 @@ public class TagsImporter
             CategoryOrder = 1000,
             CategoryTagType = CategoryTagType.Snuff,
             IsHidden = true,
-            Meaning = TagMeaning.Unspecified
+            Meaning = TagMeaning.SpecTypeSnuff
         };
         await AddTagToArkumidaAsync(snurf);
         
@@ -154,7 +154,7 @@ public class TagsImporter
             CategoryOrder = 1300,
             CategoryTagType = CategoryTagType.Sandbox,
             IsHidden = true,
-            Meaning = TagMeaning.Unspecified
+            Meaning = TagMeaning.SpecTypeSandbox
         };
         await AddTagToArkumidaAsync(sandbox);
         
@@ -168,7 +168,7 @@ public class TagsImporter
             CategoryOrder = 1400,
             CategoryTagType = CategoryTagType.Normal,
             IsHidden = true,
-            Meaning = TagMeaning.Comics
+            Meaning = TagMeaning.TypeComics
         };
         await AddTagToArkumidaAsync(comics);
         
@@ -182,7 +182,7 @@ public class TagsImporter
             CategoryOrder = 1500,
             CategoryTagType = CategoryTagType.Contest,
             IsHidden = true,
-            Meaning = TagMeaning.Unspecified
+            Meaning = TagMeaning.SpecTypeContest
         };
         await AddTagToArkumidaAsync(contest);
         

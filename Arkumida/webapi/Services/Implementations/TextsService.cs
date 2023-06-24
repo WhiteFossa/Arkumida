@@ -60,37 +60,28 @@ public class TextsService : ITextsService
             {
                 var tags = _tagsMapper.Map(tm.Tags);
                 
-                try
-                {
-                    return new TextInfoDto
-                    (
-                        tm.Id,
-                        "not_ready",
-                        new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-                        new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-                        new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-                        tm.Title,
-                        tm.CreateTime,
-                        tm.ReadsCount,
-                        0,
-                        tm.VotesPlus,
-                        tm.VotesMinus,
-                        _tagsService.OrderTags(tags)
-                            .Select(t => t.ToTextTagDto())
-                            .ToList(),
-                        SpecialTextType.Normal,
-                        new List<TextIconDto>(),
-                        new List<TextIconDto>(),
-                        tm.Description,
-                        10000,
-                        3
-                    );
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                return new TextInfoDto
+                (
+                    tm.Id,
+                    "not_ready",
+                    new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+                    new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+                    new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+                    tm.Title,
+                    tm.CreateTime,
+                    tm.ReadsCount,
+                    0,
+                    tm.VotesPlus,
+                    tm.VotesMinus,
+                    _tagsService.OrderTags(tags)
+                        .Select(t => t.ToTextTagDto())
+                        .ToList(),
+                    new List<TextIconDto>(),
+                    new List<TextIconDto>(),
+                    tm.Description,
+                    10000,
+                    3
+                );
             })
             .ToList();
     }
@@ -118,7 +109,6 @@ public class TextsService : ITextsService
                 .OrderTags(textTags)
                 .Select(t => t.ToTextTagDto())
                 .ToList(),
-            SpecialTextType.Normal,
             new List<TextIconDto>(),
             new List<TextIconDto>(),
             textMetadata.Description,

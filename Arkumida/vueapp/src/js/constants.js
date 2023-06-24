@@ -19,6 +19,15 @@ export class Messages
     static Actions = "Действия"
 }
 
+// Category tag types
+export class CategoryTagType
+{
+    static Normal = 0
+    static Snuff = 1
+    static Sandbox = 2
+    static Contest = 3
+}
+
 // Special text type
 export class SpecialTextType
 {
@@ -38,15 +47,6 @@ export class TextIconType
     static Incomplete = 4
     static Mlp = 5
     static Series = 6
-}
-
-// Category tag types
-export class CategoryTagType
-{
-    static Normal = 0
-    static Snuff = 1
-    static Sandbox = 2
-    static Contest = 3
 }
 
 // Tags size categories
@@ -78,9 +78,7 @@ export class TagSubtype
     static Category = 5
 }
 
-/// <summary>
-/// Machine-readable tag meaning
-/// </summary>
+// Machine-readable tag meaning
 export class TagMeaning
 {
     static Unspecified = 0
@@ -88,4 +86,16 @@ export class TagMeaning
     static Novels = 2
     static Poetry = 3
     static Comics = 4
+    static Contest = 5
+    static Sandbox = 6
+    static Snuff = 7
+}
+
+// Text type
+export class TextType
+{
+    static Story = 0
+    static Novel = 1
+    static Poetry = 2
+    static Comics = 3
 }

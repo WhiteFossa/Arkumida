@@ -64,13 +64,7 @@ public class TextInfoDto : IdedEntityDto
     /// </summary>
     [JsonPropertyName("tags")]
     public IReadOnlyCollection<TextTagDto> Tags { get; private set; }
-
-    /// <summary>
-    /// Special text type
-    /// </summary>
-    [JsonPropertyName("specialType")]
-    public SpecialTextType SpecialType { get; private set; }
-
+    
     /// <summary>
     /// Additional left icons
     /// </summary>
@@ -115,7 +109,6 @@ public class TextInfoDto : IdedEntityDto
         long votesFor,
         long votesAgainst,
         IReadOnlyCollection<TextTagDto> tags,
-        SpecialTextType specialType,
         IReadOnlyCollection<TextIconDto> leftIcons,
         IReadOnlyCollection<TextIconDto> rightIcons,
         string description,
@@ -160,8 +153,6 @@ public class TextInfoDto : IdedEntityDto
         VotesAgainst = votesAgainst;
 
         Tags = tags ?? throw new ArgumentNullException(nameof(tags), "Tags must not be null");
-        SpecialType = specialType;
-
         LeftIcons = leftIcons ?? throw new ArgumentNullException(nameof(leftIcons), "Left icons must not be null");
         RightIcons = rightIcons ?? throw new ArgumentNullException(nameof(rightIcons), "Right icons must not be null");
         Description = description; // Unfortunately there is some stories in old FT DB, where descriptions are empty

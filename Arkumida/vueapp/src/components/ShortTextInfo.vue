@@ -9,7 +9,7 @@
     import TagSmall from "@/components/TagSmall.vue";
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
     import LongTextInfo from "@/components/LongTextInfo.vue";
-    import {AddIconToList, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
+    import {AddIconToList, DetectSpecialTextType, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType } from "@/js/constants";
     import CategoryTag from "@/components/CategoryTag.vue";
     
@@ -74,8 +74,9 @@
 
         ordinaryTags.value = FilterOrdinaryTags(textInfo.value.textInfo.tags)
 
+        let specialTextType = DetectSpecialTextType(textInfo.value.textInfo.tags)
         textInfoClasses.value = "text-short-info-block"
-        switch (textInfo.value.textInfo.specialType)
+        switch (specialTextType)
         {
             // Normal text
             case SpecialTextType.Normal:
@@ -106,7 +107,7 @@
         // Additional icons
         AddIconToList(textInfo.value.textInfo.leftIcons, leftIcons)
         AddIconToList(textInfo.value.textInfo.rightIcons, rightIcons)
-        
+
         isLoading.value = false
     }
 

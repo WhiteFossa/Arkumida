@@ -6,8 +6,14 @@
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
     import moment from "moment/moment";
     import TagSmall from "@/components/TagSmall.vue";
-    import {AddIconToList, BytesToKilobytesFormatted, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
-    import {Messages, SpecialTextType, TextIconType } from "@/js/constants";
+    import {
+        AddIconToList,
+        BytesToKilobytesFormatted, DetectSpecialTextType,
+        DetectTextType,
+        FilterCategoryTags,
+        FilterOrdinaryTags
+    } from "@/js/libArkumida";
+    import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
     import CategoryTag from "@/components/CategoryTag.vue";
 
     const emit = defineEmits(['closePopup'])
@@ -46,6 +52,8 @@
     const categoryTags = ref([])
     const ordinaryTags = ref([])
 
+    const textType = ref(null)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -80,7 +88,10 @@
 
         ordinaryTags.value = FilterOrdinaryTags(textInfo.value.textInfo.tags)
 
-        switch (textInfo.value.textInfo.specialType)
+        textType.value = DetectTextType(textInfo.value.textInfo.tags)
+
+        let specialTextType = DetectSpecialTextType(textInfo.value.textInfo.tags)
+        switch (specialTextType)
         {
             // Normal text
             case SpecialTextType.Normal:
@@ -177,7 +188,13 @@
                     <span v-if="textInfo.textInfo.translator !== null">
                         Переводчик: <a class="text-long-info-translator-link" :href="translatorLinkHref" :title="translatorLinkTitle"><strong>{{ textInfo.textInfo.translator.name }}</strong></a>
                     </span>
-                    Размер: <strong>{{ textInfo.textInfo.sizeInPages }} стр. / {{ BytesToKilobytesFormatted(textInfo.textInfo.sizeInBytes) }} Кб</strong>
+                    Размер:
+                    <span v-if="textType.value === TextType.Comics">
+                        <strong>{{ textInfo.textInfo.sizeInPages }} стр.</strong>
+                    </span>
+                    <span v-else>
+                        <strong>{{ BytesToKilobytesFormatted(textInfo.textInfo.sizeInBytes) }} Кб</strong>
+                    </span>
 
                 </div>
 
