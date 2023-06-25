@@ -40,6 +40,12 @@ public class TagsImporter
         
         foreach (var tag in tags)
         {
+            if (tag.Name == "конкурс")
+            {
+                // We don't need the "contest" tag, because we have "contest" category tag
+                continue;
+            }
+            
             var category = DetectCategory(tag);
             
             var tagDto = new TagDto()

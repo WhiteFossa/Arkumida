@@ -177,16 +177,8 @@ public class TextsImporter
                 continue;
             }
             
-            // Loading tags
-            var textTagsRelations = LoadTextsToTagsRelations(text.Id);
-
+            
             var arkumidaTagsIds = new List<Guid>();
-            foreach (var tagRelation in textTagsRelations)
-            {
-                var tagName = LoadTagById(tagRelation.TagId).Name;
-
-                arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync(tagName)).Id);
-            }
             
             // Adding category tags
             var textCategory = categories.Single(c => c.Id == text.CategoryId);
@@ -197,6 +189,37 @@ public class TextsImporter
                 // No size category, in this case we need to add size category manually
                 arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Рассказы")).Id); // TODO: In future, we can try to detect correct size category by analyzing text size
             }
+
+            if (text.Type == 3) // Special category for texts in edit
+            {
+                arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Мастерская Гайки")).Id);
+            }
+            
+            // Loading tags
+            var textTagsRelations = LoadTextsToTagsRelations(text.Id);
+            foreach (var tagRelation in textTagsRelations)
+            {
+                var tagName = LoadTagById(tagRelation.TagId).Name;
+                
+                // If test have "contest" tag (not to be mistook with "contest" category) we will add text to "contest" category
+                if (tagName == "конкурс")
+                {
+                    var contestCategory = await GetTagFromArkumidaByNameAsync("Конкурсные произведения");
+
+                    if (!arkumidaTagsIds.Contains(contestCategory.Id))
+                    {
+                        arkumidaTagsIds.Add(contestCategory.Id);
+                    }
+                }
+                else
+                {
+                    // Ordinary tag, adding it as is
+                    var tagToAdd = await GetTagFromArkumidaByNameAsync(tagName);
+                    arkumidaTagsIds.Add(tagToAdd.Id);
+                }
+            }
+            
+            
 
             // Now we have text model ready
             var textToCreate = new TextDto()
