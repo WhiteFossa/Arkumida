@@ -16,11 +16,6 @@ public enum TextIconType
     Incomplete = 4,
     
     /// <summary>
-    /// Ponies
-    /// </summary>
-    MLP = 5,
-    
-    /// <summary>
     /// The text is a part of series
     /// </summary>
     Series = 6

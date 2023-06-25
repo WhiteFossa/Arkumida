@@ -89,6 +89,7 @@ export class TagMeaning
     static Contest = 5
     static Sandbox = 6
     static Snuff = 7
+    static MLP = 8
 }
 
 // Text type

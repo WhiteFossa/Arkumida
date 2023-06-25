@@ -1,6 +1,6 @@
 // Add icon to icons list
 
-import {SpecialTextType, TagMeaning, TextType} from "@/js/constants";
+import {SpecialTextType, TagMeaning, TextIconType, TextType} from "@/js/constants";
 
 function AddIconToList(sourceIcons, iconsList)
 {
@@ -92,6 +92,19 @@ function DetectSpecialTextType(tags)
     }
 }
 
+function IsMlpText(tags)
+{
+    return tags.filter(function (t) { return t.meaning === TagMeaning.MLP; }).length > 0;
+}
+
+function InjectMlpIcon(icons, isMlp)
+{
+    if (isMlp)
+    {
+        icons.value.push({ "type": TextIconType.Mlp, "url": "" });
+    }
+}
+
 export
 {
     AddIconToList,
@@ -99,5 +112,7 @@ export
     FilterCategoryTags,
     FilterOrdinaryTags,
     DetectTextType,
-    DetectSpecialTextType
+    DetectSpecialTextType,
+    IsMlpText,
+    InjectMlpIcon
 }

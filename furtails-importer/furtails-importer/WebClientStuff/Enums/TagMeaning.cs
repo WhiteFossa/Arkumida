@@ -43,5 +43,10 @@ public enum TagMeaning
     /// <summary>
     /// Snuff (special type)
     /// </summary>
-    SpecTypeSnuff = 7
+    SpecTypeSnuff = 7,
+    
+    /// <summary>
+    /// MLP
+    /// </summary>
+    MLP = 8
 }

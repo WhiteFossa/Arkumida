@@ -9,7 +9,13 @@
     import TagSmall from "@/components/TagSmall.vue";
     import SmallTextIcon from "@/components/SmallTextIcon.vue";
     import LongTextInfo from "@/components/LongTextInfo.vue";
-    import {AddIconToList, DetectSpecialTextType, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
+    import {
+        AddIconToList,
+        DetectSpecialTextType,
+        FilterCategoryTags,
+        FilterOrdinaryTags, InjectMlpIcon,
+        IsMlpText
+    } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType } from "@/js/constants";
     import CategoryTag from "@/components/CategoryTag.vue";
     
@@ -73,6 +79,10 @@
         }
 
         ordinaryTags.value = FilterOrdinaryTags(textInfo.value.textInfo.tags)
+
+        // Is MPL?
+        let isMlp = IsMlpText(textInfo.value.textInfo.tags)
+        InjectMlpIcon(leftIcons, isMlp)
 
         let specialTextType = DetectSpecialTextType(textInfo.value.textInfo.tags)
         textInfoClasses.value = "text-short-info-block"

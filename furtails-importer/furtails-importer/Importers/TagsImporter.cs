@@ -58,7 +58,7 @@ public class TagsImporter
                 CategoryOrder = category.Order,
                 CategoryTagType = category.Type,
                 IsHidden = false,
-                Meaning = TagMeaning.Unspecified // Ordinary tags
+                Meaning = DetectOrdinaryTagMeaning(tag)
             };
 
             await AddTagToArkumidaAsync(tagDto);
@@ -289,5 +289,18 @@ public class TagsImporter
             default:
                 return new Category() { IsCategory = false, Order = 0, Type = CategoryTagType.Normal };
         }
+    }
+
+    /// <summary>
+    /// Detect meaning for non-special tag
+    /// </summary>
+    private TagMeaning DetectOrdinaryTagMeaning(FtTag tag)
+    {
+        if (tag.Name == "MLP")
+        {
+            return TagMeaning.MLP;
+        }
+
+        return TagMeaning.Unspecified;
     }
 }

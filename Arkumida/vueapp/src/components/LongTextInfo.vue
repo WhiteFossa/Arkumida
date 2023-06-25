@@ -11,7 +11,7 @@
         BytesToKilobytesFormatted, DetectSpecialTextType,
         DetectTextType,
         FilterCategoryTags,
-        FilterOrdinaryTags
+        FilterOrdinaryTags, InjectMlpIcon, IsMlpText
     } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
     import CategoryTag from "@/components/CategoryTag.vue";
@@ -90,8 +90,11 @@
 
         textType.value = DetectTextType(textInfo.value.textInfo.tags)
 
-        let specialTextType = DetectSpecialTextType(textInfo.value.textInfo.tags)
+        // Is MPL?
+        let isMlp = IsMlpText(textInfo.value.textInfo.tags)
+        InjectMlpIcon(leftIcons, isMlp)
 
+        let specialTextType = DetectSpecialTextType(textInfo.value.textInfo.tags)
         switch (specialTextType)
         {
             // Normal text
