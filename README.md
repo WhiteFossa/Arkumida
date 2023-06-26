@@ -50,3 +50,18 @@ Configure reverse proxy in a such way (example for Apache):
 	SSLCertificateKeyFile "/etc/letsencrypt/live/api.arkumida.furtails.pw/privkey.pem"
 	SSLCertificateChainFile "/etc/letsencrypt/live/api.arkumida.furtails.pw/fullchain.pem"
 </VirtualHost>
+
+# Configure redirecting to index.html (to allow client-side routing work)
+
+(This section is for Apache, information for other servers is there: https://v3.router.vuejs.org/guide/essentials/history-mode.html)
+
+Create .htaccess file with the next content in the root vhost directory:
+
+<ifModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteRule ^index\.html$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.html [L]
+</ifModule>
