@@ -69,4 +69,10 @@ public class TextDto
     /// </summary>
     [JsonPropertyName("tags")]
     public IList<TagDto> Tags { get; set; }
+    
+    /// <summary>
+    /// If true, then text is not complete yet
+    /// </summary>
+    [JsonPropertyName("isIncomplete")]
+    public bool IsIncomplete { get; set; }
 }

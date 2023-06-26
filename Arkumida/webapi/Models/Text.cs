@@ -61,6 +61,11 @@ public class Text
     /// Tags
     /// </summary>
     public IList<Tag> Tags { get; set; }
+    
+    /// <summary>
+    /// If true, then text is not complete yet
+    /// </summary>
+    public bool IsIncomplete { get; set; }
 
     public TextDto ToDto()
     {
@@ -76,7 +81,8 @@ public class Text
             VotesCount,
             VotesPlus,
             VotesMinus,
-            Tags.Select(t => t.ToTagDto()).ToList()
+            Tags.Select(t => t.ToTagDto()).ToList(),
+            IsIncomplete
         );
     }
 }

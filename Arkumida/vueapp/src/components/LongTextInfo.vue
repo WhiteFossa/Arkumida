@@ -11,7 +11,7 @@
         BytesToKilobytesFormatted, DetectSpecialTextType,
         DetectTextType,
         FilterCategoryTags,
-        FilterOrdinaryTags, InjectMlpIcon, IsMlpText
+        FilterOrdinaryTags, InjectInclompleteIcon, InjectMlpIcon, IsMlpText
     } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
     import CategoryTag from "@/components/CategoryTag.vue";
@@ -92,7 +92,10 @@
 
         // Is MPL?
         let isMlp = IsMlpText(textInfo.value.textInfo.tags)
-        InjectMlpIcon(leftIcons, isMlp)
+        if (isMlp)
+        {
+            InjectMlpIcon(leftIcons, isMlp)
+        }
 
         let specialTextType = DetectSpecialTextType(textInfo.value.textInfo.tags)
         switch (specialTextType)
@@ -118,6 +121,12 @@
 
             default:
                 throw new Error("Unknown text type.")
+        }
+
+        // Is incomplete text? (we mark it with special icon)
+        if (textInfo.value.textInfo.isIncomplete)
+        {
+            InjectInclompleteIcon(rightIcons)
         }
 
         AddIconToList(textInfo.value.textInfo.leftIcons, leftIcons)

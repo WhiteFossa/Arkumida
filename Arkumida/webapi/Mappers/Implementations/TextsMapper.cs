@@ -45,7 +45,8 @@ public class TextsMapper : ITextsMapper
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,
             VotesMinus = text.VotesMinus,
-            Tags = _tagsMapper.Map(text.Tags).ToList()
+            Tags = _tagsMapper.Map(text.Tags).ToList(),
+            IsIncomplete = text.IsIncomplete
         };
     }
 
@@ -68,7 +69,8 @@ public class TextsMapper : ITextsMapper
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,
             VotesMinus = text.VotesMinus,
-            Tags = _tagsMapper.Map(text.Tags).ToList()
+            Tags = _tagsMapper.Map(text.Tags).ToList(),
+            IsIncomplete = text.IsIncomplete
         };
     }
 

@@ -94,6 +94,12 @@ public class TextInfoDto : IdedEntityDto
     /// </summary>
     [JsonPropertyName("sizeInPages")]
     public int SizeInPages { get; private set; }
+    
+    /// <summary>
+    /// If true, then text is not complete yet
+    /// </summary>
+    [JsonPropertyName("isIncomplete")]
+    public bool IsIncomplete { get; set; }
 
     public TextInfoDto
     (
@@ -113,7 +119,8 @@ public class TextInfoDto : IdedEntityDto
         IReadOnlyCollection<TextIconDto> rightIcons,
         string description,
         int sizeInBytes,
-        int sizeInPages
+        int sizeInPages,
+        bool isIncomplete
     ) : base(id, furryReadableId)
     {
         Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
@@ -168,5 +175,7 @@ public class TextInfoDto : IdedEntityDto
             throw new ArgumentOutOfRangeException(nameof(sizeInPages), "Size in pages must be positive."); // 0 is OK for non-comics
         }
         SizeInPages = sizeInPages;
+
+        IsIncomplete = isIncomplete;
     }
 }

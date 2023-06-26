@@ -97,12 +97,14 @@ function IsMlpText(tags)
     return tags.filter(function (t) { return t.meaning === TagMeaning.MLP; }).length > 0;
 }
 
-function InjectMlpIcon(icons, isMlp)
+function InjectMlpIcon(icons)
 {
-    if (isMlp)
-    {
-        icons.value.push({ "type": TextIconType.Mlp, "url": "" });
-    }
+    icons.value.push({ "type": TextIconType.Mlp, "url": "" });
+}
+
+function InjectInclompleteIcon(icons)
+{
+    icons.value.push({ "type": TextIconType.Incomplete, "url": "" });
 }
 
 export
@@ -114,5 +116,6 @@ export
     DetectTextType,
     DetectSpecialTextType,
     IsMlpText,
-    InjectMlpIcon
+    InjectMlpIcon,
+    InjectInclompleteIcon
 }

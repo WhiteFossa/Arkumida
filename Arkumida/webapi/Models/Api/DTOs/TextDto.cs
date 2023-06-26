@@ -72,6 +72,12 @@ public class TextDto
     /// </summary>
     [JsonPropertyName("tags")]
     public IList<TagDto> Tags { get; set; }
+    
+    /// <summary>
+    /// If true, then text is not complete yet
+    /// </summary>
+    [JsonPropertyName("isIncomplete")]
+    public bool IsIncomplete { get; set; }
 
     public TextDto()
     {
@@ -90,7 +96,8 @@ public class TextDto
         long votesCount,
         long votesPlus,
         long votesMinus,
-        IReadOnlyCollection<TagDto> tags
+        IReadOnlyCollection<TagDto> tags,
+        bool isIncomplete
     )
     {
         Id = id;
@@ -131,6 +138,8 @@ public class TextDto
         VotesMinus = votesMinus;
         
         Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
+
+        IsIncomplete = isIncomplete;
     }
 
     public Text ToText()
@@ -147,7 +156,8 @@ public class TextDto
             VotesCount = VotesCount,
             VotesPlus = VotesPlus,
             VotesMinus = VotesMinus,
-            Tags = Tags.Select(t => t.ToTag()).ToList()
+            Tags = Tags.Select(t => t.ToTag()).ToList(),
+            IsIncomplete = IsIncomplete
         };
     }
 }

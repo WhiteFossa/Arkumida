@@ -59,4 +59,9 @@ public class TextDbo
     /// Text's tags
     /// </summary>
     public IList<TagDbo> Tags { get; set; }
+
+    /// <summary>
+    /// If true, then text is not complete yet
+    /// </summary>
+    public bool IsIncomplete { get; set; }
 }

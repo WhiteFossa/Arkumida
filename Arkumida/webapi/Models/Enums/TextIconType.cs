@@ -9,12 +9,7 @@ public enum TextIconType
     /// Text have illustrations
     /// </summary>
     Illustrations = 3,
-    
-    /// <summary>
-    /// Text is incomplete
-    /// </summary>
-    Incomplete = 4,
-    
+
     /// <summary>
     /// The text is a part of series
     /// </summary>

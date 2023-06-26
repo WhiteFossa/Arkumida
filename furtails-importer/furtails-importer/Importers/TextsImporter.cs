@@ -244,7 +244,9 @@ public class TextsImporter
                     CategoryOrder = 0,
                     IsCategory = false,
                     CategoryTagType = CategoryTagType.Normal
-                }).ToList()
+                }).ToList(),
+                
+                IsIncomplete = text.IsNotFinished
             };
 
             var sectionOrder = 0;

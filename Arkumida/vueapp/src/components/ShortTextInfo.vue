@@ -13,7 +13,7 @@
         AddIconToList,
         DetectSpecialTextType,
         FilterCategoryTags,
-        FilterOrdinaryTags, InjectMlpIcon,
+        FilterOrdinaryTags, InjectInclompleteIcon, InjectMlpIcon,
         IsMlpText
     } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType } from "@/js/constants";
@@ -82,7 +82,10 @@
 
         // Is MPL?
         let isMlp = IsMlpText(textInfo.value.textInfo.tags)
-        InjectMlpIcon(leftIcons, isMlp)
+        if (isMlp)
+        {
+            InjectMlpIcon(leftIcons, isMlp)
+        }
 
         let specialTextType = DetectSpecialTextType(textInfo.value.textInfo.tags)
         textInfoClasses.value = "text-short-info-block"
@@ -113,7 +116,13 @@
             default:
                 throw new Error("Unknown text type.")
         }
-        
+
+        // Is incomplete text? (we mark it with special icon)
+        if (textInfo.value.textInfo.isIncomplete)
+        {
+            InjectInclompleteIcon(rightIcons)
+        }
+
         // Additional icons
         AddIconToList(textInfo.value.textInfo.leftIcons, leftIcons)
         AddIconToList(textInfo.value.textInfo.rightIcons, rightIcons)

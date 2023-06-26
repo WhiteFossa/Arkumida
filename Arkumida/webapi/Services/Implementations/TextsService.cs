@@ -80,7 +80,8 @@ public class TextsService : ITextsService
                     new List<TextIconDto>(),
                     tm.Description,
                     10000,
-                    3
+                    3,
+                    tm.IsIncomplete
                 );
             })
             .ToList();
@@ -113,7 +114,8 @@ public class TextsService : ITextsService
             new List<TextIconDto>(),
             textMetadata.Description,
             10000,
-            3
+            3,
+            textMetadata.IsIncomplete
         );
     }
 
