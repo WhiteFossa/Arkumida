@@ -1,0 +1,106 @@
+using System.Text.Json.Serialization;
+
+namespace webapi.Models.Api.DTOs;
+
+/// <summary>
+/// DTO with information, required to display read page
+/// </summary>
+public class TextReadDto
+{
+    /// <summary>
+    /// Text ID
+    /// </summary>
+    [JsonPropertyName("id")]
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// When text was created
+    /// </summary>
+    [JsonPropertyName("createTime")]
+    public DateTime CreateTime { get; set; }
+
+    /// <summary>
+    /// When text was updated last time
+    /// </summary>
+    [JsonPropertyName("lastUpdateTime")]
+    public DateTime LastUpdateTime { get; set; }
+
+    /// <summary>
+    /// Text title
+    /// </summary>
+    [JsonPropertyName("title")]
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Text description (for text info)
+    /// </summary>
+    [JsonPropertyName("description")]
+    public string Description { get; set; }
+
+    /// <summary>
+    /// Text sections
+    /// </summary>
+    [JsonPropertyName("sections")]
+    public IList<TextSectionDto> Sections { get; set; }
+
+    /// <summary>
+    /// Text tags
+    /// </summary>
+    [JsonPropertyName("tags")]
+    public IList<TagDto> Tags { get; set; }
+    
+    /// <summary>
+    /// Text author
+    /// </summary>
+    [JsonPropertyName("author")]
+    public CreatureDto Author { get; private set; }
+    
+    /// <summary>
+    /// Text translator (may be null)
+    /// </summary>
+    [JsonPropertyName("translator")]
+    public CreatureDto Translator { get; private set; }
+    
+    /// <summary>
+    /// Text publisher
+    /// </summary>
+    [JsonPropertyName("publisher")]
+    public CreatureDto Publisher { get; private set; }
+    
+    public TextReadDto()
+    {
+        
+    }
+
+    public TextReadDto
+    (
+        Guid id,
+        DateTime createTime,
+        DateTime lastUpdateTime,
+        string title,
+        string description,
+        IReadOnlyCollection<TextSectionDto> sections,
+        IReadOnlyCollection<TagDto> tags,
+        CreatureDto author,
+        CreatureDto translator,
+        CreatureDto publisher
+    )
+    {
+        Id = id;
+        CreateTime = createTime;
+        LastUpdateTime = lastUpdateTime;
+
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            throw new ArgumentException("Title must be populated.", nameof(title));
+        }
+        Title = title;
+        
+        Description = description; // May be empty
+        Sections = (sections ?? throw new ArgumentNullException(nameof(sections), "Sections mustn't be null.")).ToList();
+        Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
+        Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
+        Translator = translator;
+        Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must not be null");
+    }
+}

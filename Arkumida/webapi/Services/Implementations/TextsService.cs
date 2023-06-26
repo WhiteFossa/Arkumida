@@ -14,19 +14,22 @@ public class TextsService : ITextsService
     private readonly ITextsMapper _textsMapper;
     private readonly ITagsMapper _tagsMapper;
     private readonly ITagsService _tagsService;
+    private readonly ITextsSectionsMapper _textsSectionsMapper;
 
     public TextsService
     (
         ITextsDao textsDao,
         ITextsMapper textsMapper,
         ITagsMapper tagsMapper,
-        ITagsService tagsService
+        ITagsService tagsService,
+        ITextsSectionsMapper textsSectionsMapper
     )
     {
         _textsDao = textsDao;
         _textsMapper = textsMapper;
         _tagsMapper = tagsMapper;
         _tagsService = tagsService;
+        _textsSectionsMapper = textsSectionsMapper;
     }
 
     public async Task CreateTextAsync(Text text)
@@ -65,8 +68,8 @@ public class TextsService : ITextsService
                     tm.Id,
                     "not_ready",
                     new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-                    new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-                    new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+                    new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
+                    new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
                     tm.Title,
                     tm.CreateTime,
                     tm.ReadsCount,
@@ -98,8 +101,8 @@ public class TextsService : ITextsService
             textMetadata.Id,
             "not_ready",
             new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
-            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+            new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
+            new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
             textMetadata.Title,
             textMetadata.CreateTime,
             textMetadata.ReadsCount,
@@ -127,5 +130,26 @@ public class TextsService : ITextsService
     public async Task<DateTime> GetLastTextAddTimeAsync()
     {
         return await _textsDao.GetLastTextAddTimeAsync();
+    }
+
+    public async Task<TextReadDto> GetTextToReadAsync(Guid textId)
+    {
+        var textData = await _textsDao.GetTextByIdAsync(textId);
+        
+        var textTags = _tagsMapper.Map(textData.Tags);
+
+        return new TextReadDto
+        (
+            textData.Id,
+            textData.CreateTime,
+            textData.LastUpdateTime,
+            textData.Title,
+            textData.Description,
+            _textsSectionsMapper.Map(textData.Sections).Select(ts => ts.ToDto()).ToList(),
+            _tagsService.OrderTags(textTags).Select(t => t.ToTagDto()).ToList(),
+            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+            new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
+            new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз")
+        );
     }
 }

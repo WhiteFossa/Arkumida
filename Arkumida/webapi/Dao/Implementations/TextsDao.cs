@@ -91,4 +91,14 @@ public class TextsDao : ITextsDao
             .Texts
             .MaxAsync(t => t.CreateTime);
     }
+
+    public async Task<TextDbo> GetTextByIdAsync(Guid textId)
+    {
+        return await _dbContext
+            .Texts
+            .Include(t => t.Tags)
+            .Include(t => t.Sections)
+            .ThenInclude(s => s.Variants)
+            .SingleAsync(t => t.Id == textId);
+    }
 }

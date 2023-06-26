@@ -34,4 +34,9 @@ public interface ITextsService
     /// Get last text add time
     /// </summary>
     Task<DateTime> GetLastTextAddTimeAsync();
+
+    /// <summary>
+    /// Get text data, required to display read page
+    /// </summary>
+    Task<TextReadDto> GetTextToReadAsync(Guid textId);
 }

@@ -38,6 +38,22 @@ public class TextsController : ControllerBase
             )
         );
     }
+    
+    /// <summary>
+    /// Get text by ID
+    /// </summary>
+    [Route("api/Texts/GetReadData/{id}")]
+    [HttpGet]
+    public async Task<ActionResult<TextReadResponse>> GetTextAsync(Guid id)
+    {
+        return Ok
+        (
+            new TextReadResponse
+            (
+                await _textsService.GetTextToReadAsync(id)
+            )
+        );
+    }
 
     /// <summary>
     /// Get latest texts

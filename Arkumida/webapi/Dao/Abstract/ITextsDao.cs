@@ -39,5 +39,10 @@ public interface ITextsDao
     /// </summary>
     Task<DateTime> GetLastTextAddTimeAsync();
 
+    /// <summary>
+    /// Similar to GetTextMetadataByIdAsync(), but do full load (i.e. sections, variants and other heavy data, required to display text)
+    /// </summary>
+    Task<TextDbo> GetTextByIdAsync(Guid textId);
+    
     #endregion
 }
