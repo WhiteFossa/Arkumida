@@ -141,6 +141,7 @@ public class TextsService : ITextsService
         return new TextReadDto
         (
             textData.Id,
+            "not_ready",
             textData.CreateTime,
             textData.LastUpdateTime,
             textData.Title,

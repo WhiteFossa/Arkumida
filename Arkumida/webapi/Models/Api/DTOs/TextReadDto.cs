@@ -5,14 +5,8 @@ namespace webapi.Models.Api.DTOs;
 /// <summary>
 /// DTO with information, required to display read page
 /// </summary>
-public class TextReadDto
+public class TextReadDto : IdedEntityDto
 {
-    /// <summary>
-    /// Text ID
-    /// </summary>
-    [JsonPropertyName("id")]
-    public Guid Id { get; set; }
-
     /// <summary>
     /// When text was created
     /// </summary>
@@ -67,14 +61,10 @@ public class TextReadDto
     [JsonPropertyName("publisher")]
     public CreatureDto Publisher { get; private set; }
     
-    public TextReadDto()
-    {
-        
-    }
-
     public TextReadDto
     (
         Guid id,
+        string furryReadableId,
         DateTime createTime,
         DateTime lastUpdateTime,
         string title,
@@ -84,9 +74,8 @@ public class TextReadDto
         CreatureDto author,
         CreatureDto translator,
         CreatureDto publisher
-    )
+    ) : base (id, furryReadableId)
     {
-        Id = id;
         CreateTime = createTime;
         LastUpdateTime = lastUpdateTime;
 
