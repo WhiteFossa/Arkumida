@@ -36,10 +36,10 @@
         <LoadingSymbol />
     </div>
     <div v-else>
-        <nav>
-            <span v-for="menuItem in menuItems" :key="menuItem.url">
+        <nav class="horizontal-flex flex-center">
+            <div class="inline-block" v-for="menuItem in menuItems" :key="menuItem.url">
                 <a class="central-menu-link" :href="menuItem.url" :title="menuItem.title">{{ menuItem.text }}</a>
-            </span>
+            </div>
             
             <div class="central-menu-link-nohover">
                 <AtomLink />

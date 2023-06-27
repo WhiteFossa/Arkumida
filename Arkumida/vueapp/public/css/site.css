@@ -61,39 +61,37 @@ body {
 
 /* Footer info column */
 .footer-info-column {
-    
-}
-
-/* Footer info text block */
-.footer-info-block {
-    line-height: 1.2rem;
-    display: block;
-    margin-top: 1rem;
-    max-width: 16rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 20rem;
 }
 
 /* Footer useful column */
 .footer-useful-column {
     padding-left: 1rem;
     padding-right: 1rem;
+    width: 20rem;
 }
 
 /* Footer developers column */
 .footer-developers-column {
     padding-left: 1rem;
     padding-right: 1rem;
+    width: 20rem;
 }
 
 /* Footer friends column */
 .footer-friends-column {
     padding-left: 1rem;
     padding-right: 1rem;
+    width: 20rem;
 }
 
 /* Footer partners column */
 .footer-partners-column {
     padding-left: 1rem;
     padding-right: 1rem;
+    width: 20rem;
 }
 
 /* Footer columns top texts */
@@ -716,6 +714,8 @@ body {
     padding-left: 1rem;
     padding-right: 2rem;
     min-width: 60vw;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 /* Popup close button */

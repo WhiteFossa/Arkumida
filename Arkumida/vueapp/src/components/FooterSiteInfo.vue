@@ -46,10 +46,10 @@ async function OnLoad()
         <div>
             <a :href="siteUrl" :title="siteTitle"><img class="footer-site-logo" src="/images/logo.png" :alt="siteTitle" /></a>
         </div>
-        <div class="footer-info-block">
+        <div>
             Крупнейшая русскоязычная библиотека фурри рассказов. Любая тематика от йиффа до экшена. В базе большое количество текстов.
         </div>
-        <div class="footer-block horizontal-flex footer-icons-gapped-flex">
+        <div class="footer-block horizontal-flex footer-icons-gapped-flex flex-center">
             <AtomLink />
             <TelegramGroup />
             <OpdsLink />

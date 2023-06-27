@@ -11,32 +11,32 @@
     <footer class="footer">
         <div class="horizontal-flex flex-center footer-container">
             
-            <div class="footer-info-column">
+            <div class="footer-info-column centered">
                 <div>
                     <FooterSiteInfo />
                 </div>
             </div>
 
-            <div class="footer-useful-column">
+            <div class="footer-useful-column centered">
                 <div class="footer-column-header">
                     Полезное
                 </div>
                 <div>
-                    <div class="footer-block">
+                    <div class="footer-block centered">
                         <a href="/allImages" title="Все рисунки к рассказам">Все рисунки</a> к рассказам.
                     </div>
 
-                    <div class="footer-block">
+                    <div class="footer-block centered">
                         Наши <a href="/ourBanners" title="Наши кнопки">кнопки</a>.
                     </div>
 
-                    <div class="footer-block">
+                    <div class="footer-block centered">
                         Наши <a href="/ourPrograms" title="Наши программы">программы</a>.
                     </div>
                 </div>
             </div>
             
-            <div class="footer-developers-column">
+            <div class="footer-developers-column centered">
                 <div class="footer-column-header">
                     Разработчики
                 </div>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             
-            <div class="footer-friends-column">
+            <div class="footer-friends-column centered">
                 <div class="footer-column-header">
                     Друзья сайта
                 </div>
@@ -64,7 +64,7 @@
                 </div>
             </div>
             
-            <div class="footer-partners-column">
+            <div class="footer-partners-column centered">
                 <div class="footer-column-header">
                     Реклама
                 </div>
