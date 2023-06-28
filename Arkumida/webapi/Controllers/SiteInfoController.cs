@@ -26,7 +26,7 @@ public class SiteInfoController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<SiteUrlResponse>> GetSiteUrlAsync()
     {
-        return Ok(new SiteUrlResponse("https://furtails.pw", "furtails.pw"));
+        return Ok(new SiteUrlResponse("https://arkumida.furtails.pw", "arkumida.furtails.pw"));
     }
     
     /// <summary>

@@ -11,12 +11,18 @@
     import {Guid} from "guid-typescript";
     import CreatureInfoComponent from "@/components/CreatureInfoComponent.vue";
     import NonexistentCreatureComponent from "@/components/NonexistentCreatureComponent.vue";
+    import {FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
+    import CategoryTag from "@/components/CategoryTag.vue";
+    import TagHashed from "@/components/TagHashed.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
     const isLoading = ref(true)
 
     const textData = ref(null)
+
+    const categoryTags = ref([])
+    const ordinaryTags = ref([])
 
     onMounted(async () =>
     {
@@ -26,6 +32,14 @@
     async function OnLoad()
     {
         textData.value = await (await fetch(apiBaseUrl + `/api/Texts/GetReadData/` + props.id)).json()
+
+        categoryTags.value = FilterCategoryTags(textData.value.textData.tags)
+        if (categoryTags.value.length === 0)
+        {
+            throw new Error("At least one category tag must present.")
+        }
+
+        ordinaryTags.value = FilterOrdinaryTags(textData.value.textData.tags)
 
         isLoading.value = false
     }
@@ -66,5 +80,19 @@
         </div>
 
         <div class="read-text-title">{{ textData.textData.title }}</div>
+
+        <!-- Categorises -->
+        <div class="horizontal-flex flex-center read-text-categories-container">
+            <div v-for="tag in categoryTags" :key="tag.entityId">
+                <CategoryTag :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.name" />
+            </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="horizontal-flex flex-center read-text-tags-container" v-if="ordinaryTags.length > 0">
+            <div v-for="tag in ordinaryTags" :key="tag.entityId">
+                <TagHashed :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.name" />
+            </div>
+        </div>
     </div>
 </template>
