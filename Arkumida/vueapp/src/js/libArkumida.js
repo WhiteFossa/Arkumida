@@ -107,6 +107,11 @@ function InjectInclompleteIcon(icons)
     icons.value.push({ "type": TextIconType.Incomplete, "url": "" });
 }
 
+function SplitTextToParagraphs(text)
+{
+    return text.split(/\r?\n/);
+}
+
 export
 {
     AddIconToList,
@@ -117,5 +122,6 @@ export
     DetectSpecialTextType,
     IsMlpText,
     InjectMlpIcon,
-    InjectInclompleteIcon
+    InjectInclompleteIcon,
+    SplitTextToParagraphs
 }

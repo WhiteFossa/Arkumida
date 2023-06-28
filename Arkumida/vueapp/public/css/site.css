@@ -992,6 +992,13 @@ body {
     text-decoration: underline;
 }
 
+/* Text paragraph */
+.text-paragraph {
+    text-indent: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */

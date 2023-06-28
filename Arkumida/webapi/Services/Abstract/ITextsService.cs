@@ -39,4 +39,9 @@ public interface ITextsService
     /// Get text data, required to display read page
     /// </summary>
     Task<TextReadDto> GetTextToReadAsync(Guid textId);
+
+    /// <summary>
+    /// Order text sections such a way, that they will compose a full text
+    /// </summary>
+    IReadOnlyCollection<TextSection> OrderTextSections(IEnumerable<TextSection> sections);
 }

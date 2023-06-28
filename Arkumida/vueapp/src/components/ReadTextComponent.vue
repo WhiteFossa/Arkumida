@@ -14,6 +14,7 @@
     import {FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
     import CategoryTag from "@/components/CategoryTag.vue";
     import TagHashed from "@/components/TagHashed.vue";
+    import SectionComponent from "@/components/SectionComponent.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -92,6 +93,13 @@
         <div class="horizontal-flex flex-center read-text-tags-container" v-if="ordinaryTags.length > 0">
             <div v-for="tag in ordinaryTags" :key="tag.entityId">
                 <TagHashed :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.name" />
+            </div>
+        </div>
+
+        <!-- Sections -->
+        <div>
+            <div v-for="section in textData.textData.sections" :key="section.entityId">
+                <SectionComponent :originalText="section.originalText" :variants="section.variants" />
             </div>
         </div>
     </div>
