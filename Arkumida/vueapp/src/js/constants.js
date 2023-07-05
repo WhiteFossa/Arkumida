@@ -109,4 +109,6 @@ export class TextElementType
     static ParagraphEnd = 2
     static FullWidthAlignedTextBegin = 3
     static FullWidthAlignedTextEnd = 4
+    static ItalicBegin = 5
+    static ItalicEnd = 6
 }

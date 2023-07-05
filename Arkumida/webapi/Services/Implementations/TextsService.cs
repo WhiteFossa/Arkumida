@@ -22,7 +22,9 @@ public class TextsService : ITextsService
     {
         new ParserParagraphTag(),
         new ParserFullWidthAlignedTextBegin(),
-        new ParserFullWidthAlignedTextEnd()
+        new ParserFullWidthAlignedTextEnd(),
+        new ParserItalicTextBegin(),
+        new ParserItalicTextEnd()
     };
 
     public TextsService

@@ -13,5 +13,9 @@ public enum TextElementType
     
     FullWidthAlignedTextBegin = 3,
     
-    FullWidthAlignedTextEnd = 4
+    FullWidthAlignedTextEnd = 4,
+    
+    ItalicBegin = 5,
+    
+    ItalicEnd = 6
 }

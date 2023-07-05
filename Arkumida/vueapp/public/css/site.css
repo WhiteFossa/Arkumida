@@ -999,6 +999,11 @@ body {
     margin-bottom: 0.5rem;
 }
 
+/* Text, justified by width */
+.text-justify-width {
+    text-align: justify;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */

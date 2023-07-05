@@ -122,12 +122,22 @@ function RenderTextElement(element) {
 
     if (element.type === TextElementType.FullWidthAlignedTextBegin)
     {
-        return "<div style='text-align: justify'>";
+        return "<div class='text-justify-width'>";
     }
 
     if (element.type === TextElementType.FullWidthAlignedTextEnd)
     {
         return "</div>";
+    }
+
+    if (element.type === TextElementType.ItalicBegin)
+    {
+        return "<em>";
+    }
+
+    if (element.type === TextElementType.ItalicEnd)
+    {
+        return "</em>";
     }
 
     throw new Error("Unknown element type!");
