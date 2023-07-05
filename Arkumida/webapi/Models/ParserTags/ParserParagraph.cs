@@ -6,11 +6,11 @@ namespace webapi.Models.ParserTags;
 /// <summary>
 /// Newline -> paragraph
 /// </summary>
-public class ParserParagraphTag : ParserTagBase
+public class ParserParagraph : ParserTagBase
 {
-    public ParserParagraphTag()
+    public override string GetMatchString()
     {
-        Match = "\n";
+        return Environment.NewLine;
     }
 
     public override void Action(List<TextElementDto> elements, string currentText)

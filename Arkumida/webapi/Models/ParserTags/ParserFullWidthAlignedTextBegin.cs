@@ -5,11 +5,11 @@ namespace webapi.Models.ParserTags;
 
 public class ParserFullWidthAlignedTextBegin : ParserTagBase
 {
-    public ParserFullWidthAlignedTextBegin()
+    public override string GetMatchString()
     {
-        Match = "[f]";
+        return "[f]";
     }
-    
+
     public override void Action(List<TextElementDto> elements, string currentText)
     {
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText));

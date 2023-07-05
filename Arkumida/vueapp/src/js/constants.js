@@ -111,4 +111,8 @@ export class TextElementType
     static FullWidthAlignedTextEnd = 4
     static ItalicBegin = 5
     static ItalicEnd = 6
+    static BoldBegin = 7
+    static BoldEnd = 8
+    static UnderlineBegin = 9
+    static UnderlineEnd = 10
 }

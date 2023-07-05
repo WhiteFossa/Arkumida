@@ -5,11 +5,11 @@ namespace webapi.Models.ParserTags;
 
 public class ParserItalicTextEnd : ParserTagBase
 {
-    public ParserItalicTextEnd()
+    public override string GetMatchString()
     {
-        Match = "[/i]";
+        return "[/i]";
     }
-    
+
     public override void Action(List<TextElementDto> elements, string currentText)
     {
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText));

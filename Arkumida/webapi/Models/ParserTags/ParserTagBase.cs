@@ -8,9 +8,10 @@ namespace webapi.Models.ParserTags;
 public abstract class ParserTagBase
 {
     /// <summary>
-    /// If we find in text this substring, then we have to process this tag
+    /// Returns tag content
     /// </summary>
-    public string Match { get; set; }
+    /// <returns></returns>
+    public abstract string GetMatchString();
 
     /// <summary>
     /// Action on current text, happened when tag matches

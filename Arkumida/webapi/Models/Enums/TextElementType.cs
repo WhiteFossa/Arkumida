@@ -17,5 +17,13 @@ public enum TextElementType
     
     ItalicBegin = 5,
     
-    ItalicEnd = 6
+    ItalicEnd = 6,
+    
+    BoldBegin = 7,
+    
+    BoldEnd = 8,
+    
+    UnderlineBegin = 9,
+    
+    UnderlineEnd = 10
 }

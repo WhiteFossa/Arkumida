@@ -3,18 +3,16 @@ using webapi.Models.Enums;
 
 namespace webapi.Models.ParserTags;
 
-public class ParserFullWidthAlignedTextEnd : ParserTagBase
+public class ParserBoldTextBegin : ParserTagBase
 {
     public override string GetMatchString()
     {
-        return "[/f]";
+        return "[b]";
     }
 
     public override void Action(List<TextElementDto> elements, string currentText)
     {
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
-        elements.Add(new TextElementDto(TextElementType.ParagraphEnd, ""));
-        elements.Add(new TextElementDto(TextElementType.FullWidthAlignedTextEnd, ""));
-        
+        elements.Add(new TextElementDto(TextElementType.BoldBegin, ""));
     }
 }

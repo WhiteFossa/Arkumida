@@ -140,6 +140,26 @@ function RenderTextElement(element) {
         return "</em>";
     }
 
+    if (element.type === TextElementType.BoldBegin)
+    {
+        return "<strong>";
+    }
+
+    if (element.type === TextElementType.BoldEnd)
+    {
+        return "</strong>";
+    }
+
+    if (element.type === TextElementType.UnderlineBegin)
+    {
+        return "<u>";
+    }
+
+    if (element.type === TextElementType.UnderlineEnd)
+    {
+        return "</u>";
+    }
+
     throw new Error("Unknown element type!");
 }
 

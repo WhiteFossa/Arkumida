@@ -20,11 +20,15 @@ public class TextsService : ITextsService
 
     private readonly IReadOnlyCollection<ParserTagBase> _parserTags = new List<ParserTagBase>()
     {
-        new ParserParagraphTag(),
+        new ParserParagraph(),
         new ParserFullWidthAlignedTextBegin(),
         new ParserFullWidthAlignedTextEnd(),
         new ParserItalicTextBegin(),
-        new ParserItalicTextEnd()
+        new ParserItalicTextEnd(),
+        new ParserBoldTextBegin(),
+        new ParserBoldTextEnd(),
+        new ParserUnderlineTextBegin(),
+        new ParserUnderlineTextEnd()
     };
 
     public TextsService
@@ -189,12 +193,15 @@ public class TextsService : ITextsService
             var isMatched = false;
             foreach (var tag in _parserTags)
             {
-                if (text.Substring(charIndex, Math.Min(tag.Match.Length, remaining)) == tag.Match)
+                var tagText = tag.GetMatchString();
+                
+                if (text.Substring(charIndex, Math.Min(tagText.Length, remaining)) == tagText)
                 {
                     // We have a match
                     tag.Action(result, currentTextSb.ToString());
                     currentTextSb.Clear();
-                    charIndex += tag.Match.Length - 1;
+                    charIndex += tagText.Length - 1;
+                    remaining -= tagText.Length - 1;
                     isMatched = true;
                 }
             }
