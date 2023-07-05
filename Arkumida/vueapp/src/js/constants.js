@@ -100,3 +100,13 @@ export class TextType
     static Poetry = 2
     static Comics = 3
 }
+
+// Possible text element types
+export class TextElementType
+{
+    static ParagraphBegin = 0
+    static PlainText = 1
+    static ParagraphEnd = 2
+    static FullWidthAlignedTextBegin = 3
+    static FullWidthAlignedTextEnd = 4
+}

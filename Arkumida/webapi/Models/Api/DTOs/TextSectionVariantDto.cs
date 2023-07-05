@@ -14,10 +14,16 @@ public class TextSectionVariantDto
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Variant content
+    /// Variant content (use it for variant creation, not for display)
     /// </summary>
     [JsonPropertyName("content")]
     public string Content { get; set; }
+
+    /// <summary>
+    /// Variant, parsed to elements. Use it for display.
+    /// </summary>
+    [JsonPropertyName("elements")]
+    public IReadOnlyCollection<TextElementDto> Elements { get; set; }
 
     /// <summary>
     /// Variant creation time
@@ -34,11 +40,13 @@ public class TextSectionVariantDto
     (
         Guid id,
         string content,
+        IReadOnlyCollection<TextElementDto> elements,
         DateTime creationTime
     )
     {
         Id = id;
         Content = content; // It may be empty
+        Elements = elements ?? throw new ArgumentNullException(nameof(elements), "Elements collection must not be null.");
         CreationTime = creationTime;
     }
 

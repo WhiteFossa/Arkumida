@@ -1,4 +1,5 @@
 using webapi.Models.Api.DTOs;
+using webapi.Services.Abstract;
 
 namespace webapi.Models;
 
@@ -67,7 +68,7 @@ public class Text
     /// </summary>
     public bool IsIncomplete { get; set; }
 
-    public TextDto ToDto()
+    public TextDto ToDto(ITextsService textsService)
     {
         return new TextDto
         (
@@ -76,7 +77,7 @@ public class Text
             LastUpdateTime,
             Title,
             Description,
-            Sections.Select(s => s.ToDto()).ToList(),
+            Sections.Select(s => s.ToDto(textsService)).ToList(),
             ReadsCount,
             VotesCount,
             VotesPlus,

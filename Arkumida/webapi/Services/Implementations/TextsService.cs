@@ -1,9 +1,11 @@
+using System.Text;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models.Enums;
 using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
+using webapi.Models.ParserTags;
 using webapi.Services.Abstract;
 
 namespace webapi.Services.Implementations;
@@ -15,6 +17,13 @@ public class TextsService : ITextsService
     private readonly ITagsMapper _tagsMapper;
     private readonly ITagsService _tagsService;
     private readonly ITextsSectionsMapper _textsSectionsMapper;
+
+    private readonly IReadOnlyCollection<ParserTagBase> _parserTags = new List<ParserTagBase>()
+    {
+        new ParserParagraphTag(),
+        new ParserFullWidthAlignedTextBegin(),
+        new ParserFullWidthAlignedTextEnd()
+    };
 
     public TextsService
     (
@@ -147,7 +156,7 @@ public class TextsService : ITextsService
             textData.Title,
             textData.Description,
             OrderTextSections(_textsSectionsMapper.Map(textData.Sections))
-                .Select(ts => ts.ToDto())
+                .Select(ts => ts.ToDto(this))
                 .ToList(),
             _tagsService.OrderTags(textTags).Select(t => t.ToTagDto()).ToList(),
             new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
@@ -161,5 +170,43 @@ public class TextsService : ITextsService
         return sections
             .OrderBy(s => s.Order)
             .ToList();
+    }
+
+    public IReadOnlyCollection<TextElementDto> ParseTextToElements(string text)
+    {
+        var result = new List<TextElementDto>();
+
+        result.Add(new TextElementDto(TextElementType.ParagraphBegin, ""));
+
+        var currentTextSb = new StringBuilder();
+        for (var charIndex = 0; charIndex < text.Length; charIndex++)
+        {
+            var remaining = text.Length - charIndex;
+            
+            // Trying to match tags
+            var isMatched = false;
+            foreach (var tag in _parserTags)
+            {
+                if (text.Substring(charIndex, Math.Min(tag.Match.Length, remaining)) == tag.Match)
+                {
+                    // We have a match
+                    tag.Action(result, currentTextSb.ToString());
+                    currentTextSb.Clear();
+                    charIndex += tag.Match.Length - 1;
+                    isMatched = true;
+                }
+            }
+
+            if (!isMatched)
+            {
+                // Ordinary character
+                currentTextSb.Append(text.Substring(charIndex, 1));
+            }
+        }
+
+        result.Add(new TextElementDto(TextElementType.PlainText, currentTextSb.ToString()));
+        result.Add(new TextElementDto(TextElementType.ParagraphEnd, ""));
+
+        return result;
     }
 }

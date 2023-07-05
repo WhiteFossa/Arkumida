@@ -1,4 +1,5 @@
 using webapi.Models.Api.DTOs;
+using webapi.Services.Abstract;
 
 namespace webapi.Models;
 
@@ -28,8 +29,8 @@ public class TextSection
     /// </summary>
     public IList<TextSectionVariant> Variants { get; set; }
 
-    public TextSectionDto ToDto()
+    public TextSectionDto ToDto(ITextsService textsService)
     {
-        return new TextSectionDto(Id, OriginalText, Order, Variants.Select(v => v.ToDto()).ToList());
+        return new TextSectionDto(Id, OriginalText, Order, Variants.Select(v => v.ToDto(textsService)).ToList());
     }
 }

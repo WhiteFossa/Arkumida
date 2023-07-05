@@ -1,4 +1,6 @@
 using webapi.Models.Api.DTOs;
+using webapi.Models.Enums;
+using webapi.Services.Abstract;
 
 namespace webapi.Models;
 
@@ -25,8 +27,14 @@ public class TextSectionVariant
     /// <summary>
     /// To DTO
     /// </summary>
-    public TextSectionVariantDto ToDto()
+    public TextSectionVariantDto ToDto(ITextsService textsService)
     {
-        return new TextSectionVariantDto(Id, Content, CreationTime);
+        return new TextSectionVariantDto
+        (
+            Id,
+            string.Empty, // We don't need to pass content to frontend
+            textsService.ParseTextToElements(Content),
+            CreationTime
+        );
     }
 }

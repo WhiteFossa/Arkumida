@@ -1,6 +1,6 @@
 // Add icon to icons list
 
-import {SpecialTextType, TagMeaning, TextIconType, TextType} from "@/js/constants";
+import {SpecialTextType, TagMeaning, TextElementType, TextIconType, TextType} from "@/js/constants";
 
 function AddIconToList(sourceIcons, iconsList)
 {
@@ -107,9 +107,30 @@ function InjectInclompleteIcon(icons)
     icons.value.push({ "type": TextIconType.Incomplete, "url": "" });
 }
 
-function SplitTextToParagraphs(text)
-{
-    return text.split(/\r?\n/);
+function RenderTextElement(element) {
+    if (element.type === TextElementType.ParagraphBegin) {
+        return "<div class='text-paragraph'>";
+    }
+
+    if (element.type === TextElementType.PlainText) {
+        return element.content;
+    }
+
+    if (element.type === TextElementType.ParagraphEnd) {
+        return "</div>";
+    }
+
+    if (element.type === TextElementType.FullWidthAlignedTextBegin)
+    {
+        return "<div style='text-align: justify'>";
+    }
+
+    if (element.type === TextElementType.FullWidthAlignedTextEnd)
+    {
+        return "</div>";
+    }
+
+    throw new Error("Unknown element type!");
 }
 
 export
@@ -123,5 +144,5 @@ export
     IsMlpText,
     InjectMlpIcon,
     InjectInclompleteIcon,
-    SplitTextToParagraphs
+    RenderTextElement
 }

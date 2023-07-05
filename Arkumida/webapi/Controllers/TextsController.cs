@@ -123,7 +123,7 @@ public class TextsController : ControllerBase
 
         return Ok
         (
-            new CreateTextResponse(textToCreate.ToDto())
+            new CreateTextResponse(textToCreate.ToDto(_textsService))
         );
     }
 }

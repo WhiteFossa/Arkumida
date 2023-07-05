@@ -44,4 +44,9 @@ public interface ITextsService
     /// Order text sections such a way, that they will compose a full text
     /// </summary>
     IReadOnlyCollection<TextSection> OrderTextSections(IEnumerable<TextSection> sections);
+
+    /// <summary>
+    /// Parse text (of variant) to text elements
+    /// </summary>
+    IReadOnlyCollection<TextElementDto> ParseTextToElements(string text);
 }
