@@ -45,5 +45,13 @@ public enum TextElementType
     
     TitleBegin = 19,
     
-    TitleEnd = 20
+    TitleEnd = 20,
+    
+    PreformattedTextBegin = 21,
+    
+    PreformattedTextEnd = 22,
+    
+    QuoteBegin = 23,
+    
+    QuoteEnd = 24
 }

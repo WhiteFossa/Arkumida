@@ -210,6 +210,26 @@ function RenderTextElement(element) {
         return "</h1>";
     }
 
+    if (element.type === TextElementType.PreformattedTextBegin)
+    {
+        return "<pre>";
+    }
+
+    if (element.type === TextElementType.PreformattedTextEnd)
+    {
+        return "</pre>";
+    }
+
+    if (element.type === TextElementType.QuoteBegin)
+    {
+        return "<div class='text-quote'>";
+    }
+
+    if (element.type === TextElementType.QuoteEnd)
+    {
+        return "</div>";
+    }
+
     throw new Error("Unknown element type!");
 }
 

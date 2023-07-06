@@ -38,7 +38,11 @@ public class TextsService : ITextsService
         new ParserRightAlignedTextBegin(),
         new ParserRightAlignedTextEnd(),
         new ParserTitleBegin(),
-        new ParserTitleEnd()
+        new ParserTitleEnd(),
+        new ParserPreformattedTextBegin(),
+        new ParserPreformattedTextEnd(),
+        new ParserQuoteBegin(),
+        new ParserQuoteEnd()
     };
 
     public TextsService

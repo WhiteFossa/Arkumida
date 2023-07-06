@@ -125,4 +125,8 @@ export class TextElementType
     static RightAlignedTextEnd = 18
     static TitleBegin = 19
     static TitleEnd = 20
+    static PreformattedTextBegin = 21
+    static PreformattedTextEnd = 22
+    static QuoteBegin = 23
+    static QuoteEnd = 24
 }

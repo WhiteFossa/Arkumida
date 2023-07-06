@@ -1019,6 +1019,15 @@ body {
     text-align: right;
 }
 
+/* Text quote */
+.text-quote {
+    font-family: monospace;
+    font-size: 1.1rem;
+    padding: 2rem;
+    background-color: hsl(0, 0%, 100%);
+    color: hsl(0, 0%, 0%)
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */
