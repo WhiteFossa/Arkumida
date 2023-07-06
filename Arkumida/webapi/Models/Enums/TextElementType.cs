@@ -29,5 +29,13 @@ public enum TextElementType
     
     StrikeOutBegin = 11,
     
-    StrikeOutEnd = 12
+    StrikeOutEnd = 12,
+    
+    CentrallyAlignedTextBegin = 13,
+    
+    CentrallyAlignedTextEnd = 14,
+    
+    LeftAlignedTextBegin = 15,
+    
+    LeftAlignedTextEnd = 16
 }

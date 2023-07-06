@@ -117,4 +117,8 @@ export class TextElementType
     static UnderlineEnd = 10
     static StrikeOutBegin = 11
     static StrikeOutEnd = 12
+    static CentrallyAlignedTextBegin = 13
+    static CentrallyAlignedTextEnd = 14
+    static LeftAlignedTextBegin = 15
+    static LeftAlignedTextEnd = 16
 }

@@ -170,6 +170,26 @@ function RenderTextElement(element) {
         return "</del>";
     }
 
+    if (element.type === TextElementType.CentrallyAlignedTextBegin)
+    {
+        return "<div class='text-align-center'>";
+    }
+
+    if (element.type === TextElementType.CentrallyAlignedTextEnd)
+    {
+        return "</div>";
+    }
+
+    if (element.type === TextElementType.LeftAlignedTextBegin)
+    {
+        return "<div class='text-align-left'>";
+    }
+
+    if (element.type === TextElementType.LeftAlignedTextEnd)
+    {
+        return "</div>";
+    }
+
     throw new Error("Unknown element type!");
 }
 

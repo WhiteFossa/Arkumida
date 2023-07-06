@@ -1004,6 +1004,16 @@ body {
     text-align: justify;
 }
 
+/* Centrally aligned text */
+.text-align-center {
+    text-align: center;
+}
+
+/* Left-aligned-text */
+.text-align-left {
+    text-align: left;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */

@@ -30,7 +30,11 @@ public class TextsService : ITextsService
         new ParserUnderlineTextBegin(),
         new ParserUnderlineTextEnd(),
         new ParserStrikeOutTextBegin(),
-        new ParserStrikeOutTextEnd()
+        new ParserStrikeOutTextEnd(),
+        new ParserCentrallyAlignedTextBegin(),
+        new ParserCentrallyAlignedTextEnd(),
+        new ParserLeftAlignedTextBegin(),
+        new ParserLeftAlignedTextEnd()
     };
 
     public TextsService
