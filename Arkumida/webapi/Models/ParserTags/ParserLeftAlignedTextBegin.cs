@@ -14,5 +14,6 @@ public class ParserLeftAlignedTextBegin : ParserTagBase
     {
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
         elements.Add(new TextElementDto(TextElementType.LeftAlignedTextBegin, ""));
+        elements.Add(new TextElementDto(TextElementType.ParagraphBegin, ""));
     }
 }

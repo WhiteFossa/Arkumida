@@ -14,5 +14,6 @@ public class ParserCentrallyAlignedTextBegin : ParserTagBase
     {
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
         elements.Add(new TextElementDto(TextElementType.CentrallyAlignedTextBegin, ""));
+        elements.Add(new TextElementDto(TextElementType.ParagraphBegin, ""));
     }
 }

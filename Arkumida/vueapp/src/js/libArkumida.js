@@ -190,6 +190,26 @@ function RenderTextElement(element) {
         return "</div>";
     }
 
+    if (element.type === TextElementType.RightAlignedTextBegin)
+    {
+        return "<div class='text-align-right'>";
+    }
+
+    if (element.type === TextElementType.RightAlignedTextEnd)
+    {
+        return "</div>";
+    }
+
+    if (element.type === TextElementType.TitleBegin)
+    {
+        return "<h1>";
+    }
+
+    if (element.type === TextElementType.TitleEnd)
+    {
+        return "</h1>";
+    }
+
     throw new Error("Unknown element type!");
 }
 

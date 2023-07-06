@@ -37,5 +37,13 @@ public enum TextElementType
     
     LeftAlignedTextBegin = 15,
     
-    LeftAlignedTextEnd = 16
+    LeftAlignedTextEnd = 16,
+    
+    RightAlignedTextBegin = 17,
+    
+    RightAlignedTextEnd = 18,
+    
+    TitleBegin = 19,
+    
+    TitleEnd = 20
 }

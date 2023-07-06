@@ -1014,6 +1014,11 @@ body {
     text-align: left;
 }
 
+/* Right-aligned-text */
+.text-align-right {
+    text-align: right;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */

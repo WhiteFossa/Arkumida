@@ -3,17 +3,17 @@ using webapi.Models.Enums;
 
 namespace webapi.Models.ParserTags;
 
-public class ParserCentrallyAlignedTextEnd : ParserTagBase
+public class ParserRightAlignedTextBegin : ParserTagBase
 {
     public override string GetMatchString()
     {
-        return "[/c]";
+        return "[r]";
     }
 
     public override void Action(List<TextElementDto> elements, string currentText)
     {
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
-        elements.Add(new TextElementDto(TextElementType.ParagraphEnd, ""));
-        elements.Add(new TextElementDto(TextElementType.CentrallyAlignedTextEnd, ""));
+        elements.Add(new TextElementDto(TextElementType.RightAlignedTextBegin, ""));
+        elements.Add(new TextElementDto(TextElementType.ParagraphBegin, ""));
     }
 }

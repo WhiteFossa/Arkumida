@@ -13,6 +13,7 @@ public class ParserLeftAlignedTextEnd : ParserTagBase
     public override void Action(List<TextElementDto> elements, string currentText)
     {
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
+        elements.Add(new TextElementDto(TextElementType.ParagraphEnd, ""));
         elements.Add(new TextElementDto(TextElementType.LeftAlignedTextEnd, ""));
     }
 }

@@ -121,4 +121,8 @@ export class TextElementType
     static CentrallyAlignedTextEnd = 14
     static LeftAlignedTextBegin = 15
     static LeftAlignedTextEnd = 16
+    static RightAlignedTextBegin = 17
+    static RightAlignedTextEnd = 18
+    static TitleBegin = 19
+    static TitleEnd = 20
 }
