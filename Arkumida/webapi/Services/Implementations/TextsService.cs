@@ -28,7 +28,9 @@ public class TextsService : ITextsService
         new ParserBoldTextBegin(),
         new ParserBoldTextEnd(),
         new ParserUnderlineTextBegin(),
-        new ParserUnderlineTextEnd()
+        new ParserUnderlineTextEnd(),
+        new ParserStrikeOutTextBegin(),
+        new ParserStrikeOutTextEnd()
     };
 
     public TextsService

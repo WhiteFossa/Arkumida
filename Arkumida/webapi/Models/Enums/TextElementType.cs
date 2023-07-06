@@ -25,5 +25,9 @@ public enum TextElementType
     
     UnderlineBegin = 9,
     
-    UnderlineEnd = 10
+    UnderlineEnd = 10,
+    
+    StrikeOutBegin = 11,
+    
+    StrikeOutEnd = 12
 }

@@ -115,4 +115,6 @@ export class TextElementType
     static BoldEnd = 8
     static UnderlineBegin = 9
     static UnderlineEnd = 10
+    static StrikeOutBegin = 11
+    static StrikeOutEnd = 12
 }

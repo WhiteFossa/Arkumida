@@ -160,6 +160,16 @@ function RenderTextElement(element) {
         return "</u>";
     }
 
+    if (element.type === TextElementType.StrikeOutBegin)
+    {
+        return "<del>";
+    }
+
+    if (element.type === TextElementType.StrikeOutEnd)
+    {
+        return "</del>";
+    }
+
     throw new Error("Unknown element type!");
 }
 
