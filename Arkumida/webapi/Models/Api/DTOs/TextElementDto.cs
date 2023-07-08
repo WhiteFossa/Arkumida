@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using webapi.Models.Enums;
 
@@ -20,13 +21,20 @@ public class TextElementDto
     [JsonPropertyName("content")]
     public string Content { get; set; }
 
+    /// <summary>
+    /// Element parameters (as a set of strings)
+    /// </summary>
+    [JsonPropertyName("parameters")]
+    public IReadOnlyCollection<string> Parameters { get; set; }
+
     public TextElementDto
     (
         TextElementType type,
-        string content
-    )
+        string content,
+        IReadOnlyCollection<string> parameters)
     {
         Type = type;
         Content = content;
+        Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters), "Parameters must not be empty!");
     }
 }

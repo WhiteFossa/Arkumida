@@ -3,17 +3,24 @@ using webapi.Models.Enums;
 
 namespace webapi.Models.ParserTags;
 
-public class ParserFullWidthAlignedTextBegin : ParserTagBase
+public class ParserFullWidthAlignedTextBegin : ExactMatchedParserTag
 {
+    private const string TextToMatch = "[f]";
+    
     public override string GetMatchString()
     {
-        return "[f]";
+        return TextToMatch;
     }
 
-    public override void Action(List<TextElementDto> elements, string currentText)
+    public override int GetRequestedTextLength()
     {
-        elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
-        elements.Add(new TextElementDto(TextElementType.FullWidthAlignedTextBegin, ""));
-        elements.Add(new TextElementDto(TextElementType.ParagraphBegin, ""));
+        return TextToMatch.Length;
+    }
+
+    public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups)
+    {
+        elements.Add(new TextElementDto(TextElementType.PlainText, currentText, new string[] {}));
+        elements.Add(new TextElementDto(TextElementType.FullWidthAlignedTextBegin, "", new string[] {}));
+        elements.Add(new TextElementDto(TextElementType.ParagraphBegin, "", new string[] {}));
     }
 }

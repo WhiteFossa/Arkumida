@@ -53,5 +53,13 @@ public enum TextElementType
     
     QuoteBegin = 23,
     
-    QuoteEnd = 24
+    QuoteEnd = 24,
+    
+    AsciiArtBegin = 25,
+    
+    AsciiArtEnd = 26,
+    
+    UrlBegin = 27,
+    
+    UrlEnd = 28
 }

@@ -3,16 +3,23 @@ using webapi.Models.Enums;
 
 namespace webapi.Models.ParserTags;
 
-public class ParserStrikeOutTextEnd : ParserTagBase
+public class ParserStrikeOutTextEnd : ExactMatchedParserTag
 {
+    private const string TextToMatch = "[/s]";
+    
     public override string GetMatchString()
     {
-        return "[/s]";
+        return TextToMatch;
     }
 
-    public override void Action(List<TextElementDto> elements, string currentText)
+    public override int GetRequestedTextLength()
     {
-        elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
-        elements.Add(new TextElementDto(TextElementType.StrikeOutEnd, ""));
+        return TextToMatch.Length;
+    }
+
+    public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups)
+    {
+        elements.Add(new TextElementDto(TextElementType.PlainText, currentText, new string[] {}));
+        elements.Add(new TextElementDto(TextElementType.StrikeOutEnd, "", new string[] {}));
     }
 }

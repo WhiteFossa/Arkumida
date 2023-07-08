@@ -3,17 +3,24 @@ using webapi.Models.Enums;
 
 namespace webapi.Models.ParserTags;
 
-public class ParserQuoteBegin : ParserTagBase
+public class ParserQuoteBegin : ExactMatchedParserTag
 {
+    private const string TextToMatch = "[q]";
+    
     public override string GetMatchString()
     {
-        return "[q]";
+        return TextToMatch;
     }
 
-    public override void Action(List<TextElementDto> elements, string currentText)
+    public override int GetRequestedTextLength()
     {
-        elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
-        elements.Add(new TextElementDto(TextElementType.QuoteBegin, ""));
-        elements.Add(new TextElementDto(TextElementType.ParagraphBegin, ""));
+        return TextToMatch.Length;
+    }
+
+    public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups)
+    {
+        elements.Add(new TextElementDto(TextElementType.PlainText, currentText, new string[] {}));
+        elements.Add(new TextElementDto(TextElementType.QuoteBegin, "", new string[] {}));
+        elements.Add(new TextElementDto(TextElementType.ParagraphBegin, "", new string[] {}));
     }
 }

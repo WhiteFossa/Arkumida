@@ -3,17 +3,24 @@ using webapi.Models.Enums;
 
 namespace webapi.Models.ParserTags;
 
-public class ParserPreformattedTextEnd : ParserTagBase
+public class ParserPreformattedTextEnd : ExactMatchedParserTag
 {
+    private const string TextToMatch = "[/pre]";
+    
     public override string GetMatchString()
     {
-        return "[/pre]";
+        return TextToMatch;
     }
 
-    public override void Action(List<TextElementDto> elements, string currentText)
+    public override int GetRequestedTextLength()
     {
-        elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
-        elements.Add(new TextElementDto(TextElementType.ParagraphEnd, ""));
-        elements.Add(new TextElementDto(TextElementType.PreformattedTextEnd, ""));
+        return TextToMatch.Length;
+    }
+
+    public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups)
+    {
+        elements.Add(new TextElementDto(TextElementType.PlainText, currentText, new string[] {}));
+        elements.Add(new TextElementDto(TextElementType.ParagraphEnd, "", new string[] {}));
+        elements.Add(new TextElementDto(TextElementType.PreformattedTextEnd, "", new string[] {}));
     }
 }

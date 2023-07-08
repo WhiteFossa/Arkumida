@@ -3,16 +3,23 @@ using webapi.Models.Enums;
 
 namespace webapi.Models.ParserTags;
 
-public class ParserItalicTextEnd : ParserTagBase
+public class ParserItalicTextEnd : ExactMatchedParserTag
 {
+    private const string TextToMatch = "[/i]";
+    
     public override string GetMatchString()
     {
-        return "[/i]";
+        return TextToMatch;
     }
 
-    public override void Action(List<TextElementDto> elements, string currentText)
+    public override int GetRequestedTextLength()
     {
-        elements.Add(new TextElementDto(TextElementType.PlainText, currentText));
-        elements.Add(new TextElementDto(TextElementType.ItalicEnd, ""));
+        return TextToMatch.Length;
+    }
+
+    public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups)
+    {
+        elements.Add(new TextElementDto(TextElementType.PlainText, currentText, new string[] {}));
+        elements.Add(new TextElementDto(TextElementType.ItalicEnd, "", new string[] {}));
     }
 }

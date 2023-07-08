@@ -230,6 +230,26 @@ function RenderTextElement(element) {
         return "</div>";
     }
 
+    if (element.type === TextElementType.AsciiArtBegin)
+    {
+        return "<pre class='text-ascii-art'>";
+    }
+
+    if (element.type === TextElementType.AsciiArtEnd)
+    {
+        return "</pre>";
+    }
+
+    if (element.type === TextElementType.UrlBegin)
+    {
+        return "<a href='"+ element.parameters[0] +"'>";
+    }
+
+    if (element.type === TextElementType.UrlEnd)
+    {
+        return "</a>";
+    }
+
     throw new Error("Unknown element type!");
 }
 

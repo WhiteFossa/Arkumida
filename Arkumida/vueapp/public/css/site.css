@@ -1028,6 +1028,11 @@ body {
     color: hsl(0, 0%, 0%)
 }
 
+/* ASCII art in text */
+.text-ascii-art {
+    line-height: 0;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */

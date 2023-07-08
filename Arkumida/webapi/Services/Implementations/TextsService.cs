@@ -42,7 +42,10 @@ public class TextsService : ITextsService
         new ParserPreformattedTextBegin(),
         new ParserPreformattedTextEnd(),
         new ParserQuoteBegin(),
-        new ParserQuoteEnd()
+        new ParserQuoteEnd(),
+        new ParserAsciiArtBegin(),
+        new ParserAsciiArtEnd(),
+        new ParserUrl()
     };
 
     public TextsService
@@ -196,7 +199,7 @@ public class TextsService : ITextsService
     {
         var result = new List<TextElementDto>();
 
-        result.Add(new TextElementDto(TextElementType.ParagraphBegin, ""));
+        result.Add(new TextElementDto(TextElementType.ParagraphBegin, "", new string[] {}));
 
         var currentTextSb = new StringBuilder();
         for (var charIndex = 0; charIndex < text.Length; charIndex++)
@@ -207,15 +210,18 @@ public class TextsService : ITextsService
             var isMatched = false;
             foreach (var tag in _parserTags)
             {
-                var tagText = tag.GetMatchString();
+                var searchTextLength = Math.Min(tag.GetRequestedTextLength(), remaining);
+                var matchResult = tag.TryMatch(text.Substring(charIndex, searchTextLength));
                 
-                if (text.Substring(charIndex, Math.Min(tagText.Length, remaining)) == tagText)
+                if (matchResult.Item1)
                 {
                     // We have a match
-                    tag.Action(result, currentTextSb.ToString());
+                    tag.Action(result, currentTextSb.ToString(), matchResult.Item3);
                     currentTextSb.Clear();
-                    charIndex += tagText.Length - 1;
-                    remaining -= tagText.Length - 1;
+                    
+                    charIndex += matchResult.Item2 - 1;
+                    remaining -= matchResult.Item2 - 1;
+                    
                     isMatched = true;
                 }
             }
@@ -227,8 +233,8 @@ public class TextsService : ITextsService
             }
         }
 
-        result.Add(new TextElementDto(TextElementType.PlainText, currentTextSb.ToString()));
-        result.Add(new TextElementDto(TextElementType.ParagraphEnd, ""));
+        result.Add(new TextElementDto(TextElementType.PlainText, currentTextSb.ToString(), new string[] {}));
+        result.Add(new TextElementDto(TextElementType.ParagraphEnd, "", new string[] {}));
 
         return result;
     }

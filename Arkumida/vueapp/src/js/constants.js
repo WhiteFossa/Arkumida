@@ -129,4 +129,8 @@ export class TextElementType
     static PreformattedTextEnd = 22
     static QuoteBegin = 23
     static QuoteEnd = 24
+    static AsciiArtBegin = 25
+    static AsciiArtEnd = 26
+    static UrlBegin = 27
+    static UrlEnd = 28
 }
