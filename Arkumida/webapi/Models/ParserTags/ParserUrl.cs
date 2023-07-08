@@ -6,7 +6,8 @@ namespace webapi.Models.ParserTags;
 
 public class ParserUrl : ParserTagBase
 {
-    private const int MaxUrlTagLength = 1024;
+    private const string FastSkipMatch = @"[url]";
+    
     private const string MatchRegexp = @"^\[url\](\S+)\[/url\]";
     private readonly Regex _regexp = new Regex(MatchRegexp, RegexOptions.Compiled | RegexOptions.IgnoreCase);
     
@@ -17,7 +18,7 @@ public class ParserUrl : ParserTagBase
 
     public override int GetRequestedTextLength()
     {
-        return MaxUrlTagLength; 
+        return int.MaxValue; 
     }
 
     public override Tuple<bool, int, IReadOnlyCollection<string>> TryMatch(string text)

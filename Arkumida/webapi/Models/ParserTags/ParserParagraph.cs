@@ -24,4 +24,9 @@ public class ParserParagraph : ExactMatchedParserTag
         elements.Add(new TextElementDto(TextElementType.ParagraphEnd, "", new string[] {}));
         elements.Add(new TextElementDto(TextElementType.ParagraphBegin, "", new string[] {}));
     }
+    
+    public override bool IsFastSkip(string text)
+    {
+        return text != Environment.NewLine;
+    }
 }

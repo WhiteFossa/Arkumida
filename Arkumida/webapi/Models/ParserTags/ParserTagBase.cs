@@ -30,4 +30,12 @@ public abstract class ParserTagBase
     /// Action on current text, happened when tag matches
     /// </summary>
     public abstract void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups);
+
+    /// <summary>
+    /// If true, then we MUST NOT call TryMatch(), but have to skip to next tag. It is for performance
+    /// </summary>
+    public virtual bool IsFastSkip(string text)
+    {
+        return text != "[";
+    }
 }

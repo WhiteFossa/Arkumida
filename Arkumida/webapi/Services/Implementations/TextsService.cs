@@ -12,6 +12,8 @@ namespace webapi.Services.Implementations;
 
 public class TextsService : ITextsService
 {
+    private const int ParserFastSkipTextLength = 1; // We are searching for one character - "["
+    
     private readonly ITextsDao _textsDao;
     private readonly ITextsMapper _textsMapper;
     private readonly ITagsMapper _tagsMapper;
@@ -206,12 +208,20 @@ public class TextsService : ITextsService
         {
             var remaining = text.Length - charIndex;
             
+            var fastSkipText = text.Substring(charIndex, Math.Min(ParserFastSkipTextLength, remaining));
+            
             // Trying to match tags
             var isMatched = false;
             foreach (var tag in _parserTags)
             {
-                var searchTextLength = Math.Min(tag.GetRequestedTextLength(), remaining);
-                var matchResult = tag.TryMatch(text.Substring(charIndex, searchTextLength));
+                // Fast skip
+                if (tag.IsFastSkip(fastSkipText))
+                {
+                    continue;
+                }
+                
+                // Full analysis
+                var matchResult = tag.TryMatch(text.Substring(charIndex, Math.Min(tag.GetRequestedTextLength(), remaining)));
                 
                 if (matchResult.Item1)
                 {
