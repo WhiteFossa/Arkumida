@@ -6,7 +6,7 @@ namespace webapi.Models.ParserTags;
 
 public class ParserUrl : ParserTagBase
 {
-    private const string MatchRegexp = @"^\[url\](\S+)\[/url\]";
+    private const string MatchRegexp = @"^\[url\](.+)\[/url\]";
     private readonly Regex _regexp = new Regex(MatchRegexp, RegexOptions.Compiled | RegexOptions.IgnoreCase);
     
     public override string GetMatchString()
