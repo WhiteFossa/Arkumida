@@ -260,6 +260,16 @@ function RenderTextElement(element) {
         return "</span>";
     }
 
+    if (element.type === TextElementType.SizedAsciiArtBegin)
+    {
+        return "<pre className='text-ascii-art' style='font-size: " + element.parameters[0] + "rem;'>";
+    }
+
+    if (element.type === TextElementType.SizedAsciiArtEnd)
+    {
+        return "</pre";
+    }
+
     throw new Error("Unknown element type!");
 }
 

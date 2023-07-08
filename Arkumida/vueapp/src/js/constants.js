@@ -135,4 +135,6 @@ export class TextElementType
     static UrlEnd = 28
     static ColorBegin = 29
     static ColorEnd = 30
+    static SizedAsciiArtBegin = 31
+    static SizedAsciiArtEnd = 32
 }

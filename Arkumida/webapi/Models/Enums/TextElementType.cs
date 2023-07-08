@@ -65,5 +65,9 @@ public enum TextElementType
     
     ColorBegin = 29,
     
-    ColorEnd = 30
+    ColorEnd = 30,
+    
+    SizedAsciiArtBegin = 31,
+    
+    SizedAsciiArtEnd = 32
 }
