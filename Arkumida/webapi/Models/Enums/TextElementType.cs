@@ -61,5 +61,9 @@ public enum TextElementType
     
     UrlBegin = 27,
     
-    UrlEnd = 28
+    UrlEnd = 28,
+    
+    ColorBegin = 29,
+    
+    ColorEnd = 30
 }

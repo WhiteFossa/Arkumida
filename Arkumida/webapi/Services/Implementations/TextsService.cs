@@ -47,7 +47,8 @@ public class TextsService : ITextsService
         new ParserQuoteEnd(),
         new ParserAsciiArtBegin(),
         new ParserAsciiArtEnd(),
-        new ParserUrl()
+        new ParserUrl(),
+        new ParserColor()
     };
 
     public TextsService

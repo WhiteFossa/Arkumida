@@ -242,12 +242,22 @@ function RenderTextElement(element) {
 
     if (element.type === TextElementType.UrlBegin)
     {
-        return "<a href='"+ element.parameters[0] +"'>";
+        return "<a href='" + element.parameters[0] + "'>";
     }
 
     if (element.type === TextElementType.UrlEnd)
     {
         return "</a>";
+    }
+
+    if (element.type === TextElementType.ColorBegin)
+    {
+        return "<span style='color: " + element.parameters[0] +";'>";
+    }
+
+    if (element.type === TextElementType.ColorEnd)
+    {
+        return "</span>";
     }
 
     throw new Error("Unknown element type!");
