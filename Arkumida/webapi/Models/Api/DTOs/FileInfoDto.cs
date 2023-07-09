@@ -1,0 +1,32 @@
+namespace webapi.Models.Api.DTOs;
+
+/// <summary>
+/// DTO with information on file
+/// </summary>
+public class FileInfoDto
+{
+    /// <summary>
+    /// File ID
+    /// </summary>
+    public Guid Id { get; private set; }
+
+    /// <summary>
+    /// Filename
+    /// </summary>
+    public string Name { get; private set; }
+    
+    public FileInfoDto
+    (
+        Guid id,
+        string name
+    )
+    {
+        Id = id;
+        
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("File name must be populated!", nameof(name));
+        }
+        Name = name;
+    }
+}

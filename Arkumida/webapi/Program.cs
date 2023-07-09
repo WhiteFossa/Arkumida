@@ -23,6 +23,9 @@ builder.Services.AddScoped<ITextsDao, TextsDao>();
 builder.Services.AddScoped<ITagsService, TagsService>();
 builder.Services.AddScoped<ITextsService, TextsService>();
 
+builder.Services.AddScoped<IFilesDao, FilesDao>();
+builder.Services.AddScoped<IFilesService, FilesService>();
+
 #endregion
 
 #region Singletons

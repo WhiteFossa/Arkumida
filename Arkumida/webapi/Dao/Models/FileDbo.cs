@@ -1,0 +1,35 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace webapi.Dao.Models;
+
+/// <summary>
+/// File, stored in database
+/// </summary>
+public class FileDbo
+{
+    /// <summary>
+    /// Tag ID
+    /// </summary>
+    [Key]
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// Original file name
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// MIME type
+    /// </summary>
+    public string Type { get; set; }
+    
+    /// <summary>
+    /// File content
+    /// </summary>
+    public byte[] Content { get; set; }
+    
+    /// <summary>
+    /// SHA-512 of file content, for use as ETag
+    /// </summary>
+    public string Hash { get; set; }
+}
