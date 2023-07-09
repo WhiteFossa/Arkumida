@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 
@@ -28,5 +29,12 @@ public class FilesDao : IFilesDao
         {
             throw new InvalidOperationException($"Expected to insert 1 row, actually inserted { affected } rows!");
         }
+    }
+
+    public async Task<FileDbo> GetFileAsync(Guid fileId)
+    {
+        return await _dbContext
+            .Files
+            .SingleAsync(f => f.Id == fileId);
     }
 }

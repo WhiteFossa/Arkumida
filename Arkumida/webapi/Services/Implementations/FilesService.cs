@@ -3,6 +3,7 @@ using webapi.Dao.Models;
 using webapi.Helpers;
 using webapi.Models.Api.DTOs;
 using webapi.Services.Abstract;
+using File = webapi.Models.File;
 
 namespace webapi.Services.Implementations;
 
@@ -39,5 +40,12 @@ public class FilesService : IFilesService
         await _filesDao.CreateFileAsync(fileDbo);
 
         return new FileInfoDto(fileDbo.Id, fileDbo.Name);
+    }
+
+    public async Task<File> GetFileAsync(Guid fileId)
+    {
+        var fileDbo = await _filesDao.GetFileAsync(fileId);
+
+        return new File(fileDbo.Content, fileDbo.Type, fileDbo.Name, DateTime.UtcNow, fileDbo.Hash);
     }
 }
