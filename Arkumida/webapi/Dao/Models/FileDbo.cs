@@ -32,4 +32,9 @@ public class FileDbo
     /// SHA-512 of file content, for use as ETag
     /// </summary>
     public string Hash { get; set; }
+
+    /// <summary>
+    /// Last modification time
+    /// </summary>
+    public DateTime LastModifiedTime { get; set; }
 }

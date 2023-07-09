@@ -46,6 +46,6 @@ public class FilesService : IFilesService
     {
         var fileDbo = await _filesDao.GetFileAsync(fileId);
 
-        return new File(fileDbo.Content, fileDbo.Type, fileDbo.Name, DateTime.UtcNow, fileDbo.Hash);
+        return new File(fileDbo.Content, fileDbo.Type, fileDbo.Name, fileDbo.LastModifiedTime, fileDbo.Hash);
     }
 }

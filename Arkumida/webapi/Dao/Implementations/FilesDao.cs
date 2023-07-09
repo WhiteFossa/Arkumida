@@ -20,6 +20,8 @@ public class FilesDao : IFilesDao
     {
         _ = file ?? throw new ArgumentNullException(nameof(file), "File must not be null.");
         
+        file.LastModifiedTime = DateTime.UtcNow;
+
         await _dbContext
             .Files
             .AddAsync(file);
