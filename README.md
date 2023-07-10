@@ -65,3 +65,7 @@ Create .htaccess file with the next content in the root vhost directory:
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule . /index.html [L]
 </ifModule>
+
+
+# Notes
+After running furtails-importer don't forget to replace [ascii=N] to [ascii=M], where M = N / 6, in text variants

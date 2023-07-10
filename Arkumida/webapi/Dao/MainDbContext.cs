@@ -54,5 +54,10 @@ public class MainDbContext : DbContext
             .Entity<TextDbo>()
             .HasMany(text => text.Tags)
             .WithMany(tag => tag.Texts);
+        
+        // Text have many files
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasMany(t => t.TextFiles);
     }
 }

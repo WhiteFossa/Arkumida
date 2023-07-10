@@ -251,4 +251,9 @@ public class TextsService : ITextsService
 
         return result;
     }
+
+    public async Task AddFileToTextAsync(Guid textId, string fileName, Guid existingFileId)
+    {
+        await _textsDao.AddFileToTextAsync(textId, fileName, existingFileId);
+    }
 }

@@ -34,6 +34,31 @@ public class TextsDao : ITextsDao
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task<TextFileDbo> AddFileToTextAsync(Guid textId, string name, Guid fileId)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("Filename must not be empty!", nameof(name));
+        }
+        
+        var file = _dbContext
+            .Files
+            .Single(f => f.Id == fileId);
+
+        var textFileDbo = new TextFileDbo()
+        {
+            Name = name,
+            File = file
+        };
+
+        var textDbo = await GetTextByIdAsync(textId);
+        textDbo.TextFiles.Add(textFileDbo);
+        
+        await _dbContext.SaveChangesAsync();
+
+        return textFileDbo;
+    }
+
     public async Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take)
     {
         if (skip < 0)
@@ -99,6 +124,7 @@ public class TextsDao : ITextsDao
             .Include(t => t.Tags)
             .Include(t => t.Sections)
             .ThenInclude(s => s.Variants)
+            .Include(t => t.TextFiles)
             .SingleAsync(t => t.Id == textId);
     }
 }

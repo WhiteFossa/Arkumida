@@ -49,4 +49,9 @@ public interface ITextsService
     /// Parse text (of variant) to text elements
     /// </summary>
     IReadOnlyCollection<TextElementDto> ParseTextToElements(string text);
+
+    /// <summary>
+    /// Add existing file to given text under provided name
+    /// </summary>
+    Task AddFileToTextAsync(Guid textId, string fileName, Guid existingFileId);
 }
