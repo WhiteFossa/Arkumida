@@ -284,13 +284,25 @@ public class TextsImporter
             var textFilesMetadata = LoadTextFilesByText(text.Id);
             foreach (var fileMetadata in textFilesMetadata)
             {
+                if (string.IsNullOrWhiteSpace(fileMetadata.Name))
+                {
+                    continue; // Buggy file in old FT
+                }
+
                 var path = GenerateTextFilePath(text.Id, fileMetadata.Hash, fileMetadata.SubType);
                 var mimeType = GetMimeTypeByFileSubtype(fileMetadata.SubType);
+
+                if (!File.Exists(path))
+                {
+                    continue; // Buggy database - metadata exists, but file - no
+                }
+                
                 var content = await File.ReadAllBytesAsync(path);
 
                 var uploadedFile = await UploadFileToArkumidaAsync(fileMetadata.Name, mimeType, content);
                 
                 // Now just attach file to text
+                await AddFileToArkumidaTextAsync(arkumidaTextId, fileMetadata.Name, uploadedFile.FileInfo.Id);
             }
             
             Console.WriteLine($"Text { textNumber }");
@@ -548,5 +560,14 @@ public class TextsImporter
         }
         
         return JsonSerializer.Deserialize<UploadFileResponse>(await response.Content.ReadAsStringAsync());
+    }
+    
+    private async Task AddFileToArkumidaTextAsync(Guid textId, string fileName, Guid fileId)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Texts/AddFile", new AddFileToTextRequest() { TextId = textId, Name = fileName, FileId = fileId });
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
     }
 }
