@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Dapper;
@@ -218,8 +219,6 @@ public class TextsImporter
                     arkumidaTagsIds.Add(tagToAdd.Id);
                 }
             }
-            
-            
 
             // Now we have text model ready
             var textToCreate = new TextDto()
@@ -279,7 +278,20 @@ public class TextsImporter
                 sectionOrder++;
             }
 
-            await AddTextToArkumidaAsync(textToCreate);
+            var arkumidaTextId = await AddTextToArkumidaAsync(textToCreate);
+            
+            // Now getting files for this text
+            var textFilesMetadata = LoadTextFilesByText(text.Id);
+            foreach (var fileMetadata in textFilesMetadata)
+            {
+                var path = GenerateTextFilePath(text.Id, fileMetadata.Hash, fileMetadata.SubType);
+                var mimeType = GetMimeTypeByFileSubtype(fileMetadata.SubType);
+                var content = await File.ReadAllBytesAsync(path);
+
+                var uploadedFile = await UploadFileToArkumidaAsync(fileMetadata.Name, mimeType, content);
+                
+                // Now just attach file to text
+            }
             
             Console.WriteLine($"Text { textNumber }");
             
@@ -438,50 +450,6 @@ public class TextsImporter
 
         return responseData.Text.Id;
     }
-    
-    private async Task<Guid> AddTextSectionToArkumidaAsync(TextSectionDto sectionDto)
-    {
-        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}TextsSections/Create", new CreateTextSectionRequest() { Section = sectionDto });
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new InvalidOperationException();
-        }
-            
-        var responseData = JsonSerializer.Deserialize<CreateTextSectionResponse>(await response.Content.ReadAsStringAsync());
-
-        return responseData.Section.Id;
-    }
-    
-    private async Task AttachSectionToTextAsync(Guid textId, Guid sectionId)
-    {
-        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Texts/AddSection", new AddSectionToTextRequest() { TextId = textId, SectionId = sectionId });
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new InvalidOperationException();
-        }
-    }
-    
-    private async Task<Guid> AddTextVariantToArkumidaAsync(TextSectionVariantDto variantDto)
-    {
-        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}TextsSectionsVariants/Create", new CreateTextSectionVariantRequest() { Variant = variantDto });
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new InvalidOperationException();
-        }
-            
-        var responseData = JsonSerializer.Deserialize<CreateTextSectionVariantResponse>(await response.Content.ReadAsStringAsync());
-
-        return responseData.Variant.Id;
-    }
-    
-    private async Task AttachVariantToSectionAsync(Guid sectionId, Guid variantId)
-    {
-        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}TextsSections/AddVariant", new AddVariantToSectionRequest() { SectionId = sectionId, VariantId = variantId });
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new InvalidOperationException();
-        }
-    }
 
     private async Task<TextTagDto> GetTagFromArkumidaByNameAsync(string name)
     {
@@ -494,5 +462,91 @@ public class TextsImporter
         var responseData = JsonSerializer.Deserialize<TextTagResponse>(await response.Content.ReadAsStringAsync());
 
         return responseData.Tag;
+    }
+    
+    private List<FtTextFile> LoadTextFilesByText(int textId)
+    {
+        return _connection.Query<FtTextFile>
+            (
+                @"select
+                    id as Id,
+                    fileId as TextId,
+                    name as Name,
+                    md5 as Hash,
+                    subType as SubType
+                from ft_objects_files
+                where fileId = @textId",
+                new { textId = textId }
+            )
+            .ToList();
+    }
+
+    private string GenerateTextFilePath(int textId, string hash, int subtype)
+    {
+        var result = hash;
+
+        switch (subtype)
+        {
+            case 1:
+                result += ".gif";
+                break;
+            
+            case 2:
+                result += ".jpg";
+                break;
+            
+            case 3:
+                result += ".png";
+                break;
+                
+            default:
+                throw new ArgumentException("Wrong subtype!", nameof(subtype));
+        }
+
+        return $@"{MainImporter.TextsDbRoot}/{textId}/{result}";
+    }
+
+    private string GetMimeTypeByFileSubtype(int subtype)
+    {
+        switch (subtype)
+        {
+            case 1:
+                return "image/gif";
+
+            case 2:
+                return "image/jpeg";
+            
+            case 3:
+                return "image/png";
+                
+            default:
+                throw new ArgumentException("Wrong subtype!", nameof(subtype));
+        }
+    }
+    
+    private async Task<UploadFileResponse> UploadFileToArkumidaAsync(string filename, string mimeType, byte[] content)
+    {
+        var streamContent = new StreamContent(new MemoryStream(content));
+        streamContent.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
+        
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"{MainImporter.BaseUrl}Files/Upload");
+        using var requestContent = new MultipartFormDataContent
+        {
+            {
+                streamContent,
+                "file",
+                filename
+            }
+        };
+        
+        request.Content = requestContent;
+        
+        var response = await _httpClient.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+        
+        return JsonSerializer.Deserialize<UploadFileResponse>(await response.Content.ReadAsStringAsync());
     }
 }

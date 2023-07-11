@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace webapi.Models.Api.DTOs;
 
 /// <summary>
@@ -8,11 +10,13 @@ public class FileInfoDto
     /// <summary>
     /// File ID
     /// </summary>
+    [JsonPropertyName("id")]
     public Guid Id { get; private set; }
 
     /// <summary>
     /// Filename
     /// </summary>
+    [JsonPropertyName("name")]
     public string Name { get; private set; }
     
     public FileInfoDto

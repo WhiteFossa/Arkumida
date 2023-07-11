@@ -32,7 +32,7 @@ public class FilesController : ControllerBase
     {
         try
         {
-            return Ok(await _filesService.UploadFileAsync(file));
+            return Ok(new UploadFileResponse(await _filesService.UploadFileAsync(file)));
         }
         catch (Exception)
         {

@@ -31,7 +31,7 @@ public class FilesService : IFilesService
 
         var fileDbo = new FileDbo()
         {
-            Name = file.Name,
+            Name = file.FileName,
             Type = file.ContentType,
             Content = content,
             Hash = SHA512Helper.CalculateSHA512(content)
