@@ -8,7 +8,7 @@ namespace webapi.Dao.Models;
 public class FileDbo
 {
     /// <summary>
-    /// Tag ID
+    /// File ID
     /// </summary>
     [Key]
     public Guid Id { get; set; }

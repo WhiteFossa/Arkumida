@@ -56,7 +56,7 @@ public class FilesController : ControllerBase
                     result.Content,
                     result.Type,
                     result.Name,
-                    result.LastModified,
+                    result.LastModifiedTime,
                     new EntityTagHeaderValue($"\"{ result.Hash }\"")
                 );
         }

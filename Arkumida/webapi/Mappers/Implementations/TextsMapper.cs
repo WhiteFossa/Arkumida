@@ -8,12 +8,18 @@ public class TextsMapper : ITextsMapper
 {
     private readonly ITextsSectionsMapper _sectionsMapper;
     private readonly ITagsMapper _tagsMapper;
+    private readonly ITextFilesMapper _textFilesMapper;
 
-    public TextsMapper(ITextsSectionsMapper sectionsMapper,
-        ITagsMapper tagsMapper)
+    public TextsMapper
+    (
+        ITextsSectionsMapper sectionsMapper,
+        ITagsMapper tagsMapper,
+        ITextFilesMapper textFilesMapper
+    )
     {
         _sectionsMapper = sectionsMapper;
         _tagsMapper = tagsMapper;
+        _textFilesMapper = textFilesMapper;
     }
     
     public IReadOnlyCollection<Text> Map(IEnumerable<TextDbo> texts)
@@ -46,7 +52,8 @@ public class TextsMapper : ITextsMapper
             VotesPlus = text.VotesPlus,
             VotesMinus = text.VotesMinus,
             Tags = _tagsMapper.Map(text.Tags).ToList(),
-            IsIncomplete = text.IsIncomplete
+            IsIncomplete = text.IsIncomplete,
+            TextFiles = _textFilesMapper.Map(text.TextFiles).ToList()
         };
     }
 
@@ -70,7 +77,8 @@ public class TextsMapper : ITextsMapper
             VotesPlus = text.VotesPlus,
             VotesMinus = text.VotesMinus,
             Tags = _tagsMapper.Map(text.Tags).ToList(),
-            IsIncomplete = text.IsIncomplete
+            IsIncomplete = text.IsIncomplete,
+            TextFiles = _textFilesMapper.Map(text.TextFiles).ToList()
         };
     }
 

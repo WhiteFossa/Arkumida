@@ -1,6 +1,7 @@
 using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Helpers;
+using webapi.Mappers.Abstract;
 using webapi.Models.Api.DTOs;
 using webapi.Services.Abstract;
 using File = webapi.Models.File;
@@ -10,13 +11,16 @@ namespace webapi.Services.Implementations;
 public class FilesService : IFilesService
 {
     private readonly IFilesDao _filesDao;
+    private readonly IFilesMapper _filesMapper;
 
     public FilesService
     (
-        IFilesDao filesDao
+        IFilesDao filesDao,
+        IFilesMapper filesMapper
     )
     {
         _filesDao = filesDao;
+        _filesMapper = filesMapper;
     }
     
     public async Task<FileInfoDto> UploadFileAsync(IFormFile file)
@@ -44,8 +48,6 @@ public class FilesService : IFilesService
 
     public async Task<File> GetFileAsync(Guid fileId)
     {
-        var fileDbo = await _filesDao.GetFileAsync(fileId);
-
-        return new File(fileDbo.Content, fileDbo.Type, fileDbo.Name, fileDbo.LastModifiedTime, fileDbo.Hash);
+        return _filesMapper.Map(await _filesDao.GetFileAsync(fileId));
     }
 }

@@ -48,7 +48,9 @@ public interface ITextsService
     /// <summary>
     /// Parse text (of variant) to text elements
     /// </summary>
-    IReadOnlyCollection<TextElementDto> ParseTextToElements(string text);
+    /// <param name="textContent">Plain text to parse</param>
+    /// <param name="textFiles">Text files (we need it to generate links to images)</param>
+    IReadOnlyCollection<TextElementDto> ParseTextToElements(string textContent, IReadOnlyCollection<TextFile> textFiles);
 
     /// <summary>
     /// Add existing file to given text under provided name
