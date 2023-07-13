@@ -4,9 +4,9 @@ using webapi.Models.Enums;
 
 namespace webapi.Models.ParserTags;
 
-public class ParserUrl : ParserTagBase
+public class ParserEmbeddedImage : ParserTagBase
 {
-    private const string MatchRegexp = @"^\[url\](.+)\[/url\]";
+    private const string MatchRegexp = @"^\[bim\](.+)\[/bim\]";
     private readonly Regex _regexp = new Regex(MatchRegexp, RegexOptions.Compiled | RegexOptions.IgnoreCase);
     
     public override string GetMatchString()
@@ -31,28 +31,24 @@ public class ParserUrl : ParserTagBase
             .First()
             .Length;
 
-        var urlContent = matches
+        var imageName = matches
             .First()
             .Groups
             .Values
-            .ToList()[1] // Captured URL
+            .ToList()[1] // Captured image name
             .Value;
 
-        return new Tuple<bool, int, IReadOnlyCollection<string>>(true, matchedContentLength, new string[] { urlContent });
+        return new Tuple<bool, int, IReadOnlyCollection<string>>(true, matchedContentLength, new string[] { imageName });
     }
 
-    public override void Action
-    (
-        List<TextElementDto> elements,
-        string currentText,
-        IReadOnlyCollection<string> matchGroups,
-        IReadOnlyCollection<TextFile> textFiles
-    )
+    public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups, IReadOnlyCollection<TextFile> textFiles)
     {
+        var image = textFiles
+            .Single(tf => tf.Name == matchGroups.ToList()[0])
+            .File;
+        
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText , new string[] {}));
         
-        elements.Add(new TextElementDto(TextElementType.UrlBegin, "", new string[] { matchGroups.First() }));
-        elements.Add(new TextElementDto(TextElementType.PlainText, matchGroups.First(), new string[] {}));
-        elements.Add(new TextElementDto(TextElementType.UrlEnd, "", new string[] { }));
+        elements.Add(new TextElementDto(TextElementType.EmbeddedImage, "", new string[] { image.Id.ToString() }));
     }
 }

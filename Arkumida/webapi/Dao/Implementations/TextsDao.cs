@@ -125,6 +125,7 @@ public class TextsDao : ITextsDao
             .Include(t => t.Sections)
             .ThenInclude(s => s.Variants)
             .Include(t => t.TextFiles)
+            .ThenInclude(tf => tf.File)
             .SingleAsync(t => t.Id == textId);
     }
 }

@@ -51,7 +51,8 @@ public class TextsService : ITextsService
         new ParserUrl(),
         new ParserColor(),
         new ParserHrefedUrl(),
-        new ParserSizedAsciiArt()
+        new ParserSizedAsciiArt(),
+        new ParserEmbeddedImage()
     };
 
     public TextsService
@@ -233,7 +234,7 @@ public class TextsService : ITextsService
                 if (matchResult.Item1)
                 {
                     // We have a match
-                    tag.Action(result, currentTextSb.ToString(), matchResult.Item3);
+                    tag.Action(result, currentTextSb.ToString(), matchResult.Item3, textFiles);
                     currentTextSb.Clear();
                     
                     charIndex += matchResult.Item2 - 1;

@@ -137,4 +137,5 @@ export class TextElementType
     static ColorEnd = 30
     static SizedAsciiArtBegin = 31
     static SizedAsciiArtEnd = 32
+    static EmbeddedImage = 33
 }

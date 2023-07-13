@@ -267,7 +267,12 @@ function RenderTextElement(element) {
 
     if (element.type === TextElementType.SizedAsciiArtEnd)
     {
-        return "</pre";
+        return "</pre>";
+    }
+
+    if (element.type === TextElementType.EmbeddedImage)
+    {
+        return "<img src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "' alt='" + element.parameters[0] + "'/>";
     }
 
     throw new Error("Unknown element type!");

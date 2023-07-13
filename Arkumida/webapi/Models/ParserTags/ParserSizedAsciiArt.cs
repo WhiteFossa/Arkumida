@@ -48,7 +48,13 @@ public class ParserSizedAsciiArt : ParserTagBase
         return new Tuple<bool, int, IReadOnlyCollection<string>>(true, matchedContentLength, new string[] { size, content });
     }
 
-    public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups)
+    public override void Action
+    (
+        List<TextElementDto> elements,
+        string currentText,
+        IReadOnlyCollection<string> matchGroups,
+        IReadOnlyCollection<TextFile> textFiles
+    )
     {
         var matchGroupsList = matchGroups.ToList();
         
