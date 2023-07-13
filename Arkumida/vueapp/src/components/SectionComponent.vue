@@ -19,8 +19,19 @@ import {RenderTextElement} from "@/js/libArkumida";
     const renderedText = ref("")
     orderedVariants.value[0].elements.forEach(e => renderedText.value += RenderTextElement(e))
 
+    async function HandleClick(e)
+    {
+        const clickedElementId = e.target.id
+
+        if (clickedElementId.startsWith("fullsize_image_id_"))
+        {
+            // We have image to show
+            const imageId = clickedElementId.substring("fullsize_image_id_".length)
+            alert(imageId)
+        }
+    }
 </script>
 
 <template>
-    <div v-html="renderedText"></div>
+    <div v-html="renderedText" @click="HandleClick"></div>
 </template>

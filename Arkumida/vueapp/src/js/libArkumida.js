@@ -272,7 +272,9 @@ function RenderTextElement(element) {
 
     if (element.type === TextElementType.EmbeddedImage)
     {
-        return "<img src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "' alt='" + element.parameters[0] + "'/>";
+        return "<div class='centered'>" +
+            "<img id='fullsize_image_id_" + element.parameters[0] + "' class='text-image-preview' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "'/>" +
+            "</div>";
     }
 
     throw new Error("Unknown element type!");

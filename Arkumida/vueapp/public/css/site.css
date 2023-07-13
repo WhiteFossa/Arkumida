@@ -1033,6 +1033,12 @@ body {
     line-height: 0;
 }
 
+/* Preview of image, embedded in text */
+.text-image-preview {
+    width: 10rem;
+    max-width: 100vw;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */
