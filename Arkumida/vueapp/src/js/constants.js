@@ -139,3 +139,6 @@ export class TextElementType
     static SizedAsciiArtEnd = 32
     static EmbeddedImage = 33
 }
+
+// Prefix for IDs of fullsize images
+export const FullsizeImageIdPrefix = "e76eb871-7129-4ad2-be31-d94068051923_";

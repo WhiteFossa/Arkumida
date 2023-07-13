@@ -150,15 +150,15 @@
 
 <template>
     <!-- Lower layer -->
-    <div class="popup-lower-layer">
+    <div class="long-text-info-popup-lower-layer">
     </div>
 
     <!-- Upper layer -->
-    <div class="popup-upper-layer" @click="ClosePopup">
-        <div class="popup" @click.stop="DoNothing">
+    <div class="long-text-info-popup-upper-layer" @click="ClosePopup">
+        <div class="long-text-info-popup" @click.stop="DoNothing">
 
-            <button class="popup-close-button" @click="ClosePopup">
-                <img class="popup-close-button-image" src="/images/close.svg" alt="Close" />
+            <button class="long-text-info-popup-close-button" @click="ClosePopup">
+                <img class="long-text-info-popup-close-button-image" src="/images/close.svg" alt="Close popup" />
             </button>
 
             <div v-if="isLoading">
