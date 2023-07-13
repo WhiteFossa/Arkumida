@@ -18,7 +18,13 @@ public class ParserParagraph : ExactMatchedParserTag
         return Environment.NewLine.Length;
     }
 
-    public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups)
+    public override void Action
+    (
+        List<TextElementDto> elements,
+        string currentText,
+        IReadOnlyCollection<string> matchGroups,
+        IReadOnlyCollection<TextFile> textFiles
+    )
     {
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText, new string[] {}));
         elements.Add(new TextElementDto(TextElementType.ParagraphEnd, "", new string[] {}));

@@ -64,4 +64,9 @@ public class TextDbo
     /// If true, then text is not complete yet
     /// </summary>
     public bool IsIncomplete { get; set; }
+
+    /// <summary>
+    /// Files, attached to text
+    /// </summary>
+    public IList<TextFileDbo> TextFiles { get; set; }
 }

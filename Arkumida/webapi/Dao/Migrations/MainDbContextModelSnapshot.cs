@@ -37,6 +37,32 @@ namespace webapi.Dao.Migrations
                     b.ToTable("TagDboTextDbo");
                 });
 
+            modelBuilder.Entity("webapi.Dao.Models.FileDbo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("Hash")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("LastModifiedTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("webapi.Dao.Models.TagDbo", b =>
                 {
                     b.Property<Guid>("Id")
@@ -110,6 +136,30 @@ namespace webapi.Dao.Migrations
                     b.ToTable("Texts");
                 });
 
+            modelBuilder.Entity("webapi.Dao.Models.TextFileDbo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("TextDboId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("TextDboId");
+
+                    b.ToTable("TextFileDbo");
+                });
+
             modelBuilder.Entity("webapi.Dao.Models.TextSectionDbo", b =>
                 {
                     b.Property<Guid>("Id")
@@ -169,6 +219,19 @@ namespace webapi.Dao.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("webapi.Dao.Models.TextFileDbo", b =>
+                {
+                    b.HasOne("webapi.Dao.Models.FileDbo", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId");
+
+                    b.HasOne("webapi.Dao.Models.TextDbo", null)
+                        .WithMany("TextFiles")
+                        .HasForeignKey("TextDboId");
+
+                    b.Navigation("File");
+                });
+
             modelBuilder.Entity("webapi.Dao.Models.TextSectionDbo", b =>
                 {
                     b.HasOne("webapi.Dao.Models.TextDbo", null)
@@ -186,6 +249,8 @@ namespace webapi.Dao.Migrations
             modelBuilder.Entity("webapi.Dao.Models.TextDbo", b =>
                 {
                     b.Navigation("Sections");
+
+                    b.Navigation("TextFiles");
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TextSectionDbo", b =>

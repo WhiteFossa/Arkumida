@@ -23,6 +23,9 @@ builder.Services.AddScoped<ITextsDao, TextsDao>();
 builder.Services.AddScoped<ITagsService, TagsService>();
 builder.Services.AddScoped<ITextsService, TextsService>();
 
+builder.Services.AddScoped<IFilesDao, FilesDao>();
+builder.Services.AddScoped<IFilesService, FilesService>();
+
 #endregion
 
 #region Singletons
@@ -31,6 +34,8 @@ builder.Services.AddSingleton<ITagsMapper, TagsMapper>();
 builder.Services.AddSingleton<ITextsSectionsVariantsMapper, TextsSectionsVariantsMapper>();
 builder.Services.AddSingleton<ITextsSectionsMapper, TextsSectionsMapper>();
 builder.Services.AddSingleton<ITextsMapper, TextsMapper>();
+builder.Services.AddSingleton<IFilesMapper, FilesMapper>();
+builder.Services.AddSingleton<ITextFilesMapper, TextFilesMapper>();
 
 #endregion
 

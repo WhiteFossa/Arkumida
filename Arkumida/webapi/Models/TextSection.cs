@@ -29,8 +29,8 @@ public class TextSection
     /// </summary>
     public IList<TextSectionVariant> Variants { get; set; }
 
-    public TextSectionDto ToDto(ITextsService textsService)
+    public TextSectionDto ToDto(IReadOnlyCollection<TextFile> textFiles, ITextsService textsService)
     {
-        return new TextSectionDto(Id, OriginalText, Order, Variants.Select(v => v.ToDto(textsService)).ToList());
+        return new TextSectionDto(Id, OriginalText, Order, Variants.Select(v => v.ToDto(textFiles, textsService)).ToList());
     }
 }

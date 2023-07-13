@@ -15,6 +15,11 @@ public interface ITextsDao
     /// </summary>
     Task CreateTextAsync(TextDbo text);
 
+    /// <summary>
+    /// Add file to text
+    /// </summary>
+    Task<TextFileDbo> AddFileToTextAsync(Guid textId, string name, Guid fileId);
+    
     #endregion
 
     #region Get

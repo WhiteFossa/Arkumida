@@ -126,4 +126,26 @@ public class TextsController : ControllerBase
             new CreateTextResponse(textToCreate.ToDto(_textsService))
         );
     }
+
+    /// <summary>
+    /// Add existing file to text
+    /// </summary>
+    [Route("api/Texts/AddFile")]
+    [HttpPost]
+    public async Task<ActionResult> AddFileToTextAsync([FromBody] AddFileToTextRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Name))
+        {
+            return BadRequest("Filename must not be empty.");
+        }
+
+        await _textsService.AddFileToTextAsync(request.TextId, request.Name, request.FileId);
+
+        return Ok();
+    }
 }

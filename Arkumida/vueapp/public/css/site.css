@@ -682,7 +682,7 @@ body {
 /* Long text info stuff ends here */
 
 /* Popup upper layer */
-.popup-upper-layer {
+.long-text-info-popup-upper-layer {
     position: fixed;
     top: 0;
     left: 0;
@@ -692,7 +692,7 @@ body {
 }
 
 /* Popup lower layer */
-.popup-lower-layer {
+.long-text-info-popup-lower-layer {
     position: fixed;
     top: 0;
     left: 0;
@@ -703,7 +703,7 @@ body {
 }
 
 /* Popup itself */
-.popup {
+.long-text-info-popup {
     background: hsl(87, 89%, 93%);
     border: 0.2rem solid hsl(87, 100%, 80%);
     border-radius: 0.5rem;
@@ -721,7 +721,7 @@ body {
 }
 
 /* Popup close button */
-.popup-close-button {
+.long-text-info-popup-close-button {
     background: transparent;
     border: 0 none hsl(0, 100%, 100%);
     position: absolute;
@@ -730,7 +730,7 @@ body {
 }
 
 /* Popup close button image */
-.popup-close-button-image {
+.long-text-info-popup-close-button-image {
     width: 1rem;
     height: 1rem;
 }
@@ -1033,6 +1033,12 @@ body {
     line-height: 0;
 }
 
+/* Preview of image, embedded in text */
+.text-image-preview {
+    width: 10rem;
+    max-width: 100vw;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */
@@ -1094,3 +1100,59 @@ body {
 .visible {
     opacity: 1;
 }
+
+/* Full size image popup begin */
+
+/* Full size image popup upper layer */
+.full-size-image-popup-upper-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+}
+
+/* Full size image popup lower layer */
+.full-size-image-popup-lower-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background: hsla(0, 0%, 10%, 0.8);
+}
+
+/* Full size image - popup itself */
+.full-size-image-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+}
+
+/* Image in full size image popup */
+.full-size-image-popup-image {
+    border-radius: 0.5rem;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+/* Full size image popup close button */
+.full-size-image-popup-close-button {
+    background: transparent;
+    border: 0 none hsl(0, 100%, 100%);
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+}
+
+/* Full size image popup close button image */
+.full-size-image-popup-close-button-image {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* Full size image popup end */

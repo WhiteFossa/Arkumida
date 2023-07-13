@@ -16,7 +16,7 @@ public class ParserUrl : ParserTagBase
 
     public override int GetRequestedTextLength()
     {
-        return int.MaxValue; 
+        return int.MaxValue;
     }
 
     public override Tuple<bool, int, IReadOnlyCollection<string>> TryMatch(string text)
@@ -41,7 +41,13 @@ public class ParserUrl : ParserTagBase
         return new Tuple<bool, int, IReadOnlyCollection<string>>(true, matchedContentLength, new string[] { urlContent });
     }
 
-    public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups)
+    public override void Action
+    (
+        List<TextElementDto> elements,
+        string currentText,
+        IReadOnlyCollection<string> matchGroups,
+        IReadOnlyCollection<TextFile> textFiles
+    )
     {
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText , new string[] {}));
         

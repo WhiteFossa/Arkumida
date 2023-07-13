@@ -1,6 +1,13 @@
 // Add icon to icons list
 
-import {SpecialTextType, TagMeaning, TextElementType, TextIconType, TextType} from "@/js/constants";
+import {
+    FullsizeImageIdPrefix,
+    SpecialTextType,
+    TagMeaning,
+    TextElementType,
+    TextIconType,
+    TextType
+} from "@/js/constants";
 
 function AddIconToList(sourceIcons, iconsList)
 {
@@ -267,7 +274,14 @@ function RenderTextElement(element) {
 
     if (element.type === TextElementType.SizedAsciiArtEnd)
     {
-        return "</pre";
+        return "</pre>";
+    }
+
+    if (element.type === TextElementType.EmbeddedImage)
+    {
+        return "<div class='centered'>" +
+            "<img id='" + FullsizeImageIdPrefix + element.parameters[0] + "' class='text-image-preview' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "'/>" +
+            "</div>";
     }
 
     throw new Error("Unknown element type!");

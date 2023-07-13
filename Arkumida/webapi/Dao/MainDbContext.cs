@@ -28,6 +28,10 @@ public class MainDbContext : DbContext
     /// </summary>
     public DbSet<TextDbo> Texts { get; set; }
 
+    /// <summary>
+    /// Files
+    /// </summary>
+    public DbSet<FileDbo> Files { get; set; }
 
     public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
     {
@@ -50,5 +54,10 @@ public class MainDbContext : DbContext
             .Entity<TextDbo>()
             .HasMany(text => text.Tags)
             .WithMany(tag => tag.Texts);
+        
+        // Text have many files
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasMany(t => t.TextFiles);
     }
 }

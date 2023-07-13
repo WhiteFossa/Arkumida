@@ -69,5 +69,7 @@ public enum TextElementType
     
     SizedAsciiArtBegin = 31,
     
-    SizedAsciiArtEnd = 32
+    SizedAsciiArtEnd = 32,
+    
+    EmbeddedImage = 33
 }

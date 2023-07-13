@@ -67,6 +67,11 @@ public class Text
     /// If true, then text is not complete yet
     /// </summary>
     public bool IsIncomplete { get; set; }
+    
+    /// <summary>
+    /// Files, attached to text
+    /// </summary>
+    public IList<TextFile> TextFiles { get; set; }
 
     public TextDto ToDto(ITextsService textsService)
     {
@@ -77,7 +82,7 @@ public class Text
             LastUpdateTime,
             Title,
             Description,
-            Sections.Select(s => s.ToDto(textsService)).ToList(),
+            Sections.Select(s => s.ToDto(this.TextFiles.ToList(), textsService)).ToList(),
             ReadsCount,
             VotesCount,
             VotesPlus,

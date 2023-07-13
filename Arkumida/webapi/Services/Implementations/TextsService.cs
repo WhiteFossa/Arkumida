@@ -19,6 +19,7 @@ public class TextsService : ITextsService
     private readonly ITagsMapper _tagsMapper;
     private readonly ITagsService _tagsService;
     private readonly ITextsSectionsMapper _textsSectionsMapper;
+    private readonly ITextFilesMapper _textFilesMapper;
 
     private readonly IReadOnlyCollection<ParserTagBase> _parserTags = new List<ParserTagBase>()
     {
@@ -50,7 +51,8 @@ public class TextsService : ITextsService
         new ParserUrl(),
         new ParserColor(),
         new ParserHrefedUrl(),
-        new ParserSizedAsciiArt()
+        new ParserSizedAsciiArt(),
+        new ParserEmbeddedImage()
     };
 
     public TextsService
@@ -59,7 +61,8 @@ public class TextsService : ITextsService
         ITextsMapper textsMapper,
         ITagsMapper tagsMapper,
         ITagsService tagsService,
-        ITextsSectionsMapper textsSectionsMapper
+        ITextsSectionsMapper textsSectionsMapper,
+        ITextFilesMapper textFilesMapper
     )
     {
         _textsDao = textsDao;
@@ -67,6 +70,7 @@ public class TextsService : ITextsService
         _tagsMapper = tagsMapper;
         _tagsService = tagsService;
         _textsSectionsMapper = textsSectionsMapper;
+        _textFilesMapper = textFilesMapper;
     }
 
     public async Task CreateTextAsync(Text text)
@@ -174,6 +178,7 @@ public class TextsService : ITextsService
         var textData = await _textsDao.GetTextByIdAsync(textId);
         
         var textTags = _tagsMapper.Map(textData.Tags);
+        var textFiles = _textFilesMapper.Map(textData.TextFiles);
 
         return new TextReadDto
         (
@@ -184,7 +189,7 @@ public class TextsService : ITextsService
             textData.Title,
             textData.Description,
             OrderTextSections(_textsSectionsMapper.Map(textData.Sections))
-                .Select(ts => ts.ToDto(this))
+                .Select(ts => ts.ToDto(textFiles, this))
                 .ToList(),
             _tagsService.OrderTags(textTags).Select(t => t.ToTagDto()).ToList(),
             new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
@@ -200,18 +205,18 @@ public class TextsService : ITextsService
             .ToList();
     }
 
-    public IReadOnlyCollection<TextElementDto> ParseTextToElements(string text)
+    public IReadOnlyCollection<TextElementDto> ParseTextToElements(string textContent, IReadOnlyCollection<TextFile> textFiles)
     {
         var result = new List<TextElementDto>();
 
         result.Add(new TextElementDto(TextElementType.ParagraphBegin, "", new string[] {}));
 
         var currentTextSb = new StringBuilder();
-        for (var charIndex = 0; charIndex < text.Length; charIndex++)
+        for (var charIndex = 0; charIndex < textContent.Length; charIndex++)
         {
-            var remaining = text.Length - charIndex;
+            var remaining = textContent.Length - charIndex;
             
-            var fastSkipText = text.Substring(charIndex, Math.Min(ParserFastSkipTextLength, remaining));
+            var fastSkipText = textContent.Substring(charIndex, Math.Min(ParserFastSkipTextLength, remaining));
             
             // Trying to match tags
             var isMatched = false;
@@ -224,12 +229,12 @@ public class TextsService : ITextsService
                 }
                 
                 // Full analysis
-                var matchResult = tag.TryMatch(text.Substring(charIndex, Math.Min(tag.GetRequestedTextLength(), remaining)));
+                var matchResult = tag.TryMatch(textContent.Substring(charIndex, Math.Min(tag.GetRequestedTextLength(), remaining)));
                 
                 if (matchResult.Item1)
                 {
                     // We have a match
-                    tag.Action(result, currentTextSb.ToString(), matchResult.Item3);
+                    tag.Action(result, currentTextSb.ToString(), matchResult.Item3, textFiles);
                     currentTextSb.Clear();
                     
                     charIndex += matchResult.Item2 - 1;
@@ -242,7 +247,7 @@ public class TextsService : ITextsService
             if (!isMatched)
             {
                 // Ordinary character
-                currentTextSb.Append(text.Substring(charIndex, 1));
+                currentTextSb.Append(textContent.Substring(charIndex, 1));
             }
         }
 
@@ -250,5 +255,10 @@ public class TextsService : ITextsService
         result.Add(new TextElementDto(TextElementType.ParagraphEnd, "", new string[] {}));
 
         return result;
+    }
+
+    public async Task AddFileToTextAsync(Guid textId, string fileName, Guid existingFileId)
+    {
+        await _textsDao.AddFileToTextAsync(textId, fileName, existingFileId);
     }
 }
