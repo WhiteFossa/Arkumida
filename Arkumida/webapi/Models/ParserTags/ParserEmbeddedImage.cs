@@ -43,12 +43,16 @@ public class ParserEmbeddedImage : ParserTagBase
 
     public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups, IReadOnlyCollection<TextFile> textFiles)
     {
-        var image = textFiles
-            .Single(tf => tf.Name == matchGroups.ToList()[0])
-            .File;
-        
+        var textFile = textFiles
+            .SingleOrDefault(tf => tf.Name == matchGroups.ToList()[0]);
+
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText , new string[] {}));
+
+        if (textFile == null)
+        {
+            return; // Image not uploaded yet. TODO: Add "damaged image" picture
+        }
         
-        elements.Add(new TextElementDto(TextElementType.EmbeddedImage, "", new string[] { image.Id.ToString() }));
+        elements.Add(new TextElementDto(TextElementType.EmbeddedImage, "", new string[] { textFile.File.Id.ToString() }));
     }
 }

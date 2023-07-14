@@ -77,6 +77,8 @@ public class TextsService : ITextsService
     {
         _ = text ?? throw new ArgumentNullException(nameof(text), "Text mustn't be null.");
 
+        text.TextFiles = new List<TextFile>(); // We have no files when creating text, they will be (if any) attached later
+        
         var dbText = _textsMapper.Map(text);
         dbText.Id = Guid.Empty;
 
