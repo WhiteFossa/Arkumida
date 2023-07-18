@@ -73,7 +73,8 @@ public class TextsDao : ITextsDao
 
         IQueryable<TextDbo> orderedSource = _dbContext
             .Texts
-            .Include(t => t.Tags);
+            .Include(t => t.Tags)
+            .Include(t => t.TextFiles);
         
         switch (orderMode)
         {
@@ -100,6 +101,7 @@ public class TextsDao : ITextsDao
         return await _dbContext
             .Texts
             .Include(t => t.Tags)
+            .Include(t => t.TextFiles)
             .SingleAsync(t => t.Id == textId);
     }
 

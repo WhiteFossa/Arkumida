@@ -1,5 +1,6 @@
 using System.Text;
 using webapi.Dao.Abstract;
+using webapi.Dao.Models;
 using webapi.Dao.Models.Enums;
 using webapi.Mappers.Abstract;
 using webapi.Models;
@@ -123,7 +124,7 @@ public class TextsService : ITextsService
                         .Select(t => t.ToTextTagDto())
                         .ToList(),
                     new List<TextIconDto>(),
-                    new List<TextIconDto>(),
+                    AddIllustrationsIconToRightIcons(new List<TextIconDto>(), tm),
                     tm.Description,
                     10000,
                     3,
@@ -157,7 +158,7 @@ public class TextsService : ITextsService
                 .Select(t => t.ToTextTagDto())
                 .ToList(),
             new List<TextIconDto>(),
-            new List<TextIconDto>(),
+            AddIllustrationsIconToRightIcons(new List<TextIconDto>(), textMetadata),
             textMetadata.Description,
             10000,
             3,
@@ -262,5 +263,18 @@ public class TextsService : ITextsService
     public async Task AddFileToTextAsync(Guid textId, string fileName, Guid existingFileId)
     {
         await _textsDao.AddFileToTextAsync(textId, fileName, existingFileId);
+    }
+
+    private List<TextIconDto> AddIllustrationsIconToRightIcons(List<TextIconDto> rightIcons, TextDbo textMetadata)
+    {
+        var result = new List<TextIconDto>();
+        result.AddRange(rightIcons);
+        
+        if (textMetadata.TextFiles.Any())
+        {
+            result.Add(new TextIconDto(TextIconType.Illustrations));
+        }
+        
+        return result;
     }
 }
