@@ -60,7 +60,13 @@ public class TextReadDto : IdedEntityDto
     /// </summary>
     [JsonPropertyName("publisher")]
     public CreatureDto Publisher { get; private set; }
-    
+
+    /// <summary>
+    /// Text illustrations
+    /// </summary>
+    [JsonPropertyName("illustrations")]
+    public IReadOnlyCollection<FileInfoDto> Illustrations { get; private set; }
+
     public TextReadDto
     (
         Guid id,
@@ -73,7 +79,8 @@ public class TextReadDto : IdedEntityDto
         IReadOnlyCollection<TagDto> tags,
         CreatureDto author,
         CreatureDto translator,
-        CreatureDto publisher
+        CreatureDto publisher,
+        IReadOnlyCollection<FileInfoDto> illustrations
     ) : base (id, furryReadableId)
     {
         CreateTime = createTime;
@@ -91,5 +98,6 @@ public class TextReadDto : IdedEntityDto
         Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
         Translator = translator;
         Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must not be null");
+        Illustrations = illustrations ?? throw new ArgumentNullException(nameof(illustrations), "Illustrations must not be null");
     }
 }
