@@ -1035,8 +1035,9 @@ body {
 
 /* Preview of image, embedded in text */
 .text-image-preview {
-    width: 10rem;
-    max-width: 100vw;
+    max-width: 10rem;
+    max-height: 10rem;
+    border-radius: 0.5rem;
 }
 
 /* Read text page stuff ends here */
@@ -1156,3 +1157,24 @@ body {
 }
 
 /* Full size image popup end */
+
+
+/* Illustrations container begin */
+
+/* Illustrations container itself */
+.illustrations-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Text illustration preview */
+.illustration-preview {
+    max-width: 10rem;
+    max-height: 10rem;
+    border-radius: 0.5rem;
+}
+
+/* Illustrations container end*/

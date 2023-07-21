@@ -65,7 +65,7 @@ public class TextReadDto : IdedEntityDto
     /// Text illustrations
     /// </summary>
     [JsonPropertyName("illustrations")]
-    public IReadOnlyCollection<FileInfoDto> Illustrations { get; private set; }
+    public IReadOnlyCollection<TextFileDto> Illustrations { get; private set; }
 
     public TextReadDto
     (
@@ -80,7 +80,7 @@ public class TextReadDto : IdedEntityDto
         CreatureDto author,
         CreatureDto translator,
         CreatureDto publisher,
-        IReadOnlyCollection<FileInfoDto> illustrations
+        IReadOnlyCollection<TextFileDto> illustrations
     ) : base (id, furryReadableId)
     {
         CreateTime = createTime;

@@ -15,6 +15,7 @@
     import CategoryTag from "@/components/CategoryTag.vue";
     import TagHashed from "@/components/TagHashed.vue";
     import SectionComponent from "@/components/SectionComponent.vue";
+    import TextIllustrationsContainer from "@/components/TextIllustrationsContainer.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -102,5 +103,8 @@
                 <SectionComponent :originalText="section.originalText" :variants="section.variants" />
             </div>
         </div>
+
+        <!-- Illustrations -->
+        <TextIllustrationsContainer :illustrations="textData.textData.illustrations" />
     </div>
 </template>

@@ -198,8 +198,8 @@ public class TextsService : ITextsService
             new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
             new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
             new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
-            _textFilesMapper.Map(textFiles)
-                .Select(tf => new FileInfoDto(tf.File.Id, tf.File.Name))
+            textFiles
+                .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
                 .ToList()
         );
     }
