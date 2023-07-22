@@ -8,10 +8,19 @@
 </script>
 
 <template>
-    <div v-if="props.illustrations.length > 0" class="illustrations-container">
 
-        <div v-for="illustration in props.illustrations" :key="illustration.id">
-            <TextIllustration :illustration="illustration" />
+    <div v-if="props.illustrations.length > 0">
+
+        <div class="all-illustrations-title">
+            Все иллюстрации:
+        </div>
+
+        <div class="illustrations-container">
+
+            <div v-for="illustration in props.illustrations" :key="illustration.id">
+                <TextIllustration :illustration="illustration" />
+            </div>
+
         </div>
 
     </div>

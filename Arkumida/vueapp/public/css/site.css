@@ -1177,4 +1177,11 @@ body {
     border-radius: 0.5rem;
 }
 
+/* All illustrations title */
+.all-illustrations-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
 /* Illustrations container end*/
