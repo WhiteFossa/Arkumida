@@ -428,7 +428,7 @@ body {
 
 /* Text short infos are live here */
 .texts-short-info-blocks-container {
-    flex: auto;
+    flex: 1%;
 }
 
 /* Text short info block */
@@ -442,7 +442,7 @@ body {
     padding-right: 0.5rem;
     border: 0.1rem solid hsl(87, 89%, 80%);
     border-radius: 0.2rem;
-    max-width: 60rem;
+    min-width: 20rem;
 }
 
 /* Text from contest */
