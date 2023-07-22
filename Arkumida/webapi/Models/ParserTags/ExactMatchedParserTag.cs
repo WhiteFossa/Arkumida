@@ -7,7 +7,7 @@ public abstract class ExactMatchedParserTag : ParserTagBase
 {
     public override Tuple<bool, int, IReadOnlyCollection<string>> TryMatch(string text)
     {
-        if (text == GetMatchString())
+        if (text.Equals(GetMatchString(), StringComparison.InvariantCultureIgnoreCase))
         {
             return new Tuple<bool, int, IReadOnlyCollection<string>>(true, GetRequestedTextLength(), new string[] {});
         }

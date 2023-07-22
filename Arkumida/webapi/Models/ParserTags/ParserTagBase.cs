@@ -41,6 +41,6 @@ public abstract class ParserTagBase
     /// </summary>
     public virtual bool IsFastSkip(string text)
     {
-        return text != "[";
+        return !text.Equals("[", StringComparison.InvariantCultureIgnoreCase);
     }
 }
