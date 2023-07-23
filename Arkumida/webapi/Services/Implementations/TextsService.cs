@@ -19,6 +19,7 @@ public class TextsService : ITextsService
     private readonly ITextsMapper _textsMapper;
     private readonly ITagsMapper _tagsMapper;
     private readonly ITagsService _tagsService;
+    private readonly ITextsPagesMapper _textsPagesMapper;
     private readonly ITextsSectionsMapper _textsSectionsMapper;
     private readonly ITextFilesMapper _textFilesMapper;
 
@@ -62,6 +63,7 @@ public class TextsService : ITextsService
         ITextsMapper textsMapper,
         ITagsMapper tagsMapper,
         ITagsService tagsService,
+        ITextsPagesMapper textsPagesMapper,
         ITextsSectionsMapper textsSectionsMapper,
         ITextFilesMapper textFilesMapper
     )
@@ -70,6 +72,7 @@ public class TextsService : ITextsService
         _textsMapper = textsMapper;
         _tagsMapper = tagsMapper;
         _tagsService = tagsService;
+        _textsPagesMapper = textsPagesMapper;
         _textsSectionsMapper = textsSectionsMapper;
         _textFilesMapper = textFilesMapper;
     }
@@ -191,10 +194,18 @@ public class TextsService : ITextsService
             textData.LastUpdateTime,
             textData.Title,
             textData.Description,
-            OrderTextSections(_textsSectionsMapper.Map(textData.Sections))
-                .Select(ts => ts.ToDto(textFiles, this))
+            _textsPagesMapper.Map(textData.Pages)
+                .Select(tp => new TextPage()
+                {
+                    Id = tp.Id,
+                    Number = tp.Number,
+                    Sections = OrderTextSections(tp.Sections).ToList()
+                })
+                .Select(tp => tp.ToDto(textFiles, this))
                 .ToList(),
-            _tagsService.OrderTags(textTags).Select(t => t.ToTagDto()).ToList(),
+            _tagsService.OrderTags(textTags)
+                .Select(t => t.ToTagDto())
+                .ToList(),
             new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
             new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
             new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),

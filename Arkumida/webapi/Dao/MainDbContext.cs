@@ -44,11 +44,16 @@ public class MainDbContext : DbContext
             .Entity<TextSectionDbo>()
             .HasMany(ts => ts.Variants);
         
-        // Sections are parts of texts
+        // Text have many pages
         modelBuilder
             .Entity<TextDbo>()
-            .HasMany(t => t.Sections);
+            .HasMany(t => t.Pages);
         
+        // Page have many sections
+        modelBuilder
+            .Entity<TextPageDbo>()
+            .HasMany(p => p.Sections);
+
         // Text have many tags, tag have many texts
         modelBuilder
             .Entity<TextDbo>()

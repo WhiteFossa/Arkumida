@@ -31,9 +31,9 @@ public class TextDbo
     public string Description { get; set; }
 
     /// <summary>
-    /// Text sections
+    /// Text pages
     /// </summary>
-    public IList<TextSectionDbo> Sections { get; set; }
+    public IList<TextPageDbo> Pages { get; set; }
 
     /// <summary>
     /// How many times text was read

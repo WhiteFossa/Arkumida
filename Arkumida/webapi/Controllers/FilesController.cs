@@ -60,7 +60,7 @@ public class FilesController : ControllerBase
                     new EntityTagHeaderValue($"\"{ result.Hash }\"")
                 );
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return NotFound(); // Treating errors as not found too
         }

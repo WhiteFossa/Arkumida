@@ -32,10 +32,10 @@ public class TextReadDto : IdedEntityDto
     public string Description { get; set; }
 
     /// <summary>
-    /// Text sections
+    /// Text pages
     /// </summary>
-    [JsonPropertyName("sections")]
-    public IList<TextSectionDto> Sections { get; set; }
+    [JsonPropertyName("pages")]
+    public IList<TextPageDto> Pages { get; set; }
 
     /// <summary>
     /// Text tags
@@ -75,7 +75,7 @@ public class TextReadDto : IdedEntityDto
         DateTime lastUpdateTime,
         string title,
         string description,
-        IReadOnlyCollection<TextSectionDto> sections,
+        IReadOnlyCollection<TextPageDto> pages,
         IReadOnlyCollection<TagDto> tags,
         CreatureDto author,
         CreatureDto translator,
@@ -93,7 +93,7 @@ public class TextReadDto : IdedEntityDto
         Title = title;
         
         Description = description; // May be empty
-        Sections = (sections ?? throw new ArgumentNullException(nameof(sections), "Sections mustn't be null.")).ToList();
+        Pages = (pages ?? throw new ArgumentNullException(nameof(pages), "Pages mustn't be null.")).ToList();
         Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
         Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
         Translator = translator;

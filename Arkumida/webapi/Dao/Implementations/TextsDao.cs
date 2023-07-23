@@ -124,7 +124,8 @@ public class TextsDao : ITextsDao
         return await _dbContext
             .Texts
             .Include(t => t.Tags)
-            .Include(t => t.Sections)
+            .Include(t => t.Pages)
+            .ThenInclude(p => p.Sections)
             .ThenInclude(s => s.Variants)
             .Include(t => t.TextFiles)
             .ThenInclude(tf => tf.File)
