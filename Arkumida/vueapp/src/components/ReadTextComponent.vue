@@ -97,9 +97,9 @@
             </div>
         </div>
 
-        <!-- Sections -->
+        <!-- Sections (temporarily always using first page) -->
         <div>
-            <div v-for="section in textData.textData.sections" :key="section.entityId">
+            <div v-for="section in textData.textData.pages[0].sections" :key="section.entityId">
                 <SectionComponent :originalText="section.originalText" :variants="section.variants" />
             </div>
         </div>

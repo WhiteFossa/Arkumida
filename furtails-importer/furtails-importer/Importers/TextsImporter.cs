@@ -82,8 +82,19 @@ public class TextsImporter
             {
                 var sections = LoadWIPTextSections(text.Id);
                 
-                // Many sections, each have one variant
-                textModel.Sections = new List<TextSection>();
+                // One page, many sections, each have one variant
+                textModel.Pages = new List<TextPage>();
+
+                var page = new TextPage()
+                {
+                    Id = Guid.Empty,
+                    Number = 1,
+                    Sections = new List<TextSection>()
+                };
+                
+                textModel.Pages.Add(page);
+                
+                page.Sections = new List<TextSection>();
                 
                 foreach (var section in sections)
                 {
@@ -99,13 +110,24 @@ public class TextsImporter
                         Variants = new List<TextSectionVariant>() { variantModel }
                     };
                     
-                    textModel.Sections.Add(sectionModel);
+                    page.Sections.Add(sectionModel);
                 }
             }
             else if (text.Type == 5) // Translation
             {
-                // Many sections, each have many variants
-                textModel.Sections = new List<TextSection>();
+                textModel.Pages = new List<TextPage>();
+
+                var page = new TextPage()
+                {
+                    Id = Guid.Empty,
+                    Number = 1,
+                    Sections = new List<TextSection>()
+                };
+                
+                textModel.Pages.Add(page);
+                
+                // One page, many sections, each have many variants
+                page.Sections = new List<TextSection>();
                 
                 var parts = LoadTranslationParts(text.Id);
 
@@ -128,11 +150,22 @@ public class TextsImporter
                         });
                     }
                     
-                    textModel.Sections.Add(sectionModel);
+                    page.Sections.Add(sectionModel);
                 }
             }
             else if (text.Type == 1) // Just a text
             {
+                textModel.Pages = new List<TextPage>();
+
+                var page = new TextPage()
+                {
+                    Id = Guid.Empty,
+                    Number = 1,
+                    Sections = new List<TextSection>()
+                };
+                
+                textModel.Pages.Add(page);
+                
                 // Ordinary text, all-in-one-section-and-variant
                 var variantModel = new TextSectionVariant()
                 {
@@ -146,11 +179,22 @@ public class TextsImporter
                     Variants = new List<TextSectionVariant>() { variantModel }
                 };
 
-                textModel.Sections = new List<TextSection>() { sectionModel };
+                page.Sections = new List<TextSection>() { sectionModel };
             }
             else if (text.Type == 2) // Links set
             {
-                textModel.Sections = new List<TextSection>();
+                textModel.Pages = new List<TextPage>();
+
+                var page = new TextPage()
+                {
+                    Id = Guid.Empty,
+                    Number = 1,
+                    Sections = new List<TextSection>()
+                };
+                
+                textModel.Pages.Add(page);
+                
+                page.Sections = new List<TextSection>();
                 
                 // One link per section
                 var links = LoadLinksByText(text.Id);
@@ -169,7 +213,7 @@ public class TextsImporter
                         Variants = new List<TextSectionVariant>() { variantModel }
                     };
                     
-                    textModel.Sections.Add(sectionModel);
+                    page.Sections.Add(sectionModel);
                 }
             }
             else if (text.Type == 4) // Comics
@@ -228,7 +272,7 @@ public class TextsImporter
                 LastUpdateTime = (text.UpdateTime.HasValue ? text.UpdateTime.Value : text.CreateTime).ToUniversalTime(),
                 Title = text.Title,
                 Description = text.Description,
-                Sections = new Collection<TextSectionDto>(),
+                Pages = new Collection<TextPageDto>(),
                 ReadsCount = text.ReadsCount,
                 VotesCount = text.VotesCount,
                 VotesPlus = text.VotesPlus,
@@ -248,34 +292,48 @@ public class TextsImporter
                 IsIncomplete = text.IsNotFinished
             };
 
-            var sectionOrder = 0;
-            foreach (var section in textModel.Sections)
+            foreach (var page in textModel.Pages)
             {
-                var sectionToCreate = new TextSectionDto()
+                var pageToCreate = new TextPageDto()
                 {
                     Id = Guid.Empty,
-                    OriginalText = section.OriginalText,
-                    Order = sectionOrder,
-                    Variants = new List<TextSectionVariantDto>()
+                    Number = page.Number,
+                    Sections = new Collection<TextSectionDto>()
                 };
                 
-                textToCreate
-                    .Sections
-                    .Add(sectionToCreate);
-                
-                foreach (var variant in section.Variants)
+                var sectionOrder = 0;
+                foreach (var section in page.Sections)
                 {
-                    var variantToCreate = new TextSectionVariantDto()
+                    var sectionToCreate = new TextSectionDto()
                     {
                         Id = Guid.Empty,
-                        Content = variant.Content,
-                        CreationTime = variant.CreationTime.ToUniversalTime()
+                        OriginalText = section.OriginalText,
+                        Order = sectionOrder,
+                        Variants = new List<TextSectionVariantDto>()
                     };
+                
+                    pageToCreate
+                        .Sections
+                        .Add(sectionToCreate);
+                
+                    foreach (var variant in section.Variants)
+                    {
+                        var variantToCreate = new TextSectionVariantDto()
+                        {
+                            Id = Guid.Empty,
+                            Content = variant.Content,
+                            CreationTime = variant.CreationTime.ToUniversalTime()
+                        };
                     
-                    sectionToCreate.Variants.Add(variantToCreate);
-                }
+                        sectionToCreate.Variants.Add(variantToCreate);
+                    }
 
-                sectionOrder++;
+                    sectionOrder++;
+                }
+                
+                textToCreate
+                    .Pages
+                    .Add(pageToCreate);
             }
 
             var arkumidaTextId = await AddTextToArkumidaAsync(textToCreate);
