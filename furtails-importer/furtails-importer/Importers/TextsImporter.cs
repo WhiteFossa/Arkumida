@@ -78,6 +78,9 @@ public class TextsImporter
             
             var textModel = new Text();
 
+            // We need files metadata early to process comics
+            var textFilesMetadata = LoadTextFilesByText(text.Id);
+            
             if (text.Type == 3) // Editing
             {
                 var sections = LoadWIPTextSections(text.Id);
@@ -218,8 +221,37 @@ public class TextsImporter
             }
             else if (text.Type == 4) // Comics
             {
-                // Not supported yet
-                continue;
+                // Comics - multi pages, each page contains one section, each section contains one variant
+                textModel.Pages = new List<TextPage>();
+
+                int pageNumber = 1;
+                foreach (var textFile in textFilesMetadata)
+                {
+                    // One page per file
+                    var page = new TextPage()
+                    {
+                        Number = pageNumber,
+                        Sections = new List<TextSection>()
+                    };
+                    
+                    textModel.Pages.Add(page);
+                    
+                    var variantModel = new TextSectionVariant()
+                    {
+                        Content = TextsHelper.FixupText($"[bim]{ textFile.Name }[/bim]"),
+                        CreationTime = DateTime.UtcNow
+                    };
+                    
+                    var sectionModel = new TextSection()
+                    {
+                        OriginalText = string.Empty, // There is no English original
+                        Variants = new List<TextSectionVariant>() { variantModel }
+                    };
+                    
+                    page.Sections.Add(sectionModel);
+                    
+                    pageNumber++;
+                }
             }
             
             
@@ -239,7 +271,12 @@ public class TextsImporter
             {
                 arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Мастерская Гайки")).Id);
             }
-            
+
+            if (text.Type == 4) // Special category for comics
+            {
+                arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Комиксы")).Id);
+            }
+
             // Loading tags
             var textTagsRelations = LoadTextsToTagsRelations(text.Id);
             foreach (var tagRelation in textTagsRelations)
@@ -339,7 +376,6 @@ public class TextsImporter
             var arkumidaTextId = await AddTextToArkumidaAsync(textToCreate);
             
             // Now getting files for this text
-            var textFilesMetadata = LoadTextFilesByText(text.Id);
             foreach (var fileMetadata in textFilesMetadata)
             {
                 if (string.IsNullOrWhiteSpace(fileMetadata.Name))

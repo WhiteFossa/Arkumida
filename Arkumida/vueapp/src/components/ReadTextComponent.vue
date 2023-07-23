@@ -11,11 +11,12 @@
     import {Guid} from "guid-typescript";
     import CreatureInfoComponent from "@/components/CreatureInfoComponent.vue";
     import NonexistentCreatureComponent from "@/components/NonexistentCreatureComponent.vue";
-    import {FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
+    import {DetectTextType, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
     import CategoryTag from "@/components/CategoryTag.vue";
     import TagHashed from "@/components/TagHashed.vue";
     import SectionComponent from "@/components/SectionComponent.vue";
     import TextIllustrationsContainer from "@/components/TextIllustrationsContainer.vue";
+    import {TextType} from "@/js/constants";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -25,6 +26,8 @@
 
     const categoryTags = ref([])
     const ordinaryTags = ref([])
+
+    const textType = ref(null)
 
     onMounted(async () =>
     {
@@ -42,6 +45,8 @@
         }
 
         ordinaryTags.value = FilterOrdinaryTags(textData.value.textData.tags)
+
+        textType.value = DetectTextType(textData.value.textData.tags)
 
         isLoading.value = false
     }
@@ -104,7 +109,7 @@
             </div>
         </div>
 
-        <!-- Illustrations -->
-        <TextIllustrationsContainer :illustrations="textData.textData.illustrations" />
+        <!-- Illustrations (for comics we don't need to show them) -->
+        <TextIllustrationsContainer v-if="textType !== TextType.Comics" :illustrations="textData.textData.illustrations" />
     </div>
 </template>
