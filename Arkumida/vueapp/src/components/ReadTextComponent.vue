@@ -30,6 +30,10 @@
 
     const textType = ref(null)
 
+    const textPage = ref(null)
+
+    const pageNumber = ref(1)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -37,7 +41,8 @@
 
     async function OnLoad()
     {
-        textData.value = await (await fetch(apiBaseUrl + `/api/Texts/GetReadData/` + props.id + `/Page/` + props.page)).json()
+        // Loading text metadata
+        textData.value = await (await fetch(apiBaseUrl + `/api/Texts/GetReadData/` + props.id)).json()
 
         categoryTags.value = FilterCategoryTags(textData.value.textData.tags)
         if (categoryTags.value.length === 0)
@@ -49,7 +54,17 @@
 
         textType.value = DetectTextType(textData.value.textData.tags)
 
+        // Inital page (from URL) load
+        pageNumber.value = props.page
+        await LoadTextPage(pageNumber.value)
+
         isLoading.value = false
+    }
+
+    // Load text page. Text id comes from props.id
+    async function LoadTextPage(pageNumber)
+    {
+        textPage.value = await (await fetch(apiBaseUrl + `/api/Texts/GetPage/` + props.id + `/Page/` + pageNumber)).json()
     }
 
 </script>
@@ -103,9 +118,9 @@
             </div>
         </div>
 
-        <!-- Sections (temporarily always using first page) -->
+        <!-- Sections -->
         <div>
-            <div v-for="section in textData.textData.pages[0].sections" :key="section.entityId">
+            <div v-for="section in textPage.pageData.sections" :key="section.entityId">
                 <SectionComponent :originalText="section.originalText" :variants="section.variants" />
             </div>
         </div>

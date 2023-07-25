@@ -180,12 +180,13 @@ public class TextsService : ITextsService
         return await _textsDao.GetLastTextAddTimeAsync();
     }
 
-    public async Task<TextReadDto> GetTextToReadAsync(Guid textId, int pageNumber)
+    public async Task<TextReadDto> GetTextToReadAsync(Guid textId)
     {
-        var textData = await _textsDao.GetTextByIdAsync(textId);
+        var textData = await _textsDao.GetTextMetadataByIdAsync(textId);
         
         var textTags = _tagsMapper.Map(textData.Tags);
-        var textFiles = _textFilesMapper.Map(textData.TextFiles);
+        
+        var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
 
         return new TextReadDto
         (
@@ -195,15 +196,6 @@ public class TextsService : ITextsService
             textData.LastUpdateTime,
             textData.Title,
             textData.Description,
-            new List<TextPage>() { _textsPagesMapper.Map(textData.Pages.Single(p => p.Number == pageNumber)) }
-                .Select(tp => new TextPage()
-                {
-                    Id = tp.Id,
-                    Number = tp.Number,
-                    Sections = OrderTextSections(tp.Sections).ToList()
-                })
-                .Select(tp => tp.ToDto(textFiles, this))
-                .ToList(),
             _tagsService.OrderTags(textTags)
                 .Select(t => t.ToTagDto())
                 .ToList(),
@@ -214,6 +206,17 @@ public class TextsService : ITextsService
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
                 .ToList()
         );
+    }
+
+    public async Task<TextPageDto> GetTextPageAsync(Guid textId, int pageNumber)
+    {
+        // TODO: Parallelize me
+        var pageData = _textsPagesMapper.Map(await _textsDao.GetPageAsync(textId, pageNumber));
+        var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
+
+        pageData.Sections = OrderTextSections(pageData.Sections).ToList();
+
+        return pageData.ToDto(textFiles, this);
     }
 
     public IReadOnlyCollection<TextSection> OrderTextSections(IEnumerable<TextSection> sections)

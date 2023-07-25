@@ -51,7 +51,7 @@ public class TextsDao : ITextsDao
             File = file
         };
 
-        var textDbo = await GetTextByIdAsync(textId);
+        var textDbo = await GetTextWithFilesByIdAsync(textId);
         textDbo.TextFiles.Add(textFileDbo);
         
         await _dbContext.SaveChangesAsync();
@@ -119,16 +119,31 @@ public class TextsDao : ITextsDao
             .MaxAsync(t => t.CreateTime);
     }
 
-    public async Task<TextDbo> GetTextByIdAsync(Guid textId)
+    public async Task<TextDbo> GetTextWithFilesByIdAsync(Guid textId)
     {
         return await _dbContext
             .Texts
-            .Include(t => t.Tags)
-            .Include(t => t.Pages)
-            .ThenInclude(p => p.Sections)
-            .ThenInclude(s => s.Variants)
             .Include(t => t.TextFiles)
             .ThenInclude(tf => tf.File)
             .SingleAsync(t => t.Id == textId);
+    }
+
+    public async Task<IReadOnlyCollection<TextFileDbo>> GetTextFilesByTextAsync(Guid textId)
+    {
+        return (await GetTextWithFilesByIdAsync(textId))
+            .TextFiles
+            .AsReadOnly();
+    }
+
+    public async Task<TextPageDbo> GetPageAsync(Guid textId, int pageNumber)
+    {
+        return (await _dbContext
+            .Texts
+            .Include(t => t.Pages)
+            .ThenInclude(p => p.Sections)
+            .ThenInclude(s => s.Variants)
+            .SingleAsync(t => t.Id == textId))
+            .Pages
+            .Single(p => p.Number == pageNumber);
     }
 }

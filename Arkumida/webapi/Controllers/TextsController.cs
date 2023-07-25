@@ -42,15 +42,29 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Get text by ID
     /// </summary>
-    [Route("api/Texts/GetReadData/{id}/Page/{pageNumber}")]
+    [Route("api/Texts/GetReadData/{id}")]
     [HttpGet]
-    public async Task<ActionResult<TextReadResponse>> GetTextAsync(Guid id, int pageNumber)
+    public async Task<ActionResult<TextReadResponse>> GetTextAsync(Guid id)
     {
         return Ok
         (
             new TextReadResponse
             (
-                await _textsService.GetTextToReadAsync(id, pageNumber)
+                await _textsService.GetTextToReadAsync(id)
+            )
+        );
+    }
+    
+    
+    [Route("api/Texts/GetPage/{id}/Page/{pageNumber}")]
+    [HttpGet]
+    public async Task<ActionResult<TextPageResponse>> GetTextPageAsync(Guid id, int pageNumber)
+    {
+        return Ok
+        (
+            new TextPageResponse
+            (
+                await _textsService.GetTextPageAsync(id, pageNumber)
             )
         );
     }
