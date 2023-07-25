@@ -238,7 +238,7 @@ public class TextsImporter
                     
                     var variantModel = new TextSectionVariant()
                     {
-                        Content = TextsHelper.FixupText($"[bim]{ textFile.Name }[/bim]"),
+                        Content = TextsHelper.FixupText($"[cim]{ textFile.Name }[/cim]"), // cim = Comics IMage
                         CreationTime = DateTime.UtcNow
                     };
                     

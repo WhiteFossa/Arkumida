@@ -1040,6 +1040,12 @@ body {
     border-radius: 0.5rem;
 }
 
+/* Comics image (in text) */
+.comics-image {
+    border-radius: 0.5rem;
+    max-width: 100vw;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */

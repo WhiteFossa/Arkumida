@@ -5,12 +5,13 @@
     import {Guid} from "guid-typescript";
 
     const props = defineProps({
-        id: Guid
+        id: Guid,
+        page: Number
     })
 </script>
 
 <template>
     <HeaderComponent />
 
-    <ReadTextComponent :id="props.id" />
+    <ReadTextComponent :id="props.id" :page="props.page" />
 </template>

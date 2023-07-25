@@ -138,6 +138,7 @@ export class TextElementType
     static SizedAsciiArtBegin = 31
     static SizedAsciiArtEnd = 32
     static EmbeddedImage = 33
+    static ComicsImage = 34
 }
 
 // Prefix for IDs of fullsize images

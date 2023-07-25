@@ -4,7 +4,8 @@
     import LoadingSymbol from "@/components/LoadingSymbol.vue";
 
     const props = defineProps({
-        id: Guid
+        id: Guid,
+        page: Number
     })
 
     import {defineProps, onMounted, ref} from "vue";
@@ -36,7 +37,7 @@
 
     async function OnLoad()
     {
-        textData.value = await (await fetch(apiBaseUrl + `/api/Texts/GetReadData/` + props.id)).json()
+        textData.value = await (await fetch(apiBaseUrl + `/api/Texts/GetReadData/` + props.id + `/Page/` + props.page)).json()
 
         categoryTags.value = FilterCategoryTags(textData.value.textData.tags)
         if (categoryTags.value.length === 0)

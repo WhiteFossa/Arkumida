@@ -54,7 +54,8 @@ public class TextsService : ITextsService
         new ParserColor(),
         new ParserHrefedUrl(),
         new ParserSizedAsciiArt(),
-        new ParserEmbeddedImage()
+        new ParserEmbeddedImage(),
+        new ParserComicsImage()
     };
 
     public TextsService
@@ -179,7 +180,7 @@ public class TextsService : ITextsService
         return await _textsDao.GetLastTextAddTimeAsync();
     }
 
-    public async Task<TextReadDto> GetTextToReadAsync(Guid textId)
+    public async Task<TextReadDto> GetTextToReadAsync(Guid textId, int pageNumber)
     {
         var textData = await _textsDao.GetTextByIdAsync(textId);
         
@@ -194,7 +195,7 @@ public class TextsService : ITextsService
             textData.LastUpdateTime,
             textData.Title,
             textData.Description,
-            _textsPagesMapper.Map(textData.Pages)
+            new List<TextPage>() { _textsPagesMapper.Map(textData.Pages.Single(p => p.Number == pageNumber)) }
                 .Select(tp => new TextPage()
                 {
                     Id = tp.Id,
