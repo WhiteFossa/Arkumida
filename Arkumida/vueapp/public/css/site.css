@@ -1191,3 +1191,39 @@ body {
 }
 
 /* Illustrations container end*/
+
+
+/* Read text pagination begin */
+
+/* Pagination container */
+.pagination-container {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Pagination go to page input field */
+.pagination-go-to-page-input {
+    width: 3rem;
+    text-align: center;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    font-size: 1.5rem;
+    line-height: 2rem;
+    vertical-align: middle;
+}
+
+/* Pagination go to page button */
+.pagination-go-to-page-button {
+    text-align: center;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    line-height: 2rem;
+    vertical-align: middle;
+}
+
+/* Read text pagination end */

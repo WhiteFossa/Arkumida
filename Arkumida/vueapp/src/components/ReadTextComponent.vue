@@ -32,7 +32,7 @@
     const textType = ref(null)
 
     const textPage = ref(null)
-    const currentPageNumber = ref(1)
+    const currentPageNumber = ref(0)
     const isPageLoading = ref(true)
 
     onMounted(async () =>
@@ -56,19 +56,23 @@
         textType.value = DetectTextType(textData.value.textData.tags)
 
         // Inital page (from URL)
-        currentPageNumber.value = props.page
-
         isLoading.value = false
 
-        await LoadTextPage(currentPageNumber.value)
+        await LoadTextPage(props.page)
     }
 
     // Load text page. Text id comes from props.id
     async function LoadTextPage(pageNumber)
     {
-        isPageLoading.value = true
-        textPage.value = await (await fetch(apiBaseUrl + `/api/Texts/GetPage/` + props.id + `/Page/` + pageNumber)).json()
-        isPageLoading.value = false
+        if (pageNumber !== currentPageNumber.value)
+        {
+            currentPageNumber.value = pageNumber
+            isPageLoading.value = true
+            textPage.value = await (await fetch(apiBaseUrl + `/api/Texts/GetPage/` + props.id + `/Page/` + pageNumber)).json()
+            isPageLoading.value = false
+
+            console.log("Page loaded: " + currentPageNumber.value)
+        }
     }
 
 </script>
@@ -123,11 +127,11 @@
         </div>
 
         <!-- Pagination (top) -->
-        <ReadTextPagination :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
+        <ReadTextPagination :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
 
         <!-- Sections -->
         <LoadingSymbol v-if="isPageLoading"/>
-        <div v-else>
+        <div v-else :key="currentPageNumber">
             <div v-for="section in textPage.pageData.sections" :key="section.entityId">
                 <SectionComponent :originalText="section.originalText" :variants="section.variants" />
             </div>
@@ -137,6 +141,6 @@
         <TextIllustrationsContainer v-if="textType !== TextType.Comics" :illustrations="textData.textData.illustrations" />
 
         <!-- Pagination (bottom) -->
-        <ReadTextPagination :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
+        <ReadTextPagination :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
     </div>
 </template>

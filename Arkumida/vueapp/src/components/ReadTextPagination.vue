@@ -1,7 +1,9 @@
 <script setup>
-import {defineEmits, defineProps} from "vue";
+    import {defineEmits, defineProps} from "vue";
+    import ReadTextGoToPage from "@/components/ReadTextGoToPage.vue";
 
     const props = defineProps({
+        currentPage: Number,
         pagesCount: Number
     })
 
@@ -14,9 +16,9 @@ import {defineEmits, defineProps} from "vue";
 </script>
 
 <template>
-    <div class="centered" v-if="props.pagesCount > 1">
+    <div class="pagination-container" v-if="props.pagesCount > 1">
         Pagination will be here. Total pages {{ props.pagesCount }}
 
-        <div @click="GoToPage(props.pagesCount)">Last page</div>
+        <ReadTextGoToPage :currentPage="props.currentPage" :pagesCount="props.pagesCount" @goToPage="async (pn) => await GoToPage(pn)"/>
     </div>
 </template>
