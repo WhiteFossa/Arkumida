@@ -146,4 +146,14 @@ public class TextsDao : ITextsDao
             .Pages
             .Single(p => p.Number == pageNumber);
     }
+
+    public async Task<int> GetPagesCountByTextId(Guid textId)
+    {
+        return (await _dbContext
+            .Texts
+            .Include(t => t.Pages)
+            .SingleAsync(t => t.Id == textId))
+            .Pages
+            .Count;
+    }
 }

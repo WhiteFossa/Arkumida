@@ -182,20 +182,22 @@ public class TextsService : ITextsService
 
     public async Task<TextReadDto> GetTextToReadAsync(Guid textId)
     {
-        var textData = await _textsDao.GetTextMetadataByIdAsync(textId);
+        var textMetadata = await _textsDao.GetTextMetadataByIdAsync(textId);
         
-        var textTags = _tagsMapper.Map(textData.Tags);
+        var textTags = _tagsMapper.Map(textMetadata.Tags);
         
         var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
 
+        var pagesCount = await _textsDao.GetPagesCountByTextId(textId);
+
         return new TextReadDto
         (
-            textData.Id,
+            textMetadata.Id,
             "not_ready",
-            textData.CreateTime,
-            textData.LastUpdateTime,
-            textData.Title,
-            textData.Description,
+            textMetadata.CreateTime,
+            textMetadata.LastUpdateTime,
+            textMetadata.Title,
+            textMetadata.Description,
             _tagsService.OrderTags(textTags)
                 .Select(t => t.ToTagDto())
                 .ToList(),
@@ -204,7 +206,8 @@ public class TextsService : ITextsService
             new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
-                .ToList()
+                .ToList(),
+            pagesCount
         );
     }
 

@@ -61,6 +61,11 @@ public class TextReadDto : IdedEntityDto
     [JsonPropertyName("illustrations")]
     public IReadOnlyCollection<TextFileDto> Illustrations { get; private set; }
 
+    /// <summary>
+    /// Total pages count (note, that first page have index of 1, not of 0)
+    /// </summary>
+    public int PagesCount { get; private set; }
+
     public TextReadDto
     (
         Guid id,
@@ -73,7 +78,8 @@ public class TextReadDto : IdedEntityDto
         CreatureDto author,
         CreatureDto translator,
         CreatureDto publisher,
-        IReadOnlyCollection<TextFileDto> illustrations
+        IReadOnlyCollection<TextFileDto> illustrations,
+        int pagesCount
     ) : base (id, furryReadableId)
     {
         CreateTime = createTime;
@@ -87,9 +93,15 @@ public class TextReadDto : IdedEntityDto
         
         Description = description; // May be empty
         Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
-        Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
+        Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null.");
         Translator = translator;
-        Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must not be null");
-        Illustrations = illustrations ?? throw new ArgumentNullException(nameof(illustrations), "Illustrations must not be null");
+        Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must not be null.");
+        Illustrations = illustrations ?? throw new ArgumentNullException(nameof(illustrations), "Illustrations must not be null.");
+
+        if (pagesCount < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pagesCount), pagesCount, "Text must have at least one page.");
+        }
+        PagesCount = pagesCount;
     }
 }

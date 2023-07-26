@@ -18,6 +18,7 @@
     import SectionComponent from "@/components/SectionComponent.vue";
     import TextIllustrationsContainer from "@/components/TextIllustrationsContainer.vue";
     import {TextType} from "@/js/constants";
+    import ReadTextPagination from "@/components/ReadTextPagination.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -31,8 +32,8 @@
     const textType = ref(null)
 
     const textPage = ref(null)
-
-    const pageNumber = ref(1)
+    const currentPageNumber = ref(1)
+    const isPageLoading = ref(true)
 
     onMounted(async () =>
     {
@@ -54,17 +55,20 @@
 
         textType.value = DetectTextType(textData.value.textData.tags)
 
-        // Inital page (from URL) load
-        pageNumber.value = props.page
-        await LoadTextPage(pageNumber.value)
+        // Inital page (from URL)
+        currentPageNumber.value = props.page
 
         isLoading.value = false
+
+        await LoadTextPage(currentPageNumber.value)
     }
 
     // Load text page. Text id comes from props.id
     async function LoadTextPage(pageNumber)
     {
+        isPageLoading.value = true
         textPage.value = await (await fetch(apiBaseUrl + `/api/Texts/GetPage/` + props.id + `/Page/` + pageNumber)).json()
+        isPageLoading.value = false
     }
 
 </script>
@@ -118,8 +122,12 @@
             </div>
         </div>
 
+        <!-- Pagination (top) -->
+        <ReadTextPagination :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
+
         <!-- Sections -->
-        <div>
+        <LoadingSymbol v-if="isPageLoading"/>
+        <div v-else>
             <div v-for="section in textPage.pageData.sections" :key="section.entityId">
                 <SectionComponent :originalText="section.originalText" :variants="section.variants" />
             </div>
@@ -127,5 +135,8 @@
 
         <!-- Illustrations (for comics we don't need to show them) -->
         <TextIllustrationsContainer v-if="textType !== TextType.Comics" :illustrations="textData.textData.illustrations" />
+
+        <!-- Pagination (bottom) -->
+        <ReadTextPagination :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
     </div>
 </template>

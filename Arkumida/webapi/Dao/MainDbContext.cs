@@ -24,6 +24,11 @@ public class MainDbContext : DbContext
     public DbSet<TextSectionDbo> TextsSections { get; set; }
 
     /// <summary>
+    /// Text pages
+    /// </summary>
+    public DbSet<TextPageDbo> TextPages { get; set; }
+
+    /// <summary>
     /// Texts
     /// </summary>
     public DbSet<TextDbo> Texts { get; set; }
