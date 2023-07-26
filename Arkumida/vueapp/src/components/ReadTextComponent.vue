@@ -19,6 +19,7 @@
     import TextIllustrationsContainer from "@/components/TextIllustrationsContainer.vue";
     import {TextType} from "@/js/constants";
     import ReadTextPagination from "@/components/ReadTextPagination.vue";
+    import router from "@/router";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -68,10 +69,11 @@
         {
             currentPageNumber.value = pageNumber
             isPageLoading.value = true
-            textPage.value = await (await fetch(apiBaseUrl + `/api/Texts/GetPage/` + props.id + `/Page/` + pageNumber)).json()
+            textPage.value = await (await fetch(apiBaseUrl + `/api/Texts/GetPage/` + props.id + `/Page/` + currentPageNumber.value)).json()
             isPageLoading.value = false
 
-            console.log("Page loaded: " + currentPageNumber.value)
+            // Updating URL in browser address bar without page reload
+            router.replace({ path: "/texts/" + props.id + "/page/" + currentPageNumber.value })
         }
     }
 
