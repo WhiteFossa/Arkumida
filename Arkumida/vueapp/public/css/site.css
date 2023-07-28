@@ -1040,10 +1040,16 @@ body {
     border-radius: 0.5rem;
 }
 
-/* Comics image (in text) */
+/* Comics image container */
+.comics-image-container {
+    text-align: center;
+    text-indent: 0;
+}
+
+/* Comics image */
 .comics-image {
     border-radius: 0.5rem;
-    max-width: 90vw;
+    max-width: 95vw;
     cursor: pointer;
 }
 

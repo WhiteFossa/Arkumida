@@ -288,7 +288,7 @@ function RenderTextElement(element)
 
     if (element.type === TextElementType.ComicsImage)
     {
-        return "<div class='centered'>" +
+        return "<div class='comics-image-container'>" +
             "<img id='" + ComicsImageIdPrefix + element.parameters[0] + "' class='comics-image' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "'/>" +
             "</div>";
     }
