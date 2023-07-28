@@ -35,10 +35,10 @@ public class TextDto
     public string Description { get; set; }
 
     /// <summary>
-    /// Text sections
+    /// Text pages
     /// </summary>
-    [JsonPropertyName("sections")]
-    public IList<TextSectionDto> Sections { get; set; }
+    [JsonPropertyName("pages")]
+    public IList<TextPageDto> Pages { get; set; }
     
     /// <summary>
     /// How many times text was read

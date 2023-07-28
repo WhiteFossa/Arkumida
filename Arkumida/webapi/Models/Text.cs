@@ -34,9 +34,9 @@ public class Text
     public string Description { get; set; }
 
     /// <summary>
-    /// Text sections
+    /// Text pages
     /// </summary>
-    public IList<TextSection> Sections { get; set; }
+    public IList<TextPage> Pages { get; set; }
     
     /// <summary>
     /// How many times text was read
@@ -82,7 +82,8 @@ public class Text
             LastUpdateTime,
             Title,
             Description,
-            Sections.Select(s => s.ToDto(this.TextFiles.ToList(), textsService)).ToList(),
+            Pages.Select(p => p.ToDto(this.TextFiles.ToList(), textsService)).ToList(),
+            //Sections.Select(s => s.ToDto(this.TextFiles.ToList(), textsService)).ToList(),
             ReadsCount,
             VotesCount,
             VotesPlus,

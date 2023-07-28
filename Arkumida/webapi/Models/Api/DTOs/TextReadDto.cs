@@ -30,13 +30,7 @@ public class TextReadDto : IdedEntityDto
     /// </summary>
     [JsonPropertyName("description")]
     public string Description { get; set; }
-
-    /// <summary>
-    /// Text sections
-    /// </summary>
-    [JsonPropertyName("sections")]
-    public IList<TextSectionDto> Sections { get; set; }
-
+    
     /// <summary>
     /// Text tags
     /// </summary>
@@ -67,6 +61,11 @@ public class TextReadDto : IdedEntityDto
     [JsonPropertyName("illustrations")]
     public IReadOnlyCollection<TextFileDto> Illustrations { get; private set; }
 
+    /// <summary>
+    /// Total pages count (note, that first page have index of 1, not of 0)
+    /// </summary>
+    public int PagesCount { get; private set; }
+
     public TextReadDto
     (
         Guid id,
@@ -75,12 +74,12 @@ public class TextReadDto : IdedEntityDto
         DateTime lastUpdateTime,
         string title,
         string description,
-        IReadOnlyCollection<TextSectionDto> sections,
         IReadOnlyCollection<TagDto> tags,
         CreatureDto author,
         CreatureDto translator,
         CreatureDto publisher,
-        IReadOnlyCollection<TextFileDto> illustrations
+        IReadOnlyCollection<TextFileDto> illustrations,
+        int pagesCount
     ) : base (id, furryReadableId)
     {
         CreateTime = createTime;
@@ -93,11 +92,16 @@ public class TextReadDto : IdedEntityDto
         Title = title;
         
         Description = description; // May be empty
-        Sections = (sections ?? throw new ArgumentNullException(nameof(sections), "Sections mustn't be null.")).ToList();
         Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
-        Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
+        Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null.");
         Translator = translator;
-        Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must not be null");
-        Illustrations = illustrations ?? throw new ArgumentNullException(nameof(illustrations), "Illustrations must not be null");
+        Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must not be null.");
+        Illustrations = illustrations ?? throw new ArgumentNullException(nameof(illustrations), "Illustrations must not be null.");
+
+        if (pagesCount < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pagesCount), pagesCount, "Text must have at least one page.");
+        }
+        PagesCount = pagesCount;
     }
 }

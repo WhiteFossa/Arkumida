@@ -36,6 +36,7 @@ builder.Services.AddSingleton<ITextsSectionsMapper, TextsSectionsMapper>();
 builder.Services.AddSingleton<ITextsMapper, TextsMapper>();
 builder.Services.AddSingleton<IFilesMapper, FilesMapper>();
 builder.Services.AddSingleton<ITextFilesMapper, TextFilesMapper>();
+builder.Services.AddSingleton<ITextsPagesMapper, TextsPagesMapper>();
 
 #endregion
 

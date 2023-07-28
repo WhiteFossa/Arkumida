@@ -1040,6 +1040,13 @@ body {
     border-radius: 0.5rem;
 }
 
+/* Comics image (in text) */
+.comics-image {
+    border-radius: 0.5rem;
+    max-width: 90vw;
+    cursor: pointer;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */
@@ -1185,3 +1192,124 @@ body {
 }
 
 /* Illustrations container end*/
+
+
+/* Read text pagination begin */
+
+/* Pagination container */
+.read-text-pagination-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Pagination go to page flex container */
+.read-text-pagination-go-to-page-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+/* Pagination go to page input field */
+.read-text-pagination-go-to-page-input {
+    width: 3rem;
+    text-align: center;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    font-size: 1.5rem;
+    line-height: 3rem;
+    vertical-align: middle;
+}
+
+/* Pagination go to page button */
+.read-text-pagination-go-to-page-button {
+    text-align: center;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    line-height: 3rem;
+    vertical-align: middle;
+}
+
+/* Pagination pages flex container */
+.read-text-pagination-pages-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+/* First page pseudobutton */
+.read-text-pagination-first-page {
+    width: 3rem;
+    text-align: center;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    font-size: 1.5rem;
+    line-height: 3rem;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/* If first page is current page */
+.read-text-pagination-first-page.read-text-pagination-first-page-active {
+    background: hsl(357, 85%, 33%);
+    color: hsl(0, 0%, 100%);
+}
+
+/* Last page pseudobutton */
+.read-text-pagination-last-page {
+    width: 3rem;
+    text-align: center;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    font-size: 1.5rem;
+    line-height: 3rem;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/* If last page is current page */
+.read-text-pagination-last-page.read-text-pagination-last-page-active {
+    background: hsl(357, 85%, 33%);
+    color: hsl(0, 0%, 100%);
+}
+
+/* Page pseudobutton */
+.read-text-pagination-page {
+    width: 3rem;
+    text-align: center;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    font-size: 1.5rem;
+    line-height: 3rem;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/* If target page is current page */
+.read-text-pagination-page.read-text-pagination-page-active {
+    background: hsl(357, 85%, 33%);
+    color: hsl(0, 0%, 100%);
+}
+
+/* Page pseudobutton */
+.read-text-pagination-interpages-gap {
+    background: hsl(0, 0%, 0%);
+    width: 0.2rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+/* Read text pagination end */

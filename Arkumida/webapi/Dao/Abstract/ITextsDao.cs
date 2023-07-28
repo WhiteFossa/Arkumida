@@ -45,9 +45,24 @@ public interface ITextsDao
     Task<DateTime> GetLastTextAddTimeAsync();
 
     /// <summary>
-    /// Similar to GetTextMetadataByIdAsync(), but do full load (i.e. sections, variants and other heavy data, required to display text)
+    /// Similar to GetTextMetadataByIdAsync(), but do files load
     /// </summary>
-    Task<TextDbo> GetTextByIdAsync(Guid textId);
-    
+    Task<TextDbo> GetTextWithFilesByIdAsync(Guid textId);
+
+    /// <summary>
+    /// Load all text files by text
+    /// </summary>
+    Task<IReadOnlyCollection<TextFileDbo>> GetTextFilesByTextAsync(Guid textId);
+
+    /// <summary>
+    /// Get one text page (heavy data like sections and variants returned by this method)
+    /// </summary>
+    Task<TextPageDbo> GetPageAsync(Guid textId, int pageNumber);
+
+    /// <summary>
+    /// Counts pages of given text. Please note that first page have index of 1, not of 0
+    /// </summary>
+    Task<int> GetPagesCountByTextId(Guid textId);
+
     #endregion
 }

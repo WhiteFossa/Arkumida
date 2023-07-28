@@ -56,6 +56,6 @@ public class TagDto
     /// <summary>
     /// Machine-readable tag meaning
     /// </summary>
-    [JsonPropertyName("tagMeaning")]
+    [JsonPropertyName("meaning")]
     public TagMeaning Meaning { get; set; }
 }

@@ -36,9 +36,14 @@ public interface ITextsService
     Task<DateTime> GetLastTextAddTimeAsync();
 
     /// <summary>
-    /// Get text data, required to display read page
+    /// Get text metadata, required to display read page (actual text is NOT returned, for text see GetTextPageAsync()) 
     /// </summary>
     Task<TextReadDto> GetTextToReadAsync(Guid textId);
+    
+    /// <summary>
+    /// Get text page data (actual text returned here)
+    /// </summary>
+    Task<TextPageDto> GetTextPageAsync(Guid textId, int pageNumber);
 
     /// <summary>
     /// Order text sections such a way, that they will compose a full text

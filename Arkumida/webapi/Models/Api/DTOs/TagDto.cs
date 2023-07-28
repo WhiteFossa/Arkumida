@@ -48,7 +48,7 @@ public class TagDto : IdedEntityDto
     /// <summary>
     /// Machine-readable tag meaning
     /// </summary>
-    [JsonPropertyName("tagMeaning")]
+    [JsonPropertyName("meaning")]
     public TagMeaning Meaning { get; set; }
     
     public TagDto
