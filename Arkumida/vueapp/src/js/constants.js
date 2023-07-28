@@ -143,3 +143,6 @@ export class TextElementType
 
 // Prefix for IDs of fullsize images
 export const FullsizeImageIdPrefix = "e76eb871-7129-4ad2-be31-d94068051923_";
+
+// Prefix for IDs of comics images
+export const ComicsImageIdPrefix = "e7cd4703-ba8b-4241-a873-3f4298ad9ca9_";

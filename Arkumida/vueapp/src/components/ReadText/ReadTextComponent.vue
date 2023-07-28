@@ -69,6 +69,11 @@
         // comparison
         pageNumber = Number(pageNumber)
 
+        if (pageNumber < 1 || pageNumber > textData.value.textData.pagesCount)
+        {
+            return;
+        }
+
         if (pageNumber !== currentPageNumber.value)
         {
             currentPageNumber.value = pageNumber
@@ -139,7 +144,7 @@
         <LoadingSymbol v-if="isPageLoading"/>
         <div v-else :key="currentPageNumber">
             <div v-for="section in textPage.pageData.sections" :key="section.entityId">
-                <SectionComponent :originalText="section.originalText" :variants="section.variants" />
+                <SectionComponent :originalText="section.originalText" :variants="section.variants" @goToNextPage="async() => await LoadTextPage(currentPageNumber + 1)"/>
             </div>
         </div>
 

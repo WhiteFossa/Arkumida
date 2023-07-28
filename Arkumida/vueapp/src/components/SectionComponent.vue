@@ -1,14 +1,16 @@
 <!-- Component to display text section -->
 <script setup>
-import {defineProps, ref} from "vue";
+import {defineEmits, defineProps, ref} from "vue";
 import {RenderTextElement} from "@/js/libArkumida";
-import {FullsizeImageIdPrefix} from "@/js/constants";
+import {ComicsImageIdPrefix, FullsizeImageIdPrefix} from "@/js/constants";
 import FullsizeImagePopup from "@/components/FullsizeImagePopup.vue";
 
     const props = defineProps({
         originalText: String, // Original text, it is used when section contains bilingual text
         variants: [Object] // Text variants, Russian texts are here
     })
+
+    const emit = defineEmits(['goToNextPage'])
 
     const isImagePopupShown = ref(false)
     const fullSizeImageId = ref(null)
@@ -33,6 +35,13 @@ import FullsizeImagePopup from "@/components/FullsizeImagePopup.vue";
             // We have image to show
             const imageId = clickedElementId.substring(FullsizeImageIdPrefix.length)
             ShowImagePopup(imageId)
+            return
+        }
+
+        if (clickedElementId.startsWith(ComicsImageIdPrefix))
+        {
+            await GoToNextPage()
+            return
         }
     }
 
@@ -45,6 +54,11 @@ import FullsizeImagePopup from "@/components/FullsizeImagePopup.vue";
     async function HideImagePopup()
     {
         isImagePopupShown.value = false
+    }
+
+    async function GoToNextPage()
+    {
+        emit('goToNextPage')
     }
 </script>
 

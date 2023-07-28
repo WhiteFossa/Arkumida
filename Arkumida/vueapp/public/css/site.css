@@ -1044,6 +1044,7 @@ body {
 .comics-image {
     border-radius: 0.5rem;
     max-width: 90vw;
+    cursor: pointer;
 }
 
 /* Read text page stuff ends here */
@@ -1258,6 +1259,7 @@ body {
     font-size: 1.5rem;
     line-height: 3rem;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 /* If first page is current page */
@@ -1276,6 +1278,7 @@ body {
     font-size: 1.5rem;
     line-height: 3rem;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 /* If last page is current page */
@@ -1292,6 +1295,7 @@ body {
     font-size: 1.5rem;
     line-height: 3rem;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 /* If target page is current page */
