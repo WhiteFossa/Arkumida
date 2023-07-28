@@ -18,7 +18,7 @@
     import SectionComponent from "@/components/SectionComponent.vue";
     import TextIllustrationsContainer from "@/components/TextIllustrationsContainer.vue";
     import {TextType} from "@/js/constants";
-    import ReadTextPagination from "@/components/ReadTextPagination.vue";
+    import ReadTextPagination from "@/components/ReadText/Pagination/ReadTextPagination.vue";
     import router from "@/router";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
@@ -65,6 +65,10 @@
     // Load text page. Text id comes from props.id
     async function LoadTextPage(pageNumber)
     {
+        // Page number can come from URL, in this case it will be a string, and we need a number for correct
+        // comparison
+        pageNumber = Number(pageNumber)
+
         if (pageNumber !== currentPageNumber.value)
         {
             currentPageNumber.value = pageNumber

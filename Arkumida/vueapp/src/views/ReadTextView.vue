@@ -1,6 +1,6 @@
 <script setup>
     import HeaderComponent from "@/components/HeaderComponent.vue";
-    import ReadTextComponent from "@/components/ReadTextComponent.vue";
+    import ReadTextComponent from "@/components/ReadText/ReadTextComponent.vue";
     import {defineProps} from "vue";
     import {Guid} from "guid-typescript";
 

@@ -22,8 +22,8 @@
 </script>
 
 <template>
-    <form v-on:submit.prevent="GoToPage(targetPage)">
-        <input class="pagination-go-to-page-input" type="text" v-model="targetPage" />
-        <button class="pagination-go-to-page-button">Перейти</button>
+    <form v-on:submit.prevent="GoToPage(Number(targetPage))">
+        <input class="read-text-pagination-go-to-page-input" type="text" v-model="targetPage" />
+        <button class="read-text-pagination-go-to-page-button">Перейти</button>
     </form>
 </template>
