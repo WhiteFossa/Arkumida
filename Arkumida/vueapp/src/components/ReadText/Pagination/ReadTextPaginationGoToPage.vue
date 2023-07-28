@@ -22,7 +22,7 @@
 </script>
 
 <template>
-    <form v-on:submit.prevent="GoToPage(Number(targetPage))">
+    <form class="read-text-pagination-go-to-page-container" v-on:submit.prevent="GoToPage(Number(targetPage))">
         <input class="read-text-pagination-go-to-page-input" type="text" v-model="targetPage" />
         <button class="read-text-pagination-go-to-page-button">Перейти</button>
     </form>
