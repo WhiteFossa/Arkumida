@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="footer-block">
-                        Редизайн, программирование - <a href="https://fossa.life" title="Блог Белой Фоссы">Белая Фосса</a>
+                        Редизайн, программирование - <a href="https://fossa.life" title="Блог Первозверей">Первозвери</a>
                     </div>
 
                     <div class="footer-block">

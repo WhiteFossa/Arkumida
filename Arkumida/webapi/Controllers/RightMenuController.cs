@@ -20,7 +20,7 @@ public class RightMenuController : ControllerBase
         var items = new List<ImagedLinkDto>()
         {
             new ImagedLinkDto("/messages", "", "Сообщения", "/images/message.png", "Сообщения", "inline-block vertical-align-center"),
-            new ImagedLinkDto("/profile", "Фосса", "Профиль", "/images/fossa_avatar.jpg", "Профиль", "right-menu-avatar")
+            new ImagedLinkDto("/profile", "Первозвери", "Профиль", "/images/fossa_avatar.jpg", "Профиль", "right-menu-avatar")
         };
         
         return Ok(new RightMenuResponse(items));
