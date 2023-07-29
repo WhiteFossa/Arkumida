@@ -1,4 +1,5 @@
 using webapi.Models.Api.DTOs;
+using webapi.Models.Api.Requests;
 
 namespace webapi.Services.Abstract;
 
@@ -11,4 +12,9 @@ public interface IAccountsService
     /// Try to register an user
     /// </summary>
     Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData);
+
+    /// <summary>
+    /// Try to log-in user
+    /// </summary>
+    Task<LoginResultDto> LoginAsync(LoginDto loginData);
 }

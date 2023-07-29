@@ -50,4 +50,9 @@ public class AccountsService : IAccountsService
         
         return new RegistrationResultDto(user.Id, UserRegistrationResult.OK);
     }
+
+    public async Task<LoginResultDto> LoginAsync(LoginDto loginData)
+    {
+        return new LoginResultDto(true, "YiffYuff", DateTime.UtcNow);
+    }
 }
