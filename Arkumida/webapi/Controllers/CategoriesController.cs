@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Models.Api.Responses;
 using webapi.Services.Abstract;
@@ -7,6 +8,7 @@ namespace webapi.Controllers;
 /// <summary>
 /// Controller to work with categories
 /// </summary>
+[Authorize]
 [ApiController]
 public class CategoriesController : ControllerBase
 {
@@ -20,6 +22,7 @@ public class CategoriesController : ControllerBase
     /// <summary>
     /// Get categories
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Categories/List")]
     [HttpGet]
     public async Task<ActionResult<CategoriesTagsListResponse>> GetCategoriesAsync()
@@ -35,6 +38,7 @@ public class CategoriesController : ControllerBase
     /// <summary>
     /// Get category by ID
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Categories/{id}")]
     [HttpGet]
     public async Task<ActionResult<CategoryTagResponse>> GetCategoryByIdAsync(Guid id)

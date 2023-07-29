@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -10,6 +11,7 @@ namespace webapi.Controllers;
 /// <summary>
 /// Controller to work with files
 /// </summary>
+[Authorize]
 [ApiController]
 public class FilesController : ControllerBase
 {
@@ -26,6 +28,7 @@ public class FilesController : ControllerBase
     /// <summary>
     /// Upload a file
     /// </summary>
+    [AllowAnonymous] // TODO: Remove me
     [Route("api/Files/Upload")]
     [HttpPost]
     public async Task<ActionResult<UploadFileResponse>> UploadAsync(IFormFile file)
@@ -43,6 +46,7 @@ public class FilesController : ControllerBase
     /// <summary>
     /// Download the file
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Files/Download/{fileId}")]
     [HttpGet]
     public async Task<ActionResult> DownloadAsync(Guid fileId)

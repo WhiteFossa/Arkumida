@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Models.Api.Responses;
 using webapi.Services.Abstract;
@@ -7,6 +8,7 @@ namespace webapi.Controllers;
 /// <summary>
 /// Controller, working with various statistics
 /// </summary>
+[Authorize]
 [ApiController]
 public class StatisticsController : ControllerBase
 {
@@ -20,6 +22,7 @@ public class StatisticsController : ControllerBase
     /// <summary>
     /// Get texts statistics
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Statistics/Texts")]
     [HttpGet]
     public async Task<ActionResult<TextsStatisticsResponse>> GetTextsStatisticsAsync()

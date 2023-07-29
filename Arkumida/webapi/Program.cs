@@ -1,11 +1,17 @@
 using System.IO.Compression;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using webapi.Constants;
 using webapi.Dao;
 using webapi.Dao.Abstract;
 using webapi.Dao.Implementations;
 using webapi.Mappers.Abstract;
 using webapi.Mappers.Implementations;
+using webapi.Models.Identity;
 using webapi.Services.Abstract;
 using webapi.Services.Implementations;
 
@@ -84,12 +90,67 @@ builder.Services.AddControllers();
 
 #region  DB Contexts
 
+    // Security
+    builder.Services.AddDbContext<SecurityDbContext>
+    (
+        options
+            =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("MainConnection")), ServiceLifetime.Transient
+    );
+
     // Main
     builder.Services.AddDbContext<MainDbContext>
     (
         options
             =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("MainConnection"), o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)), ServiceLifetime.Transient
+    );
+
+#endregion
+
+#region Identity framework
+
+    // Identity
+    builder.Services.AddIdentity<User, IdentityRole>()  
+        .AddEntityFrameworkStores<SecurityDbContext>()  
+        .AddDefaultTokenProviders();
+
+    builder.Services.Configure<IdentityOptions>(options =>
+    {
+        // Password settings
+        options.Password.RequiredLength = 8;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequiredUniqueChars = 4;
+                
+        // User settings
+        options.User.RequireUniqueEmail = true;
+    });
+
+    // Adding Authentication  
+    builder.Services.AddAuthentication(options =>  
+        {  
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;  
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;  
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;  
+        })  
+      
+        // Adding Jwt Bearer  
+        .AddJwtBearer(options =>  
+        {  
+            options.SaveToken = true;  
+            options.RequireHttpsMetadata = false;  
+            options.TokenValidationParameters = new TokenValidationParameters()  
+            {  
+                ValidateIssuer = true,  
+                ValidateAudience = true,  
+                ValidAudience = builder.Configuration[GlobalConstants.JwtValidAudienceSettingName],  
+                ValidIssuer = builder.Configuration[GlobalConstants.JwtValidIssuerSettingName],  
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration[GlobalConstants.JwtSecretSettingName]))  
+            };  
+        }
     );
 
 #endregion
@@ -106,6 +167,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
 
 app.UseCors();
 app.UseAuthorization();

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dao.Models.Enums;
 using webapi.Models.Api.DTOs;
@@ -10,6 +11,7 @@ namespace webapi.Controllers;
 /// <summary>
 /// Controller to work with texts
 /// </summary>
+[Authorize]
 [ApiController]
 public class TextsController : ControllerBase
 {
@@ -26,6 +28,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Get text info by ID
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/GetInfo/{id}")]
     [HttpGet]
     public async Task<ActionResult<TextInfoResponse>> GetTextInfoAsync(Guid id)
@@ -42,6 +45,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Get text by ID
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/GetReadData/{id}")]
     [HttpGet]
     public async Task<ActionResult<TextReadResponse>> GetTextAsync(Guid id)
@@ -55,7 +59,10 @@ public class TextsController : ControllerBase
         );
     }
     
-    
+    /// <summary>
+    /// Get text page
+    /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/GetPage/{id}/Page/{pageNumber}")]
     [HttpGet]
     public async Task<ActionResult<TextPageResponse>> GetTextPageAsync(Guid id, int pageNumber)
@@ -72,6 +79,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Get latest texts
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/Latest")]
     [HttpGet]
     public async Task<ActionResult<TextsInfosListResponse>> GetLatestTextsAsync(int skip, int take)
@@ -82,6 +90,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Get most popular texts
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/Popular")]
     [HttpGet]
     public async Task<ActionResult<TextsInfosListResponse>> GetPopularTextsAsync(int skip, int take)
@@ -118,6 +127,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Create new text
     /// </summary>
+    [AllowAnonymous] // TODO: Remove me
     [Route("api/Texts/Create")]
     [HttpPost]
     public async Task<ActionResult<CreateTextResponse>> CreateTextAsync([FromBody] CreateTextRequest request)
@@ -144,6 +154,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Add existing file to text
     /// </summary>
+    [AllowAnonymous] // TODO: Remove me
     [Route("api/Texts/AddFile")]
     [HttpPost]
     public async Task<ActionResult> AddFileToTextAsync([FromBody] AddFileToTextRequest request)
