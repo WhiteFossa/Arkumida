@@ -101,4 +101,14 @@ public class AccountsService : IAccountsService
 
         return new LoginResultDto(true, new JwtSecurityTokenHandler().WriteToken(token), token.ValidTo);
     }
+
+    public async Task<bool> IsUserExistByLoginAsync(string login)
+    {
+        if (string.IsNullOrWhiteSpace(login))
+        {
+            throw new ArgumentException("Login must be specified!", nameof(login));
+        }
+        
+        return (await _userManager.FindByNameAsync(login)) != null;
+    }
 }

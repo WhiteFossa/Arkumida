@@ -14,6 +14,7 @@ using webapi.Mappers.Implementations;
 using webapi.Models.Identity;
 using webapi.Services.Abstract;
 using webapi.Services.Implementations;
+using webapi.Services.Implementations.Hosted;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,12 @@ builder.Services.AddSingleton<IFilesMapper, FilesMapper>();
 builder.Services.AddSingleton<ITextFilesMapper, TextFilesMapper>();
 builder.Services.AddSingleton<ITextsPagesMapper, TextsPagesMapper>();
 builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
+
+#endregion
+
+#region Hosted
+
+builder.Services.AddHostedService<BuiltInUsersCreator>();
 
 #endregion
 

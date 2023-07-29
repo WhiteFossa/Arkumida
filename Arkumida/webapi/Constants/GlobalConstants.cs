@@ -28,4 +28,23 @@ public static class GlobalConstants
     public const string JwtLifetimeSettingName = "JWT:Lifetime";
     
     #endregion
+    
+    #region Importer user
+
+    /// <summary>
+    /// Take importer user login from this setting in appsettings.json
+    /// </summary>
+    public const string ImporterUserLoginSettingName = "ImporterUser:Login";
+
+    /// <summary>
+    /// Take importer user email from this setting in appsettings.json
+    /// </summary>
+    public const string ImporterUserEmailSettingName = "ImporterUser:Email";
+    
+    /// <summary>
+    /// Take importer user password from this setting in appsettings.json
+    /// </summary>
+    public const string ImporterUserPasswordSettingName = "ImporterUser:Login";
+    
+    #endregion
 }
