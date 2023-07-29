@@ -45,6 +45,7 @@ builder.Services.AddSingleton<ITextsMapper, TextsMapper>();
 builder.Services.AddSingleton<IFilesMapper, FilesMapper>();
 builder.Services.AddSingleton<ITextFilesMapper, TextFilesMapper>();
 builder.Services.AddSingleton<ITextsPagesMapper, TextsPagesMapper>();
+builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
 
 #endregion
 
