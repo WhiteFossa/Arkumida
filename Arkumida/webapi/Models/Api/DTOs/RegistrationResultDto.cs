@@ -12,7 +12,7 @@ public class RegistrationResultDto
     /// Registered user ID
     /// </summary>
     [JsonPropertyName("userId")]
-    public Guid UserId { get; private set; }
+    public string UserId { get; private set; }
 
     /// <summary>
     /// Registration result
@@ -22,11 +22,11 @@ public class RegistrationResultDto
 
     public RegistrationResultDto
     (
-        Guid userId,
+        string userId,
         UserRegistrationResult result
     )
     {
-        UserId = userId;
+        UserId = userId; // Might be empty in case of error
         Result = result;
     }
 }

@@ -11,7 +11,7 @@ public enum UserRegistrationResult
     
     WeakPassword = 2,
     
-    EailIsTaken = 3,
+    EmailIsTaken = 3,
     
     GenericError = 4
 }
