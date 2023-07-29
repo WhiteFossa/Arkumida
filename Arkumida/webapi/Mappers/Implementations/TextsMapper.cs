@@ -6,18 +6,18 @@ namespace webapi.Mappers.Implementations;
 
 public class TextsMapper : ITextsMapper
 {
-    private readonly ITextsSectionsMapper _sectionsMapper;
+    private readonly ITextsPagesMapper _pagesMapper;
     private readonly ITagsMapper _tagsMapper;
     private readonly ITextFilesMapper _textFilesMapper;
 
     public TextsMapper
     (
-        ITextsSectionsMapper sectionsMapper,
+        ITextsPagesMapper pagesMapper,
         ITagsMapper tagsMapper,
         ITextFilesMapper textFilesMapper
     )
     {
-        _sectionsMapper = sectionsMapper;
+        _pagesMapper = pagesMapper;
         _tagsMapper = tagsMapper;
         _textFilesMapper = textFilesMapper;
     }
@@ -46,7 +46,7 @@ public class TextsMapper : ITextsMapper
             LastUpdateTime = text.LastUpdateTime,
             Title = text.Title,
             Description = text.Description,
-            Sections = _sectionsMapper.Map(text.Sections).ToList(),
+            Pages = _pagesMapper.Map(text.Pages).ToList(),
             ReadsCount = text.ReadsCount,
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,
@@ -71,7 +71,7 @@ public class TextsMapper : ITextsMapper
             LastUpdateTime = text.LastUpdateTime,
             Title = text.Title,
             Description = text.Description,
-            Sections = _sectionsMapper.Map(text.Sections).ToList(),
+            Pages = _pagesMapper.Map(text.Pages).ToList(),
             ReadsCount = text.ReadsCount,
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,

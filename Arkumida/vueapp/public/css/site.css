@@ -428,7 +428,7 @@ body {
 
 /* Text short infos are live here */
 .texts-short-info-blocks-container {
-    flex: auto;
+    flex: 1%;
 }
 
 /* Text short info block */
@@ -442,7 +442,7 @@ body {
     padding-right: 0.5rem;
     border: 0.1rem solid hsl(87, 89%, 80%);
     border-radius: 0.2rem;
-    max-width: 60rem;
+    min-width: 20rem;
 }
 
 /* Text from contest */
@@ -1040,6 +1040,19 @@ body {
     border-radius: 0.5rem;
 }
 
+/* Comics image container */
+.comics-image-container {
+    text-align: center;
+    text-indent: 0;
+}
+
+/* Comics image */
+.comics-image {
+    border-radius: 0.5rem;
+    max-width: 95vw;
+    cursor: pointer;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */
@@ -1185,3 +1198,105 @@ body {
 }
 
 /* Illustrations container end*/
+
+
+/* Read text pagination begin */
+
+/* Pagination container */
+.read-text-pagination-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Pagination go to page flex container */
+.read-text-pagination-go-to-page-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+/* Pagination go to page input field */
+.read-text-pagination-go-to-page-input {
+    width: 3.5rem;
+    text-align: center;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    font-size: 1.5rem;
+    line-height: 3rem;
+    vertical-align: middle;
+}
+
+/* Pagination go to page button */
+.read-text-pagination-go-to-page-button {
+    text-align: center;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    line-height: 3rem;
+    vertical-align: middle;
+}
+
+/* Pagination pages flex container */
+.read-text-pagination-pages-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+/* Base class for pagination pages */
+.read-text-pagination-page-base {
+    min-width: 3.5rem;
+    text-align: center;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    font-size: 1.5rem;
+    line-height: 3rem;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/* Base class for active pages */
+.read-text-pagination-page-base.read-text-pagination-page-base-active {
+    background: hsl(357, 85%, 33%);
+    color: hsl(0, 0%, 100%);
+    font-weight: bold;
+    cursor: unset;
+}
+
+/* First page pseudobutton */
+.read-text-pagination-page-base.read-text-pagination-first-page {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+/* Page pseudobutton */
+.read-text-pagination-page-base.read-text-pagination-page {
+
+}
+
+/* Last page pseudobutton */
+.read-text-pagination-page-base.read-text-pagination-last-page {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* Interpages gap */
+.read-text-pagination-interpages-gap {
+    background: hsl(0, 0%, 0%);
+    width: 0.2rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+/* Read text pagination end */

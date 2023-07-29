@@ -3,7 +3,7 @@ namespace furtails_importer.Models;
 public class Text
 {
     /// <summary>
-    /// Text have at least one section
+    /// Text have at least one page
     /// </summary>
-    public List<TextSection> Sections { get; set; }
+    public List<TextPage> Pages { get; set; }
 }

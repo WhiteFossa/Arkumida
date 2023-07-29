@@ -54,6 +54,20 @@ public class TextsController : ControllerBase
             )
         );
     }
+    
+    
+    [Route("api/Texts/GetPage/{id}/Page/{pageNumber}")]
+    [HttpGet]
+    public async Task<ActionResult<TextPageResponse>> GetTextPageAsync(Guid id, int pageNumber)
+    {
+        return Ok
+        (
+            new TextPageResponse
+            (
+                await _textsService.GetTextPageAsync(id, pageNumber)
+            )
+        );
+    }
 
     /// <summary>
     /// Get latest texts

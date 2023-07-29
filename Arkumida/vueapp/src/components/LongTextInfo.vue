@@ -11,7 +11,7 @@
         BytesToKilobytesFormatted, DetectSpecialTextType,
         DetectTextType,
         FilterCategoryTags,
-        FilterOrdinaryTags, InjectInclompleteIcon, InjectMlpIcon, IsMlpText
+        FilterOrdinaryTags, GenerateLinkToText, InjectInclompleteIcon, InjectMlpIcon, IsMlpText
     } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
     import CategoryTag from "@/components/CategoryTag.vue";
@@ -65,7 +65,7 @@
         authorLinkHref.value = "/texts/byAuthor/" + textInfo.value.textInfo.author.entityId
         authorLinkTitle.value = Messages.AllTextsByAuthor + textInfo.value.textInfo.author.name
 
-        textLinkHref.value = "/texts/" + textInfo.value.textInfo.entityId
+        textLinkHref.value = GenerateLinkToText(textInfo.value.textInfo.entityId, 1)
 
         addTime.value = moment(textInfo.value.textInfo.addTime).format('HH:mm DD.MM.YYYY')
 

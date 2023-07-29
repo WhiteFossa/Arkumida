@@ -71,5 +71,7 @@ public enum TextElementType
     
     SizedAsciiArtEnd = 32,
     
-    EmbeddedImage = 33
+    EmbeddedImage = 33,
+    
+    ComicsImage = 34 // Like embedded image, but preview is full-size
 }

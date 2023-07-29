@@ -4,18 +4,22 @@
     import LoadingSymbol from "@/components/LoadingSymbol.vue";
 
     const props = defineProps({
-        id: Guid
+        id: Guid,
+        page: Number
     })
 
     import {defineProps, onMounted, ref} from "vue";
     import {Guid} from "guid-typescript";
     import CreatureInfoComponent from "@/components/CreatureInfoComponent.vue";
     import NonexistentCreatureComponent from "@/components/NonexistentCreatureComponent.vue";
-    import {FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
+    import {DetectTextType, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
     import CategoryTag from "@/components/CategoryTag.vue";
     import TagHashed from "@/components/TagHashed.vue";
     import SectionComponent from "@/components/SectionComponent.vue";
     import TextIllustrationsContainer from "@/components/TextIllustrationsContainer.vue";
+    import {TextType} from "@/js/constants";
+    import ReadTextPagination from "@/components/ReadText/Pagination/ReadTextPagination.vue";
+    import router from "@/router";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -26,6 +30,12 @@
     const categoryTags = ref([])
     const ordinaryTags = ref([])
 
+    const textType = ref(null)
+
+    const textPage = ref(null)
+    const currentPageNumber = ref(0)
+    const isPageLoading = ref(true)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -33,6 +43,7 @@
 
     async function OnLoad()
     {
+        // Loading text metadata
         textData.value = await (await fetch(apiBaseUrl + `/api/Texts/GetReadData/` + props.id)).json()
 
         categoryTags.value = FilterCategoryTags(textData.value.textData.tags)
@@ -43,7 +54,36 @@
 
         ordinaryTags.value = FilterOrdinaryTags(textData.value.textData.tags)
 
+        textType.value = DetectTextType(textData.value.textData.tags)
+
+        // Inital page (from URL)
         isLoading.value = false
+
+        await LoadTextPage(props.page)
+    }
+
+    // Load text page. Text id comes from props.id
+    async function LoadTextPage(pageNumber)
+    {
+        // Page number can come from URL, in this case it will be a string, and we need a number for correct
+        // comparison
+        pageNumber = Number(pageNumber)
+
+        if (pageNumber < 1 || pageNumber > textData.value.textData.pagesCount)
+        {
+            return;
+        }
+
+        if (pageNumber !== currentPageNumber.value)
+        {
+            currentPageNumber.value = pageNumber
+            isPageLoading.value = true
+            textPage.value = await (await fetch(apiBaseUrl + `/api/Texts/GetPage/` + props.id + `/Page/` + currentPageNumber.value)).json()
+            isPageLoading.value = false
+
+            // Updating URL in browser address bar without page reload
+            router.replace({ path: "/texts/" + props.id + "/page/" + currentPageNumber.value })
+        }
     }
 
 </script>
@@ -97,14 +137,21 @@
             </div>
         </div>
 
+        <!-- Pagination (top) -->
+        <ReadTextPagination :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
+
         <!-- Sections -->
-        <div>
-            <div v-for="section in textData.textData.sections" :key="section.entityId">
-                <SectionComponent :originalText="section.originalText" :variants="section.variants" />
+        <LoadingSymbol v-if="isPageLoading"/>
+        <div v-else :key="currentPageNumber">
+            <div v-for="section in textPage.pageData.sections" :key="section.entityId">
+                <SectionComponent :originalText="section.originalText" :variants="section.variants" @goToNextPage="async() => await LoadTextPage(currentPageNumber + 1)"/>
             </div>
         </div>
 
-        <!-- Illustrations -->
-        <TextIllustrationsContainer :illustrations="textData.textData.illustrations" />
+        <!-- Illustrations (for comics we don't need to show them) -->
+        <TextIllustrationsContainer v-if="textType !== TextType.Comics" :illustrations="textData.textData.illustrations" />
+
+        <!-- Pagination (bottom) -->
+        <ReadTextPagination :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
     </div>
 </template>

@@ -19,6 +19,7 @@ public class TextsService : ITextsService
     private readonly ITextsMapper _textsMapper;
     private readonly ITagsMapper _tagsMapper;
     private readonly ITagsService _tagsService;
+    private readonly ITextsPagesMapper _textsPagesMapper;
     private readonly ITextsSectionsMapper _textsSectionsMapper;
     private readonly ITextFilesMapper _textFilesMapper;
 
@@ -53,7 +54,8 @@ public class TextsService : ITextsService
         new ParserColor(),
         new ParserHrefedUrl(),
         new ParserSizedAsciiArt(),
-        new ParserEmbeddedImage()
+        new ParserEmbeddedImage(),
+        new ParserComicsImage()
     };
 
     public TextsService
@@ -62,6 +64,7 @@ public class TextsService : ITextsService
         ITextsMapper textsMapper,
         ITagsMapper tagsMapper,
         ITagsService tagsService,
+        ITextsPagesMapper textsPagesMapper,
         ITextsSectionsMapper textsSectionsMapper,
         ITextFilesMapper textFilesMapper
     )
@@ -70,6 +73,7 @@ public class TextsService : ITextsService
         _textsMapper = textsMapper;
         _tagsMapper = tagsMapper;
         _tagsService = tagsService;
+        _textsPagesMapper = textsPagesMapper;
         _textsSectionsMapper = textsSectionsMapper;
         _textFilesMapper = textFilesMapper;
     }
@@ -111,7 +115,7 @@ public class TextsService : ITextsService
                 (
                     tm.Id,
                     "not_ready",
-                    new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+                    new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Первозвери"),
                     new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
                     new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
                     tm.Title,
@@ -144,7 +148,7 @@ public class TextsService : ITextsService
         (
             textMetadata.Id,
             "not_ready",
-            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Первозвери"),
             new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
             new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
             textMetadata.Title,
@@ -178,30 +182,44 @@ public class TextsService : ITextsService
 
     public async Task<TextReadDto> GetTextToReadAsync(Guid textId)
     {
-        var textData = await _textsDao.GetTextByIdAsync(textId);
+        var textMetadata = await _textsDao.GetTextMetadataByIdAsync(textId);
         
-        var textTags = _tagsMapper.Map(textData.Tags);
-        var textFiles = _textFilesMapper.Map(textData.TextFiles);
+        var textTags = _tagsMapper.Map(textMetadata.Tags);
+        
+        var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
+
+        var pagesCount = await _textsDao.GetPagesCountByTextId(textId);
 
         return new TextReadDto
         (
-            textData.Id,
+            textMetadata.Id,
             "not_ready",
-            textData.CreateTime,
-            textData.LastUpdateTime,
-            textData.Title,
-            textData.Description,
-            OrderTextSections(_textsSectionsMapper.Map(textData.Sections))
-                .Select(ts => ts.ToDto(textFiles, this))
+            textMetadata.CreateTime,
+            textMetadata.LastUpdateTime,
+            textMetadata.Title,
+            textMetadata.Description,
+            _tagsService.OrderTags(textTags)
+                .Select(t => t.ToTagDto())
                 .ToList(),
-            _tagsService.OrderTags(textTags).Select(t => t.ToTagDto()).ToList(),
-            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Фосса"),
+            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Первозвери"),
             new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
             new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
-                .ToList()
+                .ToList(),
+            pagesCount
         );
+    }
+
+    public async Task<TextPageDto> GetTextPageAsync(Guid textId, int pageNumber)
+    {
+        // TODO: Parallelize me
+        var pageData = _textsPagesMapper.Map(await _textsDao.GetPageAsync(textId, pageNumber));
+        var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
+
+        pageData.Sections = OrderTextSections(pageData.Sections).ToList();
+
+        return pageData.ToDto(textFiles, this);
     }
 
     public IReadOnlyCollection<TextSection> OrderTextSections(IEnumerable<TextSection> sections)

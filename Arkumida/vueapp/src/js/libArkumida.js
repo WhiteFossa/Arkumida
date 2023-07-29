@@ -1,6 +1,7 @@
 // Add icon to icons list
 
 import {
+    ComicsImageIdPrefix,
     FullsizeImageIdPrefix,
     SpecialTextType,
     TagMeaning,
@@ -114,7 +115,8 @@ function InjectInclompleteIcon(icons)
     icons.value.push({ "type": TextIconType.Incomplete, "url": "" });
 }
 
-function RenderTextElement(element) {
+function RenderTextElement(element)
+{
     if (element.type === TextElementType.ParagraphBegin) {
         return "<div class='text-paragraph'>";
     }
@@ -284,7 +286,19 @@ function RenderTextElement(element) {
             "</div>";
     }
 
+    if (element.type === TextElementType.ComicsImage)
+    {
+        return "<div class='comics-image-container'>" +
+            "<img id='" + ComicsImageIdPrefix + element.parameters[0] + "' class='comics-image' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "'/>" +
+            "</div>";
+    }
+
     throw new Error("Unknown element type!");
+}
+
+function GenerateLinkToText(textId, pageNumber)
+{
+    return "/texts/" + textId + "/page/" + pageNumber;
 }
 
 export
@@ -298,5 +312,6 @@ export
     IsMlpText,
     InjectMlpIcon,
     InjectInclompleteIcon,
-    RenderTextElement
+    RenderTextElement,
+    GenerateLinkToText
 }

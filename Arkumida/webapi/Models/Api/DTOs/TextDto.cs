@@ -38,10 +38,10 @@ public class TextDto
     public string Description { get; set; }
 
     /// <summary>
-    /// Text sections
+    /// Text pages
     /// </summary>
-    [JsonPropertyName("sections")]
-    public IList<TextSectionDto> Sections { get; set; }
+    [JsonPropertyName("pages")]
+    public IList<TextPageDto> Pages { get; set; }
     
     /// <summary>
     /// How many times text was read
@@ -91,7 +91,7 @@ public class TextDto
         DateTime lastUpdateTime,
         string title,
         string description,
-        IReadOnlyCollection<TextSectionDto> sections,
+        IReadOnlyCollection<TextPageDto> pages,
         long readsCount,
         long votesCount,
         long votesPlus,
@@ -111,7 +111,7 @@ public class TextDto
         Title = title;
         
         Description = description; // May be empty
-        Sections = (sections ?? throw new ArgumentNullException(nameof(sections), "Sections mustn't be null.")).ToList();
+        Pages = (pages ?? throw new ArgumentNullException(nameof(pages), "Pages mustn't be null.")).ToList();
 
         if (readsCount < 0)
         {
@@ -151,7 +151,7 @@ public class TextDto
             LastUpdateTime = LastUpdateTime,
             Title = Title,
             Description = Description,
-            Sections = Sections.Select(s => s.ToTextSection()).ToList(),
+            Pages = Pages.Select(p => p.ToTextPage()).ToList(),
             ReadsCount = ReadsCount,
             VotesCount = VotesCount,
             VotesPlus = VotesPlus,

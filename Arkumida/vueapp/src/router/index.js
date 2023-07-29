@@ -3,13 +3,16 @@ import HomeView from '../views/HomeView.vue'
 
 const routes =
 [
+    // Main page
     {
         path: '/',
         name: 'home',
         component: HomeView
     },
+
+    // Read text
     {
-        path: '/texts/:id',
+        path: '/texts/:id/page/:page',
         name: 'text',
         component: () => import('../views/ReadTextView.vue'),
         props: true
