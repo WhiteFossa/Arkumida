@@ -1255,12 +1255,10 @@ body {
     flex-wrap: nowrap;
 }
 
-/* First page pseudobutton */
-.read-text-pagination-first-page {
+/* Base class for pagination pages */
+.read-text-pagination-page-base {
     min-width: 3.5rem;
     text-align: center;
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
     border: 0.1rem solid hsl(225, 5%, 85%);
     font-size: 1.5rem;
     line-height: 3rem;
@@ -1268,55 +1266,32 @@ body {
     cursor: pointer;
 }
 
-/* If first page is current page */
-.read-text-pagination-first-page.read-text-pagination-first-page-active {
+/* Base class for active pages */
+.read-text-pagination-page-base.read-text-pagination-page-base-active {
     background: hsl(357, 85%, 33%);
     color: hsl(0, 0%, 100%);
     font-weight: bold;
     cursor: unset;
+}
+
+/* First page pseudobutton */
+.read-text-pagination-page-base.read-text-pagination-first-page {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+/* Page pseudobutton */
+.read-text-pagination-page-base.read-text-pagination-page {
+
 }
 
 /* Last page pseudobutton */
-.read-text-pagination-last-page {
-    min-width: 3.5rem;
-    text-align: center;
+.read-text-pagination-page-base.read-text-pagination-last-page {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
-    border: 0.1rem solid hsl(225, 5%, 85%);
-    font-size: 1.5rem;
-    line-height: 3rem;
-    vertical-align: middle;
-    cursor: pointer;
 }
 
-/* If last page is current page */
-.read-text-pagination-last-page.read-text-pagination-last-page-active {
-    background: hsl(357, 85%, 33%);
-    color: hsl(0, 0%, 100%);
-    font-weight: bold;
-    cursor: unset;
-}
-
-/* Page pseudobutton */
-.read-text-pagination-page {
-    min-width: 3.5rem;
-    text-align: center;
-    border: 0.1rem solid hsl(225, 5%, 85%);
-    font-size: 1.5rem;
-    line-height: 3rem;
-    vertical-align: middle;
-    cursor: pointer;
-}
-
-/* If target page is current page */
-.read-text-pagination-page.read-text-pagination-page-active {
-    background: hsl(357, 85%, 33%);
-    color: hsl(0, 0%, 100%);
-    font-weight: bold;
-    cursor: unset;
-}
-
-/* Page pseudobutton */
+/* Interpages gap */
 .read-text-pagination-interpages-gap {
     background: hsl(0, 0%, 0%);
     width: 0.2rem;

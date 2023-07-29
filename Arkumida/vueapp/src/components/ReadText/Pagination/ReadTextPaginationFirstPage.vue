@@ -14,10 +14,10 @@
 </script>
 
 <template>
-    <div class="read-text-pagination-first-page read-text-pagination-first-page-active" v-if="props.currentPage === 1">
+    <div class="read-text-pagination-page-base read-text-pagination-page-base-active read-text-pagination-first-page" v-if="props.currentPage === 1">
         1
     </div>
-    <div v-else class="read-text-pagination-first-page" @click="GoToFirstPage()">
+    <div v-else class="read-text-pagination-page-base read-text-pagination-first-page" @click="GoToFirstPage()">
         1
     </div>
 </template>

@@ -15,10 +15,10 @@
 </script>
 
 <template>
-    <div class="read-text-pagination-last-page read-text-pagination-last-page-active" v-if="props.currentPage === props.pagesCount">
+    <div class="read-text-pagination-page-base read-text-pagination-page-base-active read-text-pagination-last-page" v-if="props.currentPage === props.pagesCount">
         {{props.pagesCount}}
     </div>
-    <div v-else class="read-text-pagination-last-page" @click="GoToLastPage()">
+    <div v-else class="read-text-pagination-page-base read-text-pagination-last-page" @click="GoToLastPage()">
         {{props.pagesCount}}
     </div>
 </template>
