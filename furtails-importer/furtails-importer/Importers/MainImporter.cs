@@ -13,7 +13,7 @@ public class MainImporter
     public const string BaseUrl = @"http://localhost:5220/api/";
     //public const string BaseUrl = @"https://api.arkumida.furtails.pw/api/";
 
-    public const string TextsDbRoot = @"/home/fossa/Projects/Arkumida-private/furtails-site/furtails/public/filedb/texts/";
+    public const string TextsDbRoot = @"/home/ghamer/Arkumida/Arkumida-private/furtails/public/filedb/texts/";
 
     public async Task ImportAsync()
     {
