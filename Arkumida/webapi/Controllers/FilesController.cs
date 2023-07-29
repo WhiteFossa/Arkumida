@@ -28,7 +28,6 @@ public class FilesController : ControllerBase
     /// <summary>
     /// Upload a file
     /// </summary>
-    [AllowAnonymous] // TODO: Remove me
     [Route("api/Files/Upload")]
     [HttpPost]
     public async Task<ActionResult<UploadFileResponse>> UploadAsync(IFormFile file)

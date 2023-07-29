@@ -127,7 +127,6 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Create new text
     /// </summary>
-    [AllowAnonymous] // TODO: Remove me
     [Route("api/Texts/Create")]
     [HttpPost]
     public async Task<ActionResult<CreateTextResponse>> CreateTextAsync([FromBody] CreateTextRequest request)
@@ -154,7 +153,6 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Add existing file to text
     /// </summary>
-    [AllowAnonymous] // TODO: Remove me
     [Route("api/Texts/AddFile")]
     [HttpPost]
     public async Task<ActionResult> AddFileToTextAsync([FromBody] AddFileToTextRequest request)

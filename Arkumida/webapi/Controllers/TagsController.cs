@@ -94,7 +94,6 @@ public class TagsController : ControllerBase
     /// <summary>
     /// Create new tag
     /// </summary>
-    [AllowAnonymous] // TODO: Remove me
     [Route("api/Tags/Create")]
     [HttpPost]
     public async Task<ActionResult<CreateTagResponse>> CreateTagAsync([FromBody] CreateTagRequest request)
