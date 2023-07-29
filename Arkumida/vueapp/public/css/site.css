@@ -1225,7 +1225,7 @@ body {
 
 /* Pagination go to page input field */
 .read-text-pagination-go-to-page-input {
-    width: 3rem;
+    width: 3.5rem;
     text-align: center;
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
@@ -1257,7 +1257,7 @@ body {
 
 /* First page pseudobutton */
 .read-text-pagination-first-page {
-    width: 3rem;
+    min-width: 3.5rem;
     text-align: center;
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
@@ -1272,11 +1272,13 @@ body {
 .read-text-pagination-first-page.read-text-pagination-first-page-active {
     background: hsl(357, 85%, 33%);
     color: hsl(0, 0%, 100%);
+    font-weight: bold;
+    cursor: unset;
 }
 
 /* Last page pseudobutton */
 .read-text-pagination-last-page {
-    width: 3rem;
+    min-width: 3.5rem;
     text-align: center;
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
@@ -1291,11 +1293,13 @@ body {
 .read-text-pagination-last-page.read-text-pagination-last-page-active {
     background: hsl(357, 85%, 33%);
     color: hsl(0, 0%, 100%);
+    font-weight: bold;
+    cursor: unset;
 }
 
 /* Page pseudobutton */
 .read-text-pagination-page {
-    width: 3rem;
+    min-width: 3.5rem;
     text-align: center;
     border: 0.1rem solid hsl(225, 5%, 85%);
     font-size: 1.5rem;
@@ -1308,6 +1312,8 @@ body {
 .read-text-pagination-page.read-text-pagination-page-active {
     background: hsl(357, 85%, 33%);
     color: hsl(0, 0%, 100%);
+    font-weight: bold;
+    cursor: unset;
 }
 
 /* Page pseudobutton */
