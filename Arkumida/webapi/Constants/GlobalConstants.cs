@@ -44,7 +44,7 @@ public static class GlobalConstants
     /// <summary>
     /// Take importer user password from this setting in appsettings.json
     /// </summary>
-    public const string ImporterUserPasswordSettingName = "ImporterUser:Login";
+    public const string ImporterUserPasswordSettingName = "ImporterUser:Password";
     
     #endregion
 }

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dao.Models.Enums;
-using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Requests;
 using webapi.Models.Api.Responses;
 using webapi.Services.Abstract;
