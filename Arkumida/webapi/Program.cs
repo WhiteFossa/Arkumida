@@ -128,8 +128,8 @@ builder.Services.AddControllers();
     builder.Services.Configure<IdentityOptions>(options =>
     {
         // User settings
-        options.User.AllowedUserNameCharacters = string.Empty; // Any character is allowed
-        options.User.RequireUniqueEmail = false; // Unfortunately there is some users with duplicated email at old FT
+        options.User.AllowedUserNameCharacters = string.Empty; // Any characters is allowed
+        options.User.RequireUniqueEmail = true;
         
         // Password settings
         options.Password.RequiredLength = 8;
