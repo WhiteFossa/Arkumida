@@ -100,14 +100,6 @@ builder.Services.AddControllers();
 
 #region  DB Contexts
 
-    // Security
-    builder.Services.AddDbContext<SecurityDbContext>
-    (
-        options
-            =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("MainConnection")), ServiceLifetime.Transient
-    );
-
     // Main
     builder.Services.AddDbContext<MainDbContext>
     (
@@ -122,7 +114,7 @@ builder.Services.AddControllers();
 
     // Identity
     builder.Services.AddIdentity<User, IdentityRole>()  
-        .AddEntityFrameworkStores<SecurityDbContext>()  
+        .AddEntityFrameworkStores<MainDbContext>()  
         .AddDefaultTokenProviders();
 
     builder.Services.Configure<IdentityOptions>(options =>

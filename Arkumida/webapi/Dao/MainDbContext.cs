@@ -1,12 +1,14 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Models;
+using webapi.Models.Identity;
 
 namespace webapi.Dao;
 
 /// <summary>
-/// Main DB context
+/// Main DB context (security information live here too)
 /// </summary>
-public class MainDbContext : DbContext
+public class MainDbContext : IdentityDbContext<User>
 {
     /// <summary>
     /// Tags
@@ -40,10 +42,13 @@ public class MainDbContext : DbContext
 
     public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
     {
+        
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         // Variants are parts of sections
         modelBuilder
             .Entity<TextSectionDbo>()

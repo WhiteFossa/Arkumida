@@ -11,7 +11,7 @@ using webapi.Dao;
 
 namespace webapi.Migrations.SecurityDb
 {
-    [DbContext(typeof(SecurityDbContext))]
+    [DbContext(typeof(MainDbContext))]
     [Migration("20230731011347_AddDisplayNameToUser")]
     partial class AddDisplayNameToUser
     {

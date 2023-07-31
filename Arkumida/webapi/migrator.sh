@@ -1,6 +1,5 @@
 #!/bin/bash
 
-dotnet ef database update --context MainDbContext
-dotnet ef database update --context SecurityDbContext
+dotnet ef database update
 
 exit 0

@@ -11,7 +11,7 @@ using webapi.Dao;
 
 namespace webapi.Dao.Migrations
 {
-    [DbContext(typeof(SecurityDbContext))]
+    [DbContext(typeof(MainDbContext))]
     [Migration("20230729123634_CreateIdentityInfrastructure")]
     partial class CreateIdentityInfrastructure
     {
