@@ -22,4 +22,9 @@ public interface IAccountsService
     /// Is user with given login exists?
     /// </summary>
     Task<bool> IsUserExistByLoginAsync(string login);
+
+    /// <summary>
+    /// Is user with given email exists?
+    /// </summary>
+    Task<bool> IsUserExistByEmailAsync(string email);
 }

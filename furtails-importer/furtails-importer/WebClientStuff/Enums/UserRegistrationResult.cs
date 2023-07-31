@@ -1,4 +1,4 @@
-namespace webapi.Models.Enums;
+namespace furtails_importer.WebClientStuff.Enums;
 
 /// <summary>
 /// User registration result enum
@@ -10,8 +10,6 @@ public enum UserRegistrationResult
     LoginIsTaken = 1,
     
     WeakPassword = 2,
-    
-    EmailIsTaken = 3,
 
     GenericError = 4
 }

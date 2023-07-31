@@ -30,7 +30,7 @@ public class UsersController : ControllerBase
     [AllowAnonymous]
     [Route("api/Users/Register")]
     [HttpPost]
-    public async Task<ActionResult<UserRegistrationResponse>> CreateTextAsync([FromBody] UserRegistrationRequest request)
+    public async Task<ActionResult<UserRegistrationResponse>> RegisterAsync([FromBody] UserRegistrationRequest request)
     {
         if (request == null)
         {
@@ -53,7 +53,7 @@ public class UsersController : ControllerBase
     [AllowAnonymous]
     [HttpPost]  
     [Route("api/Users/Login")]  
-    public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)  
+    public async Task<ActionResult<LoginResponse>> LoginAsync([FromBody] LoginRequest request)  
     {
         if (request == null)
         {
@@ -68,5 +68,51 @@ public class UsersController : ControllerBase
         var result = await _accountsService.LoginAsync(request.LoginData);
         
         return Ok(new LoginResponse(result));  
+    }
+
+    /// <summary>
+    /// Check if login is taken
+    /// </summary>
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("api/Users/IsLoginTaken")]
+    public async Task<ActionResult<CheckIfLoginTakenResponse>> IsLoginTakenAsync([FromBody] CheckIfLoginTakenRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        if (request.CheckData == null)
+        {
+            return BadRequest("Check data must not be null.");
+        }
+
+        var isTaken = await _accountsService.IsUserExistByLoginAsync(request.CheckData.Login);
+
+        return Ok(new CheckIfLoginTakenResponse(new CheckIfLoginTakenResultDto(isTaken)));
+    }
+    
+    /// <summary>
+    /// Check if email is taken
+    /// </summary>
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("api/Users/IsEmailTaken")]
+    public async Task<ActionResult<CheckIfEmailTakenResponse>> IsEmailTakenAsync([FromBody] CheckIfEmailTakenRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        if (request.CheckData == null)
+        {
+            return BadRequest("Check data must not be null.");
+        }
+
+        var isTaken = await _accountsService.IsUserExistByEmailAsync(request.CheckData.Email);
+
+        return Ok(new CheckIfEmailTakenResponse(new CheckIfEmailTakenResultDto(isTaken)));
     }
 }

@@ -45,13 +45,17 @@ public class MainImporter
             var authToken = decodedAuthResponse.LoginResult.Token;
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 
-            // Importing tags
+            // Importing users
+            var usersImporter = new UsersImporter(connection, httpClient);
+            await usersImporter.Import();
+
+            /*// Importing tags
             var tagsImporter = new TagsImporter(connection, httpClient);
             await tagsImporter.Import();
             
             // Importing texts
             var textsImporter = new TextsImporter(connection, httpClient);
-            await textsImporter.Import();
+            await textsImporter.Import();*/
         }
     }
 }

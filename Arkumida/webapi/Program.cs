@@ -127,6 +127,10 @@ builder.Services.AddControllers();
 
     builder.Services.Configure<IdentityOptions>(options =>
     {
+        // User settings
+        options.User.AllowedUserNameCharacters = string.Empty; // Any character is allowed
+        options.User.RequireUniqueEmail = false; // Unfortunately there is some users with duplicated email at old FT
+        
         // Password settings
         options.Password.RequiredLength = 8;
         options.Password.RequireNonAlphanumeric = false;
@@ -134,9 +138,6 @@ builder.Services.AddControllers();
         options.Password.RequireUppercase = false;
         options.Password.RequireLowercase = false;
         options.Password.RequiredUniqueChars = 4;
-                
-        // User settings
-        options.User.RequireUniqueEmail = true;
     });
 
     // Adding Authentication  
