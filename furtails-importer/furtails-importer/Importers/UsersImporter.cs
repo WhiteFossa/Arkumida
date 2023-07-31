@@ -23,11 +23,14 @@ public class UsersImporter
         _httpClient = httpClient;
     }
 
-    public async Task Import()
+    public async Task<Dictionary<int, string>> ImportAsync()
     {
+        var result = new Dictionary<int, string>();
+        
         var users = _connection.Query<FtUser>
             (
                 @"select
+                    id as Id,
                     username as Username,
                     email as Email
                 from ft_users
@@ -78,10 +81,16 @@ public class UsersImporter
                 registrationData.Email = GenerateNonexistentEmail();
             }
 
-            await RegisterUserAsync(registrationData);
+            var registrationResult = await RegisterUserAsync(registrationData);
+            
+            // Adding to mapping
+            Console.WriteLine($"{ user.Username }: { user.Id } -> { registrationResult.UserId }");
+            result.Add(user.Id, registrationResult.UserId);
 
             Console.WriteLine("Done");
         }
+
+        return result;
     }
 
     private string GenerateNonexistentEmail()
@@ -89,7 +98,7 @@ public class UsersImporter
         return $"nonexistent-{Guid.NewGuid()}@example.com";
     }
     
-    private async Task RegisterUserAsync(RegistrationDataDto registrationData)
+    private async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
     {
         var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/Register", new UserRegistrationRequest() { RegistrationData = registrationData});
         if (!response.IsSuccessStatusCode)
@@ -103,6 +112,8 @@ public class UsersImporter
         {
             throw new InvalidOperationException($"Failed to register user { registrationData.Login }");
         }
+
+        return responseData.RegistrationResult;
     }
 
     private async Task<bool> IsLoginTakenAsync(string login)

@@ -7,5 +7,8 @@ namespace webapi.Models.Identity;
 /// </summary>
 public class User : IdentityUser
 {
-    
+    /// <summary>
+    /// User's visible name
+    /// </summary>
+    public string DisplayName { get; set; }
 }

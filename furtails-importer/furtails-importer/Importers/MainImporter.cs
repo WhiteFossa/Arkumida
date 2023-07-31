@@ -44,10 +44,10 @@ public class MainImporter
 
             var authToken = decodedAuthResponse.LoginResult.Token;
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
-
+            
             // Importing users
             var usersImporter = new UsersImporter(connection, httpClient);
-            await usersImporter.Import();
+            var usersMapping = await usersImporter.ImportAsync();  // usersMapping: FT User ID -> Arkumida user ID
 
             /*// Importing tags
             var tagsImporter = new TagsImporter(connection, httpClient);

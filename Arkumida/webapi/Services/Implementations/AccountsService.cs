@@ -40,11 +40,14 @@ public class AccountsService : IAccountsService
             return new RegistrationResultDto(string.Empty, UserRegistrationResult.EmailIsTaken);
         }
         
-        var user = new User()  
+        var user = new User()
         {  
             UserName = registrationData.Login,
             Email = registrationData.Email,
-            SecurityStamp = Guid.NewGuid().ToString() // TODO: Is it secure?
+            SecurityStamp = Guid.NewGuid().ToString(), // TODO: Is it secure?
+            
+            // Profile fields
+            DisplayName = registrationData.Login
         };  
         
         var result = await _userManager.CreateAsync(user, registrationData.Password);

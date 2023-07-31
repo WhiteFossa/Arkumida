@@ -17,7 +17,7 @@ namespace webapi.Dao.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -104,6 +104,9 @@ namespace webapi.Dao.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -116,10 +119,16 @@ namespace webapi.Dao.Migrations
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("PublisherId")
+                        .HasColumnType("text");
+
                     b.Property<long>("ReadsCount")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TranslatorId")
                         .HasColumnType("text");
 
                     b.Property<long>("VotesCount")
