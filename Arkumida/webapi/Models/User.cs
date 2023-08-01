@@ -48,6 +48,6 @@ public class User
     /// </summary>
     public CreatureDto ToDto()
     {
-        return new CreatureDto(Id, "not_ready", DisplayName);
+        return new CreatureDto(Id, "not_ready", DisplayName, Login, Email);
     }
 }

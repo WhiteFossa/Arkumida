@@ -13,19 +13,44 @@ public class CreatureDto : IdedEntityDto
     [JsonPropertyName("name")]
     public string Name { get; private set; }
 
+    /// <summary>
+    /// Creature login
+    /// </summary>
+    [JsonPropertyName("login")]
+    public string Login { get; private set; }
+
+    /// <summary>
+    /// Creature email
+    /// </summary>
+    [JsonPropertyName("email")]
+    public string Email { get; private set; }
+
     public CreatureDto
     (
         Guid id,
         string furryReadableId,
-        string name
+        string name,
+        string login,
+        string email
     ) : base(id, furryReadableId)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new ArgumentException("Name must be populated", nameof(name));
+            throw new ArgumentException("Name must be populated!", nameof(name));
         }
-
         Name = name;
+
+        if (string.IsNullOrWhiteSpace(login))
+        {
+            throw new ArgumentException("Login must be populated!", nameof(login));
+        }
+        Login = login;
+        
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            throw new ArgumentException("Email must be populated!", nameof(email));
+        }
+        Email = email;
     }
 
     /// <summary>
@@ -33,6 +58,6 @@ public class CreatureDto : IdedEntityDto
     /// </summary>
     public User ToUser()
     {
-        return new User(Id, string.Empty, string.Empty, string.Empty);
+        return new User(Id, Login, Email, Name);
     }
 }
