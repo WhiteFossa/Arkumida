@@ -115,4 +115,32 @@ public class UsersController : ControllerBase
 
         return Ok(new CheckIfEmailTakenResponse(new CheckIfEmailTakenResultDto(isTaken)));
     }
+
+    /// <summary>
+    /// Try to find creature by login
+    /// </summary>
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("api/Users/FindByLogin")]
+    public async Task<ActionResult<FindCreatureByLoginResponse>> FindByLoginAsync([FromBody] FindCreatureByLoginRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        if (request.SearchData == null)
+        {
+            return BadRequest("Search data must not be null.");
+        }
+
+        var user = await _accountsService.FindUserByLoginAsync(request.SearchData.Login);
+        if (user == null)
+        {
+            // Not found
+            return Ok(new FindCreatureByLoginResponse(false, null));
+        }
+        
+        return Ok(new FindCreatureByLoginResponse(true, user.ToDto()));
+    }
 }

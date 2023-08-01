@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using webapi.Constants;
 using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
+using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
 using webapi.Services.Abstract;
@@ -121,5 +122,12 @@ public class AccountsService : IAccountsService
         _ = email ?? throw new ArgumentNullException(nameof(email), "Email must be specified, at least empty string.");
         
         return (await _userManager.FindByEmailAsync(email)) != null;
+    }
+
+    public async Task<User> FindUserByLoginAsync(string login)
+    {
+        _ = login ?? throw new ArgumentNullException(nameof(login), "Login must be specified, at least empty string.");
+
+        return _usersMapper.Map(await _userManager.FindByNameAsync(login));
     }
 }

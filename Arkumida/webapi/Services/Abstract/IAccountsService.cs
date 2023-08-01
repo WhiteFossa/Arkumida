@@ -1,3 +1,4 @@
+using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Requests;
 
@@ -27,4 +28,9 @@ public interface IAccountsService
     /// Is user with given email exists?
     /// </summary>
     Task<bool> IsUserExistByEmailAsync(string email);
+
+    /// <summary>
+    /// Find user by login. Returns null if user is not found
+    /// </summary>
+    Task<User> FindUserByLoginAsync(string login);
 }
