@@ -141,11 +141,11 @@ public class TextsController : ControllerBase
         }
 
         var textToCreate = request.Text.ToText();
-        await _textsService.CreateTextAsync(textToCreate);
+        var createdText = await _textsService.CreateTextAsync(textToCreate);
 
         return Ok
         (
-            new CreateTextResponse(textToCreate.ToDto(_textsService))
+            new CreateTextResponse(createdText.ToDto(_textsService))
         );
     }
 

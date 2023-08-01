@@ -11,9 +11,9 @@ namespace webapi.Services.Abstract;
 public interface ITextsService
 {
     /// <summary>
-    /// Create new text
+    /// Create new text. Returns created text, which is different from input one (for example it have ID and users populated)
     /// </summary>
-    Task CreateTextAsync(Text text);
+    Task<Text> CreateTextAsync(Text text);
 
     /// <summary>
     /// Get some texts metadata from database

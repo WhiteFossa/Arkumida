@@ -78,7 +78,7 @@ public class TextsService : ITextsService
         _textFilesMapper = textFilesMapper;
     }
 
-    public async Task CreateTextAsync(Text text)
+    public async Task<Text> CreateTextAsync(Text text)
     {
         _ = text ?? throw new ArgumentNullException(nameof(text), "Text mustn't be null.");
 
@@ -89,7 +89,7 @@ public class TextsService : ITextsService
 
         await _textsDao.CreateTextAsync(dbText);
 
-        text.Id = dbText.Id;
+        return _textsMapper.Map(dbText); // To have ID and other fields (like Publisher) populated 
     }
 
     public async Task<IReadOnlyCollection<TextInfoDto>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take)

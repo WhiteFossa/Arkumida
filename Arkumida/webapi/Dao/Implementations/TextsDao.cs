@@ -83,8 +83,11 @@ public class TextsDao : ITextsDao
         IQueryable<TextDbo> orderedSource = _dbContext
             .Texts
             .Include(t => t.Tags)
-            .Include(t => t.TextFiles);
-        
+            .Include(t => t.TextFiles)
+            .Include(t => t.Author)
+            .Include(t => t.Translator)
+            .Include(t => t.Publisher);
+
         switch (orderMode)
         {
             case TextOrderMode.Latest:
@@ -111,6 +114,9 @@ public class TextsDao : ITextsDao
             .Texts
             .Include(t => t.Tags)
             .Include(t => t.TextFiles)
+            .Include(t => t.Author)
+            .Include(t => t.Translator)
+            .Include(t => t.Publisher)
             .SingleAsync(t => t.Id == textId);
     }
 
