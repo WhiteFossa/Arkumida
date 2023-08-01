@@ -23,9 +23,9 @@ public class UsersImporter
         _httpClient = httpClient;
     }
 
-    public async Task<Dictionary<int, string>> ImportAsync()
+    public async Task<Dictionary<int, Guid>> ImportAsync()
     {
-        var result = new Dictionary<int, string>();
+        var result = new Dictionary<int, Guid>();
         
         var users = _connection.Query<FtUser>
             (

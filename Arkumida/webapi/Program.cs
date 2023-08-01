@@ -9,9 +9,9 @@ using webapi.Constants;
 using webapi.Dao;
 using webapi.Dao.Abstract;
 using webapi.Dao.Implementations;
+using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Mappers.Implementations;
-using webapi.Models.Identity;
 using webapi.Services.Abstract;
 using webapi.Services.Implementations;
 using webapi.Services.Implementations.Hosted;
@@ -47,6 +47,7 @@ builder.Services.AddSingleton<IFilesMapper, FilesMapper>();
 builder.Services.AddSingleton<ITextFilesMapper, TextFilesMapper>();
 builder.Services.AddSingleton<ITextsPagesMapper, TextsPagesMapper>();
 builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
+builder.Services.AddSingleton<IUsersMapper, UsersMapper>();
 
 #endregion
 
@@ -113,11 +114,11 @@ builder.Services.AddControllers();
 #region Identity framework
 
     // Identity
-    builder.Services.AddIdentity<User, IdentityRole>()  
+    builder.Services.AddIdentity<UserDbo, IdentityRole<Guid>>()  
         .AddEntityFrameworkStores<MainDbContext>()  
         .AddDefaultTokenProviders();
 
-    builder.Services.Configure<IdentityOptions>(options =>
+builder.Services.Configure<IdentityOptions>(options =>
     {
         // User settings
         options.User.AllowedUserNameCharacters = string.Empty; // Any characters is allowed

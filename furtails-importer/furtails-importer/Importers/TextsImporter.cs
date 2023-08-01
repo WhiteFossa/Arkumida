@@ -25,7 +25,7 @@ public class TextsImporter
         _httpClient = httpClient;
     }
 
-    public async Task Import()
+    public async Task Import(Dictionary<int, Guid> usersMapping)
     {
         var categories = LoadCategories();
         
@@ -301,6 +301,9 @@ public class TextsImporter
                 }
             }
 
+            // Users, related to text
+            var publisherUserId = usersMapping[text.UploaderUserId];
+            
             // Now we have text model ready
             var textToCreate = new TextDto()
             {
@@ -326,7 +329,11 @@ public class TextsImporter
                     CategoryTagType = CategoryTagType.Normal
                 }).ToList(),
                 
-                IsIncomplete = text.IsNotFinished
+                IsIncomplete = text.IsNotFinished,
+                
+                Author = new CreatureDto() { Id = publisherUserId, FurryReadableId = "Not important", Name = "Not important" },
+                Translator = new CreatureDto() { Id = publisherUserId, FurryReadableId = "Not important", Name = "Not important" },
+                Publisher = new CreatureDto() { Id = publisherUserId, FurryReadableId = "Not important", Name = "Not important" }
             };
 
             foreach (var page in textModel.Pages)

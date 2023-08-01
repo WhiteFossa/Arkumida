@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace webapi.Models.Identity;
+namespace webapi.Dao.Models;
 
 /// <summary>
 /// Arkumida user (users, authors, translators etc)
 /// </summary>
-public class User : IdentityUser
+public class UserDbo : IdentityUser<Guid>
 {
     /// <summary>
     /// User's visible name

@@ -55,7 +55,7 @@ public class MainImporter
             
             // Importing texts
             var textsImporter = new TextsImporter(connection, httpClient);
-            await textsImporter.Import();
+            await textsImporter.Import(usersMapping);
         }
     }
 }

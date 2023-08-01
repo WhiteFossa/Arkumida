@@ -115,9 +115,9 @@ public class TextsService : ITextsService
                 (
                     tm.Id,
                     "not_ready",
-                    new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Первозвери"),
-                    new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
-                    new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
+                    new CreatureDto(tm.Author.Id, "not_ready", tm.Author.DisplayName),
+                    tm.Translator == null ? null : new CreatureDto(tm.Translator.Id, "not_ready", tm.Translator.DisplayName),
+                    new CreatureDto(tm.Publisher.Id, "not_ready", tm.Publisher.DisplayName),
                     tm.Title,
                     tm.CreateTime,
                     tm.ReadsCount,
@@ -148,9 +148,9 @@ public class TextsService : ITextsService
         (
             textMetadata.Id,
             "not_ready",
-            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Первозвери"),
-            new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
-            new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
+            new CreatureDto(textMetadata.Author.Id, "not_ready", textMetadata.Author.DisplayName),
+            textMetadata.Translator == null ? null : new CreatureDto(textMetadata.Translator.Id, "not_ready", textMetadata.Translator.DisplayName),
+            new CreatureDto(textMetadata.Publisher.Id, "not_ready", textMetadata.Publisher.DisplayName),
             textMetadata.Title,
             textMetadata.CreateTime,
             textMetadata.ReadsCount,
@@ -201,9 +201,9 @@ public class TextsService : ITextsService
             _tagsService.OrderTags(textTags)
                 .Select(t => t.ToTagDto())
                 .ToList(),
-            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Первозвери"),
-            new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
-            new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
+            new CreatureDto(textMetadata.Author.Id, "not_ready", textMetadata.Author.DisplayName),
+            textMetadata.Translator == null ? null : new CreatureDto(textMetadata.Translator.Id, "not_ready", textMetadata.Translator.DisplayName),
+            new CreatureDto(textMetadata.Publisher.Id, "not_ready", textMetadata.Publisher.DisplayName),
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
                 .ToList(),

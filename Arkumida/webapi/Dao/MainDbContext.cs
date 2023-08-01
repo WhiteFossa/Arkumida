@@ -1,14 +1,14 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Models;
-using webapi.Models.Identity;
 
 namespace webapi.Dao;
 
 /// <summary>
 /// Main DB context (security information live here too)
 /// </summary>
-public class MainDbContext : IdentityDbContext<User>
+public class MainDbContext : IdentityDbContext<UserDbo, IdentityRole<Guid>, Guid>
 {
     /// <summary>
     /// Tags

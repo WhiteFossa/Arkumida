@@ -17,6 +17,10 @@ public class TextsDao : ITextsDao
     public async Task CreateTextAsync(TextDbo text)
     {
         _ = text ?? throw new ArgumentNullException(nameof(text), "Text must not be null.");
+
+        // Translator may be null, it's OK
+        _ = text.Author ?? throw new ArgumentNullException(nameof(text.Author), "Text author must be specified!");
+        _ = text.Publisher ?? throw new ArgumentNullException(nameof(text.Publisher), "Text publisher must be specified!");
         
         // Loading tags
         if (text.Tags != null)
@@ -26,7 +30,12 @@ public class TextsDao : ITextsDao
                 .Select(tag => _dbContext.Tags.Single(t => t.Id == tag.Id))
                 .ToList();
         }
-        
+
+        // Loading users by their IDs
+        text.Author = _dbContext.Users.Single(u => u.Id == text.Author.Id);
+        text.Publisher = _dbContext.Users.Single(u => u.Id == text.Publisher.Id);
+        text.Translator = text.Translator == null ? null : _dbContext.Users.Single(u => u.Id == text.Translator.Id);
+
         await _dbContext
             .Texts
             .AddAsync(text);

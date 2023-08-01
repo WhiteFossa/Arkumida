@@ -4,26 +4,30 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using webapi.Constants;
+using webapi.Dao.Models;
+using webapi.Mappers.Abstract;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
-using webapi.Models.Identity;
 using webapi.Services.Abstract;
 
 namespace webapi.Services.Implementations;
 
 public class AccountsService : IAccountsService
 {
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<UserDbo> _userManager;
     private readonly IConfigurationService _configurationService;
+    private readonly IUsersMapper _usersMapper;
 
     public AccountsService
     (
-        UserManager<User> userManager,
-        IConfigurationService configurationService
+        UserManager<UserDbo> userManager,
+        IConfigurationService configurationService,
+        IUsersMapper usersMapper
     )
     {
         _userManager = userManager;
         _configurationService = configurationService;
+        _usersMapper = usersMapper;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
@@ -32,15 +36,15 @@ public class AccountsService : IAccountsService
         
         if (await IsUserExistByLoginAsync(registrationData.Login))
         {
-            return new RegistrationResultDto(string.Empty, UserRegistrationResult.LoginIsTaken);
+            return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.LoginIsTaken);
         }
 
         if (await IsUserExistByEmailAsync(registrationData.Email))
         {
-            return new RegistrationResultDto(string.Empty, UserRegistrationResult.EmailIsTaken);
+            return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.EmailIsTaken);
         }
         
-        var user = new User()
+        var userDbo = new UserDbo()
         {  
             UserName = registrationData.Login,
             Email = registrationData.Email,
@@ -50,14 +54,16 @@ public class AccountsService : IAccountsService
             DisplayName = registrationData.Login
         };  
         
-        var result = await _userManager.CreateAsync(user, registrationData.Password);
+        var result = await _userManager.CreateAsync(userDbo, registrationData.Password);
         if (!result.Succeeded)
         {
             // Mostly probably password is too weak
-            return new RegistrationResultDto(string.Empty, UserRegistrationResult.WeakPassword);
+            return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.WeakPassword);
         }
+
+        var userDto = _usersMapper.Map(userDbo);
         
-        return new RegistrationResultDto(user.Id, UserRegistrationResult.OK);
+        return new RegistrationResultDto(userDto.Id, UserRegistrationResult.OK);
     }
 
     public async Task<LoginResultDto> LoginAsync(LoginDto loginData)

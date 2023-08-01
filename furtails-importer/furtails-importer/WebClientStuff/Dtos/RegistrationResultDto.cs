@@ -9,7 +9,7 @@ public class RegistrationResultDto
     /// Registered user ID
     /// </summary>
     [JsonPropertyName("userId")]
-    public string UserId { get; set; }
+    public Guid UserId { get; set; }
 
     /// <summary>
     /// Registration result

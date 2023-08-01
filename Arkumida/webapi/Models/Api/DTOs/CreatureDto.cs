@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace webapi.Models.Api.DTOs;
 
 /// <summary>
-/// Author
+/// User
 /// </summary>
 public class CreatureDto : IdedEntityDto
 {
@@ -26,5 +26,13 @@ public class CreatureDto : IdedEntityDto
         }
 
         Name = name;
+    }
+
+    /// <summary>
+    /// Build an user based on creature DTO. Please note that not all fields can be filled
+    /// </summary>
+    public User ToUser()
+    {
+        return new User(Id, string.Empty, string.Empty, string.Empty);
     }
 }

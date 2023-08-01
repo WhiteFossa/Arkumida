@@ -69,4 +69,19 @@ public class TextDbo
     /// Files, attached to text
     /// </summary>
     public IList<TextFileDbo> TextFiles { get; set; }
+
+    /// <summary>
+    /// Text author
+    /// </summary>
+    public UserDbo Author { get; set; }
+
+    /// <summary>
+    /// Text translator
+    /// </summary>
+    public UserDbo Translator { get; set; }
+
+    /// <summary>
+    /// Text publisher
+    /// </summary>
+    public UserDbo Publisher { get; set; }
 }

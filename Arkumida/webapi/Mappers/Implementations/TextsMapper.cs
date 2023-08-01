@@ -9,17 +9,20 @@ public class TextsMapper : ITextsMapper
     private readonly ITextsPagesMapper _pagesMapper;
     private readonly ITagsMapper _tagsMapper;
     private readonly ITextFilesMapper _textFilesMapper;
+    private readonly IUsersMapper _usersMapper;
 
     public TextsMapper
     (
         ITextsPagesMapper pagesMapper,
         ITagsMapper tagsMapper,
-        ITextFilesMapper textFilesMapper
+        ITextFilesMapper textFilesMapper,
+        IUsersMapper usersMapper
     )
     {
         _pagesMapper = pagesMapper;
         _tagsMapper = tagsMapper;
         _textFilesMapper = textFilesMapper;
+        _usersMapper = usersMapper;
     }
     
     public IReadOnlyCollection<Text> Map(IEnumerable<TextDbo> texts)
@@ -53,7 +56,10 @@ public class TextsMapper : ITextsMapper
             VotesMinus = text.VotesMinus,
             Tags = _tagsMapper.Map(text.Tags).ToList(),
             IsIncomplete = text.IsIncomplete,
-            TextFiles = _textFilesMapper.Map(text.TextFiles).ToList()
+            TextFiles = _textFilesMapper.Map(text.TextFiles).ToList(),
+            Author = _usersMapper.Map(text.Author),
+            Publisher = _usersMapper.Map(text.Publisher),
+            Translator = _usersMapper.Map(text.Translator)
         };
     }
 
@@ -78,7 +84,10 @@ public class TextsMapper : ITextsMapper
             VotesMinus = text.VotesMinus,
             Tags = _tagsMapper.Map(text.Tags).ToList(),
             IsIncomplete = text.IsIncomplete,
-            TextFiles = _textFilesMapper.Map(text.TextFiles).ToList()
+            TextFiles = _textFilesMapper.Map(text.TextFiles).ToList(),
+            Author = _usersMapper.Map(text.Author),
+            Publisher = _usersMapper.Map(text.Publisher),
+            Translator = _usersMapper.Map(text.Translator)
         };
     }
 
