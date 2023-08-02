@@ -23,10 +23,8 @@ public class UsersImporter
         _httpClient = httpClient;
     }
 
-    public async Task<Dictionary<int, Guid>> ImportAsync()
+    public async Task ImportAsync()
     {
-        var result = new Dictionary<int, Guid>();
-        
         var users = _connection.Query<FtUser>
             (
                 @"select
@@ -52,7 +50,7 @@ public class UsersImporter
             {
                 Login = user.Username,
                 Email = user.Email,
-                Password = SHA512Helper.CalculateSHA512(Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())) // TODO: Is it secure? Seems so
+                Password = GeneratePassword()
             };
 
             if (await IsLoginTakenAsync(registrationData.Login))
@@ -81,24 +79,23 @@ public class UsersImporter
                 registrationData.Email = GenerateNonexistentEmail();
             }
 
-            var registrationResult = await RegisterUserAsync(registrationData);
-            
-            // Adding to mapping
-            Console.WriteLine($"{ user.Username }: { user.Id } -> { registrationResult.UserId }");
-            result.Add(user.Id, registrationResult.UserId);
+            await RegisterUserAsync(registrationData);
 
             Console.WriteLine("Done");
         }
-
-        return result;
     }
 
-    private string GenerateNonexistentEmail()
+    public string GenerateNonexistentEmail()
     {
         return $"nonexistent-{Guid.NewGuid()}@example.com";
     }
+
+    public string GeneratePassword()
+    {
+        return SHA512Helper.CalculateSHA512(Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())); // TODO: Is it secure? Seems so;
+    }
     
-    private async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
+    public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
     {
         var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/Register", new UserRegistrationRequest() { RegistrationData = registrationData});
         if (!response.IsSuccessStatusCode)
@@ -110,6 +107,11 @@ public class UsersImporter
 
         if (responseData.RegistrationResult.Result != UserRegistrationResult.OK)
         {
+            Console.WriteLine("Failed to register user!");
+            Console.WriteLine($"Login: { registrationData.Login }");
+            Console.WriteLine($"Email: { registrationData.Email }");
+            Console.WriteLine($"Reason: { responseData.RegistrationResult.Result }");
+            
             throw new InvalidOperationException($"Failed to register user { registrationData.Login }");
         }
 
@@ -140,5 +142,22 @@ public class UsersImporter
         var responseData = JsonSerializer.Deserialize<CheckIfEmailTakenResponse>(await response.Content.ReadAsStringAsync());
 
         return responseData.CheckResult.IsTaken;
+    }
+    
+    public async Task<CreatureDto> FindCreatureByLogin(string login)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/FindByLogin", new FindCreatureByLoginRequest() { SearchData = new FindCreatureByLoginDto() { Login = login }});
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+        
+        var responseData = JsonSerializer.Deserialize<FindCreatureByLoginResponse>(await response.Content.ReadAsStringAsync());
+        if (!responseData.IsFound)
+        {
+            return null;
+        }
+
+        return responseData.Creature;
     }
 }

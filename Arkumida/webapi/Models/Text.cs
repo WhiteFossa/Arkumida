@@ -106,7 +106,7 @@ public class Text
             Tags.Select(t => t.ToTagDto()).ToList(),
             IsIncomplete,
             Author.ToDto(),
-            Translator.ToDto(),
+            Translator?.ToDto(),
             Publisher.ToDto()
         );
     }

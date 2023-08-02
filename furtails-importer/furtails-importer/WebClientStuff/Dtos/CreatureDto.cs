@@ -12,4 +12,16 @@ public class CreatureDto : IdedEntityDto
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get;  set; }
+    
+    /// <summary>
+    /// Creature login
+    /// </summary>
+    [JsonPropertyName("login")]
+    public string Login { get; set; }
+
+    /// <summary>
+    /// Creature email
+    /// </summary>
+    [JsonPropertyName("email")]
+    public string Email { get; set; }
 }

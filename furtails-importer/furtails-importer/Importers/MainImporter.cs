@@ -47,15 +47,15 @@ public class MainImporter
             
             // Importing users
             var usersImporter = new UsersImporter(connection, httpClient);
-            var usersMapping = await usersImporter.ImportAsync();  // usersMapping: FT User ID -> Arkumida user ID
+            await usersImporter.ImportAsync();
 
             // Importing tags
             var tagsImporter = new TagsImporter(connection, httpClient);
             await tagsImporter.Import();
             
             // Importing texts
-            var textsImporter = new TextsImporter(connection, httpClient);
-            await textsImporter.Import(usersMapping);
+            var textsImporter = new TextsImporter(connection, httpClient, usersImporter);
+            await textsImporter.Import();
         }
     }
 }
