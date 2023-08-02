@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Responses;
@@ -7,12 +8,14 @@ namespace webapi.Controllers;
 /// <summary>
 /// Controller, returning information about site friends
 /// </summary>
+[Authorize]
 [ApiController]
 public class SiteFriendsController : ControllerBase
 {
     /// <summary>
     /// Get site friends
     /// </summary>
+    [AllowAnonymous]
     [Route("api/SiteFriends/Get")]
     [HttpGet]
     public async Task<ActionResult<SiteFriendsResponse>> GetSiteFriendsAsync()

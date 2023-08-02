@@ -79,6 +79,24 @@ public class TextDto
     [JsonPropertyName("isIncomplete")]
     public bool IsIncomplete { get; set; }
 
+    /// <summary>
+    /// Text author
+    /// </summary>
+    [JsonPropertyName("author")]
+    public CreatureDto Author { get; set; }
+    
+    /// <summary>
+    /// Text translator
+    /// </summary>
+    [JsonPropertyName("translator")]
+    public CreatureDto Translator { get; set; }
+    
+    /// <summary>
+    /// Text publisher
+    /// </summary>
+    [JsonPropertyName("publisher")]
+    public CreatureDto Publisher { get; set; }
+
     public TextDto()
     {
         
@@ -97,7 +115,10 @@ public class TextDto
         long votesPlus,
         long votesMinus,
         IReadOnlyCollection<TagDto> tags,
-        bool isIncomplete
+        bool isIncomplete,
+        CreatureDto author,
+        CreatureDto translator,
+        CreatureDto publisher
     )
     {
         Id = id;
@@ -140,6 +161,10 @@ public class TextDto
         Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
 
         IsIncomplete = isIncomplete;
+
+        Author = author ?? throw new ArgumentNullException(nameof(author), "Author must be specified.");
+        Translator = translator; // We may have no translator
+        Publisher = publisher ?? throw new ArgumentNullException(nameof(translator), "Translator must be specified.");
     }
 
     public Text ToText()
@@ -157,7 +182,10 @@ public class TextDto
             VotesPlus = VotesPlus,
             VotesMinus = VotesMinus,
             Tags = Tags.Select(t => t.ToTag()).ToList(),
-            IsIncomplete = IsIncomplete
+            IsIncomplete = IsIncomplete,
+            Author = Author.ToUser(),
+            Translator = Translator?.ToUser(),
+            Publisher = Publisher.ToUser()
         };
     }
 }

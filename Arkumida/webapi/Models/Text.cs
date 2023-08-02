@@ -5,6 +5,7 @@ namespace webapi.Models;
 
 /// <summary>
 /// One text
+/// TODO: Add constructor, important
 /// </summary>
 public class Text
 {
@@ -72,6 +73,21 @@ public class Text
     /// Files, attached to text
     /// </summary>
     public IList<TextFile> TextFiles { get; set; }
+    
+    /// <summary>
+    /// Text author
+    /// </summary>
+    public User Author { get; set; }
+
+    /// <summary>
+    /// Text translator
+    /// </summary>
+    public User Translator { get; set; }
+
+    /// <summary>
+    /// Text publisher
+    /// </summary>
+    public User Publisher { get; set; }
 
     public TextDto ToDto(ITextsService textsService)
     {
@@ -83,13 +99,15 @@ public class Text
             Title,
             Description,
             Pages.Select(p => p.ToDto(this.TextFiles.ToList(), textsService)).ToList(),
-            //Sections.Select(s => s.ToDto(this.TextFiles.ToList(), textsService)).ToList(),
             ReadsCount,
             VotesCount,
             VotesPlus,
             VotesMinus,
             Tags.Select(t => t.ToTagDto()).ToList(),
-            IsIncomplete
+            IsIncomplete,
+            Author.ToDto(),
+            Translator?.ToDto(),
+            Publisher.ToDto()
         );
     }
 }

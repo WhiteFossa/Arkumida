@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dao.Models.Enums;
 using webapi.Models;
@@ -10,6 +11,7 @@ namespace webapi.Controllers;
 /// <summary>
 /// Controller to work with tags
 /// </summary>
+[Authorize]
 [ApiController]
 public class TagsController : ControllerBase
 {
@@ -26,6 +28,7 @@ public class TagsController : ControllerBase
     /// <summary>
     /// Get all tags
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Tags/List")]
     [HttpGet]
     public async Task<ActionResult<TextTagsListResponse>> GetTagsAsync([FromQuery]TagSubtype? subtype = null)
@@ -41,6 +44,7 @@ public class TagsController : ControllerBase
     /// <summary>
     /// Get tag by ID
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Tags/{id}")]
     [HttpGet]
     public async Task<ActionResult<TextTagResponse>> GetTagByIdAsync(Guid id)
@@ -65,6 +69,7 @@ public class TagsController : ControllerBase
     /// <summary>
     /// Get tag by name
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Tags/ByName")]
     [HttpGet]
     public async Task<ActionResult<TextTagResponse>> GetTagByNameAsync([FromQuery] string name)

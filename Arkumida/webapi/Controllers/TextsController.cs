@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dao.Models.Enums;
-using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Requests;
 using webapi.Models.Api.Responses;
 using webapi.Services.Abstract;
@@ -10,6 +10,7 @@ namespace webapi.Controllers;
 /// <summary>
 /// Controller to work with texts
 /// </summary>
+[Authorize]
 [ApiController]
 public class TextsController : ControllerBase
 {
@@ -26,6 +27,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Get text info by ID
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/GetInfo/{id}")]
     [HttpGet]
     public async Task<ActionResult<TextInfoResponse>> GetTextInfoAsync(Guid id)
@@ -42,6 +44,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Get text by ID
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/GetReadData/{id}")]
     [HttpGet]
     public async Task<ActionResult<TextReadResponse>> GetTextAsync(Guid id)
@@ -55,7 +58,10 @@ public class TextsController : ControllerBase
         );
     }
     
-    
+    /// <summary>
+    /// Get text page
+    /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/GetPage/{id}/Page/{pageNumber}")]
     [HttpGet]
     public async Task<ActionResult<TextPageResponse>> GetTextPageAsync(Guid id, int pageNumber)
@@ -72,6 +78,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Get latest texts
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/Latest")]
     [HttpGet]
     public async Task<ActionResult<TextsInfosListResponse>> GetLatestTextsAsync(int skip, int take)
@@ -82,6 +89,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Get most popular texts
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Texts/Popular")]
     [HttpGet]
     public async Task<ActionResult<TextsInfosListResponse>> GetPopularTextsAsync(int skip, int take)
@@ -133,11 +141,11 @@ public class TextsController : ControllerBase
         }
 
         var textToCreate = request.Text.ToText();
-        await _textsService.CreateTextAsync(textToCreate);
+        var createdText = await _textsService.CreateTextAsync(textToCreate);
 
         return Ok
         (
-            new CreateTextResponse(textToCreate.ToDto(_textsService))
+            new CreateTextResponse(createdText.ToDto(_textsService))
         );
     }
 

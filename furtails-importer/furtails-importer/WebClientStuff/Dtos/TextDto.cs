@@ -75,4 +75,22 @@ public class TextDto
     /// </summary>
     [JsonPropertyName("isIncomplete")]
     public bool IsIncomplete { get; set; }
+    
+    /// <summary>
+    /// Text author
+    /// </summary>
+    [JsonPropertyName("author")]
+    public CreatureDto Author { get; set; }
+    
+    /// <summary>
+    /// Text translator
+    /// </summary>
+    [JsonPropertyName("translator")]
+    public CreatureDto Translator { get; set; }
+    
+    /// <summary>
+    /// Text publisher
+    /// </summary>
+    [JsonPropertyName("publisher")]
+    public CreatureDto Publisher { get; set; }
 }

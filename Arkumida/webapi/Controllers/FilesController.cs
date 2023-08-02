@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -10,6 +11,7 @@ namespace webapi.Controllers;
 /// <summary>
 /// Controller to work with files
 /// </summary>
+[Authorize]
 [ApiController]
 public class FilesController : ControllerBase
 {
@@ -43,6 +45,7 @@ public class FilesController : ControllerBase
     /// <summary>
     /// Download the file
     /// </summary>
+    [AllowAnonymous]
     [Route("api/Files/Download/{fileId}")]
     [HttpGet]
     public async Task<ActionResult> DownloadAsync(Guid fileId)

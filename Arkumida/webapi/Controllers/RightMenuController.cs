@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Responses;
@@ -7,12 +8,14 @@ namespace webapi.Controllers;
 /// <summary>
 /// Right menu controller
 /// </summary>
+[Authorize]
 [ApiController]
 public class RightMenuController : ControllerBase
 {
     /// <summary>
     /// Get right menu items
     /// </summary>
+    [AllowAnonymous]
     [Route("api/RightMenu/Items")]
     [HttpGet]
     public async Task<ActionResult<RightMenuResponse>> GetRightMenuItemsAsync()

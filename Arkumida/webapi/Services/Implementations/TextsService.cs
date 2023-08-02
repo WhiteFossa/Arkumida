@@ -20,8 +20,8 @@ public class TextsService : ITextsService
     private readonly ITagsMapper _tagsMapper;
     private readonly ITagsService _tagsService;
     private readonly ITextsPagesMapper _textsPagesMapper;
-    private readonly ITextsSectionsMapper _textsSectionsMapper;
     private readonly ITextFilesMapper _textFilesMapper;
+    private readonly IUsersMapper _usersMapper;
 
     private readonly IReadOnlyCollection<ParserTagBase> _parserTags = new List<ParserTagBase>()
     {
@@ -65,8 +65,8 @@ public class TextsService : ITextsService
         ITagsMapper tagsMapper,
         ITagsService tagsService,
         ITextsPagesMapper textsPagesMapper,
-        ITextsSectionsMapper textsSectionsMapper,
-        ITextFilesMapper textFilesMapper
+        ITextFilesMapper textFilesMapper,
+        IUsersMapper usersMapper
     )
     {
         _textsDao = textsDao;
@@ -74,11 +74,11 @@ public class TextsService : ITextsService
         _tagsMapper = tagsMapper;
         _tagsService = tagsService;
         _textsPagesMapper = textsPagesMapper;
-        _textsSectionsMapper = textsSectionsMapper;
         _textFilesMapper = textFilesMapper;
+        _usersMapper = usersMapper;
     }
 
-    public async Task CreateTextAsync(Text text)
+    public async Task<Text> CreateTextAsync(Text text)
     {
         _ = text ?? throw new ArgumentNullException(nameof(text), "Text mustn't be null.");
 
@@ -89,7 +89,7 @@ public class TextsService : ITextsService
 
         await _textsDao.CreateTextAsync(dbText);
 
-        text.Id = dbText.Id;
+        return _textsMapper.Map(dbText); // To have ID and other fields (like Publisher) populated 
     }
 
     public async Task<IReadOnlyCollection<TextInfoDto>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take)
@@ -115,9 +115,9 @@ public class TextsService : ITextsService
                 (
                     tm.Id,
                     "not_ready",
-                    new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Первозвери"),
-                    new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
-                    new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
+                    _usersMapper.Map(tm.Author).ToDto(),
+                    _usersMapper.Map(tm.Translator)?.ToDto(),
+                    _usersMapper.Map(tm.Publisher).ToDto(),
                     tm.Title,
                     tm.CreateTime,
                     tm.ReadsCount,
@@ -148,9 +148,9 @@ public class TextsService : ITextsService
         (
             textMetadata.Id,
             "not_ready",
-            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Первозвери"),
-            new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
-            new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
+            _usersMapper.Map(textMetadata.Author).ToDto(),
+            _usersMapper.Map(textMetadata.Translator)?.ToDto(),
+            _usersMapper.Map(textMetadata.Publisher).ToDto(),
             textMetadata.Title,
             textMetadata.CreateTime,
             textMetadata.ReadsCount,
@@ -201,9 +201,9 @@ public class TextsService : ITextsService
             _tagsService.OrderTags(textTags)
                 .Select(t => t.ToTagDto())
                 .ToList(),
-            new CreatureDto(new Guid("6ba6318a-d884-45ca-b50e-0fe8ecff4300"), "1", "Первозвери"),
-            new CreatureDto(new Guid("15829718-169d-4933-b794-efef888df717"), "2", "Редгерра"),
-            new CreatureDto(new Guid("86938a87-d2d8-471b-8d7a-ffba4b89a7f8"), "3", "Ааз"),
+            _usersMapper.Map(textMetadata.Author).ToDto(),
+            _usersMapper.Map(textMetadata.Translator)?.ToDto(),
+            _usersMapper.Map(textMetadata.Publisher).ToDto(),
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
                 .ToList(),

@@ -6,7 +6,10 @@ public class FtText
 
     public int CategoryId { get; set; }
 
-    public int UploaderUserId { get; set; }
+    /// <summary>
+    /// Crazy enough, but some texts have null here
+    /// </summary>
+    public int? UploaderUserId { get; set; }
 
     public string UploaderUserName { get; set; }
 

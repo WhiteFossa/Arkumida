@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Responses;
@@ -7,12 +8,14 @@ namespace webapi.Controllers;
 /// <summary>
 /// Main menu controller
 /// </summary>
+[Authorize]
 [ApiController]
 public class MainMenuController : ControllerBase
 {
     /// <summary>
     /// Get main menu items
     /// </summary>
+    [AllowAnonymous]
     [Route("api/MainMenu/Items")]
     [HttpGet]
     public async Task<ActionResult<MainMenuResponse>> GetMainMenuItemsAsync()

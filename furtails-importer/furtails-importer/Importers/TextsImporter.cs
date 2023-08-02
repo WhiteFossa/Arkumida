@@ -18,11 +18,13 @@ public class TextsImporter
 {
     private readonly MySqlConnection _connection;
     private readonly HttpClient _httpClient;
+    private readonly UsersImporter _usersImporter;
 
-    public TextsImporter(MySqlConnection connection, HttpClient httpClient)
+    public TextsImporter(MySqlConnection connection, HttpClient httpClient, UsersImporter usersImporter)
     {
         _connection = connection;
         _httpClient = httpClient;
+        _usersImporter = usersImporter;
     }
 
     public async Task Import()
@@ -75,6 +77,8 @@ public class TextsImporter
             {
                 continue; // Not published yet
             }
+            
+            Console.WriteLine($"Text ID: { text.Id }, Title: { text.Title }");
             
             var textModel = new Text();
 
@@ -301,6 +305,32 @@ public class TextsImporter
                 }
             }
 
+            // Checking do we have users and creating them if not
+            
+            // Translator - may be null
+            CreatureDto translatorCreature = null;
+            if (!string.IsNullOrWhiteSpace(text.Translator))
+            {
+                translatorCreature = await RegisterUserIfNotExistAsync(text.Translator);
+            }
+            
+            // Publisher - always exist
+            var publisherCreature = await RegisterUserIfNotExistAsync(text.UploaderUserName);
+            
+            // Author - always exist - but unfortunately at least one text exist with empty string instead of author. We will use publisher in this case
+            CreatureDto authorCreature = null;
+
+            if (string.IsNullOrWhiteSpace(text.Author))
+            {
+                // Use publisher
+                authorCreature = publisherCreature;
+            }
+            else
+            {
+                // Us author
+                authorCreature = await RegisterUserIfNotExistAsync(text.Author);
+            }
+            
             // Now we have text model ready
             var textToCreate = new TextDto()
             {
@@ -326,7 +356,11 @@ public class TextsImporter
                     CategoryTagType = CategoryTagType.Normal
                 }).ToList(),
                 
-                IsIncomplete = text.IsNotFinished
+                IsIncomplete = text.IsNotFinished,
+                
+                Author = authorCreature,
+                Translator = translatorCreature,
+                Publisher = publisherCreature
             };
 
             foreach (var page in textModel.Pages)
@@ -398,9 +432,7 @@ public class TextsImporter
                 // Now just attach file to text
                 await AddFileToArkumidaTextAsync(arkumidaTextId, fileMetadata.Name, uploadedFile.FileInfo.Id);
             }
-            
-            Console.WriteLine($"Text { textNumber }");
-            
+
             textNumber++;
         }
     }
@@ -663,5 +695,17 @@ public class TextsImporter
         {
             throw new InvalidOperationException();
         }
+    }
+
+    private async Task<CreatureDto> RegisterUserIfNotExistAsync(string login)
+    {
+        var creature = await _usersImporter.FindCreatureByLogin(login);
+        if (creature == null)
+        {
+            await _usersImporter.RegisterUserAsync(new RegistrationDataDto() { Login = login, Email = _usersImporter.GenerateNonexistentEmail(), Password = _usersImporter.GeneratePassword()} );
+            creature = await _usersImporter.FindCreatureByLogin(login);
+        }
+
+        return creature;
     }
 }
