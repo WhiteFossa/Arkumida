@@ -80,16 +80,16 @@ public class TextDto
     public bool IsIncomplete { get; set; }
 
     /// <summary>
-    /// Text author
+    /// Text authors
     /// </summary>
-    [JsonPropertyName("author")]
-    public CreatureDto Author { get; set; }
+    [JsonPropertyName("authors")]
+    public IList<CreatureDto> Authors { get; set; }
     
     /// <summary>
-    /// Text translator
+    /// Text translators
     /// </summary>
-    [JsonPropertyName("translator")]
-    public CreatureDto Translator { get; set; }
+    [JsonPropertyName("translators")]
+    public IList<CreatureDto> Translators { get; set; }
     
     /// <summary>
     /// Text publisher
@@ -116,8 +116,8 @@ public class TextDto
         long votesMinus,
         IReadOnlyCollection<TagDto> tags,
         bool isIncomplete,
-        CreatureDto author,
-        CreatureDto translator,
+        IList<CreatureDto> authors,
+        IList<CreatureDto> translators,
         CreatureDto publisher
     )
     {
@@ -162,9 +162,16 @@ public class TextDto
 
         IsIncomplete = isIncomplete;
 
-        Author = author ?? throw new ArgumentNullException(nameof(author), "Author must be specified.");
-        Translator = translator; // We may have no translator
-        Publisher = publisher ?? throw new ArgumentNullException(nameof(translator), "Translator must be specified.");
+        Authors = authors ?? throw new ArgumentNullException(nameof(authors), "Authors must be specified.");
+        if (!Authors.Any())
+        {
+            throw new ArgumentException("At least one author is required!", nameof(authors));
+        }
+        
+        // We may have empty translators list, but still not null
+        Translators = translators ?? throw new ArgumentNullException(nameof(translators), "Translators must be specified.");
+        
+        Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must be specified.");
     }
 
     public Text ToText()
@@ -183,8 +190,8 @@ public class TextDto
             VotesMinus = VotesMinus,
             Tags = Tags.Select(t => t.ToTag()).ToList(),
             IsIncomplete = IsIncomplete,
-            Author = Author.ToUser(),
-            Translator = Translator?.ToUser(),
+            Authors = Authors.Select(a => a.ToUser()).ToList(),
+            Translators = Translators.Select(t => t.ToUser()).ToList(),
             Publisher = Publisher.ToUser()
         };
     }

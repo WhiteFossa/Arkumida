@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Models;
+using webapi.Models;
 
 namespace webapi.Dao;
 
@@ -74,5 +75,24 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
         modelBuilder
             .Entity<TextDbo>()
             .HasMany(t => t.TextFiles);
+        
+        // Text have many authors
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasMany(text => text.Authors)
+            .WithMany(creature => creature.TextsAuthor)
+            .UsingEntity(jt => jt.ToTable("TextsAuthors"));
+        
+        // Text have many translators
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasMany(text => text.Translators)
+            .WithMany(creature => creature.TextsTranslator)
+            .UsingEntity(jt => jt.ToTable("TextsTranslators"));;
+        
+        // Text have one publisher
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasOne(text => text.Publisher);
     }
 }

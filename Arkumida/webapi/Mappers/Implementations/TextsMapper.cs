@@ -57,9 +57,9 @@ public class TextsMapper : ITextsMapper
             Tags = _tagsMapper.Map(text.Tags).ToList(),
             IsIncomplete = text.IsIncomplete,
             TextFiles = _textFilesMapper.Map(text.TextFiles).ToList(),
-            Author = _creaturesMapper.Map(text.Author),
+            Authors = _creaturesMapper.Map(text.Authors).ToList(),
             Publisher = _creaturesMapper.Map(text.Publisher),
-            Translator = _creaturesMapper.Map(text.Translator)
+            Translators = _creaturesMapper.Map(text.Translators).ToList()
         };
     }
 
@@ -85,9 +85,9 @@ public class TextsMapper : ITextsMapper
             Tags = _tagsMapper.Map(text.Tags).ToList(),
             IsIncomplete = text.IsIncomplete,
             TextFiles = _textFilesMapper.Map(text.TextFiles).ToList(),
-            Author = _creaturesMapper.Map(text.Author),
+            Authors = _creaturesMapper.Map(text.Authors).ToList(),
             Publisher = _creaturesMapper.Map(text.Publisher),
-            Translator = _creaturesMapper.Map(text.Translator)
+            Translators = _creaturesMapper.Map(text.Translators).ToList()
         };
     }
 

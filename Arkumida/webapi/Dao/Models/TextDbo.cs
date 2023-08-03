@@ -71,14 +71,14 @@ public class TextDbo
     public IList<TextFileDbo> TextFiles { get; set; }
 
     /// <summary>
-    /// Text author
+    /// Text authors
     /// </summary>
-    public CreatureDbo Author { get; set; }
+    public IList<CreatureDbo> Authors { get; set; }
 
     /// <summary>
     /// Text translator
     /// </summary>
-    public CreatureDbo Translator { get; set; }
+    public IList<CreatureDbo> Translators { get; set; }
 
     /// <summary>
     /// Text publisher

@@ -115,8 +115,8 @@ public class TextsService : ITextsService
                 (
                     tm.Id,
                     "not_ready",
-                    _creaturesMapper.Map(tm.Author).ToDto(),
-                    _creaturesMapper.Map(tm.Translator)?.ToDto(),
+                    _creaturesMapper.Map(tm.Authors).Select(ta => ta.ToDto()).ToList(),
+                    _creaturesMapper.Map(tm.Translators).Select(tt => tt.ToDto()).ToList(),
                     _creaturesMapper.Map(tm.Publisher).ToDto(),
                     tm.Title,
                     tm.CreateTime,
@@ -148,8 +148,8 @@ public class TextsService : ITextsService
         (
             textMetadata.Id,
             "not_ready",
-            _creaturesMapper.Map(textMetadata.Author).ToDto(),
-            _creaturesMapper.Map(textMetadata.Translator)?.ToDto(),
+            _creaturesMapper.Map(textMetadata.Authors).Select(ta => ta.ToDto()).ToList(),
+            _creaturesMapper.Map(textMetadata.Translators).Select(tt => tt.ToDto()).ToList(),
             _creaturesMapper.Map(textMetadata.Publisher).ToDto(),
             textMetadata.Title,
             textMetadata.CreateTime,
@@ -201,8 +201,8 @@ public class TextsService : ITextsService
             _tagsService.OrderTags(textTags)
                 .Select(t => t.ToTagDto())
                 .ToList(),
-            _creaturesMapper.Map(textMetadata.Author).ToDto(),
-            _creaturesMapper.Map(textMetadata.Translator)?.ToDto(),
+            _creaturesMapper.Map(textMetadata.Authors).Select(ta => ta.ToDto()).ToList(),
+            _creaturesMapper.Map(textMetadata.Translators).Select(tt => tt.ToDto()).ToList(),
             _creaturesMapper.Map(textMetadata.Publisher).ToDto(),
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))

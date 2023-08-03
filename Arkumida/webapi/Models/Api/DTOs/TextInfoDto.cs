@@ -6,16 +6,16 @@ namespace webapi.Models.Api.DTOs;
 public class TextInfoDto : IdedEntityDto
 {
     /// <summary>
-    /// Text author
+    /// Text authors
     /// </summary>
-    [JsonPropertyName("author")]
-    public CreatureDto Author { get; private set; }
+    [JsonPropertyName("authors")]
+    public IList<CreatureDto> Authors { get; private set; }
     
     /// <summary>
-    /// Text translator (may be null)
+    /// Text translators
     /// </summary>
-    [JsonPropertyName("translator")]
-    public CreatureDto Translator { get; private set; }
+    [JsonPropertyName("translators")]
+    public IList<CreatureDto> Translators { get; private set; }
     
     /// <summary>
     /// Text publisher
@@ -105,8 +105,8 @@ public class TextInfoDto : IdedEntityDto
     (
         Guid id,
         string furryReadableId,
-        CreatureDto author,
-        CreatureDto translator,
+        IList<CreatureDto> authors,
+        IList<CreatureDto> translators,
         CreatureDto publisher,
         string title,
         DateTime addTime,
@@ -123,8 +123,13 @@ public class TextInfoDto : IdedEntityDto
         bool isIncomplete
     ) : base(id, furryReadableId)
     {
-        Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null");
-        Translator = translator;
+        Authors = authors ?? throw new ArgumentNullException(nameof(authors), "Authors must not be null");
+        if (!Authors.Any())
+        {
+            throw new ArgumentException("At least one author is required!", nameof(authors));
+        }
+        
+        Translators = translators ?? throw new ArgumentNullException(nameof(translators), "Translators must not be null");
         Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must not be null");
 
         if (string.IsNullOrWhiteSpace(title))

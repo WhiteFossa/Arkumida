@@ -38,16 +38,16 @@ public class TextReadDto : IdedEntityDto
     public IList<TagDto> Tags { get; set; }
     
     /// <summary>
-    /// Text author
+    /// Text authors
     /// </summary>
-    [JsonPropertyName("author")]
-    public CreatureDto Author { get; private set; }
+    [JsonPropertyName("authors")]
+    public IList<CreatureDto> Authors { get; private set; }
     
     /// <summary>
-    /// Text translator (may be null)
+    /// Text translator
     /// </summary>
-    [JsonPropertyName("translator")]
-    public CreatureDto Translator { get; private set; }
+    [JsonPropertyName("translators")]
+    public IList<CreatureDto> Translators { get; private set; }
     
     /// <summary>
     /// Text publisher
@@ -75,8 +75,8 @@ public class TextReadDto : IdedEntityDto
         string title,
         string description,
         IReadOnlyCollection<TagDto> tags,
-        CreatureDto author,
-        CreatureDto translator,
+        IList<CreatureDto> authors,
+        IList<CreatureDto> translators,
         CreatureDto publisher,
         IReadOnlyCollection<TextFileDto> illustrations,
         int pagesCount
@@ -93,9 +93,16 @@ public class TextReadDto : IdedEntityDto
         
         Description = description; // May be empty
         Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
-        Author = author ?? throw new ArgumentNullException(nameof(author), "Author must not be null.");
-        Translator = translator;
+        
+        Authors = authors ?? throw new ArgumentNullException(nameof(authors), "Authors must not be null.");
+        if (!Authors.Any())
+        {
+            throw new ArgumentException("At least one author must be specified.", nameof(authors));
+        }
+        
+        Translators = translators ?? throw new ArgumentNullException(nameof(translators), "Translators must not be null.");
         Publisher = publisher ?? throw new ArgumentNullException(nameof(publisher), "Publisher must not be null.");
+        
         Illustrations = illustrations ?? throw new ArgumentNullException(nameof(illustrations), "Illustrations must not be null.");
 
         if (pagesCount < 1)
