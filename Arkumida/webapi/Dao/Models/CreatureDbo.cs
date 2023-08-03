@@ -5,7 +5,7 @@ namespace webapi.Dao.Models;
 /// <summary>
 /// Arkumida user (users, authors, translators etc)
 /// </summary>
-public class UserDbo : IdentityUser<Guid>
+public class CreatureDbo : IdentityUser<Guid>
 {
     /// <summary>
     /// User's visible name

@@ -73,15 +73,15 @@ public class TextDbo
     /// <summary>
     /// Text author
     /// </summary>
-    public UserDbo Author { get; set; }
+    public CreatureDbo Author { get; set; }
 
     /// <summary>
     /// Text translator
     /// </summary>
-    public UserDbo Translator { get; set; }
+    public CreatureDbo Translator { get; set; }
 
     /// <summary>
     /// Text publisher
     /// </summary>
-    public UserDbo Publisher { get; set; }
+    public CreatureDbo Publisher { get; set; }
 }

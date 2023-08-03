@@ -21,7 +21,7 @@ public class TextsService : ITextsService
     private readonly ITagsService _tagsService;
     private readonly ITextsPagesMapper _textsPagesMapper;
     private readonly ITextFilesMapper _textFilesMapper;
-    private readonly IUsersMapper _usersMapper;
+    private readonly ICreaturesMapper _creaturesMapper;
 
     private readonly IReadOnlyCollection<ParserTagBase> _parserTags = new List<ParserTagBase>()
     {
@@ -66,7 +66,7 @@ public class TextsService : ITextsService
         ITagsService tagsService,
         ITextsPagesMapper textsPagesMapper,
         ITextFilesMapper textFilesMapper,
-        IUsersMapper usersMapper
+        ICreaturesMapper creaturesMapper
     )
     {
         _textsDao = textsDao;
@@ -75,7 +75,7 @@ public class TextsService : ITextsService
         _tagsService = tagsService;
         _textsPagesMapper = textsPagesMapper;
         _textFilesMapper = textFilesMapper;
-        _usersMapper = usersMapper;
+        _creaturesMapper = creaturesMapper;
     }
 
     public async Task<Text> CreateTextAsync(Text text)
@@ -115,9 +115,9 @@ public class TextsService : ITextsService
                 (
                     tm.Id,
                     "not_ready",
-                    _usersMapper.Map(tm.Author).ToDto(),
-                    _usersMapper.Map(tm.Translator)?.ToDto(),
-                    _usersMapper.Map(tm.Publisher).ToDto(),
+                    _creaturesMapper.Map(tm.Author).ToDto(),
+                    _creaturesMapper.Map(tm.Translator)?.ToDto(),
+                    _creaturesMapper.Map(tm.Publisher).ToDto(),
                     tm.Title,
                     tm.CreateTime,
                     tm.ReadsCount,
@@ -148,9 +148,9 @@ public class TextsService : ITextsService
         (
             textMetadata.Id,
             "not_ready",
-            _usersMapper.Map(textMetadata.Author).ToDto(),
-            _usersMapper.Map(textMetadata.Translator)?.ToDto(),
-            _usersMapper.Map(textMetadata.Publisher).ToDto(),
+            _creaturesMapper.Map(textMetadata.Author).ToDto(),
+            _creaturesMapper.Map(textMetadata.Translator)?.ToDto(),
+            _creaturesMapper.Map(textMetadata.Publisher).ToDto(),
             textMetadata.Title,
             textMetadata.CreateTime,
             textMetadata.ReadsCount,
@@ -201,9 +201,9 @@ public class TextsService : ITextsService
             _tagsService.OrderTags(textTags)
                 .Select(t => t.ToTagDto())
                 .ToList(),
-            _usersMapper.Map(textMetadata.Author).ToDto(),
-            _usersMapper.Map(textMetadata.Translator)?.ToDto(),
-            _usersMapper.Map(textMetadata.Publisher).ToDto(),
+            _creaturesMapper.Map(textMetadata.Author).ToDto(),
+            _creaturesMapper.Map(textMetadata.Translator)?.ToDto(),
+            _creaturesMapper.Map(textMetadata.Publisher).ToDto(),
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
                 .ToList(),

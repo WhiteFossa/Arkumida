@@ -5,7 +5,7 @@ namespace webapi.Models;
 /// <summary>
 /// User (mapped from UserDbo)
 /// </summary>
-public class User
+public class Creature
 {
     /// <summary>
     /// User ID
@@ -27,7 +27,7 @@ public class User
     /// </summary>
     public string DisplayName { get; set; }
 
-    public User
+    public Creature
     (
         Guid id,
         string login,

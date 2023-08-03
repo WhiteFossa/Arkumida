@@ -77,17 +77,17 @@ public class Text
     /// <summary>
     /// Text author
     /// </summary>
-    public User Author { get; set; }
+    public Creature Author { get; set; }
 
     /// <summary>
     /// Text translator
     /// </summary>
-    public User Translator { get; set; }
+    public Creature Translator { get; set; }
 
     /// <summary>
     /// Text publisher
     /// </summary>
-    public User Publisher { get; set; }
+    public Creature Publisher { get; set; }
 
     public TextDto ToDto(ITextsService textsService)
     {

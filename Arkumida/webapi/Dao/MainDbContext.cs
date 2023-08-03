@@ -8,7 +8,7 @@ namespace webapi.Dao;
 /// <summary>
 /// Main DB context (security information live here too)
 /// </summary>
-public class MainDbContext : IdentityDbContext<UserDbo, IdentityRole<Guid>, Guid>
+public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, Guid>
 {
     /// <summary>
     /// Tags
