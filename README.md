@@ -16,7 +16,7 @@ Run container: $ docker-compose -f docker-compose-arkumida-migrator.yml up
 # WebAPI image
 
 Build image: docker build -f dockerfile-webapi -t arkumida-webapi .
-Run container: $ docker-compose up -f docker-compose-arkumida-webapi.yml -d
+Run container: $ docker-compose -f docker-compose-arkumida-webapi.yml up -d
 
 # Configure reverse proxy for API server
 Configure reverse proxy in a such way (example for Apache):
