@@ -308,7 +308,7 @@ public class TextsImporter
             // Checking do we have users and creating them if not
             
             // Publisher - always exist
-            var publisherCreature = await RegisterUserIfNotExistAsync(text.UploaderUserName);
+            var publisherCreature = await RegisterUserIfNotExistAsync(text.UploaderUserName.Trim());
             
             // Authors
             var authors = new List<CreatureDto>();
@@ -319,7 +319,7 @@ public class TextsImporter
             }
             else
             {
-                var authorsNames = text.Author.Split(',');
+                var authorsNames = text.Author.Split(',').Select(an => an.Trim()); // Trim helps to remove spaces, which can be after comma
                 foreach (var authorName in authorsNames)
                 {
                     authors.Add(await RegisterUserIfNotExistAsync(authorName));
@@ -330,7 +330,7 @@ public class TextsImporter
             var translators = new List<CreatureDto>();
             if (!string.IsNullOrWhiteSpace(text.Translator))
             {
-                var translatorsNames = text.Translator.Split(',');
+                var translatorsNames = text.Translator.Split(',').Select(tn => tn.Trim());
                 foreach (var translatorName in translatorsNames)
                 {
                     translators.Add(await RegisterUserIfNotExistAsync(translatorName));
