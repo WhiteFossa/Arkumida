@@ -81,14 +81,24 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
             .Entity<TextDbo>()
             .HasMany(text => text.Authors)
             .WithMany(creature => creature.TextsAuthor)
-            .UsingEntity(jt => jt.ToTable("TextsAuthors"));
+            .UsingEntity<Dictionary<string, object>>
+            (
+                "TextsAuthors",
+                jt => jt.HasOne<CreatureDbo>().WithMany().HasForeignKey("CreatureId"),
+                jt => jt.HasOne<TextDbo>().WithMany().HasForeignKey("TextId")
+            );
         
         // Text have many translators
         modelBuilder
             .Entity<TextDbo>()
             .HasMany(text => text.Translators)
             .WithMany(creature => creature.TextsTranslator)
-            .UsingEntity(jt => jt.ToTable("TextsTranslators"));;
+            .UsingEntity<Dictionary<string, object>>
+            (
+                "TextsTranslators",
+                jt => jt.HasOne<CreatureDbo>().WithMany().HasForeignKey("CreatureId"),
+                jt => jt.HasOne<TextDbo>().WithMany().HasForeignKey("TextId")
+            );
         
         // Text have one publisher
         modelBuilder
