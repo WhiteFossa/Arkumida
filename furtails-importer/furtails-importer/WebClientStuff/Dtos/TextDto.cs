@@ -79,14 +79,14 @@ public class TextDto
     /// <summary>
     /// Text author
     /// </summary>
-    [JsonPropertyName("author")]
-    public CreatureDto Author { get; set; }
+    [JsonPropertyName("authors")]
+    public IList<CreatureDto> Authors { get; set; }
     
     /// <summary>
     /// Text translator
     /// </summary>
-    [JsonPropertyName("translator")]
-    public CreatureDto Translator { get; set; }
+    [JsonPropertyName("translators")]
+    public IList<CreatureDto> Translators { get; set; }
     
     /// <summary>
     /// Text publisher

@@ -117,7 +117,7 @@ public class TextsDao : ITextsDao
         switch (orderMode)
         {
             case TextOrderMode.Latest:
-                orderedSource = orderedSource.OrderByDescending(t => t.CreateTime);
+                orderedSource = orderedSource.OrderByDescending(t => t.LastUpdateTime);
                 break;
             
             case TextOrderMode.Popular:

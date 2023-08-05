@@ -215,6 +215,16 @@ body {
     color: hsl(243, 48%, 9%);
 }
 
+/* Apply this to a span with, for example, comma to get a "comma, followed by space" effect */
+.spacer {
+    display: inline-block;
+}
+
+.spacer::after {
+    content: " ";
+    white-space: pre;
+}
+
 /* Menu stuff starts here */
 
 /* Central menu item */
