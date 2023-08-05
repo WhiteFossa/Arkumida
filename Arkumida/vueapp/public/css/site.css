@@ -215,6 +215,16 @@ body {
     color: hsl(243, 48%, 9%);
 }
 
+/* Apply this to a span with, for example, comma to get a "comma, followed by space" effect */
+.spacer {
+    display: inline-block;
+}
+
+.spacer::after {
+    content: " ";
+    white-space: pre;
+}
+
 /* Menu stuff starts here */
 
 /* Central menu item */
@@ -1075,6 +1085,7 @@ body {
 
     position: relative;
 
+    height: min-content;
 }
 
 /* Avatar in creature container */
@@ -1104,6 +1115,66 @@ body {
 }
 
 /* Creature info container stuff ends here */
+
+
+/* Creatures info container stuff starts here */
+
+/* Creatures info container */
+.creatures-info-container {
+    background: hsl(0, 0%, 100%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.2rem;
+
+    min-width: 17.0rem;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+
+    position: relative;
+
+    height: min-content;
+}
+
+/* Avatars in creatures container */
+.creatures-info-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Creatures links */
+.creatures-info-link {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: hsl(0, 0%, 0%);
+}
+
+/* List with creatures */
+.creatures-info-creatures-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+}
+
+/* Style for creatures role */
+.creatures-info-creatures-role {
+    font-size: 0.8rem;
+    color: hsl(0, 0%, 60%);
+    text-align: right;
+    width: 100%;
+    position: absolute;
+    top: 0.3rem;
+    right: 0.5rem;
+}
+
+/* Creatures info container stuff ends here */
 
 /* Invisible elements */
 .invisible {

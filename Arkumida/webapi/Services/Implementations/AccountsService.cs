@@ -15,20 +15,20 @@ namespace webapi.Services.Implementations;
 
 public class AccountsService : IAccountsService
 {
-    private readonly UserManager<UserDbo> _userManager;
+    private readonly UserManager<CreatureDbo> _userManager;
     private readonly IConfigurationService _configurationService;
-    private readonly IUsersMapper _usersMapper;
+    private readonly ICreaturesMapper _creaturesMapper;
 
     public AccountsService
     (
-        UserManager<UserDbo> userManager,
+        UserManager<CreatureDbo> userManager,
         IConfigurationService configurationService,
-        IUsersMapper usersMapper
+        ICreaturesMapper creaturesMapper
     )
     {
         _userManager = userManager;
         _configurationService = configurationService;
-        _usersMapper = usersMapper;
+        _creaturesMapper = creaturesMapper;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
@@ -45,7 +45,7 @@ public class AccountsService : IAccountsService
             return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.EmailIsTaken);
         }
         
-        var userDbo = new UserDbo()
+        var userDbo = new CreatureDbo()
         {  
             UserName = registrationData.Login,
             Email = registrationData.Email,
@@ -62,7 +62,7 @@ public class AccountsService : IAccountsService
             return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.WeakPassword);
         }
 
-        var userDto = _usersMapper.Map(userDbo);
+        var userDto = _creaturesMapper.Map(userDbo);
         
         return new RegistrationResultDto(userDto.Id, UserRegistrationResult.OK);
     }
@@ -124,10 +124,10 @@ public class AccountsService : IAccountsService
         return (await _userManager.FindByEmailAsync(email)) != null;
     }
 
-    public async Task<User> FindUserByLoginAsync(string login)
+    public async Task<Creature> FindUserByLoginAsync(string login)
     {
         _ = login ?? throw new ArgumentNullException(nameof(login), "Login must be specified, at least empty string.");
 
-        return _usersMapper.Map(await _userManager.FindByNameAsync(login));
+        return _creaturesMapper.Map(await _userManager.FindByNameAsync(login));
     }
 }

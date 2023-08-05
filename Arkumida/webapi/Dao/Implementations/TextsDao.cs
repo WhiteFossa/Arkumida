@@ -17,9 +17,16 @@ public class TextsDao : ITextsDao
     public async Task CreateTextAsync(TextDbo text)
     {
         _ = text ?? throw new ArgumentNullException(nameof(text), "Text must not be null.");
-
-        // Translator may be null, it's OK
-        _ = text.Author ?? throw new ArgumentNullException(nameof(text.Author), "Text author must be specified!");
+        
+        _ = text.Authors ?? throw new ArgumentNullException(nameof(text.Authors), "Text authors must be specified!");
+        if (!text.Authors.Any())
+        {
+            throw new ArgumentException("Text must have at least one author!", nameof(text.Authors));
+        }
+        
+        // Text may have no translators, in this case text.Translators will be empty (but still not null!)
+        _ = text.Translators ?? throw new ArgumentNullException(nameof(text.Translators), "Text translators must be specified");
+        
         _ = text.Publisher ?? throw new ArgumentNullException(nameof(text.Publisher), "Text publisher must be specified!");
         
         // Loading tags
@@ -31,16 +38,35 @@ public class TextsDao : ITextsDao
                 .ToList();
         }
 
-        // Loading users by their IDs
-        text.Author = _dbContext.Users.Single(u => u.Id == text.Author.Id);
-        text.Publisher = _dbContext.Users.Single(u => u.Id == text.Publisher.Id);
-        text.Translator = text.Translator == null ? null : _dbContext.Users.Single(u => u.Id == text.Translator.Id);
+        // Loading creatures by their IDs
+        text.Authors = await LoadCreaturesAsync(text.Authors.Select(ta => ta.Id).ToList());
+        text.Translators = await LoadCreaturesAsync(text.Translators.Select(tt => tt.Id).ToList());
+        text.Publisher = await LoadCreatureAsync(text.Publisher.Id);
 
         await _dbContext
             .Texts
             .AddAsync(text);
         
         await _dbContext.SaveChangesAsync();
+    }
+
+    private async Task<CreatureDbo> LoadCreatureAsync(Guid creatureId)
+    {
+        return await _dbContext
+            .Users
+            .SingleAsync(u => u.Id == creatureId);
+    }
+
+    private async Task<IList<CreatureDbo>> LoadCreaturesAsync(IReadOnlyCollection<Guid> creaturesIds)
+    {
+        var result = new List<CreatureDbo>();
+
+        foreach (var creatureId in creaturesIds)
+        {
+            result.Add(await LoadCreatureAsync(creatureId));
+        }
+
+        return result;
     }
 
     public async Task<TextFileDbo> AddFileToTextAsync(Guid textId, string name, Guid fileId)
@@ -84,14 +110,14 @@ public class TextsDao : ITextsDao
             .Texts
             .Include(t => t.Tags)
             .Include(t => t.TextFiles)
-            .Include(t => t.Author)
-            .Include(t => t.Translator)
+            .Include(t => t.Authors)
+            .Include(t => t.Translators)
             .Include(t => t.Publisher);
 
         switch (orderMode)
         {
             case TextOrderMode.Latest:
-                orderedSource = orderedSource.OrderByDescending(t => t.CreateTime);
+                orderedSource = orderedSource.OrderByDescending(t => t.LastUpdateTime);
                 break;
             
             case TextOrderMode.Popular:
@@ -114,8 +140,8 @@ public class TextsDao : ITextsDao
             .Texts
             .Include(t => t.Tags)
             .Include(t => t.TextFiles)
-            .Include(t => t.Author)
-            .Include(t => t.Translator)
+            .Include(t => t.Authors)
+            .Include(t => t.Translators)
             .Include(t => t.Publisher)
             .SingleAsync(t => t.Id == textId);
     }

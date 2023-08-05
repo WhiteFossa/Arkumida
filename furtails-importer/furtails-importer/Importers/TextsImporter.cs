@@ -307,30 +307,36 @@ public class TextsImporter
 
             // Checking do we have users and creating them if not
             
-            // Translator - may be null
-            CreatureDto translatorCreature = null;
-            if (!string.IsNullOrWhiteSpace(text.Translator))
-            {
-                translatorCreature = await RegisterUserIfNotExistAsync(text.Translator);
-            }
-            
             // Publisher - always exist
-            var publisherCreature = await RegisterUserIfNotExistAsync(text.UploaderUserName);
+            var publisherCreature = await RegisterUserIfNotExistAsync(text.UploaderUserName.Trim());
             
-            // Author - always exist - but unfortunately at least one text exist with empty string instead of author. We will use publisher in this case
-            CreatureDto authorCreature = null;
-
+            // Authors
+            var authors = new List<CreatureDto>();
             if (string.IsNullOrWhiteSpace(text.Author))
             {
-                // Use publisher
-                authorCreature = publisherCreature;
+                // Special case - no information on authors - use publisher instead
+                authors.Add(publisherCreature);
             }
             else
             {
-                // Us author
-                authorCreature = await RegisterUserIfNotExistAsync(text.Author);
+                var authorsNames = text.Author.Split(',').Select(an => an.Trim()); // Trim helps to remove spaces, which can be after comma
+                foreach (var authorName in authorsNames)
+                {
+                    authors.Add(await RegisterUserIfNotExistAsync(authorName));
+                }
             }
             
+            // Translators
+            var translators = new List<CreatureDto>();
+            if (!string.IsNullOrWhiteSpace(text.Translator))
+            {
+                var translatorsNames = text.Translator.Split(',').Select(tn => tn.Trim());
+                foreach (var translatorName in translatorsNames)
+                {
+                    translators.Add(await RegisterUserIfNotExistAsync(translatorName));
+                }
+            }
+
             // Now we have text model ready
             var textToCreate = new TextDto()
             {
@@ -358,8 +364,8 @@ public class TextsImporter
                 
                 IsIncomplete = text.IsNotFinished,
                 
-                Author = authorCreature,
-                Translator = translatorCreature,
+                Authors = authors,
+                Translators = translators,
                 Publisher = publisherCreature
             };
 

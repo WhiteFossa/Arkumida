@@ -17,6 +17,8 @@ export class Messages
     static Species = "Виды"
     static Setting = "Сеттинг"
     static Actions = "Действия"
+
+    static CreatureUser = "Пользователь "
 }
 
 // Category tag types

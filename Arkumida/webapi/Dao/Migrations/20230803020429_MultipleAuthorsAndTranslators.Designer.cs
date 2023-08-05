@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using webapi.Dao;
 
 #nullable disable
 
-namespace webapi.Dao.Migrations
+namespace webapi.Migrations.SecurityDb
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230803020429_MultipleAuthorsAndTranslators")]
+    partial class MultipleAuthorsAndTranslators
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,36 @@ namespace webapi.Dao.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("CreatureDboTextDbo", b =>
+                {
+                    b.Property<Guid>("AuthorsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TextsAuthorId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("AuthorsId", "TextsAuthorId");
+
+                    b.HasIndex("TextsAuthorId");
+
+                    b.ToTable("TextsAuthors", (string)null);
+                });
+
+            modelBuilder.Entity("CreatureDboTextDbo1", b =>
+                {
+                    b.Property<Guid>("TextsTranslatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TranslatorsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("TextsTranslatorId", "TranslatorsId");
+
+                    b.HasIndex("TranslatorsId");
+
+                    b.ToTable("TextsTranslators", (string)null);
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
@@ -165,36 +198,6 @@ namespace webapi.Dao.Migrations
                     b.HasIndex("TextsId");
 
                     b.ToTable("TagDboTextDbo");
-                });
-
-            modelBuilder.Entity("TextsAuthors", b =>
-                {
-                    b.Property<Guid>("CreatureId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TextId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("CreatureId", "TextId");
-
-                    b.HasIndex("TextId");
-
-                    b.ToTable("TextsAuthors");
-                });
-
-            modelBuilder.Entity("TextsTranslators", b =>
-                {
-                    b.Property<Guid>("CreatureId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TextId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("CreatureId", "TextId");
-
-                    b.HasIndex("TextId");
-
-                    b.ToTable("TextsTranslators");
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.CreatureDbo", b =>
@@ -456,6 +459,36 @@ namespace webapi.Dao.Migrations
                     b.ToTable("TextsSectionsVariants");
                 });
 
+            modelBuilder.Entity("CreatureDboTextDbo", b =>
+                {
+                    b.HasOne("webapi.Dao.Models.CreatureDbo", null)
+                        .WithMany()
+                        .HasForeignKey("AuthorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Dao.Models.TextDbo", null)
+                        .WithMany()
+                        .HasForeignKey("TextsAuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CreatureDboTextDbo1", b =>
+                {
+                    b.HasOne("webapi.Dao.Models.TextDbo", null)
+                        .WithMany()
+                        .HasForeignKey("TextsTranslatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Dao.Models.CreatureDbo", null)
+                        .WithMany()
+                        .HasForeignKey("TranslatorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
@@ -518,36 +551,6 @@ namespace webapi.Dao.Migrations
                     b.HasOne("webapi.Dao.Models.TextDbo", null)
                         .WithMany()
                         .HasForeignKey("TextsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TextsAuthors", b =>
-                {
-                    b.HasOne("webapi.Dao.Models.CreatureDbo", null)
-                        .WithMany()
-                        .HasForeignKey("CreatureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("webapi.Dao.Models.TextDbo", null)
-                        .WithMany()
-                        .HasForeignKey("TextId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TextsTranslators", b =>
-                {
-                    b.HasOne("webapi.Dao.Models.CreatureDbo", null)
-                        .WithMany()
-                        .HasForeignKey("CreatureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("webapi.Dao.Models.TextDbo", null)
-                        .WithMany()
-                        .HasForeignKey("TextId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

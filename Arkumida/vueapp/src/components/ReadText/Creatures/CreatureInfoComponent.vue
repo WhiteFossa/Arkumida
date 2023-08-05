@@ -2,6 +2,7 @@
 
 import {defineProps, onMounted, ref} from "vue";
     import {Guid} from "guid-typescript";
+import {Messages} from "@/js/constants";
 
     const props = defineProps({
         id: Guid,
@@ -21,7 +22,7 @@ import {defineProps, onMounted, ref} from "vue";
     async function OnLoad()
     {
         creatureLinkHref.value = "/users/" + props.id
-        creatureLinkTitle.value = "Пользователь " + props.name
+        creatureLinkTitle.value = Messages.CreatureUser + props.name
     }
 
 </script>

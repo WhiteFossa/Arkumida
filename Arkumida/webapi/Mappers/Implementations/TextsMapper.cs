@@ -9,20 +9,20 @@ public class TextsMapper : ITextsMapper
     private readonly ITextsPagesMapper _pagesMapper;
     private readonly ITagsMapper _tagsMapper;
     private readonly ITextFilesMapper _textFilesMapper;
-    private readonly IUsersMapper _usersMapper;
+    private readonly ICreaturesMapper _creaturesMapper;
 
     public TextsMapper
     (
         ITextsPagesMapper pagesMapper,
         ITagsMapper tagsMapper,
         ITextFilesMapper textFilesMapper,
-        IUsersMapper usersMapper
+        ICreaturesMapper creaturesMapper
     )
     {
         _pagesMapper = pagesMapper;
         _tagsMapper = tagsMapper;
         _textFilesMapper = textFilesMapper;
-        _usersMapper = usersMapper;
+        _creaturesMapper = creaturesMapper;
     }
     
     public IReadOnlyCollection<Text> Map(IEnumerable<TextDbo> texts)
@@ -57,9 +57,9 @@ public class TextsMapper : ITextsMapper
             Tags = _tagsMapper.Map(text.Tags).ToList(),
             IsIncomplete = text.IsIncomplete,
             TextFiles = _textFilesMapper.Map(text.TextFiles).ToList(),
-            Author = _usersMapper.Map(text.Author),
-            Publisher = _usersMapper.Map(text.Publisher),
-            Translator = _usersMapper.Map(text.Translator)
+            Authors = _creaturesMapper.Map(text.Authors).ToList(),
+            Publisher = _creaturesMapper.Map(text.Publisher),
+            Translators = _creaturesMapper.Map(text.Translators).ToList()
         };
     }
 
@@ -85,9 +85,9 @@ public class TextsMapper : ITextsMapper
             Tags = _tagsMapper.Map(text.Tags).ToList(),
             IsIncomplete = text.IsIncomplete,
             TextFiles = _textFilesMapper.Map(text.TextFiles).ToList(),
-            Author = _usersMapper.Map(text.Author),
-            Publisher = _usersMapper.Map(text.Publisher),
-            Translator = _usersMapper.Map(text.Translator)
+            Authors = _creaturesMapper.Map(text.Authors).ToList(),
+            Publisher = _creaturesMapper.Map(text.Publisher),
+            Translators = _creaturesMapper.Map(text.Translators).ToList()
         };
     }
 

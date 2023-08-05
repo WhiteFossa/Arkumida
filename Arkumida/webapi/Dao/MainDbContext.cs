@@ -2,13 +2,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Models;
+using webapi.Models;
 
 namespace webapi.Dao;
 
 /// <summary>
 /// Main DB context (security information live here too)
 /// </summary>
-public class MainDbContext : IdentityDbContext<UserDbo, IdentityRole<Guid>, Guid>
+public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, Guid>
 {
     /// <summary>
     /// Tags
@@ -74,5 +75,34 @@ public class MainDbContext : IdentityDbContext<UserDbo, IdentityRole<Guid>, Guid
         modelBuilder
             .Entity<TextDbo>()
             .HasMany(t => t.TextFiles);
+        
+        // Text have many authors
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasMany(text => text.Authors)
+            .WithMany(creature => creature.TextsAuthor)
+            .UsingEntity<Dictionary<string, object>>
+            (
+                "TextsAuthors",
+                jt => jt.HasOne<CreatureDbo>().WithMany().HasForeignKey("CreatureId"),
+                jt => jt.HasOne<TextDbo>().WithMany().HasForeignKey("TextId")
+            );
+        
+        // Text have many translators
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasMany(text => text.Translators)
+            .WithMany(creature => creature.TextsTranslator)
+            .UsingEntity<Dictionary<string, object>>
+            (
+                "TextsTranslators",
+                jt => jt.HasOne<CreatureDbo>().WithMany().HasForeignKey("CreatureId"),
+                jt => jt.HasOne<TextDbo>().WithMany().HasForeignKey("TextId")
+            );
+        
+        // Text have one publisher
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasOne(text => text.Publisher);
     }
 }

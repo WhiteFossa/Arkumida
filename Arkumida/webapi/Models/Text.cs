@@ -75,19 +75,19 @@ public class Text
     public IList<TextFile> TextFiles { get; set; }
     
     /// <summary>
-    /// Text author
+    /// Text authors
     /// </summary>
-    public User Author { get; set; }
+    public IList<Creature> Authors { get; set; }
 
     /// <summary>
-    /// Text translator
+    /// Text translators
     /// </summary>
-    public User Translator { get; set; }
+    public IList<Creature> Translators { get; set; }
 
     /// <summary>
     /// Text publisher
     /// </summary>
-    public User Publisher { get; set; }
+    public Creature Publisher { get; set; }
 
     public TextDto ToDto(ITextsService textsService)
     {
@@ -105,8 +105,8 @@ public class Text
             VotesMinus,
             Tags.Select(t => t.ToTagDto()).ToList(),
             IsIncomplete,
-            Author.ToDto(),
-            Translator?.ToDto(),
+            Authors.Select(a => a.ToDto()).ToList(),
+            Translators.Select(t => t.ToDto()).ToList(),
             Publisher.ToDto()
         );
     }

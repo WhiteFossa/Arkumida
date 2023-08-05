@@ -32,5 +32,5 @@ public interface IAccountsService
     /// <summary>
     /// Find user by login. Returns null if user is not found
     /// </summary>
-    Task<User> FindUserByLoginAsync(string login);
+    Task<Creature> FindUserByLoginAsync(string login);
 }

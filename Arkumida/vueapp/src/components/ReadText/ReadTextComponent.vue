@@ -10,8 +10,7 @@
 
     import {defineProps, onMounted, ref} from "vue";
     import {Guid} from "guid-typescript";
-    import CreatureInfoComponent from "@/components/CreatureInfoComponent.vue";
-    import NonexistentCreatureComponent from "@/components/NonexistentCreatureComponent.vue";
+    import CreatureInfoComponent from "@/components/ReadText/Creatures/CreatureInfoComponent.vue";
     import {DetectTextType, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
     import CategoryTag from "@/components/CategoryTag.vue";
     import TagHashed from "@/components/TagHashed.vue";
@@ -20,6 +19,8 @@
     import {TextType} from "@/js/constants";
     import ReadTextPagination from "@/components/ReadText/Pagination/ReadTextPagination.vue";
     import router from "@/router";
+    import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
+    import NonexistentCreatureComponent from "@/components/NonexistentCreatureComponent.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -102,21 +103,16 @@
                 creatureRole="Загрузил"
             />
 
-            <!-- Author -->
-            <CreatureInfoComponent
-                :id="textData.textData.author.entityId"
-                :furryReadableId="textData.textData.author.furryReadableId"
-                :name="textData.textData.author.name"
-                creatureRole="Автор"
-            />
+            <!-- Authors -->
+            <CreaturesInfoComponent
+                :creatures="textData.textData.authors"
+                creaturesRole="Автор(ы)"/>
 
-            <!-- Translator -->
-            <CreatureInfoComponent v-if="textData.textData.translator !== null"
-                :id="textData.textData.translator.entityId"
-                :furryReadableId="textData.textData.translator.furryReadableId"
-                :name="textData.textData.translator.name"
-                creatureRole="Переводчик"
-            />
+            <!-- Translators -->
+            <CreaturesInfoComponent
+                v-if="textData.textData.translators.length > 0"
+                :creatures="textData.textData.translators"
+                creaturesRole="Переводчик(и)"/>
             <NonexistentCreatureComponent v-else creatureRole="Переводчик" />
 
         </div>

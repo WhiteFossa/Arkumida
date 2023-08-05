@@ -56,8 +56,8 @@ public class CreatureDto : IdedEntityDto
     /// <summary>
     /// Build an user based on creature DTO. Please note that not all fields can be filled
     /// </summary>
-    public User ToUser()
+    public Creature ToUser()
     {
-        return new User(Id, Login, Email, Name);
+        return new Creature(Id, Login, Email, Name);
     }
 }

@@ -34,8 +34,7 @@
     const leftIcons = ref([])
     const rightIcons = ref([])
 
-    const authorLinkHref = ref(null)
-    const authorLinkTitle = ref(null)
+    const authorsLinks = ref([])
 
     const textLinkHref = ref(null)
 
@@ -46,8 +45,7 @@
     const publisherLinkHref = ref(null)
     const publisherLinkTitle = ref(null)
 
-    const translatorLinkHref = ref(null)
-    const translatorLinkTitle = ref(null)
+    const translatorsLinks = ref([])
 
     const categoryTags = ref([])
     const ordinaryTags = ref([])
@@ -62,8 +60,18 @@
     async function OnLoad() {
         textInfo.value = await (await fetch(apiBaseUrl + `/api/Texts/GetInfo/` + props.id)).json()
 
-        authorLinkHref.value = "/texts/byAuthor/" + textInfo.value.textInfo.author.entityId
-        authorLinkTitle.value = Messages.AllTextsByAuthor + textInfo.value.textInfo.author.name
+        textInfo.value.textInfo.authors.forEach((author) =>
+        {
+            let authorLink =
+                {
+                    id: author.entityId,
+                    name: author.name,
+                    href: "/texts/byAuthor/" + author.entityId,
+                    title: Messages.AllTextsByAuthor + author.name
+                }
+
+            authorsLinks.value.push(authorLink)
+        });
 
         textLinkHref.value = GenerateLinkToText(textInfo.value.textInfo.entityId, 1)
 
@@ -74,11 +82,20 @@
         publisherLinkHref.value = "/texts/byPublisher/" + textInfo.value.textInfo.publisher.entityId
         publisherLinkTitle.value = Messages.AllTextsByPublisher + textInfo.value.textInfo.publisher.name
 
-        if (textInfo.value.textInfo.translator !== null)
+        textInfo.value.textInfo.translators.forEach((translator) =>
         {
-            translatorLinkHref.value = "/texts/byTranslator/" + textInfo.value.textInfo.translator.entityId
-            translatorLinkTitle.value = Messages.AllTextsByTranslator + textInfo.value.textInfo.translator.name
-        }
+            let translatorLink =
+                {
+                    id: translator.entityId,
+                    name: translator.name,
+                    href: "/texts/byTranslator/" + translator.entityId,
+                    title: Messages.AllTextsByTranslator + translator.name
+                }
+
+            translatorsLinks.value.push(translatorLink)
+        })
+
+        console.log(translatorsLinks)
 
         categoryTags.value = FilterCategoryTags(textInfo.value.textInfo.tags)
         if (categoryTags.value.length === 0)
@@ -172,7 +189,10 @@
                     <!-- Left icons -->
                     <SmallTextIcon v-for="leftIcon in leftIcons" :key="leftIcon.type" :type="leftIcon.type" :url="leftIcon.url" />
 
-                    <a class="text-long-info-author-link" :href="authorLinkHref" :title="authorLinkTitle"><strong>{{ textInfo.textInfo.author.name }}</strong></a>&nbsp;<a class="text-long-info-text-link" :href="textLinkHref"><strong>«{{ textInfo.textInfo.title }}»</strong></a>
+                    <span v-for="authorLink in authorsLinks" :key="authorLink.id">
+                        <a class="text-short-info-author-link" :href="authorLink.href" :title="authorLink.title">{{ authorLink.name }}</a>
+                        <span v-if="authorLink.id !== authorsLinks[authorsLinks.length - 1].id" class="spacer">,</span>
+                    </span>&nbsp;<a class="text-long-info-text-link" :href="textLinkHref"><strong>«{{ textInfo.textInfo.title }}»</strong></a>
 
                     <!-- Right icons -->
                     <SmallTextIcon v-for="rightIcon in rightIcons" :key="rightIcon.type" :type="rightIcon.type" :url="rightIcon.url" />
@@ -198,11 +218,18 @@
                 <!-- Publisher, translator and size -->
                 <div class="text-long-info-block-publisher-line">
                     Разместил: <a class="text-long-info-publisher-link" :href="publisherLinkHref" :title="publisherLinkTitle"><strong>{{ textInfo.textInfo.publisher.name }}</strong></a>
-                    <span v-if="textInfo.textInfo.translator !== null">
-                        Переводчик: <a class="text-long-info-translator-link" :href="translatorLinkHref" :title="translatorLinkTitle"><strong>{{ textInfo.textInfo.translator.name }}</strong></a>
+
+                    <span v-if="translatorsLinks.length > 0">
+                        Переводчик(и):
+
+                        <span v-for="translatorLink in translatorsLinks" :key="translatorLink.id">
+                            <a class="text-long-info-translator-link" :href="translatorLink.href" :title="translatorLink.title"><strong>{{ translatorLink.name }}</strong></a>
+                            <span v-if="translatorLink.id !== translatorsLinks[translatorsLinks.length - 1].id" class="spacer">,</span>
+                        </span>
                     </span>
+
                     Размер:
-                    <span v-if="textType.value === TextType.Comics">
+                    <span v-if="textType === TextType.Comics">
                         <strong>{{ textInfo.textInfo.sizeInPages }} стр.</strong>
                     </span>
                     <span v-else>
@@ -221,7 +248,8 @@
 
                     <!-- Categories -->
                     <span v-for="tag in categoryTags" :key="tag.entityId">
-                        <CategoryTag :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== categoryTags[categoryTags.length - 1].entityId">, </span>
+                        <CategoryTag :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" />
+                        <span v-if="tag.entityId !== categoryTags[categoryTags.length - 1].entityId" class="spacer">,</span>
                     </span>
 
                     <!-- Tags -->
@@ -229,7 +257,8 @@
                         #:
 
                         <span v-for="tag in ordinaryTags" :key="tag.entityId">
-                            <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" /><span v-if="tag.entityId !== ordinaryTags[ordinaryTags.length - 1].entityId">, </span>
+                            <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" />
+                            <span v-if="tag.entityId !== ordinaryTags[ordinaryTags.length - 1].entityId" class="spacer">,</span>
                         </span>
                     </span>
                 </div>

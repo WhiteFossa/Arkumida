@@ -47,7 +47,7 @@ builder.Services.AddSingleton<IFilesMapper, FilesMapper>();
 builder.Services.AddSingleton<ITextFilesMapper, TextFilesMapper>();
 builder.Services.AddSingleton<ITextsPagesMapper, TextsPagesMapper>();
 builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
-builder.Services.AddSingleton<IUsersMapper, UsersMapper>();
+builder.Services.AddSingleton<ICreaturesMapper, CreaturesMapper>();
 
 #endregion
 
@@ -114,7 +114,7 @@ builder.Services.AddControllers();
 #region Identity framework
 
     // Identity
-    builder.Services.AddIdentity<UserDbo, IdentityRole<Guid>>()  
+    builder.Services.AddIdentity<CreatureDbo, IdentityRole<Guid>>()  
         .AddEntityFrameworkStores<MainDbContext>()  
         .AddDefaultTokenProviders();
 
