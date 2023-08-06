@@ -1,7 +1,7 @@
 <!-- Root component for reading texts -->
 
 <script setup>
-    import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const props = defineProps({
         id: Guid,
@@ -12,15 +12,15 @@
     import {Guid} from "guid-typescript";
     import CreatureInfoComponent from "@/components/ReadText/Creatures/CreatureInfoComponent.vue";
     import {DetectTextType, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
-    import CategoryTag from "@/components/CategoryTag.vue";
-    import TagHashed from "@/components/TagHashed.vue";
-    import SectionComponent from "@/components/SectionComponent.vue";
-    import TextIllustrationsContainer from "@/components/TextIllustrationsContainer.vue";
+    import CategoryTag from "@/components/Shared/CategoryTag.vue";
+    import TagHashed from "@/components/ReadText/Tags/TagHashed.vue";
+    import SectionComponent from "@/components/ReadText/SectionComponent.vue";
+    import TextIllustrationsContainer from "@/components/ReadText/Illustrations/TextIllustrationsContainer.vue";
     import {TextType} from "@/js/constants";
     import ReadTextPagination from "@/components/ReadText/Pagination/ReadTextPagination.vue";
     import router from "@/router";
     import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
-    import NonexistentCreatureComponent from "@/components/NonexistentCreatureComponent.vue";
+    import NonexistentCreatureComponent from "@/components/ReadText/Creatures/NonexistentCreatureComponent.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 

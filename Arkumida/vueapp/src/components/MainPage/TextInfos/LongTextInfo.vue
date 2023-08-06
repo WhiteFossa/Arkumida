@@ -2,10 +2,10 @@
 
     import {defineEmits, defineProps, onMounted, ref} from 'vue'
     import {Guid} from "guid-typescript";
-    import LoadingSymbol from "@/components/LoadingSymbol.vue";
-    import SmallTextIcon from "@/components/SmallTextIcon.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+    import SmallTextIcon from "@/components/MainPage/TextInfos/SmallTextIcon.vue";
     import moment from "moment/moment";
-    import TagSmall from "@/components/TagSmall.vue";
+    import TagSmall from "@/components/MainPage/TextInfos/TagSmall.vue";
     import {
         AddIconToList,
         BytesToKilobytesFormatted, DetectSpecialTextType,
@@ -14,7 +14,7 @@
         FilterOrdinaryTags, GenerateLinkToText, InjectInclompleteIcon, InjectMlpIcon, IsMlpText
     } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
-    import CategoryTag from "@/components/CategoryTag.vue";
+    import CategoryTag from "@/components/Shared/CategoryTag.vue";
 
     const emit = defineEmits(['closePopup'])
 

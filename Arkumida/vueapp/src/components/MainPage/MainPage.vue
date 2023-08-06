@@ -1,13 +1,13 @@
 <script setup>
-    import TopButton from "@/components/TopButton.vue";
-    import SearchComponent from "@/components/SearchComponent.vue";
-    import TextsStatisticsComponent from "@/components/TextsStatisticsComponent.vue";
-    import MainLogo from "@/components/MainLogo.vue";
-    import ShortTextInfosContainer from "@/components/ShortTextInfosContainer.vue";
+    import TopButton from "@/components/MainPage/TopButton.vue";
+    import SearchComponent from "@/components/MainPage/SearchComponent.vue";
+    import TextsStatisticsComponent from "@/components/MainPage/TextsStatisticsComponent.vue";
+    import MainLogo from "@/components/MainPage/MainLogo.vue";
+    import ShortTextInfosContainer from "@/components/MainPage/TextInfos/ShortTextInfosContainer.vue";
     import {ref} from "vue";
-    import DonateToRedgerra from "@/components/DonateToRedgerra.vue";
-    import CategoriesContainer from "@/components/CategoriesContainer.vue";
-    import TagsContainer from "@/components/TagsContainer.vue";
+    import DonateToRedgerra from "@/components/MainPage/DonateToRedgerra.vue";
+    import CategoriesContainer from "@/components/MainPage/Categories/CategoriesContainer.vue";
+    import TagsContainer from "@/components/MainPage/Tags/TagsContainer.vue";
     import {TagSubtype} from "@/js/constants";
 
     const shortTextsInfosDisplayMode = ref("")

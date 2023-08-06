@@ -1,6 +1,6 @@
 <script setup>
     import {defineProps} from "vue";
-    import TextIllustration from "@/components/TextIllustration.vue";
+    import TextIllustration from "@/components/ReadText/Illustrations/TextIllustration.vue";
 
     const props = defineProps({
         illustrations: Object

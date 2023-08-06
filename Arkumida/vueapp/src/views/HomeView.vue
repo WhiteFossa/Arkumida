@@ -9,9 +9,9 @@
 
 <script>
 
-import HeaderComponent from "@/components/HeaderComponent.vue";
-import FooterComponent from "@/components/FooterComponent.vue";
-import MainPage from "@/components/MainPage.vue";
+import HeaderComponent from "@/components/Header/HeaderComponent.vue";
+import FooterComponent from "@/components/Footer/FooterComponent.vue";
+import MainPage from "@/components/MainPage/MainPage.vue";
 
 export default {
   name: 'HomeView',

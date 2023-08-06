@@ -2,7 +2,7 @@
 
     import {defineProps, onMounted, ref} from "vue";
     import {Guid} from "guid-typescript";
-    import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {CategoryTagType} from "@/js/constants";
 
     const props = defineProps({
