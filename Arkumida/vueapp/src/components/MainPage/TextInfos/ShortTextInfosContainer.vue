@@ -1,8 +1,8 @@
 <!-- Text short info -->
 <script setup>
     import {ref, onMounted, watch, defineProps} from 'vue'
-    import LoadingSymbol from "@/components/LoadingSymbol.vue";
-    import ShortTextInfo from "@/components/ShortTextInfo.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+    import ShortTextInfo from "@/components/MainPage/TextInfos/ShortTextInfo.vue";
 
     const props = defineProps({
         dataSource: String // Data source for component, like "/api/Texts/Latest"

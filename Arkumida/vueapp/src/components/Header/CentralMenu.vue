@@ -1,11 +1,11 @@
 <!-- Shows central menu -->
 <script setup>
 
-    import AtomLink from "@/components/AtomLink.vue";
-    import TelegramGroup from "@/components/TelegramGroup.vue";
+    import AtomLink from "@/components/Shared/AtomLink.vue";
+    import TelegramGroup from "@/components/Shared/TelegramGroup.vue";
     
     import { ref, onMounted } from 'vue'
-    import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     // API base URL
     const apiBaseUrl = process.env.VUE_APP_API_URL

@@ -1,12 +1,12 @@
 <!-- Shows site info for footer -->
 <script setup>
-import LoadingSymbol from './LoadingSymbol.vue'
+import LoadingSymbol from '../Shared/LoadingSymbol.vue'
 
 import { ref, onMounted } from 'vue'
 
-import TelegramGroup from "@/components/TelegramGroup.vue";
-import OpdsLink from "@/components/OpdsLink.vue";
-import AtomLink from "@/components/AtomLink.vue";
+import TelegramGroup from "@/components/Shared/TelegramGroup.vue";
+import OpdsLink from "@/components/Footer/OpdsLink.vue";
+import AtomLink from "@/components/Shared/AtomLink.vue";
 
 // API base URL
 const apiBaseUrl = process.env.VUE_APP_API_URL

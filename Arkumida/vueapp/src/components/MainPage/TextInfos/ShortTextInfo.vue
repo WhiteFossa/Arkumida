@@ -5,10 +5,10 @@
     import { Guid } from 'guid-typescript'
     import { ref, onMounted } from 'vue'
     import moment from 'moment'
-    import LoadingSymbol from './LoadingSymbol.vue'
-    import TagSmall from "@/components/TagSmall.vue";
-    import SmallTextIcon from "@/components/SmallTextIcon.vue";
-    import LongTextInfo from "@/components/LongTextInfo.vue";
+    import LoadingSymbol from '../../Shared/LoadingSymbol.vue'
+    import TagSmall from "@/components/MainPage/TextInfos/TagSmall.vue";
+    import SmallTextIcon from "@/components/MainPage/TextInfos/SmallTextIcon.vue";
+    import LongTextInfo from "@/components/MainPage/TextInfos/LongTextInfo.vue";
     import {
         AddIconToList,
         DetectSpecialTextType,
@@ -17,7 +17,7 @@
         IsMlpText
     } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType} from "@/js/constants";
-    import CategoryTag from "@/components/CategoryTag.vue";
+    import CategoryTag from "@/components/Shared/CategoryTag.vue";
     
     const props = defineProps({
         id: Guid

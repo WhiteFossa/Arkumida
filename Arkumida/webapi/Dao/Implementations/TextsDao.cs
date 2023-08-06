@@ -188,13 +188,14 @@ public class TextsDao : ITextsDao
             .Single(p => p.Number == pageNumber);
     }
 
-    public async Task<int> GetPagesCountByTextId(Guid textId)
+    public async Task<Dictionary<Guid, int>> GetPagesCountByTexts(IReadOnlyCollection<Guid> textsIds)
     {
-        return (await _dbContext
+        _ = textsIds ?? throw new ArgumentNullException(nameof(textsIds), "Texts IDs must not be null!");
+
+        return await _dbContext
             .Texts
             .Include(t => t.Pages)
-            .SingleAsync(t => t.Id == textId))
-            .Pages
-            .Count;
+            .Where(t => textsIds.Contains(t.Id))
+            .ToDictionaryAsync(t => t.Id, t => t.Pages.Count);
     }
 }

@@ -2,8 +2,8 @@
 
     // API base URL
     import {onMounted, ref} from "vue";
-    import CategoryComponent from "@/components/CategoryComponent.vue";
-    import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    import CategoryComponent from "@/components/MainPage/Categories/CategoryComponent.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 

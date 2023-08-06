@@ -1,6 +1,6 @@
-<!-- Shows site info for header -->
+<!-- Shows site partners list -->
 <script setup>
-import LoadingSymbol from './LoadingSymbol.vue'
+import LoadingSymbol from '../Shared/LoadingSymbol.vue'
 
 import { ref, onMounted } from 'vue'
 
@@ -10,11 +10,8 @@ const apiBaseUrl = process.env.VUE_APP_API_URL
 // True if loading under way
 const isLoading = ref(true)
 
-// Site base URL
-const siteUrl = ref(null)
-
-// Site title
-const siteTitle = ref(null)
+// Site partners
+const partners = ref([])
 
 // OnMounted hook
 onMounted(async () =>
@@ -25,9 +22,7 @@ onMounted(async () =>
 // Called when page is loaded
 async function OnLoad()
 {
-    const siteInfo = await (await fetch(apiBaseUrl + `/api/SiteInfo/Url`)).json()
-    siteUrl.value = siteInfo.siteUrl
-    siteTitle.value = siteInfo.siteTitle
+    partners.value = (await (await fetch(apiBaseUrl + `/api/SitePartners/Get`)).json()).partners
     isLoading.value = false
 }
 
@@ -39,8 +34,8 @@ async function OnLoad()
     </div>
     <div v-else>
         <!-- Shown after load -->
-        <div>
-            <a class="vertical-align-center" :href="siteUrl" :title="siteTitle"><img src="/images/logo.png" :alt="siteTitle" /></a>
+        <div class="footer-block" v-for="partner in partners" :key="partner.id">
+            <a :href="partner.url" :title="partner.title"><img :src="partner.bannerUrl" :alt="partner.bannerAlt" /></a>
         </div>
     </div>
 </template>

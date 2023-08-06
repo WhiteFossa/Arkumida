@@ -1,6 +1,6 @@
 <script setup>
     import {defineProps, onMounted, ref} from "vue";
-    import FullsizeImagePopup from "@/components/FullsizeImagePopup.vue";
+    import FullsizeImagePopup from "@/components/ReadText/Illustrations/FullsizeImagePopup.vue";
 
     const props = defineProps({
         illustration: Object

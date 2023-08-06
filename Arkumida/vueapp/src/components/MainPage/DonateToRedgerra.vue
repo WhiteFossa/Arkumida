@@ -1,7 +1,7 @@
 <script setup>
 
     import {ref} from "vue";
-    import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 

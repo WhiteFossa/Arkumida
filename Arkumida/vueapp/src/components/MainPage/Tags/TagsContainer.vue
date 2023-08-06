@@ -1,7 +1,7 @@
 <script setup>
-    import TagComponent from "@/components/TagComponent.vue";
+    import TagComponent from "@/components/MainPage/Tags/TagComponent.vue";
     import {defineProps, onMounted, ref} from "vue";
-    import LoadingSymbol from "@/components/LoadingSymbol.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {Messages, TagSubtype} from "@/js/constants";
 
     const props = defineProps({

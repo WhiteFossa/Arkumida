@@ -1,6 +1,6 @@
 <!-- Shows site friends list -->
 <script setup>
-    import LoadingSymbol from './LoadingSymbol.vue'
+    import LoadingSymbol from '../Shared/LoadingSymbol.vue'
     
     import { ref, onMounted } from 'vue'
 

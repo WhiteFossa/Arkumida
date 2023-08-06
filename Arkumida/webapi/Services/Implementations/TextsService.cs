@@ -106,6 +106,12 @@ public class TextsService : ITextsService
 
         var textsMetadata = await _textsDao.GetTextsMetadataAsync(orderMode, skip, take);
 
+        var textsIds = textsMetadata
+            .Select(tm => tm.Id)
+            .ToList();
+        
+        var sizesInPages = await _textsDao.GetPagesCountByTexts(textsIds);
+
         return textsMetadata
             .Select(tm =>
             {
@@ -131,7 +137,7 @@ public class TextsService : ITextsService
                     AddIllustrationsIconToRightIcons(new List<TextIconDto>(), tm),
                     tm.Description,
                     10000,
-                    3,
+                    sizesInPages[tm.Id],
                     tm.IsIncomplete
                 );
             })
@@ -143,6 +149,10 @@ public class TextsService : ITextsService
         var textMetadata = await _textsDao.GetTextMetadataByIdAsync(textId);
 
         var textTags = _tagsMapper.Map(textMetadata.Tags);
+
+        var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
+            .Single()
+            .Value;
 
         return new TextInfoDto
         (
@@ -165,7 +175,7 @@ public class TextsService : ITextsService
             AddIllustrationsIconToRightIcons(new List<TextIconDto>(), textMetadata),
             textMetadata.Description,
             10000,
-            3,
+            sizeInPages,
             textMetadata.IsIncomplete
         );
     }
@@ -187,8 +197,10 @@ public class TextsService : ITextsService
         var textTags = _tagsMapper.Map(textMetadata.Tags);
         
         var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
-
-        var pagesCount = await _textsDao.GetPagesCountByTextId(textId);
+        
+        var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
+            .Single()
+            .Value;
 
         return new TextReadDto
         (
@@ -207,7 +219,7 @@ public class TextsService : ITextsService
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
                 .ToList(),
-            pagesCount
+            sizeInPages
         );
     }
 

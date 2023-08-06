@@ -1,7 +1,7 @@
 <!-- Shows texts statistics -->
 <script setup>
     import moment from 'moment'
-    import LoadingSymbol from './LoadingSymbol.vue'
+    import LoadingSymbol from '../Shared/LoadingSymbol.vue'
 
     import { ref, onMounted } from 'vue'
 

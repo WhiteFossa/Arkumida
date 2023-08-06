@@ -1,8 +1,8 @@
 <!-- Site header -->
 <script setup>
     import HeaderSiteInfo from './HeaderSiteInfo.vue'
-    import CentralMenu from "@/components/CentralMenu.vue";
-    import RightMenu from "@/components/RightMenu.vue";
+    import CentralMenu from "@/components/Header/CentralMenu.vue";
+    import RightMenu from "@/components/Header/RightMenu.vue";
 </script>
 
 <template>

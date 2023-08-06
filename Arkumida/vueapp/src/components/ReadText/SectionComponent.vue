@@ -3,7 +3,7 @@
 import {defineEmits, defineProps, ref} from "vue";
 import {RenderTextElement} from "@/js/libArkumida";
 import {ComicsImageIdPrefix, FullsizeImageIdPrefix} from "@/js/constants";
-import FullsizeImagePopup from "@/components/FullsizeImagePopup.vue";
+import FullsizeImagePopup from "@/components/ReadText/Illustrations/FullsizeImagePopup.vue";
 
     const props = defineProps({
         originalText: String, // Original text, it is used when section contains bilingual text
