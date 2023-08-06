@@ -1305,6 +1305,11 @@ body {
     vertical-align: middle;
 }
 
+/* Validation error */
+.read-text-pagination-go-to-page-input.read-text-pagination-go-to-page-input-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
 /* Pagination go to page button */
 .read-text-pagination-go-to-page-button {
     text-align: center;

@@ -60,11 +60,6 @@ public interface ITextsDao
     Task<TextPageDbo> GetPageAsync(Guid textId, int pageNumber);
 
     /// <summary>
-    /// Counts pages of given text. Please note that first page have index of 1, not of 0
-    /// </summary>
-    Task<int> GetPagesCountByTextId(Guid textId);
-
-    /// <summary>
     /// Get pages count for each of given texts
     /// </summary>
     Task<Dictionary<Guid, int>> GetPagesCountByTexts(IReadOnlyCollection<Guid> textsIds);

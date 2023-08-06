@@ -150,8 +150,10 @@ public class TextsService : ITextsService
 
         var textTags = _tagsMapper.Map(textMetadata.Tags);
 
-        var sizeInPages = await _textsDao.GetPagesCountByTextId(textId);
-        
+        var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
+            .Single()
+            .Value;
+
         return new TextInfoDto
         (
             textMetadata.Id,
@@ -195,8 +197,10 @@ public class TextsService : ITextsService
         var textTags = _tagsMapper.Map(textMetadata.Tags);
         
         var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
-
-        var pagesCount = await _textsDao.GetPagesCountByTextId(textId);
+        
+        var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
+            .Single()
+            .Value;
 
         return new TextReadDto
         (
@@ -215,7 +219,7 @@ public class TextsService : ITextsService
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
                 .ToList(),
-            pagesCount
+            sizeInPages
         );
     }
 
