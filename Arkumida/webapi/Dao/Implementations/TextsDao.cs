@@ -197,4 +197,15 @@ public class TextsDao : ITextsDao
             .Pages
             .Count;
     }
+
+    public async Task<Dictionary<Guid, int>> GetPagesCountByTexts(IReadOnlyCollection<Guid> textsIds)
+    {
+        _ = textsIds ?? throw new ArgumentNullException(nameof(textsIds), "Texts IDs must not be null!");
+
+        return await _dbContext
+            .Texts
+            .Include(t => t.Pages)
+            .Where(t => textsIds.Contains(t.Id))
+            .ToDictionaryAsync(t => t.Id, t => t.Pages.Count);
+    }
 }

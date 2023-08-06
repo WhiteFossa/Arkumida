@@ -64,5 +64,10 @@ public interface ITextsDao
     /// </summary>
     Task<int> GetPagesCountByTextId(Guid textId);
 
+    /// <summary>
+    /// Get pages count for each of given texts
+    /// </summary>
+    Task<Dictionary<Guid, int>> GetPagesCountByTexts(IReadOnlyCollection<Guid> textsIds);
+
     #endregion
 }
