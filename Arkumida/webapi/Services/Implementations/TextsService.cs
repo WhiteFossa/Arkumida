@@ -332,11 +332,6 @@ public class TextsService : ITextsService
         return rawTextSb.ToString();
     }
 
-    public async Task<string> RenderToPlainTextAsync(Guid textId)
-    {
-        throw new NotImplementedException();
-    }
-
     private List<TextIconDto> AddIllustrationsIconToRightIcons(List<TextIconDto> rightIcons, TextDbo textMetadata)
     {
         var result = new List<TextIconDto>();
