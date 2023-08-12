@@ -49,7 +49,7 @@ public class TextsMapper : ITextsMapper
             LastUpdateTime = text.LastUpdateTime,
             Title = text.Title,
             Description = text.Description,
-            Pages = _pagesMapper.Map(text.Pages).ToList(),
+            Pages = _pagesMapper.Map(text.Pages)?.ToList(),
             ReadsCount = text.ReadsCount,
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,

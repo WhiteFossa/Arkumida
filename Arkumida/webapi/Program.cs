@@ -13,8 +13,10 @@ using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Mappers.Implementations;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.TextRenderers;
 using webapi.Services.Implementations;
 using webapi.Services.Implementations.Hosted;
+using webapi.Services.Implementations.TextRenderers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +36,8 @@ builder.Services.AddScoped<IFilesDao, FilesDao>();
 builder.Services.AddScoped<IFilesService, FilesService>();
 
 builder.Services.AddScoped<IAccountsService, AccountsService>();
+
+builder.Services.AddScoped<IPlainTextRenderer, PlainTextRenderer>();
 
 #endregion
 

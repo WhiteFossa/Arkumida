@@ -61,4 +61,14 @@ public interface ITextsService
     /// Add existing file to given text under provided name
     /// </summary>
     Task AddFileToTextAsync(Guid textId, string fileName, Guid existingFileId);
+
+    /// <summary>
+    /// Get raw (i.e. not parsed yet) text from database
+    /// </summary>
+    Task<string> GetRawTextAsync(Guid textId);
+    
+    /// <summary>
+    /// Render given text to plain text, which is ready to be delivered to user as .txt file
+    /// </summary>
+    Task<string> RenderToPlainTextAsync(Guid textId);
 }

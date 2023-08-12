@@ -8,6 +8,7 @@ using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
 using webapi.Models.ParserTags;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.TextRenderers;
 
 namespace webapi.Services.Implementations;
 
@@ -22,6 +23,7 @@ public class TextsService : ITextsService
     private readonly ITextsPagesMapper _textsPagesMapper;
     private readonly ITextFilesMapper _textFilesMapper;
     private readonly ICreaturesMapper _creaturesMapper;
+    private readonly IPlainTextRenderer _plainTextRenderer;
 
     private readonly IReadOnlyCollection<ParserTagBase> _parserTags = new List<ParserTagBase>()
     {
@@ -66,7 +68,8 @@ public class TextsService : ITextsService
         ITagsService tagsService,
         ITextsPagesMapper textsPagesMapper,
         ITextFilesMapper textFilesMapper,
-        ICreaturesMapper creaturesMapper
+        ICreaturesMapper creaturesMapper,
+        IPlainTextRenderer plainTextRenderer
     )
     {
         _textsDao = textsDao;
@@ -76,6 +79,7 @@ public class TextsService : ITextsService
         _textsPagesMapper = textsPagesMapper;
         _textFilesMapper = textFilesMapper;
         _creaturesMapper = creaturesMapper;
+        _plainTextRenderer = plainTextRenderer;
     }
 
     public async Task<Text> CreateTextAsync(Text text)
@@ -202,6 +206,12 @@ public class TextsService : ITextsService
             .Single()
             .Value;
 
+        // TODO: Debug code, remove me
+        var text = _textsMapper.Map(textMetadata);
+        var rawText = await GetRawTextAsync(textId);
+        var parsedText = ParseTextToElements(rawText, textFiles);
+        var plainText = await _plainTextRenderer.RenderAsync(text, parsedText);
+
         return new TextReadDto
         (
             textMetadata.Id,
@@ -296,6 +306,35 @@ public class TextsService : ITextsService
     public async Task AddFileToTextAsync(Guid textId, string fileName, Guid existingFileId)
     {
         await _textsDao.AddFileToTextAsync(textId, fileName, existingFileId);
+    }
+
+    public async Task<string> GetRawTextAsync(Guid textId)
+    {
+        var textMetadata = await _textsDao.GetTextMetadataByIdAsync(textId);
+        var pages = (await _textsDao.GetAllPagesAsync(textId))
+            .OrderBy(p => p.Number);
+
+        var rawTextSb = new StringBuilder();
+
+        foreach (var page in pages)
+        {
+            foreach (var section in page.Sections.OrderBy(s => s.Order))
+            {
+                var lastVariant = section.
+                    Variants
+                    .OrderByDescending(v => v.CreationTime)
+                    .First();
+
+                rawTextSb.Append(lastVariant.Content);
+            }
+        }
+        
+        return rawTextSb.ToString();
+    }
+
+    public async Task<string> RenderToPlainTextAsync(Guid textId)
+    {
+        throw new NotImplementedException();
     }
 
     private List<TextIconDto> AddIllustrationsIconToRightIcons(List<TextIconDto> rightIcons, TextDbo textMetadata)
