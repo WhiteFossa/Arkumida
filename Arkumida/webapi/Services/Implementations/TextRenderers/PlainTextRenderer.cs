@@ -26,10 +26,6 @@ public class PlainTextRenderer : IPlainTextRenderer
 
         // Header
         sb.Append(await RenderTextMetadataAsync(textMetadata));
-
-        sb.AppendLine();
-        sb.AppendLine("---");
-        sb.AppendLine();
         
         foreach (var textElement in textElements)
         {
@@ -41,39 +37,36 @@ public class PlainTextRenderer : IPlainTextRenderer
 
     private async Task<string> RenderTextMetadataAsync(Text textMetadata)
     {
-        var sb = new StringBuilder();
-
-        // Title
-        sb.AppendLine($"Название: { textMetadata.Title }");
-        sb.AppendLine();
-
-        // Publisher
-        sb.AppendLine($"Загрузил:");
-        sb.AppendLine(CreatureToText(textMetadata.Publisher));
-        sb.AppendLine();
-
         // Authors
-        sb.AppendLine("Автор(ы):");
-        foreach (var author in textMetadata.Authors)
-        {
-            sb.AppendLine(CreatureToText(author));
-        }
-        sb.AppendLine();
+        var authors = string.Join
+        (
+            Environment.NewLine,
+            
+            textMetadata
+                .Authors
+                .Select(a => CreatureToText(a))
+        );
         
         // Translators
+        var translatorsSb = new StringBuilder();
         if (textMetadata.Translators.Any())
         {
-            sb.AppendLine("Переводчик(и):");
-            foreach (var translator in textMetadata.Translators)
-            {
-                sb.AppendLine(CreatureToText(translator));
-            }
-            sb.AppendLine();
+            translatorsSb.AppendLine();
+            translatorsSb.AppendLine();
+            translatorsSb.AppendLine("Переводчик(и):");
+
+            translatorsSb.Append(string.Join
+                (
+                    Environment.NewLine,
+                    
+                    textMetadata
+                        .Translators
+                        .Select(t => CreatureToText(t))
+                ));
         }
         
         // Categories
-        sb.Append("Категории: ");
-        sb.Append(string.Join
+        var categories = string.Join
         (
             ", ",
 
@@ -81,13 +74,10 @@ public class PlainTextRenderer : IPlainTextRenderer
                 .Tags
                 .Where(t => t.IsCategory)
                 .Select(t => t.Name)
-        ));
-        sb.AppendLine();
-        sb.AppendLine();
+        );
         
         // Tags
-        sb.Append("Теги: ");
-        sb.Append(string.Join
+        var tags = string.Join
         (
             ", ",
 
@@ -95,22 +85,35 @@ public class PlainTextRenderer : IPlainTextRenderer
                 .Tags
                 .Where(t => !t.IsCategory)
                 .Select(t => t.Name)
-        ));
-        sb.AppendLine();
-        sb.AppendLine();
-        
-        // Annotation
-        sb.AppendLine("Краткое описание:");
-        sb.AppendLine("---");
-        sb.AppendLine(textMetadata.Description);
-        sb.AppendLine("---");
+        );
         
         // Permalink
         var baseUrl = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoBaseUrlSettingName);
-        sb.AppendLine($"Ссылка: {baseUrl}/texts/{textMetadata.Id}/page/1");
-        sb.AppendLine();
-        
-        return sb.ToString();
+
+        return$@"--------------------------------------------------------------------------------
+Название:
+{textMetadata.Title}
+
+Загрузил:
+{CreatureToText(textMetadata.Publisher)}
+
+Автор(ы):
+{authors}{translatorsSb}
+
+Категории:
+{categories}
+
+Теги:
+{tags}
+
+Краткое описание:
+{textMetadata.Description}
+
+Ссылка:
+{baseUrl}/texts/{textMetadata.Id}/page/1
+--------------------------------------------------------------------------------
+
+";
     }
 
     private string CreatureToText(Creature creature)
