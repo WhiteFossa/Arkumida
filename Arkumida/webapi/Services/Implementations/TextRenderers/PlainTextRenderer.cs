@@ -1,19 +1,31 @@
 using System.Text;
+using webapi.Constants;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
+using webapi.Services.Abstract;
 using webapi.Services.Abstract.TextRenderers;
 
 namespace webapi.Services.Implementations.TextRenderers;
 
 public class PlainTextRenderer : IPlainTextRenderer
 {
+    private readonly IConfigurationService _configurationService;
+
+    public PlainTextRenderer
+    (
+        IConfigurationService configurationService
+    )
+    {
+        _configurationService = configurationService;
+    }
+    
     public async Task<string> RenderAsync(Text textMetadata, IReadOnlyCollection<TextElementDto> textElements)
     {
         var sb = new StringBuilder();
 
         // Header
-        sb.Append(RenderTextMetadata(textMetadata));
+        sb.Append(await RenderTextMetadataAsync(textMetadata));
 
         sb.AppendLine();
         sb.AppendLine("---");
@@ -27,7 +39,7 @@ public class PlainTextRenderer : IPlainTextRenderer
         return sb.ToString().Trim();
     }
 
-    private string RenderTextMetadata(Text textMetadata)
+    private async Task<string> RenderTextMetadataAsync(Text textMetadata)
     {
         var sb = new StringBuilder();
 
@@ -89,8 +101,14 @@ public class PlainTextRenderer : IPlainTextRenderer
         
         // Annotation
         sb.AppendLine("Краткое описание:");
-        sb.AppendLine();
+        sb.AppendLine("---");
         sb.AppendLine(textMetadata.Description);
+        sb.AppendLine("---");
+        
+        // Permalink
+        var baseUrl = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoBaseUrlSettingName);
+        sb.AppendLine($"Ссылка: {baseUrl}/texts/{textMetadata.Id}/page/1");
+        sb.AppendLine();
         
         return sb.ToString();
     }

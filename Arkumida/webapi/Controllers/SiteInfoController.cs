@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using webapi.Constants;
 using webapi.Models.Api.Responses;
+using webapi.Services.Abstract;
 
 namespace webapi.Controllers;
 
@@ -11,6 +13,16 @@ namespace webapi.Controllers;
 [ApiController]
 public class SiteInfoController : ControllerBase
 {
+    private readonly IConfigurationService _configurationService;
+
+    public SiteInfoController
+    (
+        IConfigurationService configurationService
+    )
+    {
+        _configurationService = configurationService;
+    }
+    
     /// <summary>
     /// Get version info
     /// </summary>
@@ -30,7 +42,10 @@ public class SiteInfoController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<SiteUrlResponse>> GetSiteUrlAsync()
     {
-        return Ok(new SiteUrlResponse("https://arkumida.furtails.pw", "arkumida.furtails.pw"));
+        var baseUrl = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoBaseUrlSettingName);
+        var title = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoTitleSettingName);
+        
+        return Ok(new SiteUrlResponse(baseUrl, title));
     }
     
     /// <summary>

@@ -47,4 +47,18 @@ public static class GlobalConstants
     public const string ImporterUserPasswordSettingName = "ImporterUser:Password";
     
     #endregion
+    
+    #region Site info
+    
+    /// <summary>
+    /// Take site base URL from this setting in appsettings.json
+    /// </summary>
+    public const string SiteInfoBaseUrlSettingName = "SiteInfo:BaseUrl";
+    
+    /// <summary>
+    /// Take site title from this setting in appsettings.json
+    /// </summary>
+    public const string SiteInfoTitleSettingName = "SiteInfo:Title";
+    
+    #endregion
 }
