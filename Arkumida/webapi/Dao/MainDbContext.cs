@@ -41,6 +41,11 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
     /// </summary>
     public DbSet<FileDbo> Files { get; set; }
 
+    /// <summary>
+    /// Rendered texts
+    /// </summary>
+    public DbSet<RenderedTextDbo> RenderedTexts { get; set; }
+
     public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
     {
         
@@ -104,5 +109,11 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
         modelBuilder
             .Entity<TextDbo>()
             .HasOne(text => text.Publisher);
+        
+        // Text have many rendered texts
+        modelBuilder
+            .Entity<TextDbo>()
+            .HasMany(t => t.RenderedTexts)
+            .WithOne(rt => rt.Text);
     }
 }

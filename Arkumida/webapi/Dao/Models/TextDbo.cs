@@ -84,4 +84,9 @@ public class TextDbo
     /// Text publisher
     /// </summary>
     public CreatureDbo Publisher { get; set; }
+
+    /// <summary>
+    /// Rendered texts (plaintext, PDF etc)
+    /// </summary>
+    public IList<RenderedTextDbo> RenderedTexts { get; set; }
 }
