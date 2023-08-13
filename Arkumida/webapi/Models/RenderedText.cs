@@ -1,23 +1,21 @@
-using System.ComponentModel.DataAnnotations;
 using webapi.Dao.Models.Enums.RenderedTexts;
 
-namespace webapi.Dao.Models;
+namespace webapi.Models;
 
 /// <summary>
-/// Rendered text (e.g. txt or pdf file)
+/// Rendered text (business-logic model)
 /// </summary>
-public class RenderedTextDbo
+public class RenderedText
 {
     /// <summary>
     /// Rendered text ID
     /// </summary>
-    [Key]
     public Guid Id { get; set; }
 
     /// <summary>
     /// This text is rendered here
     /// </summary>
-    public TextDbo Text { get; set; }
+    public Text Text { get; set; }
 
     /// <summary>
     /// File type: plain text, PDF etc...
@@ -27,5 +25,5 @@ public class RenderedTextDbo
     /// <summary>
     /// Rendered text is stored here
     /// </summary>
-    public FileDbo File { get; set; }
+    public File File { get; set; }
 }

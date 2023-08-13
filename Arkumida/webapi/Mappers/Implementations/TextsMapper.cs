@@ -54,12 +54,12 @@ public class TextsMapper : ITextsMapper
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,
             VotesMinus = text.VotesMinus,
-            Tags = _tagsMapper.Map(text.Tags).ToList(),
+            Tags = _tagsMapper.Map(text.Tags)?.ToList(),
             IsIncomplete = text.IsIncomplete,
-            TextFiles = _textFilesMapper.Map(text.TextFiles).ToList(),
-            Authors = _creaturesMapper.Map(text.Authors).ToList(),
+            TextFiles = _textFilesMapper.Map(text.TextFiles)?.ToList(),
+            Authors = _creaturesMapper.Map(text.Authors)?.ToList(),
             Publisher = _creaturesMapper.Map(text.Publisher),
-            Translators = _creaturesMapper.Map(text.Translators).ToList()
+            Translators = _creaturesMapper.Map(text.Translators)?.ToList()
         };
     }
 
@@ -77,17 +77,17 @@ public class TextsMapper : ITextsMapper
             LastUpdateTime = text.LastUpdateTime,
             Title = text.Title,
             Description = text.Description,
-            Pages = _pagesMapper.Map(text.Pages).ToList(),
+            Pages = _pagesMapper.Map(text.Pages)?.ToList(),
             ReadsCount = text.ReadsCount,
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,
             VotesMinus = text.VotesMinus,
-            Tags = _tagsMapper.Map(text.Tags).ToList(),
+            Tags = _tagsMapper.Map(text.Tags)?.ToList(),
             IsIncomplete = text.IsIncomplete,
-            TextFiles = _textFilesMapper.Map(text.TextFiles).ToList(),
-            Authors = _creaturesMapper.Map(text.Authors).ToList(),
+            TextFiles = _textFilesMapper.Map(text.TextFiles)?.ToList(),
+            Authors = _creaturesMapper.Map(text.Authors)?.ToList(),
             Publisher = _creaturesMapper.Map(text.Publisher),
-            Translators = _creaturesMapper.Map(text.Translators).ToList()
+            Translators = _creaturesMapper.Map(text.Translators)?.ToList()
         };
     }
 

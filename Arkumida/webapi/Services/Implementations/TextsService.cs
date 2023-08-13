@@ -171,7 +171,7 @@ public class TextsService : ITextsService
             .Value;
 
         // TODO: Remove me - debug code
-        var renderedPlainText = await _textsRenderingService.RenderTextToFileContent(textId, RenderedTextType.PlainText);
+        var renderedText = await _textsRenderingService.RenderTextToDbAsync(textId, RenderedTextType.PlainText);
         
         return new TextReadDto
         (

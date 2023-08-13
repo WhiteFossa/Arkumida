@@ -56,6 +56,7 @@ builder.Services.AddSingleton<ITextFilesMapper, TextFilesMapper>();
 builder.Services.AddSingleton<ITextsPagesMapper, TextsPagesMapper>();
 builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
 builder.Services.AddSingleton<ICreaturesMapper, CreaturesMapper>();
+builder.Services.AddSingleton<IRenderedTextsMapper, RenderedTextsMapper>();
 
 #endregion
 
