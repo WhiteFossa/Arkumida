@@ -80,36 +80,46 @@ public class TextsService : ITextsService
         
         var sizesInPages = await _textsDao.GetPagesCountByTexts(textsIds);
 
-        return textsMetadata
-            .Select(tm =>
-            {
-                var tags = _tagsMapper.Map(tm.Tags);
-                
-                return new TextInfoDto
+        var result = new List<TextInfoDto>();
+
+        foreach (var textMetadata in textsMetadata)
+        {
+            var tags = _tagsMapper.Map(textMetadata.Tags);
+
+            var sizeInBytes = (await _textsRenderingService.GetAndRenderIfNotExistAsync(textMetadata.Id, RenderedTextType.PlainText))
+                .File
+                .Content
+                .Length;
+            
+            result.Add
+            (
+                new TextInfoDto
                 (
-                    tm.Id,
+                    textMetadata.Id,
                     "not_ready",
-                    _creaturesMapper.Map(tm.Authors).Select(ta => ta.ToDto()).ToList(),
-                    _creaturesMapper.Map(tm.Translators).Select(tt => tt.ToDto()).ToList(),
-                    _creaturesMapper.Map(tm.Publisher).ToDto(),
-                    tm.Title,
-                    tm.CreateTime,
-                    tm.ReadsCount,
+                    _creaturesMapper.Map(textMetadata.Authors).Select(ta => ta.ToDto()).ToList(),
+                    _creaturesMapper.Map(textMetadata.Translators).Select(tt => tt.ToDto()).ToList(),
+                    _creaturesMapper.Map(textMetadata.Publisher).ToDto(),
+                    textMetadata.Title,
+                    textMetadata.CreateTime,
+                    textMetadata.ReadsCount,
                     0,
-                    tm.VotesPlus,
-                    tm.VotesMinus,
+                    textMetadata.VotesPlus,
+                    textMetadata.VotesMinus,
                     _tagsService.OrderTags(tags)
                         .Select(t => t.ToTextTagDto())
                         .ToList(),
                     new List<TextIconDto>(),
-                    AddIllustrationsIconToRightIcons(new List<TextIconDto>(), tm),
-                    tm.Description,
-                    10000,
-                    sizesInPages[tm.Id],
-                    tm.IsIncomplete
-                );
-            })
-            .ToList();
+                    AddIllustrationsIconToRightIcons(new List<TextIconDto>(), textMetadata),
+                    textMetadata.Description,
+                    sizeInBytes,
+                    sizesInPages[textMetadata.Id],
+                    textMetadata.IsIncomplete
+                )
+            );
+        }
+
+        return result;
     }
 
     public async Task<TextInfoDto> GetTextMetadataByIdAsync(Guid textId)
@@ -121,6 +131,11 @@ public class TextsService : ITextsService
         var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
             .Single()
             .Value;
+        
+        var sizeInBytes = (await _textsRenderingService.GetAndRenderIfNotExistAsync(textMetadata.Id, RenderedTextType.PlainText))
+            .File
+            .Content
+            .Length;
 
         return new TextInfoDto
         (
@@ -142,7 +157,7 @@ public class TextsService : ITextsService
             new List<TextIconDto>(),
             AddIllustrationsIconToRightIcons(new List<TextIconDto>(), textMetadata),
             textMetadata.Description,
-            10000,
+            sizeInBytes,
             sizeInPages,
             textMetadata.IsIncomplete
         );
@@ -169,9 +184,6 @@ public class TextsService : ITextsService
         var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
             .Single()
             .Value;
-
-        // TODO: Remove me - debug code
-        var renderedText = await _textsRenderingService.RenderTextToDbAsync(textId, RenderedTextType.PlainText);
         
         return new TextReadDto
         (

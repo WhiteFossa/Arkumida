@@ -22,4 +22,9 @@ public interface ITextsRenderingService
     /// Renders text (using RenderTextToFileContentAsync()) and puts it into database
     /// </summary>
     Task<RenderedText> RenderTextToDbAsync(Guid textId, RenderedTextType type);
+
+    /// <summary>
+    /// Tries to get a rendered text from database. If text not exist - renders it, puts into DB and then return
+    /// </summary>
+    Task<RenderedText> GetAndRenderIfNotExistAsync(Guid textId, RenderedTextType type);
 }

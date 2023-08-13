@@ -38,6 +38,6 @@ public class RenderedTextsDao : IRenderedTextsDao
             .RenderedTexts
             .Include(rt => rt.Text)
             .Include(rt => rt.File)
-            .SingleOrDefaultAsync(rt => rt.Id == textId && rt.Type == type);
+            .SingleOrDefaultAsync(rt => rt.Text.Id == textId && rt.Type == type);
     }
 }
