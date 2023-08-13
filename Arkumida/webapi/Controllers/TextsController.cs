@@ -15,13 +15,16 @@ namespace webapi.Controllers;
 public class TextsController : ControllerBase
 {
     private readonly ITextsService _textsService;
+    private readonly ITextUtilsService _textUtilsService;
     
     public TextsController
     (
-        ITextsService textsService
+        ITextsService textsService,
+        ITextUtilsService textUtilsService
     )
     {
         _textsService = textsService;
+        _textUtilsService = textUtilsService;
     }
 
     /// <summary>
@@ -145,7 +148,7 @@ public class TextsController : ControllerBase
 
         return Ok
         (
-            new CreateTextResponse(createdText.ToDto(_textsService))
+            new CreateTextResponse(createdText.ToDto(_textUtilsService))
         );
     }
 

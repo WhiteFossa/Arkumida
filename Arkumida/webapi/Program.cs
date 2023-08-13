@@ -31,6 +31,7 @@ builder.Services.AddScoped<ITextsDao, TextsDao>();
 
 builder.Services.AddScoped<ITagsService, TagsService>();
 builder.Services.AddScoped<ITextsService, TextsService>();
+builder.Services.AddScoped<ITextUtilsService, TextUtilsService>();
 
 builder.Services.AddScoped<IFilesDao, FilesDao>();
 builder.Services.AddScoped<IFilesService, FilesService>();
@@ -38,6 +39,9 @@ builder.Services.AddScoped<IFilesService, FilesService>();
 builder.Services.AddScoped<IAccountsService, AccountsService>();
 
 builder.Services.AddScoped<IPlainTextRenderer, PlainTextRenderer>();
+
+builder.Services.AddScoped<IRenderedTextsDao, RenderedTextsDao>();
+builder.Services.AddScoped<ITextsRenderingService, TextsRenderingService>();
 
 #endregion
 
