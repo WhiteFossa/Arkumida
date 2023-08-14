@@ -66,6 +66,16 @@ public class TextReadDto : IdedEntityDto
     /// </summary>
     public int PagesCount { get; private set; }
 
+    #region Rendered files
+
+    /// <summary>
+    /// Rendered plain text file. It always exist, but may be useless (for comics)
+    /// </summary>
+    [JsonPropertyName("plainTextFile")]
+    public FileInfoDto PlainTextFile { get; private set; }
+
+    #endregion
+
     public TextReadDto
     (
         Guid id,
@@ -79,7 +89,8 @@ public class TextReadDto : IdedEntityDto
         IList<CreatureDto> translators,
         CreatureDto publisher,
         IReadOnlyCollection<TextFileDto> illustrations,
-        int pagesCount
+        int pagesCount,
+        FileInfoDto plainTextFile
     ) : base (id, furryReadableId)
     {
         CreateTime = createTime;
@@ -110,5 +121,7 @@ public class TextReadDto : IdedEntityDto
             throw new ArgumentOutOfRangeException(nameof(pagesCount), pagesCount, "Text must have at least one page.");
         }
         PagesCount = pagesCount;
+
+        PlainTextFile = plainTextFile ?? throw new ArgumentNullException(nameof(plainTextFile), "Plain text rendered file must not be null!");
     }
 }

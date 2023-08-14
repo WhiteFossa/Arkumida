@@ -77,10 +77,13 @@ public class TextsRenderingService : ITextsRenderingService
 
         // Storing file in DB
         string fileType;
+        string fileName = GenerateFilenameFormMetadata(textMetadata);
+        
         switch (type)
         {
             case RenderedTextType.PlainText:
                 fileType = "text/plain";
+                fileName = $"{fileName}.txt";
                 break;
             
             default:
@@ -90,7 +93,7 @@ public class TextsRenderingService : ITextsRenderingService
         var renderedTextFile = new FileDbo()
         {
             Content = renderedContent,
-            Name = textMetadata.Title, // TODO: Remove spaces and so on?
+            Name = fileName,
             Type = fileType,
             LastModifiedTime = DateTime.UtcNow,
             Hash = SHA512Helper.CalculateSHA512(renderedContent)
@@ -111,6 +114,16 @@ public class TextsRenderingService : ITextsRenderingService
         return _renderedTextsMapper.Map(renderedText);
     }
 
+    /// <summary>
+    /// Generate filename (for rendered text file). ONLY FILENAME, WITHOUT EXTENSION
+    /// </summary>
+    private string GenerateFilenameFormMetadata(Text text)
+    {
+        var authors = string.Join(", ", text.Authors.Select(a => a.DisplayName));
+        
+        return FilesHelper.EscapeFilename($"{authors} - {text.Title}");
+    }
+    
     public async Task<RenderedText> GetAndRenderIfNotExistAsync(Guid textId, RenderedTextType type)
     {
         var renderedText = _renderedTextsMapper.Map(await _renderedTextsDao.GetRenderedTextAsync(textId, type));

@@ -1062,6 +1062,69 @@ body {
     cursor: pointer;
 }
 
+
+/* Container for rendered text files download component (right-aligned) */
+.read-text-download-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    margin-bottom: 1.5rem;
+}
+
+/* Rendered text files download component */
+.read-text-download {
+    background: hsl(0, 0%, 100%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.2rem;
+
+    width: min-content;
+    min-width: 7.0rem;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+
+    position: relative;
+
+    height: min-content;
+}
+
+/* Caption with a word "download" for rendered text files download component */
+.read-text-download-caption {
+    font-size: 0.8rem;
+    color: hsl(0, 0%, 60%);
+    text-align: right;
+    width: 100%;
+    position: absolute;
+    top: 0.3rem;
+    right: 0.5rem;
+}
+
+/* List of rendered text files to download */
+.read-text-download-list {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+
+    padding-left: 1rem;
+}
+
+/* Link for rendered text file download */
+.read-text-download-file-link {
+    color: black;
+
+    text-decoration: none;
+}
+
+.read-text-download-file-link:hover
+{
+    text-decoration: underline;
+}
+
 /* Read text page stuff ends here */
 
 /* Creature info container stuff starts here */

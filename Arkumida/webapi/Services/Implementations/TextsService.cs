@@ -184,6 +184,8 @@ public class TextsService : ITextsService
         var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
             .Single()
             .Value;
+
+        var plainTextRenderedFile = (await _textsRenderingService.GetAndRenderIfNotExistAsync(textId, RenderedTextType.PlainText)).File;
         
         return new TextReadDto
         (
@@ -202,7 +204,8 @@ public class TextsService : ITextsService
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
                 .ToList(),
-            sizeInPages
+            sizeInPages,
+            new FileInfoDto(plainTextRenderedFile.Id, plainTextRenderedFile.Name)
         );
     }
 
