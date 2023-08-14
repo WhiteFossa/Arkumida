@@ -34,7 +34,7 @@ public class TextsPagesMapper : ITextsPagesMapper
         {
             Id = page.Id,
             Number = page.Number,
-            Sections = _sectionsMapper.Map(page.Sections).ToList()
+            Sections = _sectionsMapper.Map(page.Sections)?.ToList()
         };
     }
 
@@ -49,7 +49,7 @@ public class TextsPagesMapper : ITextsPagesMapper
         {
             Id = page.Id,
             Number = page.Number,
-            Sections = _sectionsMapper.Map(page.Sections).ToList()
+            Sections = _sectionsMapper.Map(page.Sections)?.ToList()
         };
     }
 

@@ -13,8 +13,10 @@ using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Mappers.Implementations;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.TextRenderers;
 using webapi.Services.Implementations;
 using webapi.Services.Implementations.Hosted;
+using webapi.Services.Implementations.TextRenderers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,11 +31,17 @@ builder.Services.AddScoped<ITextsDao, TextsDao>();
 
 builder.Services.AddScoped<ITagsService, TagsService>();
 builder.Services.AddScoped<ITextsService, TextsService>();
+builder.Services.AddScoped<ITextUtilsService, TextUtilsService>();
 
 builder.Services.AddScoped<IFilesDao, FilesDao>();
 builder.Services.AddScoped<IFilesService, FilesService>();
 
 builder.Services.AddScoped<IAccountsService, AccountsService>();
+
+builder.Services.AddScoped<IPlainTextRenderer, PlainTextRenderer>();
+
+builder.Services.AddScoped<IRenderedTextsDao, RenderedTextsDao>();
+builder.Services.AddScoped<ITextsRenderingService, TextsRenderingService>();
 
 #endregion
 
@@ -48,6 +56,7 @@ builder.Services.AddSingleton<ITextFilesMapper, TextFilesMapper>();
 builder.Services.AddSingleton<ITextsPagesMapper, TextsPagesMapper>();
 builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
 builder.Services.AddSingleton<ICreaturesMapper, CreaturesMapper>();
+builder.Services.AddSingleton<IRenderedTextsMapper, RenderedTextsMapper>();
 
 #endregion
 

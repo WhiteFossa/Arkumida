@@ -89,7 +89,7 @@ public class Text
     /// </summary>
     public Creature Publisher { get; set; }
 
-    public TextDto ToDto(ITextsService textsService)
+    public TextDto ToDto(ITextUtilsService textUtilsService)
     {
         return new TextDto
         (
@@ -98,7 +98,7 @@ public class Text
             LastUpdateTime,
             Title,
             Description,
-            Pages.Select(p => p.ToDto(this.TextFiles.ToList(), textsService)).ToList(),
+            Pages.Select(p => p.ToDto(this.TextFiles.ToList(), textUtilsService)).ToList(),
             ReadsCount,
             VotesCount,
             VotesPlus,

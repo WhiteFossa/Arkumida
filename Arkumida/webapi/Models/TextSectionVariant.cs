@@ -27,13 +27,13 @@ public class TextSectionVariant
     /// <summary>
     /// To DTO
     /// </summary>
-    public TextSectionVariantDto ToDto(IReadOnlyCollection<TextFile> textFiles, ITextsService textsService)
+    public TextSectionVariantDto ToDto(IReadOnlyCollection<TextFile> textFiles, ITextUtilsService textUtilsService)
     {
         return new TextSectionVariantDto
         (
             Id,
             string.Empty, // We don't need to pass content to frontend
-            textsService.ParseTextToElements(Content, textFiles),
+            textUtilsService.ParseTextToElements(Content, textFiles),
             CreationTime
         );
     }

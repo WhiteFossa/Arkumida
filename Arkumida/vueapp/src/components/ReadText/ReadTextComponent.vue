@@ -21,6 +21,7 @@
     import router from "@/router";
     import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
     import NonexistentCreatureComponent from "@/components/ReadText/Creatures/NonexistentCreatureComponent.vue";
+    import ReadTextDownloadComponent from "@/components/ReadText/Download/ReadTextDownloadComponent.vue";
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -92,6 +93,11 @@
 <template>
     <LoadingSymbol v-if="isLoading"/>
     <div v-else class="body-container">
+
+        <!-- Download -->
+        <div class="read-text-download-container">
+            <ReadTextDownloadComponent :plaintextFileId="textData.textData.plainTextFile.id" />
+        </div>
 
         <div class="read-text-author-publisher-translator-container">
 

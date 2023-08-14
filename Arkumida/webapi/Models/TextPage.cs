@@ -23,8 +23,8 @@ public class TextPage
     /// </summary>
     public IList<TextSection> Sections { get; set; }
 
-    public TextPageDto ToDto(IReadOnlyCollection<TextFile> textFiles, ITextsService textsService)
+    public TextPageDto ToDto(IReadOnlyCollection<TextFile> textFiles, ITextUtilsService textUtilsService)
     {
-        return new TextPageDto(Id, Number, Sections.Select(s => s.ToDto(textFiles, textsService)).ToList());
+        return new TextPageDto(Id, Number, Sections.Select(s => s.ToDto(textFiles, textUtilsService)).ToList());
     }
 }
