@@ -20,7 +20,13 @@ public class CreatureDbo : IdentityUser<Guid>
     public IList<TextDbo> TextsTranslator { get; set; }
 
     #endregion
-    
+
+    /// <summary>
+    /// Plaintext password, it is used to send notifications to creatures about "You are registered on Arkumida now, your password is...".
+    /// After first successful login it should be wiped-out
+    /// </summary>
+    public string OneTimePlaintextPassword { get; set; }
+
     /// <summary>
     /// User's visible name
     /// </summary>

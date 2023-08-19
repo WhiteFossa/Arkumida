@@ -143,4 +143,20 @@ public class UsersController : ControllerBase
         
         return Ok(new FindCreatureByLoginResponse(true, user.ToDto()));
     }
+
+    /// <summary>
+    /// Get current logged-in user
+    /// </summary>
+    [HttpGet]
+    [Route("api/Users/Current")]
+    public async Task<ActionResult<LoggedInCreatureResponse>> GetLoggedInCreatureAsync()
+    {
+        var creature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        if (creature == null)
+        {
+            throw new Exception("Current creature is not found. This is impossible, there is a bug somewhere!");
+        }
+
+        return Ok(new LoggedInCreatureResponse(creature.ToDto()));
+    }
 }

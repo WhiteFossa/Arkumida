@@ -98,11 +98,14 @@ builder.Services.AddControllers();
         (
             policy =>
             {
-                policy.WithOrigins
+                policy
+                    .WithOrigins
                     (
                         "http://localhost:8080",
                         "https://arkumida.furtails.pw"
-                    );
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
             }
         );
     });

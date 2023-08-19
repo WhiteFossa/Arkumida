@@ -58,6 +58,6 @@ public class CreatureDto : IdedEntityDto
     /// </summary>
     public Creature ToUser()
     {
-        return new Creature(Id, Login, Email, Name);
+        return new Creature(Id, Login, string.Empty, Email, Name);
     }
 }

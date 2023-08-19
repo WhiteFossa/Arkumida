@@ -1438,3 +1438,109 @@ body {
 }
 
 /* Read text pagination end */
+
+/* Login-related stuff begins here */
+
+/* Link for logging in*/
+.login-link {
+    color: hsl(0, 0%, 0%);
+
+    text-decoration: none;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* Container for login form */
+.login-form-container {
+    background: hsl(0, 0%, 100%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 1rem;
+
+    width: 90vw;
+
+    max-width: 30rem;
+    height: min-content;
+}
+
+/* Login form title */
+.login-form-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Text fields in login form */
+.login-form-text-field {
+    border-radius: 0.5rem;
+
+    height: 3rem;
+    font-size: 1.5rem;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Text field in login form, which didn't pass validation*/
+.login-form-text-field-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Container for remember me checkbox */
+.login-remember-me-container {
+    margin-bottom: 0.5rem;
+}
+
+/* Log in button */
+.login-button {
+    height: 3rem;
+    width: 100%;
+
+    font-size: 1.5rem;
+}
+
+/* Container for reset password link */
+.login-reset-password-container {
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* Reset password link */
+.login-reset-password-link {
+    font-size: 0.8rem;
+    color: hsl(240, 12%, 27%);
+
+    text-decoration: none;
+}
+
+.login-reset-password-link:hover {
+    text-decoration: underline;
+}
+
+/* Pseudolink for logging out */
+.logout-pseudolink {
+    color: hsl(240, 12%, 27%);
+
+    cursor: pointer;
+
+    font-size: 0.8rem;
+
+    display: inline-block;
+}
+
+.logout-pseudolink:hover {
+    text-decoration: underline;
+}
+
+/* Login-related stuff ends here */

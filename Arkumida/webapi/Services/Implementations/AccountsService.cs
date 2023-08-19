@@ -52,6 +52,7 @@ public class AccountsService : IAccountsService
             SecurityStamp = Guid.NewGuid().ToString(), // TODO: Is it secure?
             
             // Profile fields
+            OneTimePlaintextPassword = registrationData.Password,
             DisplayName = registrationData.Login
         };  
         

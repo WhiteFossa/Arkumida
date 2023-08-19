@@ -18,6 +18,12 @@ public class Creature
     public string Login { get; set; }
 
     /// <summary>
+    /// Plaintext password, it is used to send notifications to creatures about "You are registered on Arkumida now, your password is...".
+    /// After first successful login it should be wiped-out
+    /// </summary>
+    public string OneTimePlaintextPassword { get; set; }
+    
+    /// <summary>
     /// User email
     /// </summary>
     public string Email { get; set; }
@@ -31,6 +37,7 @@ public class Creature
     (
         Guid id,
         string login,
+        string oneTimePlaintextPassword,
         string email,
         string displayName
     )
@@ -39,6 +46,7 @@ public class Creature
         Id = id;
 
         Login = login;
+        OneTimePlaintextPassword = oneTimePlaintextPassword;
         Email = email;
         DisplayName = displayName;
     }

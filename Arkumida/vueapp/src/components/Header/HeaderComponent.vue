@@ -2,7 +2,7 @@
 <script setup>
     import HeaderSiteInfo from './HeaderSiteInfo.vue'
     import CentralMenu from "@/components/Header/CentralMenu.vue";
-    import RightMenu from "@/components/Header/RightMenu.vue";
+    import HeaderUserInfo from "@/components/Header/HeaderUserInfo.vue";
 </script>
 
 <template>
@@ -15,7 +15,7 @@
                 <CentralMenu />
             </div>
             <div>
-                <RightMenu />
+                <HeaderUserInfo />
             </div>
         </div>
     </header>

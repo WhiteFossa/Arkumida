@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import LoginView from "@/views/LoginView.vue";
+import ReadTextView from "@/views/ReadTextView.vue";
 
 const routes =
 [
@@ -14,8 +16,15 @@ const routes =
     {
         path: '/texts/:id/page/:page',
         name: 'text',
-        component: () => import('../views/ReadTextView.vue'),
+        component: ReadTextView,
         props: true
+    },
+
+    // Login
+    {
+        path: '/login',
+        name: 'login',
+        component: LoginView
     }
 ]
 
