@@ -31,4 +31,9 @@ public class CreatureDbo : IdentityUser<Guid>
     /// User's visible name
     /// </summary>
     public string DisplayName { get; set; }
+
+    /// <summary>
+    /// Creature's avatars
+    /// </summary>
+    public IList<AvatarDbo> Avatars { get; set; }
 }

@@ -33,4 +33,9 @@ public interface IAccountsService
     /// Find user by login. Returns null if user is not found
     /// </summary>
     Task<Creature> FindUserByLoginAsync(string login);
+
+    /// <summary>
+    /// Add new avatar to creature's collection
+    /// </summary>
+    Task<Avatar> AddAvatarAsync(Guid creatureId, Avatar avatar);
 }

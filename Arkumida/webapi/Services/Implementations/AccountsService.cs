@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using webapi.Constants;
+using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Models;
@@ -18,17 +19,23 @@ public class AccountsService : IAccountsService
     private readonly UserManager<CreatureDbo> _userManager;
     private readonly IConfigurationService _configurationService;
     private readonly ICreaturesMapper _creaturesMapper;
+    private readonly IAvatarsMapper _avatarsMapper;
+    private readonly IAvatarsDao _avatarsDao;
 
     public AccountsService
     (
         UserManager<CreatureDbo> userManager,
         IConfigurationService configurationService,
-        ICreaturesMapper creaturesMapper
+        ICreaturesMapper creaturesMapper,
+        IAvatarsMapper avatarsMapper,
+        IAvatarsDao avatarsDao
     )
     {
         _userManager = userManager;
         _configurationService = configurationService;
         _creaturesMapper = creaturesMapper;
+        _avatarsMapper = avatarsMapper;
+        _avatarsDao = avatarsDao;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
@@ -130,5 +137,16 @@ public class AccountsService : IAccountsService
         _ = login ?? throw new ArgumentNullException(nameof(login), "Login must be specified, at least empty string.");
 
         return _creaturesMapper.Map(await _userManager.FindByNameAsync(login));
+    }
+
+    public async Task<Avatar> AddAvatarAsync(Guid creatureId, Avatar avatar)
+    {
+        _ = avatar ?? throw new ArgumentNullException(nameof(avatar), "Avatar must be specified");
+
+        var avatarDbo = _avatarsMapper.Map(avatar);
+
+        await _avatarsDao.AddAvatarToUserAsync(creatureId, avatarDbo);
+
+        return _avatarsMapper.Map(avatarDbo);
     }
 }

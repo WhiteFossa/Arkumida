@@ -46,6 +46,11 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
     /// </summary>
     public DbSet<RenderedTextDbo> RenderedTexts { get; set; }
 
+    /// <summary>
+    /// Avatars
+    /// </summary>
+    public DbSet<AvatarDbo> Avatars { get; set; }
+
     public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
     {
         
@@ -115,5 +120,11 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
             .Entity<TextDbo>()
             .HasMany(t => t.RenderedTexts)
             .WithOne(rt => rt.Text);
+        
+        // Creature have many avatars
+        modelBuilder
+            .Entity<CreatureDbo>()
+            .HasMany(c => c.Avatars)
+            .WithOne(a => a.Creature);
     }
 }

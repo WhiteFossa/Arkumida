@@ -159,4 +159,28 @@ public class UsersController : ControllerBase
 
         return Ok(new LoggedInCreatureResponse(creature.ToDto()));
     }
+
+    /// <summary>
+    /// Create creature's avatar
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/CreateAvatar")]
+    public async Task<ActionResult<CreateAvatarResponse>> CreateAvatarAsync([FromBody] CreateAvatarRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        if (request.Avatar == null)
+        {
+            return BadRequest("Avatar must be specified.");
+        }
+
+        var creature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+
+        var createdAvatar = await _accountsService.AddAvatarAsync(creature.Id, request.Avatar.ToModel());
+
+        return Ok(new CreateAvatarResponse(createdAvatar.ToDto()));
+    }
 }
