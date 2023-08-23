@@ -8,7 +8,7 @@ namespace webapi.Dao.Abstract;
 public interface IAvatarsDao
 {
     /// <summary>
-    /// Add avatar to given creature's collection
+    /// Creates avatar and adds it to creature's collection
     /// </summary>
-    Task AddAvatarToUserAsync(Guid creatureId, AvatarDbo avatar);
+    Task<AvatarDbo> AddAvatarToCreatureAsync(Guid creatureId, AvatarDbo avatar);
 }

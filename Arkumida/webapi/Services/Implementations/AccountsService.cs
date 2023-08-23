@@ -20,7 +20,9 @@ public class AccountsService : IAccountsService
     private readonly IConfigurationService _configurationService;
     private readonly ICreaturesMapper _creaturesMapper;
     private readonly IAvatarsMapper _avatarsMapper;
+    private readonly IProfilesDao _profilesDao;
     private readonly IAvatarsDao _avatarsDao;
+    private readonly ICreaturesWithProfilesMapper _creaturesWithProfilesMapper;
 
     public AccountsService
     (
@@ -28,14 +30,18 @@ public class AccountsService : IAccountsService
         IConfigurationService configurationService,
         ICreaturesMapper creaturesMapper,
         IAvatarsMapper avatarsMapper,
-        IAvatarsDao avatarsDao
+        IProfilesDao profilesDao,
+        IAvatarsDao avatarsDao,
+        ICreaturesWithProfilesMapper creaturesWithProfilesMapper
     )
     {
         _userManager = userManager;
         _configurationService = configurationService;
         _creaturesMapper = creaturesMapper;
         _avatarsMapper = avatarsMapper;
+        _profilesDao = profilesDao;
         _avatarsDao = avatarsDao;
+        _creaturesWithProfilesMapper = creaturesWithProfilesMapper;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
@@ -52,27 +58,35 @@ public class AccountsService : IAccountsService
             return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.EmailIsTaken);
         }
         
-        var userDbo = new CreatureDbo()
+        var creatureDbo = new CreatureDbo()
         {  
             UserName = registrationData.Login,
             Email = registrationData.Email,
-            SecurityStamp = Guid.NewGuid().ToString(), // TODO: Is it secure?
-            
-            // Profile fields
-            OneTimePlaintextPassword = registrationData.Password,
-            DisplayName = registrationData.Login
+            SecurityStamp = Guid.NewGuid().ToString() // TODO: Is it secure?
         };  
         
-        var result = await _userManager.CreateAsync(userDbo, registrationData.Password);
+        var result = await _userManager.CreateAsync(creatureDbo, registrationData.Password);
         if (!result.Succeeded)
         {
             // Mostly probably password is too weak
             return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.WeakPassword);
         }
-
-        var userDto = _creaturesMapper.Map(userDbo);
         
-        return new RegistrationResultDto(userDto.Id, UserRegistrationResult.OK);
+        var creatureDto = _creaturesMapper.Map(creatureDbo);
+        
+        // Now creating the profile
+        var creatureProfileDbo = new CreatureProfileDbo()
+        {
+            Id = creatureDto.Id,
+            DisplayName = creatureDto.Login,
+            OneTimePlaintextPassword = registrationData.Password,
+            Avatars = new List<AvatarDbo>(),
+            CurrentAvatar = null
+        };
+
+        await _profilesDao.CreateProfileAsync(creatureProfileDbo);
+        
+        return new RegistrationResultDto(creatureDto.Id, UserRegistrationResult.OK);
     }
 
     public async Task<LoginResultDto> LoginAsync(LoginDto loginData)
@@ -145,8 +159,25 @@ public class AccountsService : IAccountsService
 
         var avatarDbo = _avatarsMapper.Map(avatar);
 
-        await _avatarsDao.AddAvatarToUserAsync(creatureId, avatarDbo);
+        await _avatarsDao.AddAvatarToCreatureAsync(creatureId, avatarDbo);
 
         return _avatarsMapper.Map(avatarDbo);
+    }
+
+    public async Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID={creatureId} is not found!", nameof(creatureId));
+        }
+
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Profile is not found for existing creature with ID={creatureId}");
+        }
+
+        return _creaturesWithProfilesMapper.Map(creature, profile);
     }
 }

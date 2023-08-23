@@ -44,12 +44,10 @@ public class TextsRenderingService : ITextsRenderingService
         _filesDao = filesDao;
     }
     
-    public async Task<byte[]> RenderTextToFileContentAsync(Guid textId, RenderedTextType type)
+    public async Task<byte[]> RenderTextToFileContentAsync(Text metadata, RenderedTextType type)
     {
-        var textMetadata = _textsMapper.Map(await _textsDao.GetTextMetadataByIdAsync(textId));
-        
-        var rawText = await _textUtilsService.GetRawTextAsync(textId);
-        var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
+        var rawText = await _textUtilsService.GetRawTextAsync(metadata.Id);
+        var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(metadata.Id));
         
         var parsedText = _textUtilsService.ParseTextToElements(rawText, textFiles);
 
@@ -57,7 +55,7 @@ public class TextsRenderingService : ITextsRenderingService
         {
             case RenderedTextType.PlainText:
                 // Plain text
-                return await RenderToPlainText(textMetadata, parsedText);
+                return await RenderToPlainText(metadata, parsedText);
             
             default:
                 throw new ArgumentException($"Unknown file type: {type}", nameof(type));
@@ -71,9 +69,9 @@ public class TextsRenderingService : ITextsRenderingService
 
     public async Task<RenderedText> RenderTextToDbAsync(Guid textId, RenderedTextType type)
     {
-        var textMetadata = _textsMapper.Map(await _textsDao.GetTextMetadataByIdAsync(textId));
+        var textMetadata = await _textUtilsService.GetTextMetadataAsync(textId);
         
-        var renderedContent = await RenderTextToFileContentAsync(textId, type);
+        var renderedContent = await RenderTextToFileContentAsync(textMetadata, type);
 
         // Storing file in DB
         string fileType;

@@ -39,7 +39,7 @@ public class TextsController : ControllerBase
         (
             new TextInfoResponse
             (
-                await _textsService.GetTextMetadataByIdAsync(id)
+                await _textsService.GetTextInfoByIdAsync(id)
             )
         );
     }
@@ -119,7 +119,7 @@ public class TextsController : ControllerBase
             return BadRequest("Skip too big.");
         }
 
-        var textsMetadata = await _textsService.GetTextsMetadataAsync(orderMode, skip, take);
+        var textsMetadata = await _textsService.GetTextsInfosAsync(orderMode, skip, take);
 
         var remaining = Math.Max(0, textsCount - (skip + take));
         

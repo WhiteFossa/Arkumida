@@ -37,7 +37,6 @@ public class AvatarsMapper : IAvatarsMapper
         {
             Id = avatar.Id,
             Name = avatar.Name,
-            IsCurrent = avatar.IsCurrent,
             UploadTime = avatar.UploadTime,
             File = _filesMapper.Map(avatar.File) 
         };
@@ -54,7 +53,6 @@ public class AvatarsMapper : IAvatarsMapper
         {
             Id  = avatar.Id,
             Name = avatar.Name,
-            IsCurrent = avatar.IsCurrent,
             UploadTime = avatar.UploadTime,
             File = _filesMapper.Map(avatar.File)
         };

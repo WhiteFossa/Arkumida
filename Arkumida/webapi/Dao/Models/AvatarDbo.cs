@@ -14,11 +14,6 @@ public class AvatarDbo
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Is current avatar for given creature? (Only one avatar can be current)
-    /// </summary>
-    public bool IsCurrent { get; set; }
-
-    /// <summary>
     /// Name
     /// </summary>
     public string Name { get; set; }
@@ -36,5 +31,5 @@ public class AvatarDbo
     /// <summary>
     /// Avatar belong to this creature
     /// </summary>
-    public CreatureDbo Creature { get; set; }
+    public CreatureProfileDbo CreatureProfile { get; set; }
 }

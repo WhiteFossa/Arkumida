@@ -18,12 +18,12 @@ public interface ITextsService
     /// <summary>
     /// Get some texts metadata from database
     /// </summary>
-    Task<IReadOnlyCollection<TextInfoDto>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take);
+    Task<IReadOnlyCollection<TextInfoDto>> GetTextsInfosAsync(TextOrderMode orderMode, int skip, int take);
 
     /// <summary>
     /// Get text metadata by text ID
     /// </summary>
-    Task<TextInfoDto> GetTextMetadataByIdAsync(Guid textId);
+    Task<TextInfoDto> GetTextInfoByIdAsync(Guid textId);
 
     /// <summary>
     /// Get total texts count

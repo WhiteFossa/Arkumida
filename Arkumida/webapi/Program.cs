@@ -44,6 +44,8 @@ builder.Services.AddScoped<IPlainTextRenderer, PlainTextRenderer>();
 builder.Services.AddScoped<IRenderedTextsDao, RenderedTextsDao>();
 builder.Services.AddScoped<ITextsRenderingService, TextsRenderingService>();
 
+builder.Services.AddScoped<IProfilesDao, ProfilesDao>();
+
 builder.Services.AddScoped<IAvatarsDao, AvatarsDao>();
 
 #endregion
@@ -61,6 +63,7 @@ builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
 builder.Services.AddSingleton<ICreaturesMapper, CreaturesMapper>();
 builder.Services.AddSingleton<IRenderedTextsMapper, RenderedTextsMapper>();
 builder.Services.AddSingleton<IAvatarsMapper, AvatarsMapper>();
+builder.Services.AddSingleton<ICreaturesWithProfilesMapper, CreaturesWithProfilesMapper>();
 
 #endregion
 

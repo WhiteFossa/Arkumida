@@ -41,19 +41,19 @@ public class TextReadDto : IdedEntityDto
     /// Text authors
     /// </summary>
     [JsonPropertyName("authors")]
-    public IList<CreatureDto> Authors { get; private set; }
+    public IReadOnlyCollection<CreatureWithProfileDto> Authors { get; private set; }
     
     /// <summary>
     /// Text translator
     /// </summary>
     [JsonPropertyName("translators")]
-    public IList<CreatureDto> Translators { get; private set; }
+    public IReadOnlyCollection<CreatureWithProfileDto> Translators { get; private set; }
     
     /// <summary>
     /// Text publisher
     /// </summary>
     [JsonPropertyName("publisher")]
-    public CreatureDto Publisher { get; private set; }
+    public CreatureWithProfileDto Publisher { get; private set; }
 
     /// <summary>
     /// Text illustrations
@@ -85,9 +85,9 @@ public class TextReadDto : IdedEntityDto
         string title,
         string description,
         IReadOnlyCollection<TagDto> tags,
-        IList<CreatureDto> authors,
-        IList<CreatureDto> translators,
-        CreatureDto publisher,
+        IReadOnlyCollection<CreatureWithProfileDto> authors,
+        IReadOnlyCollection<CreatureWithProfileDto> translators,
+        CreatureWithProfileDto publisher,
         IReadOnlyCollection<TextFileDto> illustrations,
         int pagesCount,
         FileInfoDto plainTextFile

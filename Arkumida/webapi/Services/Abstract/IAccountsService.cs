@@ -38,4 +38,9 @@ public interface IAccountsService
     /// Add new avatar to creature's collection
     /// </summary>
     Task<Avatar> AddAvatarAsync(Guid creatureId, Avatar avatar);
+
+    /// <summary>
+    /// Get creature profile by ID
+    /// </summary>
+    Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId);
 }

@@ -183,4 +183,17 @@ public class UsersController : ControllerBase
 
         return Ok(new CreateAvatarResponse(createdAvatar.ToDto()));
     }
+
+    /// <summary>
+    /// Get creature's current avatar
+    /// </summary>
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("api/Users/{creatureId}/CurrentAvatar")]
+    public async Task<ActionResult<CurrentAvatarResponse>> GetCurrentAvatarAsync(Guid creatureId)
+    {
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CurrentAvatarResponse(profile.CurrentAvatar != null, profile.CurrentAvatar?.ToDto()));
+    }
 }

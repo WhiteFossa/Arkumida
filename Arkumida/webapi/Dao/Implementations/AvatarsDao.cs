@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 
@@ -8,43 +6,30 @@ namespace webapi.Dao.Implementations;
 public class AvatarsDao : IAvatarsDao
 {
     private readonly MainDbContext _dbContext;
-    private readonly UserManager<CreatureDbo> _userManager;
+    private readonly IProfilesDao _profilesDao;
 
     public AvatarsDao
     (
         MainDbContext dbContext,
-        UserManager<CreatureDbo> userManager
+        IProfilesDao profilesDao
     )
     {
         _dbContext = dbContext;
-        _userManager = userManager;
+        _profilesDao = profilesDao;
     }
     
-    public async Task AddAvatarToUserAsync(Guid creatureId, AvatarDbo avatar)
+    public async Task<AvatarDbo> AddAvatarToCreatureAsync(Guid creatureId, AvatarDbo avatar)
     {
-        _ = avatar ?? throw new ArgumentNullException(nameof(avatar), "Avatar must not be null!");
-
-        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
-        if (creature == null)
-        {
-            throw new ArgumentException("Creature with given ID is not found!", nameof(creatureId));
-        }
+        _ = avatar ?? throw new ArgumentNullException(nameof(avatar), "Avatar can't be null!");
         
-        avatar.UploadTime = DateTime.UtcNow;
-        avatar.File = await _dbContext.Files.SingleAsync(f => f.Id == avatar.File.Id);
+        await _dbContext
+            .Avatars
+            .AddAsync(avatar);
 
-        if (creature.Avatars == null)
-        {
-            // Creature have no avatars yet
-            creature.Avatars = new List<AvatarDbo>();
-        }
-        
+        var creature = await _profilesDao.GetProfileAsync(creatureId);
         creature.Avatars.Add(avatar);
+        await _profilesDao.UpdateProfileAsync(creature);
 
-        var result = await _userManager.UpdateAsync(creature);
-        if (!result.Succeeded)
-        {
-            throw new InvalidOperationException($"Failed to add avatar to creature with ID={creatureId}!");
-        }
+        return avatar;
     }
 }

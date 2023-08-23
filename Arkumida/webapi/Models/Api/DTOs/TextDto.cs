@@ -83,19 +83,19 @@ public class TextDto
     /// Text authors
     /// </summary>
     [JsonPropertyName("authors")]
-    public IList<CreatureDto> Authors { get; set; }
+    public IList<CreatureWithProfileDto> Authors { get; set; }
     
     /// <summary>
     /// Text translators
     /// </summary>
     [JsonPropertyName("translators")]
-    public IList<CreatureDto> Translators { get; set; }
+    public IList<CreatureWithProfileDto> Translators { get; set; }
     
     /// <summary>
     /// Text publisher
     /// </summary>
     [JsonPropertyName("publisher")]
-    public CreatureDto Publisher { get; set; }
+    public CreatureWithProfileDto Publisher { get; set; }
 
     public TextDto()
     {
@@ -116,9 +116,9 @@ public class TextDto
         long votesMinus,
         IReadOnlyCollection<TagDto> tags,
         bool isIncomplete,
-        IList<CreatureDto> authors,
-        IList<CreatureDto> translators,
-        CreatureDto publisher
+        IList<CreatureWithProfileDto> authors,
+        IList<CreatureWithProfileDto> translators,
+        CreatureWithProfileDto publisher
     )
     {
         Id = id;
@@ -190,9 +190,9 @@ public class TextDto
             VotesMinus = VotesMinus,
             Tags = Tags.Select(t => t.ToTag()).ToList(),
             IsIncomplete = IsIncomplete,
-            Authors = Authors.Select(a => a.ToUser()).ToList(),
-            Translators = Translators.Select(t => t.ToUser()).ToList(),
-            Publisher = Publisher.ToUser()
+            Authors = Authors.Select(a => a.ToCreatureWithProfile()).ToList(),
+            Translators = Translators.Select(t => t.ToCreatureWithProfile()).ToList(),
+            Publisher = Publisher.ToCreatureWithProfile()
         };
     }
 }
