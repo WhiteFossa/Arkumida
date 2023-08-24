@@ -433,7 +433,7 @@ public class TextsImporter
                 
                 var content = await File.ReadAllBytesAsync(path);
 
-                var uploadedFile = await UploadFileToArkumidaAsync(fileMetadata.Name, mimeType, content);
+                var uploadedFile = await FilesHelper.UploadFileToArkumidaAsync(_httpClient, fileMetadata.Name, mimeType, content);
                 
                 // Now just attach file to text
                 await AddFileToArkumidaTextAsync(arkumidaTextId, fileMetadata.Name, uploadedFile.FileInfo.Id);
@@ -666,32 +666,6 @@ public class TextsImporter
             default:
                 throw new ArgumentException("Wrong subtype!", nameof(subtype));
         }
-    }
-    
-    private async Task<UploadFileResponse> UploadFileToArkumidaAsync(string filename, string mimeType, byte[] content)
-    {
-        var streamContent = new StreamContent(new MemoryStream(content));
-        streamContent.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
-        
-        using var request = new HttpRequestMessage(HttpMethod.Post, $"{MainImporter.BaseUrl}Files/Upload");
-        using var requestContent = new MultipartFormDataContent
-        {
-            {
-                streamContent,
-                "file",
-                filename
-            }
-        };
-        
-        request.Content = requestContent;
-        
-        var response = await _httpClient.SendAsync(request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new InvalidOperationException();
-        }
-        
-        return JsonSerializer.Deserialize<UploadFileResponse>(await response.Content.ReadAsStringAsync());
     }
     
     private async Task AddFileToArkumidaTextAsync(Guid textId, string fileName, Guid fileId)
