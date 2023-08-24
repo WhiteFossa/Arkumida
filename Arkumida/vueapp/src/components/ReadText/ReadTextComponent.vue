@@ -102,22 +102,17 @@
         <div class="read-text-author-publisher-translator-container">
 
             <!-- Publisher -->
-            <CreatureInfoComponent
-                :id="textData.textData.publisher.entityId"
-                :furryReadableId="textData.textData.publisher.furryReadableId"
-                :name="textData.textData.publisher.name"
-                creatureRole="Загрузил"
-            />
+            <CreatureInfoComponent :id="textData.textData.publisher.entityId" creatureRole="Загрузил" />
 
             <!-- Authors -->
             <CreaturesInfoComponent
-                :creatures="textData.textData.authors"
+                :creaturesIds="textData.textData.authors.map(a => a.entityId)"
                 creaturesRole="Автор(ы)"/>
 
             <!-- Translators -->
             <CreaturesInfoComponent
                 v-if="textData.textData.translators.length > 0"
-                :creatures="textData.textData.translators"
+                :creaturesIds="textData.textData.translators.map(t => t.entityId)"
                 creaturesRole="Переводчик(и)"/>
             <NonexistentCreatureComponent v-else creatureRole="Переводчик" />
 

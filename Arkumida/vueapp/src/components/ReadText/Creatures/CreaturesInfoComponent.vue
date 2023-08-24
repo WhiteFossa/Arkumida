@@ -1,14 +1,19 @@
 <!-- Like CreatureInfoComponent, but for from 1 to N creatures -->
 <script setup>
-import {defineProps, onMounted, ref} from "vue";
-import {Messages} from "@/js/constants";
+    import {defineProps, onMounted, ref} from "vue";
+    import {AvatarClass, Messages} from "@/js/constants";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
+    import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const props = defineProps({
         creaturesRole: { type: String, default: "" }, // Just a text description of this creatures role, like "Authors" or "Translators"
-        creatures: Object
+        creaturesIds: Object
     })
 
-    const creaturesLinks = ref([])
+    const isLoading = ref(true)
+
+    const creatures = ref([])
 
     onMounted(async () =>
     {
@@ -17,30 +22,43 @@ import {Messages} from "@/js/constants";
 
     async function OnLoad()
     {
-        props.creatures.forEach((creature) =>
+        props.creaturesIds.forEach(async (creatureId) =>
         {
-            let creatureLink =
-                {
-                    id: creature.entityId,
-                    name: creature.name,
-                    href: "/users/" + creature.entityId,
-                    title: Messages.CreatureUser + creature.name
-                }
+            let creatureProfile = (await (await WebClientSendGetRequest("/api/Users/" + creatureId + "/Profile")).json()).creatureWithProfile
 
-            creaturesLinks.value.push(creatureLink)
+            let creature =
+            {
+                id: creatureId,
+                profile: creatureProfile,
+                href: "/users/" + creatureId,
+                title: Messages.CreatureUser + creatureProfile.name
+            }
+
+            creatures.value.push(creature)
         });
+
+        isLoading.value = false
     }
 </script>
 
 <template>
-    <div class="creatures-info-container">
+    <LoadingSymbol v-if="isLoading" />
+
+    <div class="creatures-info-container" v-if="!isLoading">
         <div v-if="creaturesRole !== ''" class="creatures-info-creatures-role">{{ props.creaturesRole }}</div>
 
         <div class="creatures-info-creatures-list">
-            <div v-for="creatureLink in creaturesLinks" :key="creatureLink.entityId">
-                <a :href="creatureLink.href" :title="creatureLink.title"><img class="creatures-info-avatar" src="/images/fossa_avatar.jpg" :alt="creatureLink.title" /></a>
-                <a class="creatures-info-link" :href="creatureLink.href" :title="creatureLink.title">{{ creatureLink.name }}</a>
+
+            <div v-for="creature in creatures" :key="creature.id">
+
+                <!-- One creature -->
+                <a :href="creature.href" :title="creature.title">
+                    <AvatarComponent :avatar="creature.profile.currentAvatar" :avatarClass="AvatarClass.Small" />
+                </a>
+                <a class="creatures-info-link" :href="creature.href" :title="creature.title">{{ creature.profile.name }}</a>
+
             </div>
+
         </div>
 
     </div>

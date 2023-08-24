@@ -2,14 +2,19 @@
 
 import {defineProps, onMounted, ref} from "vue";
     import {Guid} from "guid-typescript";
-import {Messages} from "@/js/constants";
+import {AvatarClass, Messages} from "@/js/constants";
+import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+import {WebClientSendGetRequest} from "@/js/libWebClient";
+import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
 
     const props = defineProps({
         id: Guid,
-        furryReadableId: String,
-        name: String,
         creatureRole: { type: String, default: "" }
     })
+
+    const isLoading = ref(true)
+
+    const creatureProfile = ref(null)
 
     const creatureLinkHref = ref(null)
     const creatureLinkTitle = ref(null)
@@ -21,17 +26,26 @@ import {Messages} from "@/js/constants";
 
     async function OnLoad()
     {
+        creatureProfile.value = (await (await WebClientSendGetRequest("/api/Users/" + props.id + "/Profile")).json()).creatureWithProfile
+
         creatureLinkHref.value = "/users/" + props.id
-        creatureLinkTitle.value = Messages.CreatureUser + props.name
+        creatureLinkTitle.value = Messages.CreatureUser + creatureProfile.value.name
+
+        isLoading.value = false
     }
 
 </script>
 
 <template>
-    <div class="creature-info-container">
+    <LoadingSymbol v-if="isLoading" />
+
+    <div class="creature-info-container" v-if="!isLoading">
         <div v-if="creatureRole !== ''" class="creature-info-creature-role">{{ props.creatureRole }}</div>
 
-        <a :href="creatureLinkHref" :title="creatureLinkTitle"><img class="creature-info-avatar" src="/images/fossa_avatar.jpg" :alt="creatureLinkTitle" /></a>
-        <a class="creature-info-link" :href="creatureLinkHref" :title="creatureLinkTitle">{{ props.name }}</a>
+        <a :href="creatureLinkHref" :title="creatureLinkTitle">
+            <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Small" />
+        </a>
+
+        <a class="creature-info-link" :href="creatureLinkHref" :title="creatureLinkTitle">{{ creatureProfile.name }}</a>
     </div>
 </template>

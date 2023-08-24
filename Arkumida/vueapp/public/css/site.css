@@ -253,14 +253,6 @@ body {
     display: inline-block;
 }
 
-/* Right menu user avatar */
-.right-menu-avatar {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.5rem;
-    vertical-align: middle;
-}
-
 /* Right menu item */
 .right-menu-item {
     display: inline-block;
@@ -1148,14 +1140,6 @@ body {
     position: relative;
 
     height: min-content;
-}
-
-/* Avatar in creature container */
-.creature-info-avatar {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.5rem;
-    vertical-align: middle;
 }
 
 /* Creature link */
