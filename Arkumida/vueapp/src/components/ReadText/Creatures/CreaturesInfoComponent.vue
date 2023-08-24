@@ -1,4 +1,4 @@
-<!-- List of creatures, but for from 1 to N creatures -->
+<!-- List of creatures -->
 <script setup>
     import {defineProps, onMounted, ref} from "vue";
     import {AvatarClass, Messages} from "@/js/constants";
