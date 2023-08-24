@@ -57,7 +57,7 @@
             <div v-if="creatures.length === 0">
                 <!-- No creatures -->
                 <AvatarComponent :avatar="null" :avatarClass="AvatarClass.Small" />
-                <span class="creature-info-link">Нет</span>
+                <span class="creatures-info-link">Нет</span>
             </div>
 
             <div v-for="creature in creatures" :key="creature">
