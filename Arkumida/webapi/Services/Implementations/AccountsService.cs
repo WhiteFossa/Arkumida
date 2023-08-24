@@ -164,6 +164,28 @@ public class AccountsService : IAccountsService
         return _avatarsMapper.Map(avatarDbo);
     }
 
+    public async Task SetCurrentAvatarAsync(Guid creatureId, Guid avatarId)
+    {
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Profile is not found for existing creature with ID={creatureId}");
+        }
+        
+        // Is it our avatar?
+        if (!profile.Avatars.Any(a => a.Id == avatarId))
+        {
+            throw new ArgumentException($"Avatar with ID={avatarId} doesn't belong to creature with ID={creatureId}.", nameof(avatarId));
+        }
+
+        profile.CurrentAvatar = new AvatarDbo() // UpdateProfileAsync() will load avatar by ID
+        {
+            Id = avatarId
+        };
+
+        await _profilesDao.UpdateProfileAsync(profile);
+    }
+
     public async Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId)
     {
         var creature = await _userManager.FindByIdAsync(creatureId.ToString());

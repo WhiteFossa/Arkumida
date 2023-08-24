@@ -13,11 +13,6 @@ public class Avatar
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Is current avatar for given creature? (Only one avatar can be current)
-    /// </summary>
-    public bool IsCurrent { get; set; }
-
-    /// <summary>
     /// Name
     /// </summary>
     public string Name { get; set; }
@@ -40,7 +35,6 @@ public class Avatar
         return new AvatarDto()
         {
             Id = Id,
-            IsCurrent = IsCurrent,
             Name = Name,
             UploadTime = UploadTime,
             FileId = File.Id

@@ -89,8 +89,13 @@ public class ProfilesDao : IProfilesDao
     {
         return await _dbContext
             .Profiles
+                
             .Include(p => p.CurrentAvatar)
+            .ThenInclude(ca => ca.File)
+            
             .Include(p => p.Avatars)
+            .ThenInclude(a => a.File)
+            
             .SingleAsync(p => p.Id == creatureId);
     }
 }

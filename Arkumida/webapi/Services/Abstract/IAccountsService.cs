@@ -40,6 +40,11 @@ public interface IAccountsService
     Task<Avatar> AddAvatarAsync(Guid creatureId, Avatar avatar);
 
     /// <summary>
+    /// Set current avatar for creature
+    /// </summary>
+    Task SetCurrentAvatarAsync(Guid creatureId, Guid avatarId);
+    
+    /// <summary>
     /// Get creature profile by ID
     /// </summary>
     Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId);

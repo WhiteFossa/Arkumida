@@ -164,7 +164,7 @@ public class UsersController : ControllerBase
     /// Create creature's avatar
     /// </summary>
     [HttpPost]
-    [Route("api/Users/CreateAvatar")]
+    [Route("api/Users/Current/CreateAvatar")]
     public async Task<ActionResult<CreateAvatarResponse>> CreateAvatarAsync([FromBody] CreateAvatarRequest request)
     {
         if (request == null)
@@ -185,15 +185,36 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Get creature's current avatar
+    /// Set current creature's avatar
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/Current/SetCurrentAvatar")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> SetCurrentAvatarAsync(SetCurrentAvatarRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+        
+        var creature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+
+        await _accountsService.SetCurrentAvatarAsync(creature.Id, request.AvatarId);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creature.Id);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
+
+    /// <summary>
+    /// Get creature's profile
     /// </summary>
     [AllowAnonymous]
     [HttpGet]
-    [Route("api/Users/{creatureId}/CurrentAvatar")]
-    public async Task<ActionResult<CurrentAvatarResponse>> GetCurrentAvatarAsync(Guid creatureId)
+    [Route("api/Users/{creatureId}/Profile")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> GetProfileAsync(Guid creatureId)
     {
         var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
 
-        return Ok(new CurrentAvatarResponse(profile.CurrentAvatar != null, profile.CurrentAvatar?.ToDto()));
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
     }
 }

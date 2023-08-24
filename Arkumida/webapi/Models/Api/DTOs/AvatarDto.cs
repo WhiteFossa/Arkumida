@@ -14,12 +14,6 @@ public class AvatarDto
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Is current avatar for given creature? (Only one avatar can be current)
-    /// </summary>
-    [JsonPropertyName("isCurrent")]
-    public bool IsCurrent { get; set; }
-
-    /// <summary>
     /// Name
     /// </summary>
     [JsonPropertyName("name")]
@@ -46,7 +40,6 @@ public class AvatarDto
         {
             Id = Id,
             Name = Name,
-            IsCurrent = IsCurrent,
             UploadTime = UploadTime,
             File = new File() { Id = FileId}
         };

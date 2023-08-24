@@ -156,3 +156,10 @@ export class LoginResult
     static InvalidCredentials = 1
     static GenericError = 2
 }
+
+// Possible avatar classes
+export class AvatarClass
+{
+    static Small = 0
+    static Big = 1
+}
