@@ -2,15 +2,8 @@
 
 <script setup>
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-
-    const props = defineProps({
-        id: Guid,
-        page: Number
-    })
-
     import {defineProps, onMounted, ref} from "vue";
     import {Guid} from "guid-typescript";
-    import CreatureInfoComponent from "@/components/ReadText/Creatures/CreatureInfoComponent.vue";
     import {DetectTextType, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
     import CategoryTag from "@/components/Shared/CategoryTag.vue";
     import TagHashed from "@/components/ReadText/Tags/TagHashed.vue";
@@ -20,8 +13,12 @@
     import ReadTextPagination from "@/components/ReadText/Pagination/ReadTextPagination.vue";
     import router from "@/router";
     import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
-    import NonexistentCreatureComponent from "@/components/ReadText/Creatures/NonexistentCreatureComponent.vue";
     import ReadTextDownloadComponent from "@/components/ReadText/Download/ReadTextDownloadComponent.vue";
+
+    const props = defineProps({
+        id: Guid,
+        page: Number
+    })
 
     const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -102,7 +99,9 @@
         <div class="read-text-author-publisher-translator-container">
 
             <!-- Publisher -->
-            <CreatureInfoComponent :id="textData.textData.publisher.entityId" creatureRole="Загрузил" />
+            <CreaturesInfoComponent
+                :creaturesIds="[textData.textData.publisher.entityId]"
+                creaturesRole="Загрузил" />
 
             <!-- Authors -->
             <CreaturesInfoComponent
@@ -111,11 +110,8 @@
 
             <!-- Translators -->
             <CreaturesInfoComponent
-                v-if="textData.textData.translators.length > 0"
                 :creaturesIds="textData.textData.translators.map(t => t.entityId)"
                 creaturesRole="Переводчик(и)"/>
-            <NonexistentCreatureComponent v-else creatureRole="Переводчик" />
-
         </div>
 
         <div class="read-text-title">{{ textData.textData.title }}</div>

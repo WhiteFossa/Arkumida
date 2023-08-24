@@ -1,4 +1,4 @@
-<!-- Like CreatureInfoComponent, but for from 1 to N creatures -->
+<!-- List of creatures, but for from 1 to N creatures -->
 <script setup>
     import {defineProps, onMounted, ref} from "vue";
     import {AvatarClass, Messages} from "@/js/constants";
@@ -8,7 +8,7 @@
 
     const props = defineProps({
         creaturesRole: { type: String, default: "" }, // Just a text description of this creatures role, like "Authors" or "Translators"
-        creaturesIds: Object
+        creaturesIds: Object // May be empty, we display "no creature" in this case
     })
 
     const isLoading = ref(true)
@@ -24,15 +24,20 @@
     {
         props.creaturesIds.forEach(async (creatureId) =>
         {
+            if (creatureId === null)
+            {
+                throw new Error("Creature ID must not be null!");
+            }
+
             let creatureProfile = (await (await WebClientSendGetRequest("/api/Users/" + creatureId + "/Profile")).json()).creatureWithProfile
 
             let creature =
-            {
-                id: creatureId,
-                profile: creatureProfile,
-                href: "/users/" + creatureId,
-                title: Messages.CreatureUser + creatureProfile.name
-            }
+                {
+                    id: creatureId,
+                    profile: creatureProfile,
+                    href: "/users/" + creatureId,
+                    title: Messages.CreatureUser + creatureProfile.name
+                }
 
             creatures.value.push(creature)
         });
@@ -49,14 +54,17 @@
 
         <div class="creatures-info-creatures-list">
 
-            <div v-for="creature in creatures" :key="creature.id">
+            <div v-if="creatures.length === 0">
+                <!-- No creatures -->
+                <AvatarComponent :avatar="null" :avatarClass="AvatarClass.Small" />
+                <span class="creature-info-link">Нет</span>
+            </div>
 
-                <!-- One creature -->
+            <div v-for="creature in creatures" :key="creature">
                 <a :href="creature.href" :title="creature.title">
                     <AvatarComponent :avatar="creature.profile.currentAvatar" :avatarClass="AvatarClass.Small" />
                 </a>
                 <a class="creatures-info-link" :href="creature.href" :title="creature.title">{{ creature.profile.name }}</a>
-
             </div>
 
         </div>
