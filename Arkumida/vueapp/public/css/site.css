@@ -1142,14 +1142,6 @@ body {
     height: min-content;
 }
 
-/* Avatars in creatures container */
-.creatures-info-avatar {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.5rem;
-    vertical-align: middle;
-}
-
 /* Creatures links */
 .creatures-info-link {
     padding-left: 0.5rem;
@@ -1502,7 +1494,6 @@ body {
 /* Small avatar */
 .avatar-small {
     width: 3rem;
-    height: 3rem;
     border-radius: 0.5rem;
     vertical-align: middle;
 }
@@ -1510,7 +1501,6 @@ body {
 /* Big avatar */
 .avatar-big {
     width: 10rem;
-    height: 10rem;
     border-radius: 0.5rem;
     vertical-align: middle;
 }
