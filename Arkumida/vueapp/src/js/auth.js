@@ -214,8 +214,8 @@ async function AuthLogUserOut()
     await AuthClearCredentials()
     await AuthClearToken()
 
-    // Refreshing the page
-    router.go()
+    // Going to main page
+    await router.push("/")
 }
 
 export

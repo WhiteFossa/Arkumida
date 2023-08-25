@@ -80,7 +80,7 @@
             isPageLoading.value = false
 
             // Updating URL in browser address bar without page reload
-            router.replace({ path: "/texts/" + props.id + "/page/" + currentPageNumber.value })
+            await router.replace({ path: "/texts/" + props.id + "/page/" + currentPageNumber.value })
         }
     }
 

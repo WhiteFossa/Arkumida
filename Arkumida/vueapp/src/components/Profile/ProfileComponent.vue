@@ -1,8 +1,13 @@
 <script setup>
-import {defineProps, onMounted, ref} from "vue";
-import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-import router from "@/router";
-import ProfilePartButton from "@/components/Profile/ProfilePartButton.vue";
+    import {defineProps, onMounted, ref} from "vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+    import router from "@/router";
+    import ProfilePartButton from "@/components/Profile/ProfilePartButton.vue";
+    import ProfilePartMain from "@/components/Profile/Parts/ProfilePartMain.vue";
+    import ProfilePartAvatars from "@/components/Profile/Parts/ProfilePartAvatars.vue";
+    import ProfilePartSecurity from "@/components/Profile/Parts/ProfilePartSecurity.vue";
+    import ProfilePartLogout from "@/components/Profile/Parts/ProfilePartLogout.vue";
+    import {AuthIsUserLoggedIn} from "@/js/auth";
 
     const props = defineProps({
         part: String
@@ -59,6 +64,12 @@ import ProfilePartButton from "@/components/Profile/ProfilePartButton.vue";
 
     async function OnLoad()
     {
+        // Profile is accessible only for logged-in users
+        if (!await AuthIsUserLoggedIn())
+        {
+            await router.push("/")
+        }
+
         // If we are came directly to profile going to main part
         if (props.part === "")
         {
@@ -77,7 +88,7 @@ import ProfilePartButton from "@/components/Profile/ProfilePartButton.vue";
         let part = profileParts.filter(function (pp) { return pp.id === partId })[0]
 
         currentPart.value = part
-        router.replace({ path: "/profile/" + part.part })
+        await router.replace({ path: "/profile/" + part.part })
     }
 
     async function GetPartByPart(part)
@@ -101,7 +112,15 @@ import ProfilePartButton from "@/components/Profile/ProfilePartButton.vue";
             </div>
 
             <div class="profile-content-container">
-                <h1>{{ currentPart.name }}</h1>
+
+                <ProfilePartMain v-if="currentPart.id === ProfilePartsIds.Main"/>
+
+                <ProfilePartAvatars v-if="currentPart.id === ProfilePartsIds.Avatars" />
+
+                <ProfilePartSecurity v-if="currentPart.id === ProfilePartsIds.Security" />
+
+                <ProfilePartLogout v-if="currentPart.id === ProfilePartsIds.Logout" />
+
             </div>
         </div>
     </div>

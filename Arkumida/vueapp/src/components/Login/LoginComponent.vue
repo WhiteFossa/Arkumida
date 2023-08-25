@@ -37,7 +37,7 @@
             // On successfull login redirecting to main page
             if (loginResult === LoginResult.OK)
             {
-                router.push("/");
+                await router.push("/");
             }
         }
     }
