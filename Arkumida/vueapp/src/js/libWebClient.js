@@ -24,7 +24,32 @@ async function WebClientSendGetRequest
     })
 }
 
+// Make POST request
+async function WebClientSendPostRequest
+(
+    relativeUrl,
+    request
+)
+{
+    await AuthRefreshToken()
+
+    const authToken = await AuthGetToken()
+
+    let headers = { 'Content-Type': 'application/json' }
+    if (authToken !== null)
+    {
+        headers.Authorization = 'Bearer ' + authToken.token
+    }
+
+    return await fetch(apiBaseUrl + relativeUrl, {
+        method: 'POST',
+        body: JSON.stringify(request),
+        headers: headers
+    })
+}
+
 export
 {
-    WebClientSendGetRequest
+    WebClientSendGetRequest,
+    WebClientSendPostRequest
 }

@@ -4,9 +4,7 @@
     import LoadingSymbol from '../Shared/LoadingSymbol.vue'
 
     import { ref, onMounted } from 'vue'
-
-    // API base URL
-    const apiBaseUrl = process.env.VUE_APP_API_URL
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
     
     // True if loading under way
     const isLoading = ref(true)
@@ -29,7 +27,7 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        const textsStatistics = await (await fetch(apiBaseUrl + `/api/Statistics/Texts`)).json()
+        const textsStatistics = await (await WebClientSendGetRequest("/api/Statistics/Texts")).json()
 
         totalTexts.value = textsStatistics.totalTexts
         readToday.value = textsStatistics.readToday

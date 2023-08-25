@@ -3,9 +3,7 @@
     import LoadingSymbol from '../Shared/LoadingSymbol.vue'
 
     import { ref, onMounted } from 'vue'
-
-    // API base URL
-    const apiBaseUrl = process.env.VUE_APP_API_URL
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
     
     // True if loading under way
     const isLoading = ref(true)
@@ -25,7 +23,7 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        const versionInfo = await (await fetch(apiBaseUrl + `/api/SiteInfo/Version`)).json()
+        const versionInfo = await (await WebClientSendGetRequest("/api/SiteInfo/Version")).json()
         
         versionString.value = versionInfo.versionString
         sourcesUrl.value = versionInfo.sourcesUrl

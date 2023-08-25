@@ -14,13 +14,12 @@
     import router from "@/router";
     import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
     import ReadTextDownloadComponent from "@/components/ReadText/Download/ReadTextDownloadComponent.vue";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
 
     const props = defineProps({
         id: Guid,
         page: Number
     })
-
-    const apiBaseUrl = process.env.VUE_APP_API_URL
 
     const isLoading = ref(true)
 
@@ -43,7 +42,7 @@
     async function OnLoad()
     {
         // Loading text metadata
-        textData.value = await (await fetch(apiBaseUrl + `/api/Texts/GetReadData/` + props.id)).json()
+        textData.value = await (await WebClientSendGetRequest("/api/Texts/GetReadData/" + props.id)).json()
 
         categoryTags.value = FilterCategoryTags(textData.value.textData.tags)
         if (categoryTags.value.length === 0)
@@ -77,7 +76,7 @@
         {
             currentPageNumber.value = pageNumber
             isPageLoading.value = true
-            textPage.value = await (await fetch(apiBaseUrl + `/api/Texts/GetPage/` + props.id + `/Page/` + currentPageNumber.value)).json()
+            textPage.value = await (await WebClientSendGetRequest("/api/Texts/GetPage/" + props.id + "/Page/" + currentPageNumber.value)).json()
             isPageLoading.value = false
 
             // Updating URL in browser address bar without page reload

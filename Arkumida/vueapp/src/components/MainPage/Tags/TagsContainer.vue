@@ -3,12 +3,11 @@
     import {defineProps, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {Messages, TagSubtype} from "@/js/constants";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
 
     const props = defineProps({
         subtype: TagSubtype
     })
-
-    const apiBaseUrl = process.env.VUE_APP_API_URL
 
     const isLoading = ref(true)
 
@@ -25,7 +24,7 @@
 
     async function OnLoad()
     {
-        const response = await (await fetch(apiBaseUrl + '/api/Tags/List?subtype=' + props.subtype)).json()
+        const response = await (await WebClientSendGetRequest("/api/Tags/List?subtype=" + props.subtype)).json()
         tags.value = response.tags
 
         switch(props.subtype)

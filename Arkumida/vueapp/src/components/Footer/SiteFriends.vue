@@ -3,9 +3,7 @@
     import LoadingSymbol from '../Shared/LoadingSymbol.vue'
     
     import { ref, onMounted } from 'vue'
-
-    // API base URL
-    const apiBaseUrl = process.env.VUE_APP_API_URL
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
     
     // True if loading under way
     const isLoading = ref(true)
@@ -22,7 +20,7 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        friends.value = (await (await fetch(apiBaseUrl + `/api/SiteFriends/Get`)).json()).friends
+        friends.value = (await (await WebClientSendGetRequest("/api/SiteFriends/Get")).json()).friends
         isLoading.value = false
     }
 

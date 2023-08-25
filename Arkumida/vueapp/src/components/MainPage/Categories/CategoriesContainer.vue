@@ -4,8 +4,7 @@
     import {onMounted, ref} from "vue";
     import CategoryComponent from "@/components/MainPage/Categories/CategoryComponent.vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-
-    const apiBaseUrl = process.env.VUE_APP_API_URL
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
 
     const isLoading = ref(true)
 
@@ -18,7 +17,7 @@
 
     async function OnLoad()
     {
-        const response = await (await fetch(apiBaseUrl + '/api/Categories/List')).json()
+        const response = await (await WebClientSendGetRequest("/api/Categories/List")).json()
         categories.value = response.categoriesTags
 
         isLoading.value = false

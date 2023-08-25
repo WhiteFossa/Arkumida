@@ -18,13 +18,11 @@
     } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType} from "@/js/constants";
     import CategoryTag from "@/components/Shared/CategoryTag.vue";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
     
     const props = defineProps({
         id: Guid
     })
-    
-    // API base URL
-    const apiBaseUrl = process.env.VUE_APP_API_URL
     
     // True if loading under way
     const isLoading = ref(true)
@@ -60,7 +58,7 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        textInfo.value = await (await fetch(apiBaseUrl + `/api/Texts/GetInfo/` + props.id)).json()
+        textInfo.value = await (await WebClientSendGetRequest("/api/Texts/GetInfo/" + props.id)).json()
 
         textInfo.value.textInfo.authors.forEach((author) =>
         {
