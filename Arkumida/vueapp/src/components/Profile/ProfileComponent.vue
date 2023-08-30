@@ -7,7 +7,7 @@
     import ProfilePartAvatars from "@/components/Profile/Parts/ProfilePartAvatars.vue";
     import ProfilePartSecurity from "@/components/Profile/Parts/ProfilePartSecurity.vue";
     import ProfilePartLogout from "@/components/Profile/Parts/ProfilePartLogout.vue";
-    import {AuthIsUserLoggedIn} from "@/js/auth";
+    import { AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
 
     const props = defineProps({
         part: String
@@ -65,12 +65,9 @@
     async function OnLoad()
     {
         // Profile is accessible only for logged-in users
-        if (!await AuthIsUserLoggedIn())
-        {
-            await router.push("/")
-        }
+        AuthRedirectToLoginPageIfNotLoggedIn()
 
-        // If we are came directly to profile going to main part
+        // If we are came directly to profile - going to main part
         if (props.part === "")
         {
             await GoToPartById(ProfilePartsIds.Main)

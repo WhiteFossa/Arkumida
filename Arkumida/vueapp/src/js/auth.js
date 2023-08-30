@@ -218,6 +218,14 @@ async function AuthLogUserOut()
     await router.push("/")
 }
 
+async function AuthRedirectToLoginPageIfNotLoggedIn()
+{
+    if (!await AuthIsUserLoggedIn())
+    {
+        await router.push("/login")
+    }
+}
+
 export
 {
     AuthLogUserIn,
@@ -225,5 +233,6 @@ export
     AuthGetCredentials,
     AuthGetToken,
     AuthRefreshToken,
-    AuthIsUserLoggedIn
+    AuthIsUserLoggedIn,
+    AuthRedirectToLoginPageIfNotLoggedIn
 }
