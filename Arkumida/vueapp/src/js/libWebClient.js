@@ -1,5 +1,5 @@
 // API base URL
-import {AuthGetToken, AuthRefreshToken} from "@/js/auth";
+import {AuthGetToken, AuthLogUserOut, AuthRefreshToken} from "@/js/auth";
 
 const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -18,10 +18,19 @@ async function WebClientSendGetRequest
         headers = { 'Authorization': 'Bearer ' + authToken.token }
     }
 
-    return await fetch(apiBaseUrl + relativeUrl, {
+    const response = await fetch(apiBaseUrl + relativeUrl, {
         method: 'GET',
         headers: headers
     })
+
+    if (response.status === 401)
+    {
+        // Suddenly 401 while we have a valid token (because called AuthRefreshToken()). Looks like credentials are changed
+        // on server side
+        await AuthLogUserOut()
+    }
+
+    return response;
 }
 
 // Make POST request
@@ -41,11 +50,20 @@ async function WebClientSendPostRequest
         headers.Authorization = 'Bearer ' + authToken.token
     }
 
-    return await fetch(apiBaseUrl + relativeUrl, {
+    const response = await fetch(apiBaseUrl + relativeUrl, {
         method: 'POST',
         body: JSON.stringify(request),
         headers: headers
     })
+
+    if (response.status === 401)
+    {
+        // Suddenly 401 while we have a valid token (because called AuthRefreshToken()). Looks like credentials are changed
+        // on server side
+        await AuthLogUserOut()
+    }
+
+    return response
 }
 
 export

@@ -138,7 +138,7 @@ async function AuthClearCredentials()
 }
 
 // If there are no stored credentials, then we aren't logged in - returns false
-// If there are stored credentials, but they are incorrcet - returns false
+// If there are stored credentials, but they are incorrect - logs user out and returns false
 // If there are stored credentials and token is not going to expire - returns true
 // If there are stored credentials and token is going to expire - refreshes and returns true
 async function AuthRefreshToken()
@@ -157,7 +157,7 @@ async function AuthRefreshToken()
         if (tokenResponse === null)
         {
             // Wrong credentials
-            await AuthClearToken()
+            await AuthLogUserOut()
             return false
         }
 
