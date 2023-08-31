@@ -1,8 +1,21 @@
 <!-- Site header -->
 <script setup>
+import {defineExpose, ref} from "vue";
     import HeaderSiteInfo from './HeaderSiteInfo.vue'
     import CentralMenu from "@/components/Header/CentralMenu.vue";
     import HeaderUserInfo from "@/components/Header/HeaderUserInfo.vue";
+
+    defineExpose({
+        ReloadProfile
+    })
+
+    const headerUserInfo = ref(null)
+
+    // Call it to reload profile
+    async function ReloadProfile()
+    {
+        headerUserInfo.value.ReloadProfile()
+    }
 </script>
 
 <template>
@@ -15,7 +28,7 @@
                 <CentralMenu />
             </div>
             <div>
-                <HeaderUserInfo />
+                <HeaderUserInfo ref="headerUserInfo"/>
             </div>
         </div>
     </header>

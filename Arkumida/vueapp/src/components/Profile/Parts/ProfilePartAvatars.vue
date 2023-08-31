@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {defineEmits, onMounted, ref} from "vue";
 import {
     WebClientPostForm,
     WebClientSendGetRequest,
@@ -8,7 +8,9 @@ import {
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
     import {AvatarClass} from "@/js/constants";
-    import router from "@/router";
+import {PostprocessCreatureProfile} from "@/js/libArkumida";
+
+    const emit = defineEmits(['reloadProfile'])
 
     const isLoading = ref(true)
 
@@ -23,7 +25,7 @@ import {
     async function OnLoad()
     {
         creatureId.value = (await (await WebClientSendGetRequest("/api/Users/Current")).json()).creature.entityId
-        creatureProfile.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Profile")).json()).creatureWithProfile
+        await LoadProfile()
 
         isLoading.value = false
     }
@@ -37,8 +39,11 @@ import {
             return;
         }
 
-        // Reloading the page
-        await router.go()
+        // Reloading profile
+        await LoadProfile()
+
+        // We need to reload external profile because of default avatar change
+        emit("reloadProfile")
     }
 
     async function UploadNewAvatar(ev)
@@ -59,6 +64,16 @@ import {
                 "fileId": fileUploadResult.id
             }
         })
+
+        // Reloading profile
+        await LoadProfile()
+    }
+
+    async function LoadProfile()
+    {
+        creatureProfile.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Profile")).json()).creatureWithProfile
+
+        PostprocessCreatureProfile(creatureProfile)
     }
 </script>
 
@@ -67,7 +82,7 @@ import {
     <div v-else>
 
         <!-- Container with existing avatars -->
-        <div class="profile-avatars-part-avatars-container">
+        <div class="profile-avatars-part-avatars-container" :key="creatureProfile.currentAvatar">
 
             <div v-for="avatar in creatureProfile.avatars" :key="avatar.entityId">
 

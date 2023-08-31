@@ -301,6 +301,13 @@ function GenerateLinkToText(textId, pageNumber)
     return "/texts/" + textId + "/page/" + pageNumber;
 }
 
+// Postprocess creature profile (sort stuff and so on)
+function PostprocessCreatureProfile(profile)
+{
+    // Ordering avatars alphabetically to have stable order
+    profile.value.avatars.sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export
 {
     AddIconToList,
@@ -313,5 +320,6 @@ export
     InjectMlpIcon,
     InjectInclompleteIcon,
     RenderTextElement,
-    GenerateLinkToText
+    GenerateLinkToText,
+    PostprocessCreatureProfile
 }

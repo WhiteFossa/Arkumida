@@ -1,5 +1,5 @@
 <script setup>
-    import {defineProps, onMounted, ref} from "vue";
+import {defineEmits, defineProps, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import router from "@/router";
     import ProfilePartButton from "@/components/Profile/ProfilePartButton.vue";
@@ -12,6 +12,8 @@
     const props = defineProps({
         part: String
     })
+
+    const emit = defineEmits(['reloadProfile'])
 
    class ProfilePartsIds
     {
@@ -93,6 +95,10 @@
         return profileParts.filter(function (pp) { return pp.part === part })[0]
     }
 
+    async function EmitReloadProfile()
+    {
+        emit("reloadProfile")
+    }
 </script>
 
 <template>
@@ -112,7 +118,7 @@
 
                 <ProfilePartMain v-if="currentPart.id === ProfilePartsIds.Main"/>
 
-                <ProfilePartAvatars v-if="currentPart.id === ProfilePartsIds.Avatars" />
+                <ProfilePartAvatars v-if="currentPart.id === ProfilePartsIds.Avatars" @reloadProfile="async () => await EmitReloadProfile()"/>
 
                 <ProfilePartSecurity v-if="currentPart.id === ProfilePartsIds.Security" />
 
