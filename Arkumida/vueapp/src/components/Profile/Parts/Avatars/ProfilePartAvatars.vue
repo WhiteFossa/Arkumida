@@ -6,9 +6,8 @@ import {
     WebClientSendPostRequest,
     } from "@/js/libWebClient";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-    import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
-    import {AvatarClass} from "@/js/constants";
-import {PostprocessCreatureProfile} from "@/js/libArkumida";
+    import {PostprocessCreatureProfile} from "@/js/libArkumida";
+import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/ProfileAvatarSelectionComponent.vue";
 
     const emit = defineEmits(['reloadProfile'])
 
@@ -75,6 +74,11 @@ import {PostprocessCreatureProfile} from "@/js/libArkumida";
 
         PostprocessCreatureProfile(creatureProfile)
     }
+
+    async function RenameAvatar(avatarId, newName)
+    {
+        alert("Avatar " + avatarId + " to name " + newName)
+    }
 </script>
 
 <template>
@@ -84,15 +88,13 @@ import {PostprocessCreatureProfile} from "@/js/libArkumida";
         <!-- Container with existing avatars -->
         <div class="profile-avatars-part-avatars-container" :key="creatureProfile.currentAvatar">
 
-            <div v-for="avatar in creatureProfile.avatars" :key="avatar.entityId">
+            <div v-for="avatar in creatureProfile.avatars" :key="avatar.id">
 
-                <div class="profile-avatars-part-avatar-container">
-                    <AvatarComponent :avatar="avatar" :avatarClass="AvatarClass.Big" />
-
-                    <div class="underlined-pseudolink" @click="async () => await SetAsCurrentAvatar(avatar.id)">
-                        Выбрать
-                    </div>
-                </div>
+                <ProfileAvatarSelectionComponent
+                    :avatar="avatar"
+                    :selectedAvatarId="creatureProfile.currentAvatar?.id"
+                    @setAsCurrentAvatar="async (aid) => await SetAsCurrentAvatar(aid)"
+                    @renameAvatar="async (aid, nn) => await RenameAvatar(aid, nn)" />
 
             </div>
 

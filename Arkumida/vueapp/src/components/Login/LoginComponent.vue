@@ -83,7 +83,7 @@
                 <button
                     class="login-button"
                     type="button"
-                    @click="LogIn"
+                    @click="async() => await LogIn()"
                     :disabled="validator.$error">
                     Войти
                 </button>

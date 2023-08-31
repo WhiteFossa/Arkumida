@@ -1618,10 +1618,58 @@ body {
     padding-top: 0.5rem;
 }
 
+.profile-avatars-part-avatar-container.profile-avatars-part-avatar-container-selected {
+    background: hsl(36, 100%, 60%);
+
+    color: hsl(225, 100%, 35%);
+}
+
+/* Avatar selection component icons container */
+.avatar-selection-component-icons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    gap: 1rem;
+}
+
+/* Select as current avatar element */
+.avatar-selection-component-select-as-current {
+    cursor: pointer;
+}
+
+/* Rename avatar element */
+.avatar-selection-component-rename {
+    cursor: pointer;
+}
+
+/* Delete avatar element */
+.avatar-selection-component-delete {
+    cursor: pointer;
+}
+
+/* Div with rename avatar controls */
+.avatar-selection-component-rename-avatar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+/* Input for avatar renaming */
+.avatar-selection-component-rename-input {
+    width: 7rem;
+}
+
 /* Div with "upload new avatar" text */
 .profile-avatars-part-upload-new-avatar {
     padding-top: 1rem;
 }
+
 
 /* Profile stuff ends here */
 
@@ -1704,5 +1752,13 @@ body {
     color: hsl(0, 0%, 100%);
 }
 
-
 /* Popups stuff ends here */
+
+/* Icons stuff starts here */
+
+/* Small icon */
+.small-icon {
+    width: 1rem;
+}
+
+/* Icons stuff ends here */
