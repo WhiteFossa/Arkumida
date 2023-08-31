@@ -1583,6 +1583,46 @@ body {
     color: hsl(225, 100%, 35%);
 }
 
+/* Creature name in profile main part */
+.profile-main-part-creature-name {
+    font-size: 2rem;
+    text-align: center;
+}
+
+/* Avatar container in profile main part */
+.profile-main-part-avatar-container {
+    float: left;
+    padding-right: 1.0rem;
+}
+
+/* Container with avatars in profile avatars part */
+.profile-avatars-part-avatars-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Container with one avatar in profile avatars part */
+.profile-avatars-part-avatar-container {
+    background: hsl(0, 0%, 93%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 1rem;
+
+    text-align: center;
+
+    width: min-content;
+
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+/* Div with "upload new avatar" text */
+.profile-avatars-part-upload-new-avatar {
+    padding-top: 1rem;
+}
+
 /* Profile stuff ends here */
 
 /* Popups stuff starts here */

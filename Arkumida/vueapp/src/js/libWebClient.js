@@ -66,8 +66,42 @@ async function WebClientSendPostRequest
     return response
 }
 
+// Post a form (mostly probably with a file)
+async function WebClientPostForm
+(
+    relativeUrl,
+    request
+)
+{
+    await AuthRefreshToken()
+
+    const authToken = await AuthGetToken()
+
+    let headers = { }
+    if (authToken !== null)
+    {
+        headers.Authorization = 'Bearer ' + authToken.token
+    }
+
+    const response = await fetch(apiBaseUrl + relativeUrl, {
+        method: 'POST',
+        body: request,
+        headers: headers
+    })
+
+    if (response.status === 401)
+    {
+        // Suddenly 401 while we have a valid token (because called AuthRefreshToken()). Looks like credentials are changed
+        // on server side
+        await AuthLogUserOut()
+    }
+
+    return response
+}
+
 export
 {
     WebClientSendGetRequest,
-    WebClientSendPostRequest
+    WebClientSendPostRequest,
+    WebClientPostForm
 }
