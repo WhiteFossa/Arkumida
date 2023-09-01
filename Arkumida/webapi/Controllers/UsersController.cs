@@ -164,8 +164,8 @@ public class UsersController : ControllerBase
     /// Create creature's avatar
     /// </summary>
     [HttpPost]
-    [Route("api/Users/Current/CreateAvatar")]
-    public async Task<ActionResult<CreateAvatarResponse>> CreateAvatarAsync([FromBody] CreateAvatarRequest request)
+    [Route("api/Users/{creatureId}/CreateAvatar")]
+    public async Task<ActionResult<CreateAvatarResponse>> CreateAvatarAsync(Guid creatureId, CreateAvatarRequest request)
     {
         if (request == null)
         {
@@ -177,9 +177,9 @@ public class UsersController : ControllerBase
             return BadRequest("Avatar must be specified.");
         }
 
-        var creature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
-
-        var createdAvatar = await _accountsService.AddAvatarAsync(creature.Id, request.Avatar.ToModel());
+        await CheckPrivilegesAsync(creatureId);
+        
+        var createdAvatar = await _accountsService.AddAvatarAsync(creatureId, request.Avatar.ToModel());
 
         return Ok(new CreateAvatarResponse(createdAvatar.ToDto()));
     }
@@ -195,6 +195,8 @@ public class UsersController : ControllerBase
         {
             return BadRequest();
         }
+
+        await CheckPrivilegesAsync(creatureId);
         
         await _accountsService.SetCurrentAvatarAsync(creatureId, request.AvatarId);
         
@@ -215,6 +217,8 @@ public class UsersController : ControllerBase
             return BadRequest();
         }
 
+        await CheckPrivilegesAsync(creatureId);
+        
         await _accountsService.RenameAvatarAsync(creatureId, request.AvatarId, request.NewName);
         
         var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
@@ -233,5 +237,19 @@ public class UsersController : ControllerBase
         var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
 
         return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
+
+    /// <summary>
+    /// Checks who can edit a profile. If current user have no privileges to edit creatureId's profile - throws an exception
+    /// </summary>
+    private async Task CheckPrivilegesAsync(Guid creatureId)
+    {
+        var loggedIdCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        
+        // TODO: Add support for admins
+        if (loggedIdCreature.Id != creatureId)
+        {
+            throw new InvalidOperationException($"User with ID = { loggedIdCreature.Id } have no privileges to read/change user's with ID = { creatureId } data!");
+        }
     }
 }

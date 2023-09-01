@@ -57,7 +57,7 @@ import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/
         const fileUploadResult = (await (await WebClientPostForm("/api/Files/Upload", formData)).json()).fileInfo
 
         // Creating an avatar from file
-        await WebClientSendPostRequest("/api/Users/Current/CreateAvatar",{
+        await WebClientSendPostRequest("/api/Users/" + creatureId.value + "/CreateAvatar",{
             "avatar": {
                 "name": fileUploadResult.name,
                 "fileId": fileUploadResult.id
