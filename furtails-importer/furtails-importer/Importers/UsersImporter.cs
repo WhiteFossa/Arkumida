@@ -84,8 +84,11 @@ public class UsersImporter
             
             Console.WriteLine("Starting to edit profile...");
 
-            using (var userHttpClient = await LoginHelper.LogInAsUser(registrationData.Login, registrationData.Password))
+            using (var userHttpClient = await LoginHelper.LogInAsUserAsync(registrationData.Login, registrationData.Password))
             {
+                // User info
+                var currentLoggedInUser = await LoginHelper.GetCurrentLoggedInUserInfoAsync(userHttpClient);
+                
                 // Do user have an avatar?
                 var avatarPath = GetAvatarPath(user);
                 if (avatarPath != string.Empty)
@@ -107,10 +110,10 @@ public class UsersImporter
                             FileId = uploadedAvatarFile.FileInfo.Id
                         };
 
-                        var createdAvatar = await CreateAvatarAsync(userHttpClient, avatarToCreate);
+                        var createdAvatar = await CreateAvatarAsync(userHttpClient, currentLoggedInUser.Id, avatarToCreate);
 
                         // Setting as default
-                        await SetCurrentAvatarAsync(userHttpClient, createdAvatar.Id);
+                        await SetCurrentAvatarAsync(userHttpClient, currentLoggedInUser.Id, createdAvatar.Id);
                     }
                 }
             }
@@ -241,9 +244,9 @@ public class UsersImporter
         }
     }
     
-    public async Task<AvatarDto> CreateAvatarAsync(HttpClient client, AvatarDto avatar)
+    public async Task<AvatarDto> CreateAvatarAsync(HttpClient client, Guid creatureId, AvatarDto avatar)
     {
-        var response = await client.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/Current/CreateAvatar", new CreateAvatarRequest() { Avatar = avatar });
+        var response = await client.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/{ creatureId }/CreateAvatar", new CreateAvatarRequest() { Avatar = avatar });
         if (!response.IsSuccessStatusCode)
         {
             throw new InvalidOperationException();
@@ -254,9 +257,9 @@ public class UsersImporter
         return responseData.Avatar;
     }
     
-    public async Task<CreatureWithProfileDto> SetCurrentAvatarAsync(HttpClient client, Guid avatarId)
+    public async Task<CreatureWithProfileDto> SetCurrentAvatarAsync(HttpClient client, Guid creatureId, Guid avatarId)
     {
-        var response = await client.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/Current/SetCurrentAvatar", new SetCurrentAvatarRequest() { AvatarId = avatarId});
+        var response = await client.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/{ creatureId }/SetCurrentAvatar", new SetCurrentAvatarRequest() { AvatarId = avatarId});
         if (!response.IsSuccessStatusCode)
         {
             throw new InvalidOperationException();

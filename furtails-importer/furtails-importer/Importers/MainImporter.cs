@@ -22,7 +22,7 @@ public class MainImporter
     public async Task ImportAsync()
     {
         await using (var connection = new MySqlConnection(ConnectionString))
-        using (var httpClient = await LoginHelper.LogInAsUser(Login, Password))
+        using (var httpClient = await LoginHelper.LogInAsUserAsync(Login, Password))
         {
             // Importing users
             var usersImporter = new UsersImporter(connection, httpClient);

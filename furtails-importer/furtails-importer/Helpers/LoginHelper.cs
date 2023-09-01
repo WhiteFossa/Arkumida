@@ -16,7 +16,7 @@ public static class LoginHelper
     /// <summary>
     /// Returns HttpClient, logged as given user
     /// </summary>
-    public static async Task<HttpClient> LogInAsUser(string login, string password)
+    public static async Task<HttpClient> LogInAsUserAsync(string login, string password)
     {
         var httpClient = new HttpClient();
         
@@ -37,5 +37,21 @@ public static class LoginHelper
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 
         return httpClient;
+    }
+    
+    /// <summary>
+    /// Get information about currently logged in user
+    /// </summary>
+    public static async Task<CreatureDto> GetCurrentLoggedInUserInfoAsync(HttpClient client)
+    {
+        var response = await client.GetAsync($"{MainImporter.BaseUrl}Users/Current");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var responseData = JsonSerializer.Deserialize<LoggedInCreatureResponse>(await response.Content.ReadAsStringAsync());
+
+        return responseData.Creature;
     }
 }
