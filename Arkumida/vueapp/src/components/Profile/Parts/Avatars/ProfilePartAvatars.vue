@@ -31,7 +31,7 @@ import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/
 
     async function SetAsCurrentAvatar(avatarId)
     {
-        const response = await WebClientSendPostRequest("/api/Users/Current/SetCurrentAvatar", { "avatarId": avatarId })
+        const response = await WebClientSendPostRequest("/api/Users/" + creatureId.value + "/SetCurrentAvatar", { "avatarId": avatarId })
         if (!response.ok)
         {
             // Something went wrong

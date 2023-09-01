@@ -185,22 +185,20 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Set current creature's avatar
+    /// Set creature's current avatar
     /// </summary>
     [HttpPost]
-    [Route("api/Users/Current/SetCurrentAvatar")]
-    public async Task<ActionResult<CreatureWithProfileResponse>> SetCurrentAvatarAsync(SetCurrentAvatarRequest request)
+    [Route("api/Users/{creatureId}/SetCurrentAvatar")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> SetCurrentAvatarAsync(Guid creatureId, SetCurrentAvatarRequest request)
     {
         if (request == null)
         {
             return BadRequest();
         }
         
-        var creature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
-
-        await _accountsService.SetCurrentAvatarAsync(creature.Id, request.AvatarId);
+        await _accountsService.SetCurrentAvatarAsync(creatureId, request.AvatarId);
         
-        var profile = await _accountsService.GetProfileByCreatureIdAsync(creature.Id);
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
 
         return Ok(new CreatureWithProfileResponse(profile.ToDto()));
     }
