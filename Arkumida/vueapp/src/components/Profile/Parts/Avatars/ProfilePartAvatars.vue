@@ -77,7 +77,12 @@ import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/
 
     async function RenameAvatar(avatarId, newName)
     {
-        alert("Avatar " + avatarId + " to name " + newName)
+        await WebClientSendPostRequest("/api/Users/" + creatureId.value + "/RenameAvatar",{
+            "avatarId": avatarId,
+            "newName": newName
+        })
+
+        await LoadProfile()
     }
 </script>
 

@@ -186,6 +186,31 @@ public class AccountsService : IAccountsService
         await _profilesDao.UpdateProfileAsync(profile);
     }
 
+    public async Task RenameAvatarAsync(Guid creatureId, Guid avatarId, string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+        {
+            throw new ArgumentException("Avatar name must be populated!", nameof(newName));
+        }
+        
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Profile is not found for existing creature with ID={creatureId}");
+        }
+        
+        // Is it our avatar?
+        var avatarToUpdate = profile.Avatars.SingleOrDefault(a => a.Id == avatarId);
+        if (avatarToUpdate == null)
+        {
+            throw new ArgumentException($"Avatar with ID={avatarId} doesn't belong to creature with ID={creatureId}.", nameof(avatarId));
+        }
+
+        avatarToUpdate.Name = newName;
+
+        await _avatarsDao.UpdateAvatarAsync(avatarToUpdate);
+    }
+
     public async Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId)
     {
         var creature = await _userManager.FindByIdAsync(creatureId.ToString());

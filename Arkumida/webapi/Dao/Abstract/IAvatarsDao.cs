@@ -11,4 +11,9 @@ public interface IAvatarsDao
     /// Creates avatar and adds it to creature's collection
     /// </summary>
     Task<AvatarDbo> AddAvatarToCreatureAsync(Guid creatureId, AvatarDbo avatar);
+
+    /// <summary>
+    /// Update avatar
+    /// </summary>
+    Task<AvatarDbo> UpdateAvatarAsync(AvatarDbo avatarToUpdate);
 }

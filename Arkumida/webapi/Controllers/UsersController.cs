@@ -204,6 +204,25 @@ public class UsersController : ControllerBase
 
         return Ok(new CreatureWithProfileResponse(profile.ToDto()));
     }
+    
+    /// <summary>
+    /// Rename creature's avatar
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/RenameAvatar")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> RenameAvatarAsync(Guid creatureId, RenameAvatarRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await _accountsService.RenameAvatarAsync(creatureId, request.AvatarId, request.NewName);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
 
     /// <summary>
     /// Get creature's profile

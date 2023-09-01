@@ -38,4 +38,21 @@ public class AvatarsDao : IAvatarsDao
 
         return avatar;
     }
+
+    public async Task<AvatarDbo> UpdateAvatarAsync(AvatarDbo avatarToUpdate)
+    {
+        _ = avatarToUpdate ?? throw new ArgumentNullException(nameof(avatarToUpdate), "Avatar can't be null!");
+
+        var avatar = await _dbContext
+            .Avatars
+            .SingleAsync(a => a.Id == avatarToUpdate.Id);
+
+        avatar.Name = avatarToUpdate.Name;
+        avatar.UploadTime = avatarToUpdate.UploadTime;
+        avatar.File = await _dbContext.Files.SingleAsync(f => f.Id == avatarToUpdate.File.Id);
+
+        await _dbContext.SaveChangesAsync();
+
+        return avatar;
+    }
 }
