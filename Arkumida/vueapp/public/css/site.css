@@ -1618,6 +1618,8 @@ body {
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
+
+    padding-bottom: 1rem;
 }
 
 /* Container with one avatar in profile avatars part */
@@ -1672,9 +1674,68 @@ body {
     border: 0.2rem solid hsl(0, 100%, 56%);
 }
 
-/* Div with "upload new avatar" text */
+/* "Upload new avatar" container */
+.profile-avatars-part-upload-new-avatar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+/* Div with "upload new avatar" block */
 .profile-avatars-part-upload-new-avatar {
-    padding-top: 1rem;
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+
+    width: 20rem;
+
+    padding: 0.5rem;
+}
+
+/* "Upload new avatar" small text */
+.profile-avatars-part-upload-new-avatar-caption {
+    font-size: 0.8rem;
+    color: hsl(0, 0%, 60%);
+    text-align: right;
+
+    margin-bottom: 0.5rem;
+}
+
+/* New avatar name form group */
+.profile-avatars-part-upload-new-avatar-name-form-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    margin-bottom: 0.5rem;
+}
+
+/* Input with new avatar name */
+.profile-avatars-part-upload-new-avatar-name {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* New avatar file form group */
+.profile-avatars-part-upload-new-avatar-file-form-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    margin-bottom: 0.5rem;
+}
+
+/* Input with new avatar file */
+.profile-avatars-part-upload-new-avatar-file {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* New avatar submit button form group */
+.profile-avatars-part-upload-new-avatar-upload-form-group {
+    text-align: right;
 }
 
 /* Profile stuff ends here */

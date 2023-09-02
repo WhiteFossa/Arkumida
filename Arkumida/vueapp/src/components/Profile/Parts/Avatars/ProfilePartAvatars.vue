@@ -137,24 +137,44 @@ import useVuelidate from "@vuelidate/core";
         </div>
 
         <!-- Upload new avatar -->
-        <div class="profile-avatars-part-upload-new-avatar">
-            Загрузить новую:
+        <div class="profile-avatars-part-upload-new-avatar-container">
+            <div class="profile-avatars-part-upload-new-avatar">
+                <div class="profile-avatars-part-upload-new-avatar-caption">
+                    Загрузить новую
+                </div>
 
-            <input
-                type="text"
-                v-model="newAvatarUploadFormData.name" />
+                <div class="profile-avatars-part-upload-new-avatar-name-form-group">
+                    <label>
+                        Название:
+                    </label>
 
-            <input
-                ref="newAvatarUploadInput"
-                type="file"
-                accept="image/png, image/jpeg, image/gif" />
+                    <input
+                        class="profile-avatars-part-upload-new-avatar-name"
+                        type="text"
+                        v-model="newAvatarUploadFormData.name" />
+                </div>
 
-            <button
-                type="button"
-                :disabled="newAvatarUploadValidator.$errors.length > 0"
-                @click="async () => await UploadNewAvatar()">
-                Загрузить
-            </button>
+                <div class="profile-avatars-part-upload-new-avatar-file-form-group">
+                    <label>
+                        Файл:
+                    </label>
+
+                    <input
+                        class="profile-avatars-part-upload-new-avatar-file"
+                        ref="newAvatarUploadInput"
+                        type="file"
+                        accept="image/png, image/jpeg, image/gif" />
+                </div>
+
+                <div class="profile-avatars-part-upload-new-avatar-upload-form-group">
+                    <button
+                        type="button"
+                        :disabled="newAvatarUploadValidator.$errors.length > 0"
+                        @click="async () => await UploadNewAvatar()">
+                        Загрузить
+                    </button>
+                </div>
+            </div>
         </div>
 
     </div>
