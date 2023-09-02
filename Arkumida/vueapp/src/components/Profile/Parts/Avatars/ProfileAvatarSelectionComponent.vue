@@ -5,6 +5,7 @@
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
+    import {UndefinedOrNullToNull} from "@/js/libArkumida";
 
     const props = defineProps({
         avatar: Object,
@@ -30,13 +31,18 @@
 
     async function SetAsCurrentAvatar()
     {
-        emit("setAsCurrentAvatar", props.avatar.id)
+        emit("setAsCurrentAvatar", UndefinedOrNullToNull(props.avatar?.id))
     }
 
     async function StartNameEditing()
     {
         isEditingName.value = true
         renameAvatarFormData.name = props.avatar.name
+    }
+
+    async function CancelNameEditing()
+    {
+        isEditingName.value = false
     }
 
     async function CompleteNameEditing()
@@ -48,12 +54,19 @@
 </script>
 
 <template>
-    <div :class="(props.avatar.id === props.selectedAvatarId)?'profile-avatars-part-avatar-container profile-avatars-part-avatar-container-selected':'profile-avatars-part-avatar-container'">
+    <div :class="(UndefinedOrNullToNull(props.avatar?.id) === props.selectedAvatarId)?'profile-avatars-part-avatar-container profile-avatars-part-avatar-container-selected':'profile-avatars-part-avatar-container'">
         <AvatarComponent :avatar="props.avatar" :avatarClass="AvatarClass.Big" />
 
         <!-- Avatar name -->
         <div v-if="!isEditingName">
-            {{ props.avatar.name }}
+
+            <div v-if="props.avatar !== null">
+                {{ props.avatar.name }}
+            </div>
+            <div v-else>
+                Нет аватарки
+            </div>
+
         </div>
 
         <!-- Rename avatar -->
@@ -67,39 +80,57 @@
                 v-model="renameAvatarFormData.name" />
 
             <button
+                class="button-with-image"
                 type="button"
+                title="Подтвердить переименование"
                 @click="async () => await CompleteNameEditing()"
                 :disabled="renameAvatarValidator.$error">
-                OK
+                <img class="small-icon" src="/images/icons/icon_ok.png" alt="Подтвердить переименование" />
+            </button>
+
+            <button
+                class="button-with-image"
+                type="button"
+                title="Отменить переименование"
+                @click="async () => await CancelNameEditing()">
+                <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отменить переименование" />
             </button>
 
         </div>
 
-        <div class="avatar-selection-component-icons-container">
+        <div
+            v-if="(props.avatar !== null) || (props.avatar === null && props.selectedAvatarId !== null)"
+            class="avatar-selection-component-icons-container">
 
             <!-- Select as current -->
-            <div
-                v-if="props.avatar.id !== props.selectedAvatarId"
-                @click="async () => await SetAsCurrentAvatar()"
-                class="avatar-selection-component-select-as-current"
-                title="Выбрать как аватарку по-умолчанию">
+            <button
+                v-if="props.avatar?.id !== props.selectedAvatarId"
+                class="button-with-image"
+                type="button"
+                title="Выбрать как аватарку по-умолчанию"
+                @click="async () => await SetAsCurrentAvatar()">
                 <img class="small-icon" src="/images/icons/icon_ok.png" alt="Выбрать как аватарку по-умолчанию" />
-            </div>
+            </button>
 
             <!-- Rename -->
-            <div
+            <button
+                v-if="props.avatar !== null"
+                class="button-with-image"
+                type="button"
+                title="Переименовать аватарку"
                 @click="async () => await StartNameEditing()"
-                class="avatar-selection-component-rename"
-                title="Переименовать аватарку">
+                :disabled="isEditingName">
                 <img class="small-icon" src="/images/icons/icon_edit.png" alt="Переименовать аватарку" />
-            </div>
+            </button>
 
             <!-- Delete -->
-            <div
-                class="avatar-selection-component-delete"
+            <button
+                v-if="props.avatar !== null"
+                class="button-with-image"
+                type="button"
                 title="Удалить аватарку">
                 <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Удалить аватарку" />
-            </div>
+            </button>
 
         </div>
 

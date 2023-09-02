@@ -8,8 +8,8 @@ namespace webapi.Models.Api.Requests;
 public class SetCurrentAvatarRequest
 {
     /// <summary>
-    /// Avatar ID
+    /// Avatar ID (may be null if user choosing not to not have an avatar at all)
     /// </summary>
     [JsonPropertyName("avatarId")]
-    public Guid AvatarId { get; set; }
+    public Guid? AvatarId { get; set; }
 }

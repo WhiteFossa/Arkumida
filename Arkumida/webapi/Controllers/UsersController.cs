@@ -240,7 +240,7 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Checks who can edit a profile. If current user have no privileges to edit creatureId's profile - throws an exception
+    /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception
     /// </summary>
     private async Task CheckPrivilegesAsync(Guid creatureId)
     {

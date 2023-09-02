@@ -231,6 +231,22 @@ body {
     cursor: pointer;
 }
 
+/* Transparent button (put image on it) */
+.button-with-image {
+    /* For vertical centering */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    background-color: inherit;
+
+    margin: 0;
+    padding: 0;
+}
+
 /* Menu stuff starts here */
 
 /* Central menu item */
@@ -296,7 +312,7 @@ body {
     padding-bottom: 0;
 }
 
-/* Howered top button */
+/* Hovered top button */
 .top-button:hover {
     background-color: hsl(36, 100%, 84%);
 }
@@ -1612,10 +1628,9 @@ body {
     text-align: center;
 
     width: min-content;
+    height: min-content;
 
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.5rem;
+    padding: 0.5rem;
 }
 
 .profile-avatars-part-avatar-container.profile-avatars-part-avatar-container-selected {
@@ -1631,21 +1646,8 @@ body {
     justify-content: center;
 
     gap: 1rem;
-}
 
-/* Select as current avatar element */
-.avatar-selection-component-select-as-current {
-    cursor: pointer;
-}
-
-/* Rename avatar element */
-.avatar-selection-component-rename {
-    cursor: pointer;
-}
-
-/* Delete avatar element */
-.avatar-selection-component-delete {
-    cursor: pointer;
+    padding-top: 0.5rem;
 }
 
 /* Div with rename avatar controls */
@@ -1654,22 +1656,21 @@ body {
     flex-direction: row;
     justify-content: center;
 
-    gap: 0.5rem;
-
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
 }
 
 /* Input for avatar renaming */
 .avatar-selection-component-rename-input {
-    width: 7rem;
+    width: 7.2rem;
+
+    margin-right: 0.2rem;
 }
 
 /* Div with "upload new avatar" text */
 .profile-avatars-part-upload-new-avatar {
     padding-top: 1rem;
 }
-
 
 /* Profile stuff ends here */
 

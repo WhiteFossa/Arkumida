@@ -308,6 +308,17 @@ function PostprocessCreatureProfile(profile)
     profile.value.avatars.sort((a, b) => a.name.localeCompare(b.name));
 }
 
+// If value is undefined or null - return null, otherwise - the value
+function UndefinedOrNullToNull(value)
+{
+    if (value === undefined || value === null)
+    {
+        return null;
+    }
+
+    return value;
+}
+
 export
 {
     AddIconToList,
@@ -321,5 +332,6 @@ export
     InjectInclompleteIcon,
     RenderTextElement,
     GenerateLinkToText,
-    PostprocessCreatureProfile
+    PostprocessCreatureProfile,
+    UndefinedOrNullToNull
 }

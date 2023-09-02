@@ -6,7 +6,7 @@ import {
     WebClientSendPostRequest,
     } from "@/js/libWebClient";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-    import {PostprocessCreatureProfile} from "@/js/libArkumida";
+import {PostprocessCreatureProfile, UndefinedOrNullToNull} from "@/js/libArkumida";
 import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/ProfileAvatarSelectionComponent.vue";
 
     const emit = defineEmits(['reloadProfile'])
@@ -97,11 +97,17 @@ import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/
 
                 <ProfileAvatarSelectionComponent
                     :avatar="avatar"
-                    :selectedAvatarId="creatureProfile.currentAvatar?.id"
+                    :selectedAvatarId="UndefinedOrNullToNull(creatureProfile.currentAvatar?.id)"
                     @setAsCurrentAvatar="async (aid) => await SetAsCurrentAvatar(aid)"
                     @renameAvatar="async (aid, nn) => await RenameAvatar(aid, nn)" />
 
             </div>
+
+            <!-- Inserting "no avatar" selection component -->
+            <ProfileAvatarSelectionComponent
+                :avatar="null"
+                :selectedAvatarId="UndefinedOrNullToNull(creatureProfile.currentAvatar?.id)"
+                @setAsCurrentAvatar="async (aid) => await SetAsCurrentAvatar(aid)" />
 
         </div>
 

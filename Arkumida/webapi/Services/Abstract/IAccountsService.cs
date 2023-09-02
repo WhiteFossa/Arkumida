@@ -42,7 +42,7 @@ public interface IAccountsService
     /// <summary>
     /// Set current avatar for creature
     /// </summary>
-    Task SetCurrentAvatarAsync(Guid creatureId, Guid avatarId);
+    Task SetCurrentAvatarAsync(Guid creatureId, Guid? avatarId);
 
     /// <summary>
     /// Rename creature's avatar
