@@ -197,6 +197,33 @@ namespace webapi.Dao.Migrations
                     b.ToTable("TextsTranslators");
                 });
 
+            modelBuilder.Entity("webapi.Dao.Models.AvatarDbo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatureProfileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UploadTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatureProfileId");
+
+                    b.HasIndex("FileId");
+
+                    b.ToTable("Avatars");
+                });
+
             modelBuilder.Entity("webapi.Dao.Models.CreatureDbo", b =>
                 {
                     b.Property<Guid>("Id")
@@ -208,9 +235,6 @@ namespace webapi.Dao.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DisplayName")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
@@ -263,6 +287,28 @@ namespace webapi.Dao.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.CreatureProfileDbo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CurrentAvatarId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OneTimePlaintextPassword")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrentAvatarId");
+
+                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.FileDbo", b =>
@@ -576,6 +622,30 @@ namespace webapi.Dao.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("webapi.Dao.Models.AvatarDbo", b =>
+                {
+                    b.HasOne("webapi.Dao.Models.CreatureProfileDbo", "CreatureProfile")
+                        .WithMany("Avatars")
+                        .HasForeignKey("CreatureProfileId");
+
+                    b.HasOne("webapi.Dao.Models.FileDbo", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId");
+
+                    b.Navigation("CreatureProfile");
+
+                    b.Navigation("File");
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.CreatureProfileDbo", b =>
+                {
+                    b.HasOne("webapi.Dao.Models.AvatarDbo", "CurrentAvatar")
+                        .WithMany()
+                        .HasForeignKey("CurrentAvatarId");
+
+                    b.Navigation("CurrentAvatar");
+                });
+
             modelBuilder.Entity("webapi.Dao.Models.RenderedTextDbo", b =>
                 {
                     b.HasOne("webapi.Dao.Models.FileDbo", "File")
@@ -632,6 +702,11 @@ namespace webapi.Dao.Migrations
                     b.HasOne("webapi.Dao.Models.TextSectionDbo", null)
                         .WithMany("Variants")
                         .HasForeignKey("TextSectionDboId");
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.CreatureProfileDbo", b =>
+                {
+                    b.Navigation("Avatars");
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TextDbo", b =>

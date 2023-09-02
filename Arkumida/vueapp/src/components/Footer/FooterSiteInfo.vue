@@ -7,9 +7,7 @@ import { ref, onMounted } from 'vue'
 import TelegramGroup from "@/components/Shared/TelegramGroup.vue";
 import OpdsLink from "@/components/Footer/OpdsLink.vue";
 import AtomLink from "@/components/Shared/AtomLink.vue";
-
-// API base URL
-const apiBaseUrl = process.env.VUE_APP_API_URL
+import {WebClientSendGetRequest} from "@/js/libWebClient";
 
 // True if loading under way
 const isLoading = ref(true)
@@ -29,7 +27,7 @@ onMounted(async () =>
 // Called when page is loaded
 async function OnLoad()
 {
-    const siteInfo = await (await fetch(apiBaseUrl + `/api/SiteInfo/Url`)).json()
+    const siteInfo = await (await WebClientSendGetRequest("/api/SiteInfo/Url")).json()
     siteUrl.value = siteInfo.siteUrl
     siteTitle.value = siteInfo.siteTitle
     isLoading.value = false

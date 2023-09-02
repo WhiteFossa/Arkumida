@@ -2,15 +2,8 @@
 
 <script setup>
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-
-    const props = defineProps({
-        id: Guid,
-        page: Number
-    })
-
     import {defineProps, onMounted, ref} from "vue";
     import {Guid} from "guid-typescript";
-    import CreatureInfoComponent from "@/components/ReadText/Creatures/CreatureInfoComponent.vue";
     import {DetectTextType, FilterCategoryTags, FilterOrdinaryTags} from "@/js/libArkumida";
     import CategoryTag from "@/components/Shared/CategoryTag.vue";
     import TagHashed from "@/components/ReadText/Tags/TagHashed.vue";
@@ -20,10 +13,13 @@
     import ReadTextPagination from "@/components/ReadText/Pagination/ReadTextPagination.vue";
     import router from "@/router";
     import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
-    import NonexistentCreatureComponent from "@/components/ReadText/Creatures/NonexistentCreatureComponent.vue";
     import ReadTextDownloadComponent from "@/components/ReadText/Download/ReadTextDownloadComponent.vue";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
 
-    const apiBaseUrl = process.env.VUE_APP_API_URL
+    const props = defineProps({
+        id: Guid,
+        page: Number
+    })
 
     const isLoading = ref(true)
 
@@ -46,7 +42,7 @@
     async function OnLoad()
     {
         // Loading text metadata
-        textData.value = await (await fetch(apiBaseUrl + `/api/Texts/GetReadData/` + props.id)).json()
+        textData.value = await (await WebClientSendGetRequest("/api/Texts/GetReadData/" + props.id)).json()
 
         categoryTags.value = FilterCategoryTags(textData.value.textData.tags)
         if (categoryTags.value.length === 0)
@@ -80,11 +76,11 @@
         {
             currentPageNumber.value = pageNumber
             isPageLoading.value = true
-            textPage.value = await (await fetch(apiBaseUrl + `/api/Texts/GetPage/` + props.id + `/Page/` + currentPageNumber.value)).json()
+            textPage.value = await (await WebClientSendGetRequest("/api/Texts/GetPage/" + props.id + "/Page/" + currentPageNumber.value)).json()
             isPageLoading.value = false
 
             // Updating URL in browser address bar without page reload
-            router.replace({ path: "/texts/" + props.id + "/page/" + currentPageNumber.value })
+            await router.replace({ path: "/texts/" + props.id + "/page/" + currentPageNumber.value })
         }
     }
 
@@ -102,25 +98,19 @@
         <div class="read-text-author-publisher-translator-container">
 
             <!-- Publisher -->
-            <CreatureInfoComponent
-                :id="textData.textData.publisher.entityId"
-                :furryReadableId="textData.textData.publisher.furryReadableId"
-                :name="textData.textData.publisher.name"
-                creatureRole="Загрузил"
-            />
+            <CreaturesInfoComponent
+                :creaturesIds="[textData.textData.publisher.entityId]"
+                creaturesRole="Загрузил" />
 
             <!-- Authors -->
             <CreaturesInfoComponent
-                :creatures="textData.textData.authors"
+                :creaturesIds="textData.textData.authors.map(a => a.entityId)"
                 creaturesRole="Автор(ы)"/>
 
             <!-- Translators -->
             <CreaturesInfoComponent
-                v-if="textData.textData.translators.length > 0"
-                :creatures="textData.textData.translators"
+                :creaturesIds="textData.textData.translators.map(t => t.entityId)"
                 creaturesRole="Переводчик(и)"/>
-            <NonexistentCreatureComponent v-else creatureRole="Переводчик" />
-
         </div>
 
         <div class="read-text-title">{{ textData.textData.title }}</div>

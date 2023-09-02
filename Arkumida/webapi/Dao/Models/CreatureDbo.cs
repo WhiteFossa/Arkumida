@@ -7,8 +7,6 @@ namespace webapi.Dao.Models;
 /// </summary>
 public class CreatureDbo : IdentityUser<Guid>
 {
-    #region Relations
-
     /// <summary>
     /// This creature is author of the next texts
     /// </summary>
@@ -18,11 +16,4 @@ public class CreatureDbo : IdentityUser<Guid>
     /// This creature is translator of the next texts
     /// </summary>
     public IList<TextDbo> TextsTranslator { get; set; }
-
-    #endregion
-    
-    /// <summary>
-    /// User's visible name
-    /// </summary>
-    public string DisplayName { get; set; }
 }

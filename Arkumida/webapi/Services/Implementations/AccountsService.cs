@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using webapi.Constants;
+using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Models;
@@ -18,17 +19,32 @@ public class AccountsService : IAccountsService
     private readonly UserManager<CreatureDbo> _userManager;
     private readonly IConfigurationService _configurationService;
     private readonly ICreaturesMapper _creaturesMapper;
+    private readonly IAvatarsMapper _avatarsMapper;
+    private readonly IProfilesDao _profilesDao;
+    private readonly IAvatarsDao _avatarsDao;
+    private readonly ICreaturesWithProfilesMapper _creaturesWithProfilesMapper;
+    private readonly IFilesDao _filesDao;
 
     public AccountsService
     (
         UserManager<CreatureDbo> userManager,
         IConfigurationService configurationService,
-        ICreaturesMapper creaturesMapper
+        ICreaturesMapper creaturesMapper,
+        IAvatarsMapper avatarsMapper,
+        IProfilesDao profilesDao,
+        IAvatarsDao avatarsDao,
+        ICreaturesWithProfilesMapper creaturesWithProfilesMapper,
+        IFilesDao filesDao
     )
     {
         _userManager = userManager;
         _configurationService = configurationService;
         _creaturesMapper = creaturesMapper;
+        _avatarsMapper = avatarsMapper;
+        _profilesDao = profilesDao;
+        _avatarsDao = avatarsDao;
+        _creaturesWithProfilesMapper = creaturesWithProfilesMapper;
+        _filesDao = filesDao;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
@@ -45,26 +61,35 @@ public class AccountsService : IAccountsService
             return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.EmailIsTaken);
         }
         
-        var userDbo = new CreatureDbo()
+        var creatureDbo = new CreatureDbo()
         {  
             UserName = registrationData.Login,
             Email = registrationData.Email,
-            SecurityStamp = Guid.NewGuid().ToString(), // TODO: Is it secure?
-            
-            // Profile fields
-            DisplayName = registrationData.Login
+            SecurityStamp = Guid.NewGuid().ToString() // TODO: Is it secure?
         };  
         
-        var result = await _userManager.CreateAsync(userDbo, registrationData.Password);
+        var result = await _userManager.CreateAsync(creatureDbo, registrationData.Password);
         if (!result.Succeeded)
         {
             // Mostly probably password is too weak
             return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.WeakPassword);
         }
-
-        var userDto = _creaturesMapper.Map(userDbo);
         
-        return new RegistrationResultDto(userDto.Id, UserRegistrationResult.OK);
+        var creatureDto = _creaturesMapper.Map(creatureDbo);
+        
+        // Now creating the profile
+        var creatureProfileDbo = new CreatureProfileDbo()
+        {
+            Id = creatureDto.Id,
+            DisplayName = creatureDto.Login,
+            OneTimePlaintextPassword = registrationData.Password,
+            Avatars = new List<AvatarDbo>(),
+            CurrentAvatar = null
+        };
+
+        await _profilesDao.CreateProfileAsync(creatureProfileDbo);
+        
+        return new RegistrationResultDto(creatureDto.Id, UserRegistrationResult.OK);
     }
 
     public async Task<LoginResultDto> LoginAsync(LoginDto loginData)
@@ -129,5 +154,130 @@ public class AccountsService : IAccountsService
         _ = login ?? throw new ArgumentNullException(nameof(login), "Login must be specified, at least empty string.");
 
         return _creaturesMapper.Map(await _userManager.FindByNameAsync(login));
+    }
+
+    public async Task<Avatar> AddAvatarAsync(Guid creatureId, Avatar avatar)
+    {
+        _ = avatar ?? throw new ArgumentNullException(nameof(avatar), "Avatar must be specified");
+
+        var avatarDbo = _avatarsMapper.Map(avatar);
+
+        await _avatarsDao.AddAvatarToCreatureAsync(creatureId, avatarDbo);
+
+        return _avatarsMapper.Map(avatarDbo);
+    }
+
+    public async Task SetCurrentAvatarAsync(Guid creatureId, Guid? avatarId)
+    {
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
+        }
+
+        if (!avatarId.HasValue)
+        {
+            // User choose to not have an avatar
+            profile.CurrentAvatar = null;
+        }
+        else
+        {
+            // User choose a real avatar
+            
+            // Is it our avatar?
+            if (!profile.Avatars.Any(a => a.Id == avatarId.Value))
+            {
+                throw new ArgumentException($"Avatar with ID={ avatarId.Value } doesn't belong to creature with ID={ creatureId }.", nameof(avatarId));
+            }
+
+            profile.CurrentAvatar = new AvatarDbo() // UpdateProfileAsync() will load avatar by ID
+            {
+                Id = avatarId.Value
+            };
+        }
+        
+        await _profilesDao.UpdateProfileAsync(profile);
+    }
+
+    public async Task RenameAvatarAsync(Guid creatureId, Guid avatarId, string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+        {
+            throw new ArgumentException("Avatar name must be populated!", nameof(newName));
+        }
+        
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
+        }
+        
+        // Is it our avatar?
+        var avatarToUpdate = profile.Avatars.SingleOrDefault(a => a.Id == avatarId);
+        if (avatarToUpdate == null)
+        {
+            throw new ArgumentException($"Avatar with ID={avatarId} doesn't belong to creature with ID={creatureId}.", nameof(avatarId));
+        }
+
+        avatarToUpdate.Name = newName;
+
+        await _avatarsDao.UpdateAvatarAsync(avatarToUpdate);
+    }
+
+    public async Task DeleteAvatarAsync(Guid creatureId, Guid avatarId)
+    {
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
+        }
+        
+        // Is it our avatar?
+        var avatarToUpdate = profile.Avatars.SingleOrDefault(a => a.Id == avatarId);
+        if (avatarToUpdate == null)
+        {
+            throw new ArgumentException($"Avatar with ID={avatarId} doesn't belong to creature with ID={creatureId}.", nameof(avatarId));
+        }
+        
+        // Is it current avatar?
+        if (profile.CurrentAvatar?.Id == avatarId)
+        {
+            await SetCurrentAvatarAsync(creatureId, null); // Switching to "no avatar"
+            
+            profile = await _profilesDao.GetProfileAsync(creatureId); // Reloading because it is possible that profile was changed due to switching to 
+        }
+        
+        // Removing from profile
+        profile.Avatars = profile
+            .Avatars
+            .Where(a => a.Id != avatarId)
+            .ToList();
+
+        await _profilesDao.UpdateProfileAsync(profile);
+
+        var avatar = await _avatarsDao.GetAvatarByIdAsync(avatarId);
+        
+        // Deleting avatar
+        await _avatarsDao.DeleteAvatarAsync(avatarId);
+        
+        // And avatar file
+        await _filesDao.DeleteFileAsync(avatar.File.Id);
+    }
+
+    public async Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID={creatureId} is not found!", nameof(creatureId));
+        }
+
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Profile is not found for existing creature with ID={creatureId}");
+        }
+
+        return _creaturesWithProfilesMapper.Map(creature, profile);
     }
 }

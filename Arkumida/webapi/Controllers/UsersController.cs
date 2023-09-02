@@ -143,4 +143,134 @@ public class UsersController : ControllerBase
         
         return Ok(new FindCreatureByLoginResponse(true, user.ToDto()));
     }
+
+    /// <summary>
+    /// Get current logged-in user
+    /// </summary>
+    [HttpGet]
+    [Route("api/Users/Current")]
+    public async Task<ActionResult<LoggedInCreatureResponse>> GetLoggedInCreatureAsync()
+    {
+        var creature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        if (creature == null)
+        {
+            throw new Exception("Current creature is not found. This is impossible, there is a bug somewhere!");
+        }
+
+        return Ok(new LoggedInCreatureResponse(creature.ToDto()));
+    }
+
+    /// <summary>
+    /// Create creature's avatar
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/CreateAvatar")]
+    public async Task<ActionResult<CreateAvatarResponse>> CreateAvatarAsync(Guid creatureId, CreateAvatarRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        if (request.Avatar == null)
+        {
+            return BadRequest("Avatar must be specified.");
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+        
+        var createdAvatar = await _accountsService.AddAvatarAsync(creatureId, request.Avatar.ToModel());
+
+        return Ok(new CreateAvatarResponse(createdAvatar.ToDto()));
+    }
+
+    /// <summary>
+    /// Set creature's current avatar
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/SetCurrentAvatar")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> SetCurrentAvatarAsync(Guid creatureId, SetCurrentAvatarRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+        
+        await _accountsService.SetCurrentAvatarAsync(creatureId, request.AvatarId);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
+    
+    /// <summary>
+    /// Rename creature's avatar
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/RenameAvatar")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> RenameAvatarAsync(Guid creatureId, RenameAvatarRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+        
+        await _accountsService.RenameAvatarAsync(creatureId, request.AvatarId, request.NewName);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
+    
+    /// <summary>
+    /// Delete creature's avatar
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/DeleteAvatar")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> DeleteAvatarAsync(Guid creatureId, DeleteAvatarRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+        
+        await _accountsService.DeleteAvatarAsync(creatureId, request.AvatarId);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
+
+    /// <summary>
+    /// Get creature's profile
+    /// </summary>
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("api/Users/{creatureId}/Profile")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> GetProfileAsync(Guid creatureId)
+    {
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
+
+    /// <summary>
+    /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception
+    /// </summary>
+    private async Task CheckPrivilegesAsync(Guid creatureId)
+    {
+        var loggedIdCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        
+        // TODO: Add support for admins
+        if (loggedIdCreature.Id != creatureId)
+        {
+            throw new InvalidOperationException($"User with ID = { loggedIdCreature.Id } have no privileges to read/change user's with ID = { creatureId } data!");
+        }
+    }
 }

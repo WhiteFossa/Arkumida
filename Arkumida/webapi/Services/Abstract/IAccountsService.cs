@@ -33,4 +33,29 @@ public interface IAccountsService
     /// Find user by login. Returns null if user is not found
     /// </summary>
     Task<Creature> FindUserByLoginAsync(string login);
+
+    /// <summary>
+    /// Add new avatar to creature's collection
+    /// </summary>
+    Task<Avatar> AddAvatarAsync(Guid creatureId, Avatar avatar);
+
+    /// <summary>
+    /// Set current avatar for creature
+    /// </summary>
+    Task SetCurrentAvatarAsync(Guid creatureId, Guid? avatarId);
+
+    /// <summary>
+    /// Rename creature's avatar
+    /// </summary>
+    Task RenameAvatarAsync(Guid creatureId, Guid avatarId, string newName);
+    
+    /// <summary>
+    /// Delete creature's avatar
+    /// </summary>
+    Task DeleteAvatarAsync(Guid creatureId, Guid avatarId);
+    
+    /// <summary>
+    /// Get creature profile by ID
+    /// </summary>
+    Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId);
 }

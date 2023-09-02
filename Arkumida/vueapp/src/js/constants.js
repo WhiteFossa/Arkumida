@@ -19,6 +19,15 @@ export class Messages
     static Actions = "Действия"
 
     static CreatureUser = "Пользователь "
+
+    static LogOutTitle = "Выход"
+    static LogOutText = "Вы действительно хотите выйти с сайта?"
+
+    static DeleteAvatarTitle = "Удалить аватарку?"
+    static DeleteAvatarTextFirstPart = 'Вы действительно хотите удалить аватарку "'
+    static DeleteAvatarTextSecondPart = '"?'
+
+    static SelectOnlyOneFileForUploadAsAvatar = "Выберите ровно один файл для загрузки в качестве аварки."
 }
 
 // Category tag types
@@ -148,3 +157,18 @@ export const FullsizeImageIdPrefix = "e76eb871-7129-4ad2-be31-d94068051923_";
 
 // Prefix for IDs of comics images
 export const ComicsImageIdPrefix = "e7cd4703-ba8b-4241-a873-3f4298ad9ca9_";
+
+// Login result
+export class LoginResult
+{
+    static OK = 0
+    static InvalidCredentials = 1
+    static GenericError = 2
+}
+
+// Possible avatar classes
+export class AvatarClass
+{
+    static Small = 0
+    static Big = 1
+}

@@ -2,8 +2,7 @@
 
     import {ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-
-    const apiBaseUrl = process.env.VUE_APP_API_URL
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
 
     const isDonateInfoShown = ref(false)
 
@@ -15,7 +14,7 @@
     {
         isDonateInfoShown.value = true
 
-        donateInfo.value = await (await fetch(apiBaseUrl + `/api/SiteNotifications/DonateToRedgerra`)).json()
+        donateInfo.value = await (await WebClientSendGetRequest("/api/SiteNotifications/DonateToRedgerra")).json()
         isLoading.value = false
     }
 

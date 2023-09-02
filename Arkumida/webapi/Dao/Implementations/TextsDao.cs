@@ -38,7 +38,7 @@ public class TextsDao : ITextsDao
                 .ToList();
         }
 
-        // Loading creatures by their IDs
+        // Loading creatures profiles by their IDs
         text.Authors = await LoadCreaturesAsync(text.Authors.Select(ta => ta.Id).ToList());
         text.Translators = await LoadCreaturesAsync(text.Translators.Select(tt => tt.Id).ToList());
         text.Publisher = await LoadCreatureAsync(text.Publisher.Id);

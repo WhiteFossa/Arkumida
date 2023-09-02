@@ -8,12 +8,6 @@ namespace furtails_importer.WebClientStuff.Dtos;
 public class CreatureDto : IdedEntityDto
 {
     /// <summary>
-    /// Creature name
-    /// </summary>
-    [JsonPropertyName("name")]
-    public string Name { get;  set; }
-    
-    /// <summary>
     /// Creature login
     /// </summary>
     [JsonPropertyName("login")]

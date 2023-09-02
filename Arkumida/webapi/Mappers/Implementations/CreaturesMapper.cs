@@ -27,8 +27,7 @@ public class CreaturesMapper : ICreaturesMapper
         (
             creature.Id,
             creature.UserName,
-            creature.Email,
-            creature.DisplayName
+            creature.Email
         );
     }
 
@@ -43,8 +42,7 @@ public class CreaturesMapper : ICreaturesMapper
         {
             Id = creature.Id,
             UserName = creature.Login,
-            Email = creature.Email,
-            DisplayName = creature.DisplayName
+            Email = creature.Email
         };
     }
 

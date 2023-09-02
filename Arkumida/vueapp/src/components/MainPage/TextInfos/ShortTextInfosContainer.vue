@@ -3,13 +3,11 @@
     import {ref, onMounted, watch, defineProps} from 'vue'
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import ShortTextInfo from "@/components/MainPage/TextInfos/ShortTextInfo.vue";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
 
     const props = defineProps({
         dataSource: String // Data source for component, like "/api/Texts/Latest"
     })
-
-    // API base URL
-    const apiBaseUrl = process.env.VUE_APP_API_URL
     
     // True if loading under way
     const isLoading = ref(true)
@@ -45,7 +43,7 @@
     {
         isLoading.value = true
 
-        const response = await (await fetch(apiBaseUrl + props.dataSource + `?skip=` + skip.value + `&take=` + takeSize)).json()
+        const response = await (await WebClientSendGetRequest(props.dataSource + `?skip=` + skip.value + `&take=` + takeSize)).json()
         texts.value = response.textInfos
         remaining.value = response.remainingTexts
 

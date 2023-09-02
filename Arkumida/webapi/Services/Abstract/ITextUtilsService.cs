@@ -1,3 +1,4 @@
+using webapi.Dao.Models.Enums;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 
@@ -19,4 +20,14 @@ public interface ITextUtilsService
     /// <param name="textContent">Plain text to parse</param>
     /// <param name="textFiles">Text files (we need it to generate links to images)</param>
     IReadOnlyCollection<TextElementDto> ParseTextToElements(string textContent, IReadOnlyCollection<TextFile> textFiles);
+    
+    /// <summary>
+    /// Get full text metadata (i.e. with publisher, translators and so on) by text ID
+    /// </summary>
+    Task<Text> GetTextMetadataAsync(Guid textId);
+    
+    /// <summary>
+    /// Get full text metadata for multiple texts
+    /// </summary>
+    Task<IReadOnlyCollection<Text>> GetTextsMetadatasAsync(TextOrderMode orderMode, int skip, int take);
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using webapi.Constants;
 using webapi.Dao;
 using webapi.Dao.Abstract;
@@ -43,6 +44,10 @@ builder.Services.AddScoped<IPlainTextRenderer, PlainTextRenderer>();
 builder.Services.AddScoped<IRenderedTextsDao, RenderedTextsDao>();
 builder.Services.AddScoped<ITextsRenderingService, TextsRenderingService>();
 
+builder.Services.AddScoped<IProfilesDao, ProfilesDao>();
+
+builder.Services.AddScoped<IAvatarsDao, AvatarsDao>();
+
 #endregion
 
 #region Singletons
@@ -57,6 +62,8 @@ builder.Services.AddSingleton<ITextsPagesMapper, TextsPagesMapper>();
 builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
 builder.Services.AddSingleton<ICreaturesMapper, CreaturesMapper>();
 builder.Services.AddSingleton<IRenderedTextsMapper, RenderedTextsMapper>();
+builder.Services.AddSingleton<IAvatarsMapper, AvatarsMapper>();
+builder.Services.AddSingleton<ICreaturesWithProfilesMapper, CreaturesWithProfilesMapper>();
 
 #endregion
 
@@ -98,11 +105,14 @@ builder.Services.AddControllers();
         (
             policy =>
             {
-                policy.WithOrigins
+                policy
+                    .WithOrigins
                     (
                         "http://localhost:8080",
                         "https://arkumida.furtails.pw"
-                    );
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
             }
         );
     });
@@ -170,7 +180,41 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen
+(
+    sc =>
+    {
+        sc.SwaggerDoc("v1", new OpenApiInfo() { Title = "Arkumida API", Version = "v1" });
+        
+        sc.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            Description = @"JWT Authorization token",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer"
+        });
+        
+        sc.AddSecurityRequirement(new OpenApiSecurityRequirement()
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    },
+                    Scheme = "oauth2",
+                    Name = "Bearer",
+                    In = ParameterLocation.Header,
+
+                },
+                new List<string>()
+            }
+        });
+    }
+);
 
 var app = builder.Build();
 

@@ -57,9 +57,9 @@ public class TextsMapper : ITextsMapper
             Tags = _tagsMapper.Map(text.Tags)?.ToList(),
             IsIncomplete = text.IsIncomplete,
             TextFiles = _textFilesMapper.Map(text.TextFiles)?.ToList(),
-            Authors = _creaturesMapper.Map(text.Authors)?.ToList(),
-            Publisher = _creaturesMapper.Map(text.Publisher),
-            Translators = _creaturesMapper.Map(text.Translators)?.ToList()
+            Authors = null, // Must be loaded externally
+            Publisher = null, // Must be loaded externally
+            Translators = null // Must be loaded externally
         };
     }
 

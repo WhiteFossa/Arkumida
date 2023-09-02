@@ -301,6 +301,24 @@ function GenerateLinkToText(textId, pageNumber)
     return "/texts/" + textId + "/page/" + pageNumber;
 }
 
+// Postprocess creature profile (sort stuff and so on)
+function PostprocessCreatureProfile(profile)
+{
+    // Ordering avatars alphabetically to have stable order
+    profile.value.avatars.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+// If value is undefined or null - return null, otherwise - the value
+function UndefinedOrNullToNull(value)
+{
+    if (value === undefined || value === null)
+    {
+        return null;
+    }
+
+    return value;
+}
+
 export
 {
     AddIconToList,
@@ -313,5 +331,7 @@ export
     InjectMlpIcon,
     InjectInclompleteIcon,
     RenderTextElement,
-    GenerateLinkToText
+    GenerateLinkToText,
+    PostprocessCreatureProfile,
+    UndefinedOrNullToNull
 }

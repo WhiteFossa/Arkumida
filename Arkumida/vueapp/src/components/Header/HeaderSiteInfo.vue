@@ -1,35 +1,33 @@
 <!-- Shows site info for header -->
 <script setup>
-import LoadingSymbol from '../Shared/LoadingSymbol.vue'
+    import LoadingSymbol from '../Shared/LoadingSymbol.vue'
 
-import { ref, onMounted } from 'vue'
+    import { ref, onMounted } from 'vue'
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
 
-// API base URL
-const apiBaseUrl = process.env.VUE_APP_API_URL
+    // True if loading under way
+    const isLoading = ref(true)
 
-// True if loading under way
-const isLoading = ref(true)
+    // Site base URL
+    const siteUrl = ref(null)
 
-// Site base URL
-const siteUrl = ref(null)
+    // Site title
+    const siteTitle = ref(null)
 
-// Site title
-const siteTitle = ref(null)
+    // OnMounted hook
+    onMounted(async () =>
+    {
+        await OnLoad();
+    })
 
-// OnMounted hook
-onMounted(async () =>
-{
-    await OnLoad();
-})
-
-// Called when page is loaded
-async function OnLoad()
-{
-    const siteInfo = await (await fetch(apiBaseUrl + `/api/SiteInfo/Url`)).json()
-    siteUrl.value = siteInfo.siteUrl
-    siteTitle.value = siteInfo.siteTitle
-    isLoading.value = false
-}
+    // Called when page is loaded
+    async function OnLoad()
+    {
+        const siteInfo = await (await WebClientSendGetRequest("/api/SiteInfo/Url")).json()
+        siteUrl.value = siteInfo.siteUrl
+        siteTitle.value = siteInfo.siteTitle
+        isLoading.value = false
+    }
 
 </script>
 

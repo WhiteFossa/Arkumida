@@ -11,7 +11,7 @@ public interface ITextsRenderingService
     /// <summary>
     /// Render text to file of given type
     /// </summary>
-    Task<byte[]> RenderTextToFileContentAsync(Guid textId, RenderedTextType type);
+    Task<byte[]> RenderTextToFileContentAsync(Text metadata, RenderedTextType type);
 
     /// <summary>
     /// Get rendered text. Will return null if rendered text doesn't exist (in this case you probably want to render a text and put it to DB)

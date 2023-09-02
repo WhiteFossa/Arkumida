@@ -30,7 +30,8 @@ public class UsersImporter
                 @"select
                     id as Id,
                     username as Username,
-                    email as Email
+                    email as Email,
+                    avatar as AvatarType
                 from ft_users
                 order by registered desc"
             )
@@ -80,6 +81,42 @@ public class UsersImporter
             }
 
             await RegisterUserAsync(registrationData);
+            
+            Console.WriteLine("Starting to edit profile...");
+
+            using (var userHttpClient = await LoginHelper.LogInAsUserAsync(registrationData.Login, registrationData.Password))
+            {
+                // User info
+                var currentLoggedInUser = await LoginHelper.GetCurrentLoggedInUserInfoAsync(userHttpClient);
+                
+                // Do user have an avatar?
+                var avatarPath = GetAvatarPath(user);
+                if (avatarPath != string.Empty)
+                {
+                    if (File.Exists(avatarPath))
+                    {
+                        // Yes, shi have
+                        Console.WriteLine("Uploading avatar...");
+                        
+                        var avatarContent = await File.ReadAllBytesAsync(avatarPath);
+                    
+                        // Uploading
+                        var uploadedAvatarFile = await FilesHelper.UploadFileToArkumidaAsync(userHttpClient, Path.GetFileName(avatarPath), GetMimeTypeByAvatarType(user.AvatarType), avatarContent);
+                    
+                        // Creating
+                        var avatarToCreate = new AvatarDto()
+                        {
+                            Name = "Аватара по-умолчанию",
+                            FileId = uploadedAvatarFile.FileInfo.Id
+                        };
+
+                        var createdAvatar = await CreateAvatarAsync(userHttpClient, currentLoggedInUser.Id, avatarToCreate);
+
+                        // Setting as default
+                        await SetCurrentAvatarAsync(userHttpClient, currentLoggedInUser.Id, createdAvatar.Id);
+                    }
+                }
+            }
 
             Console.WriteLine("Done");
         }
@@ -159,5 +196,77 @@ public class UsersImporter
         }
 
         return responseData.Creature;
+    }
+
+    private string GetAvatarPath(FtUser user)
+    {
+        string ext;
+
+        switch (user.AvatarType)
+        {
+            case 0:
+                return ""; // No avatar
+            
+            case 1:
+                ext = "gif";
+                break;
+            
+            case 2:
+                ext = "jpg";
+                break;
+            
+            case 3:
+                ext = "png";
+                break;
+            
+            default:
+                throw new ArgumentException($"Incorrect avatar type: {user.AvatarType}");
+        }
+        
+        return $"{ MainImporter.UsersDbRoot }{user.Id}/orig.{ext}";
+    }
+    
+    private string GetMimeTypeByAvatarType(int avatarType)
+    {
+        switch (avatarType)
+        {
+            case 1:
+                return "image/gif";
+
+            case 2:
+                return "image/jpeg";
+            
+            case 3:
+                return "image/png";
+                
+            default:
+                throw new ArgumentException("Wrong subtype!", nameof(avatarType));
+        }
+    }
+    
+    public async Task<AvatarDto> CreateAvatarAsync(HttpClient client, Guid creatureId, AvatarDto avatar)
+    {
+        var response = await client.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/{ creatureId }/CreateAvatar", new CreateAvatarRequest() { Avatar = avatar });
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+            
+        var responseData = JsonSerializer.Deserialize<CreateAvatarResponse>(await response.Content.ReadAsStringAsync());
+
+        return responseData.Avatar;
+    }
+    
+    public async Task<CreatureWithProfileDto> SetCurrentAvatarAsync(HttpClient client, Guid creatureId, Guid avatarId)
+    {
+        var response = await client.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/{ creatureId }/SetCurrentAvatar", new SetCurrentAvatarRequest() { AvatarId = avatarId});
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+            
+        var responseData = JsonSerializer.Deserialize<CreatureWithProfileResponse>(await response.Content.ReadAsStringAsync());
+
+        return responseData.CreatureWithProfile;
     }
 }

@@ -21,6 +21,7 @@ public class TextsService : ITextsService
     private readonly ICreaturesMapper _creaturesMapper;
     private readonly ITextsRenderingService _textsRenderingService;
     private readonly ITextUtilsService _textUtilsService;
+    private readonly IAccountsService _accountsService;
 
     public TextsService
     (
@@ -32,7 +33,8 @@ public class TextsService : ITextsService
         ITextFilesMapper textFilesMapper,
         ICreaturesMapper creaturesMapper,
         ITextsRenderingService textsRenderingService,
-        ITextUtilsService textUtilsService
+        ITextUtilsService textUtilsService,
+        IAccountsService accountsService
     )
     {
         _textsDao = textsDao;
@@ -44,6 +46,7 @@ public class TextsService : ITextsService
         _creaturesMapper = creaturesMapper;
         _textsRenderingService = textsRenderingService;
         _textUtilsService = textUtilsService;
+        _accountsService = accountsService;
     }
 
     public async Task<Text> CreateTextAsync(Text text)
@@ -57,10 +60,10 @@ public class TextsService : ITextsService
 
         await _textsDao.CreateTextAsync(dbText);
 
-        return _textsMapper.Map(dbText); // To have ID and other fields (like Publisher) populated 
+        return await _textUtilsService.GetTextMetadataAsync(dbText.Id);
     }
 
-    public async Task<IReadOnlyCollection<TextInfoDto>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take)
+    public async Task<IReadOnlyCollection<TextInfoDto>> GetTextsInfosAsync(TextOrderMode orderMode, int skip, int take)
     {
         if (skip < 0)
         {
@@ -72,9 +75,9 @@ public class TextsService : ITextsService
             throw new ArgumentOutOfRangeException(nameof(take), "Take must be positive.");
         }
 
-        var textsMetadata = await _textsDao.GetTextsMetadataAsync(orderMode, skip, take);
+        var textsMetadatas = await _textUtilsService.GetTextsMetadatasAsync(orderMode, skip, take);
 
-        var textsIds = textsMetadata
+        var textsIds = textsMetadatas
             .Select(tm => tm.Id)
             .ToList();
         
@@ -82,10 +85,8 @@ public class TextsService : ITextsService
 
         var result = new List<TextInfoDto>();
 
-        foreach (var textMetadata in textsMetadata)
+        foreach (var textMetadata in textsMetadatas)
         {
-            var tags = _tagsMapper.Map(textMetadata.Tags);
-
             var sizeInBytes = (await _textsRenderingService.GetAndRenderIfNotExistAsync(textMetadata.Id, RenderedTextType.PlainText))
                 .File
                 .Content
@@ -97,16 +98,26 @@ public class TextsService : ITextsService
                 (
                     textMetadata.Id,
                     "not_ready",
-                    _creaturesMapper.Map(textMetadata.Authors).Select(ta => ta.ToDto()).ToList(),
-                    _creaturesMapper.Map(textMetadata.Translators).Select(tt => tt.ToDto()).ToList(),
-                    _creaturesMapper.Map(textMetadata.Publisher).ToDto(),
+                    
+                    textMetadata
+                        .Authors
+                        .Select(cp => cp.ToDto())
+                        .ToList(),
+                    
+                    textMetadata
+                        .Translators
+                        .Select(cp => cp.ToDto())
+                        .ToList(),
+                    
+                    textMetadata.Publisher.ToDto(),
+                    
                     textMetadata.Title,
                     textMetadata.CreateTime,
                     textMetadata.ReadsCount,
                     0,
                     textMetadata.VotesPlus,
                     textMetadata.VotesMinus,
-                    _tagsService.OrderTags(tags)
+                    _tagsService.OrderTags(textMetadata.Tags)
                         .Select(t => t.ToTextTagDto())
                         .ToList(),
                     new List<TextIconDto>(),
@@ -122,12 +133,10 @@ public class TextsService : ITextsService
         return result;
     }
 
-    public async Task<TextInfoDto> GetTextMetadataByIdAsync(Guid textId)
+    public async Task<TextInfoDto> GetTextInfoByIdAsync(Guid textId)
     {
-        var textMetadata = await _textsDao.GetTextMetadataByIdAsync(textId);
-
-        var textTags = _tagsMapper.Map(textMetadata.Tags);
-
+        var textMetadata = await _textUtilsService.GetTextMetadataAsync(textId);
+        
         var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
             .Single()
             .Value;
@@ -141,9 +150,18 @@ public class TextsService : ITextsService
         (
             textMetadata.Id,
             "not_ready",
-            _creaturesMapper.Map(textMetadata.Authors).Select(ta => ta.ToDto()).ToList(),
-            _creaturesMapper.Map(textMetadata.Translators).Select(tt => tt.ToDto()).ToList(),
-            _creaturesMapper.Map(textMetadata.Publisher).ToDto(),
+            
+            textMetadata
+                .Authors
+                .Select(cp => cp.ToDto())
+                .ToList(),
+            
+            textMetadata
+                .Translators
+                .Select(cp => cp.ToDto())
+                .ToList(),
+            
+            textMetadata.Publisher.ToDto(),
             textMetadata.Title,
             textMetadata.CreateTime,
             textMetadata.ReadsCount,
@@ -151,7 +169,7 @@ public class TextsService : ITextsService
             textMetadata.VotesPlus,
             textMetadata.VotesMinus,
             _tagsService
-                .OrderTags(textTags)
+                .OrderTags(textMetadata.Tags)
                 .Select(t => t.ToTextTagDto())
                 .ToList(),
             new List<TextIconDto>(),
@@ -175,9 +193,7 @@ public class TextsService : ITextsService
 
     public async Task<TextReadDto> GetTextToReadAsync(Guid textId)
     {
-        var textMetadata = await _textsDao.GetTextMetadataByIdAsync(textId);
-        
-        var textTags = _tagsMapper.Map(textMetadata.Tags);
+        var textMetadata = await _textUtilsService.GetTextMetadataAsync(textId);
         
         var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
         
@@ -195,12 +211,23 @@ public class TextsService : ITextsService
             textMetadata.LastUpdateTime,
             textMetadata.Title,
             textMetadata.Description,
-            _tagsService.OrderTags(textTags)
+            
+            _tagsService.OrderTags(textMetadata.Tags)
                 .Select(t => t.ToTagDto())
                 .ToList(),
-            _creaturesMapper.Map(textMetadata.Authors).Select(ta => ta.ToDto()).ToList(),
-            _creaturesMapper.Map(textMetadata.Translators).Select(tt => tt.ToDto()).ToList(),
-            _creaturesMapper.Map(textMetadata.Publisher).ToDto(),
+           
+            textMetadata
+                .Authors
+                .Select(cp => cp.ToDto())
+                .ToList(),
+            
+            textMetadata
+                .Translators
+                .Select(cp => cp.ToDto())
+                .ToList(),
+            
+            textMetadata.Publisher.ToDto(),
+            
             textFiles
                 .Select(tf => new TextFileDto(tf.Id, tf.Name, new FileInfoDto(tf.File.Id, tf.File.Name)))
                 .ToList(),
@@ -232,7 +259,7 @@ public class TextsService : ITextsService
         await _textsDao.AddFileToTextAsync(textId, fileName, existingFileId);
     }
 
-    private List<TextIconDto> AddIllustrationsIconToRightIcons(List<TextIconDto> rightIcons, TextDbo textMetadata)
+    private List<TextIconDto> AddIllustrationsIconToRightIcons(List<TextIconDto> rightIcons, Text textMetadata)
     {
         var result = new List<TextIconDto>();
         result.AddRange(rightIcons);

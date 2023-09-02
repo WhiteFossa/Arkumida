@@ -225,6 +225,28 @@ body {
     white-space: pre;
 }
 
+/* Looks like a link */
+.underlined-pseudolink {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Transparent button (put image on it) */
+.button-with-image {
+    /* For vertical centering */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    background-color: inherit;
+
+    margin: 0;
+    padding: 0;
+}
+
 /* Menu stuff starts here */
 
 /* Central menu item */
@@ -251,14 +273,6 @@ body {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     display: inline-block;
-}
-
-/* Right menu user avatar */
-.right-menu-avatar {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.5rem;
-    vertical-align: middle;
 }
 
 /* Right menu item */
@@ -298,7 +312,7 @@ body {
     padding-bottom: 0;
 }
 
-/* Howered top button */
+/* Hovered top button */
 .top-button:hover {
     background-color: hsl(36, 100%, 84%);
 }
@@ -1127,58 +1141,6 @@ body {
 
 /* Read text page stuff ends here */
 
-/* Creature info container stuff starts here */
-
-/* Creature info container */
-.creature-info-container {
-    background: hsl(0, 0%, 100%);
-    border: 0.1rem solid hsl(225, 5%, 85%);
-    border-radius: 0.2rem;
-
-    min-width: 17.0rem;
-
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-
-    margin-top: 0.2rem;
-    margin-bottom: 0.2rem;
-
-    position: relative;
-
-    height: min-content;
-}
-
-/* Avatar in creature container */
-.creature-info-avatar {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.5rem;
-    vertical-align: middle;
-}
-
-/* Creature link */
-.creature-info-link {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    color: hsl(0, 0%, 0%);
-}
-
-/* Style for creature role */
-.creature-info-creature-role {
-    font-size: 0.8rem;
-    color: hsl(0, 0%, 60%);
-    text-align: right;
-    width: 100%;
-    position: absolute;
-    top: 0.3rem;
-    right: 0.5rem;
-}
-
-/* Creature info container stuff ends here */
-
-
 /* Creatures info container stuff starts here */
 
 /* Creatures info container */
@@ -1200,14 +1162,6 @@ body {
     position: relative;
 
     height: min-content;
-}
-
-/* Avatars in creatures container */
-.creatures-info-avatar {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.5rem;
-    vertical-align: middle;
 }
 
 /* Creatures links */
@@ -1438,3 +1392,446 @@ body {
 }
 
 /* Read text pagination end */
+
+/* Login-related stuff begins here */
+
+/* Link for logging in*/
+.login-link {
+    color: hsl(0, 0%, 0%);
+
+    text-decoration: none;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* Container for login form */
+.login-form-container {
+    background: hsl(0, 0%, 100%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 1rem;
+
+    width: 90vw;
+
+    max-width: 30rem;
+    height: min-content;
+}
+
+/* Login form title */
+.login-form-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Incorrect login credentials message */
+.login-form-incorrect-credentials {
+    color: hsl(0, 100%, 56%);
+    font-weight: bold;
+}
+
+/* Text fields in login form */
+.login-form-text-field {
+    border-radius: 0.5rem;
+
+    height: 3rem;
+    font-size: 1.5rem;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Text field in login form, which didn't pass validation*/
+.login-form-text-field-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Container for remember me checkbox */
+.login-remember-me-container {
+    margin-bottom: 0.5rem;
+}
+
+/* Log in button */
+.login-button {
+    height: 3rem;
+    width: 100%;
+
+    font-size: 1.5rem;
+}
+
+/* Container for reset password link */
+.login-reset-password-container {
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* Reset password link */
+.login-reset-password-link {
+    font-size: 0.8rem;
+    color: hsl(240, 12%, 27%);
+
+    text-decoration: none;
+}
+
+.login-reset-password-link:hover {
+    text-decoration: underline;
+}
+
+/* Pseudolink for logging out */
+.logout-pseudolink {
+    color: hsl(240, 12%, 27%);
+
+    cursor: pointer;
+
+    font-size: 0.8rem;
+
+    display: inline-block;
+}
+
+.logout-pseudolink:hover {
+    text-decoration: underline;
+}
+
+/* Link to creature's profile (top right) */
+.creature-profile-link {
+    color: hsl(0, 0%, 0%);
+
+    text-decoration: none;
+}
+
+.creature-profile-link:hover {
+    text-decoration: underline;
+}
+
+/* Login-related stuff ends here */
+
+
+/* Avatars stuff begins here */
+
+/* Small avatar */
+.avatar-small {
+    width: 3rem;
+    border-radius: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Big avatar */
+.avatar-big {
+    width: 10rem;
+    border-radius: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Avatars stuff ends here */
+
+/* Profile stuff begins here */
+
+/* Top level container for profile*/
+.profile-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Container for profile buttons */
+.profile-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Container for profile content */
+.profile-content-container {
+    background-color: hsl(0, 0%, 100%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    width: 80rem;
+    max-width: 95vw;
+
+    height: min-content;
+}
+
+/* Profile part button (active) */
+.profile-part-button-active {
+    display: inline-block;
+    border: 0.2rem solid hsl(225, 100%, 80%);
+    border-radius: 1rem;
+    background: hsl(36, 100%, 84%);
+    width: 15rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    color: hsl(0, 0%, 0%);
+    cursor: pointer;
+}
+
+/* Hovered profile part button (active) */
+.profile-part-button-active:hover {
+    background: hsl(36, 100%, 60%);
+    border: 0.2rem solid hsl(225, 100%, 35%);
+}
+
+/* Profile part button for current page (inactive) */
+.profile-part-button-current {
+    display: inline-block;
+    background: hsl(36, 100%, 60%);
+    border: 0.2rem solid hsl(225, 100%, 35%);
+    border-radius: 1rem;
+    width: 15rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: hsl(225, 100%, 35%);
+}
+
+/* Creature name in profile main part */
+.profile-main-part-creature-name {
+    font-size: 2rem;
+    text-align: center;
+}
+
+/* Avatar container in profile main part */
+.profile-main-part-avatar-container {
+    float: left;
+    padding-right: 1.0rem;
+}
+
+/* Container with avatars in profile avatars part */
+.profile-avatars-part-avatars-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    padding-bottom: 1rem;
+}
+
+/* Container with one avatar in profile avatars part */
+.profile-avatars-part-avatar-container {
+    background: hsl(0, 0%, 93%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 1rem;
+
+    text-align: center;
+
+    width: min-content;
+    height: min-content;
+
+    padding: 0.5rem;
+}
+
+.profile-avatars-part-avatar-container.profile-avatars-part-avatar-container-selected {
+    background: hsl(36, 100%, 60%);
+
+    color: hsl(225, 100%, 35%);
+}
+
+/* Avatar selection component icons container */
+.avatar-selection-component-icons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    gap: 1rem;
+
+    padding-top: 0.5rem;
+}
+
+/* Div with rename avatar controls */
+.avatar-selection-component-rename-avatar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+/* Input for avatar renaming */
+.avatar-selection-component-rename-input {
+    width: 7.2rem;
+
+    margin-right: 0.2rem;
+}
+
+.avatar-selection-component-rename-input.avatar-selection-component-rename-input-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* "Upload new avatar" container */
+.profile-avatars-part-upload-new-avatar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+/* Div with "upload new avatar" block */
+.profile-avatars-part-upload-new-avatar {
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+
+    width: 20rem;
+
+    padding: 0.5rem;
+}
+
+/* "Upload new avatar" small text */
+.profile-avatars-part-upload-new-avatar-caption {
+    font-size: 0.8rem;
+    color: hsl(0, 0%, 60%);
+    text-align: right;
+
+    margin-bottom: 0.5rem;
+}
+
+/* New avatar name form group */
+.profile-avatars-part-upload-new-avatar-name-form-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    margin-bottom: 0.5rem;
+}
+
+/* Input with new avatar name */
+.profile-avatars-part-upload-new-avatar-name {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* New avatar file form group */
+.profile-avatars-part-upload-new-avatar-file-form-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    margin-bottom: 0.5rem;
+}
+
+/* Input with new avatar file */
+.profile-avatars-part-upload-new-avatar-file {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* New avatar submit button form group */
+.profile-avatars-part-upload-new-avatar-upload-form-group {
+    text-align: right;
+}
+
+/* Profile stuff ends here */
+
+/* Popups stuff starts here */
+
+/* Popup lower layer */
+.popup-lower-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background: hsla(0, 0%, 10%, 0.8);
+}
+
+/* Popup upper layer */
+.popup-upper-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+}
+
+/* Popup itself */
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+}
+
+/* Container for popup content */
+.popup-content-container {
+    background: hsl(0, 0%, 100%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+
+    padding: 1rem;
+
+    width: 90vw;
+    max-width: 30rem;
+
+    height: min-content;
+}
+
+/* Popup title */
+.popup-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-bottom: 0.5rem;
+}
+
+/* Popup buttons container */
+.popup-buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    padding-top: 1rem;
+}
+
+/* Popup button(s) */
+.popup-button {
+    font-size: 1.5rem;
+
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+}
+
+.popup-button:hover {
+    background: hsl(357, 85%, 33%);
+    color: hsl(0, 0%, 100%);
+}
+
+/* Popups stuff ends here */
+
+/* Icons stuff starts here */
+
+/* Small icon */
+.small-icon {
+    width: 1rem;
+}
+
+/* Icons stuff ends here */

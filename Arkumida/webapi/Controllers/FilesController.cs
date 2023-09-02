@@ -30,6 +30,7 @@ public class FilesController : ControllerBase
     /// </summary>
     [Route("api/Files/Upload")]
     [HttpPost]
+    [Consumes("multipart/form-data")]
     public async Task<ActionResult<UploadFileResponse>> UploadAsync(IFormFile file)
     {
         try

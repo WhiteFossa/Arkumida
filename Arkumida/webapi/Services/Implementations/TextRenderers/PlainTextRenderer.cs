@@ -116,9 +116,9 @@ public class PlainTextRenderer : IPlainTextRenderer
 ";
     }
 
-    private string CreatureToText(Creature creature)
+    private string CreatureToText(CreatureWithProfile creatureWithProfile)
     {
-        return $"{ creature.DisplayName } <{ creature.Email }>";
+        return $"{ creatureWithProfile.DisplayName } <{ creatureWithProfile.Email }>";
     }
     
     private string RenderTextElement(TextElementDto textElement)
