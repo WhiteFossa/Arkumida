@@ -12,7 +12,7 @@
         selectedAvatarId: Guid
     })
 
-    const emit = defineEmits(["setAsCurrentAvatar", "renameAvatar"])
+    const emit = defineEmits(["setAsCurrentAvatar", "renameAvatar", "deleteAvatar"])
 
     const isEditingName = ref(false)
 
@@ -50,6 +50,11 @@
         isEditingName.value = false
 
         emit("renameAvatar", props.avatar.id, renameAvatarFormData.name)
+    }
+
+    async function DeleteAvatar()
+    {
+        emit("deleteAvatar", UndefinedOrNullToNull(props.avatar?.id))
     }
 </script>
 
@@ -128,7 +133,8 @@
                 v-if="props.avatar !== null"
                 class="button-with-image"
                 type="button"
-                title="Удалить аватарку">
+                title="Удалить аватарку"
+                @click="async () => await DeleteAvatar()">
                 <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Удалить аватарку" />
             </button>
 

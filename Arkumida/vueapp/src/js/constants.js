@@ -19,6 +19,15 @@ export class Messages
     static Actions = "Действия"
 
     static CreatureUser = "Пользователь "
+
+    static LogOutTitle = "Выход"
+    static LogOutText = "Вы действительно хотите выйти с сайта?"
+
+    static DeleteAvatarTitle = "Удалить аватарку?"
+    static DeleteAvatarTextFirstPart = 'Вы действительно хотите удалить аватарку "'
+    static DeleteAvatarTextSecondPart = '"?'
+
+    static SelectOnlyOneFileForUploadAsAvatar = "Выберите ровно один файл для загрузки в качестве аварки."
 }
 
 // Category tag types

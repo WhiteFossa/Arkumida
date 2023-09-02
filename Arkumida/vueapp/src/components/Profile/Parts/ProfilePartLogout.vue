@@ -3,6 +3,7 @@
     import {ref} from "vue";
     import PopupYesNo from "@/components/Shared/Popups/PopupYesNo.vue";
     import {AuthLogUserOut} from "@/js/auth";
+    import {Messages} from "@/js/constants";
 
     const isLogOutPopupShown = ref(false)
 
@@ -33,8 +34,8 @@
     <!-- Popups -->
     <PopupYesNo
         v-if="isLogOutPopupShown"
-        title="Выход"
-        text="Вы действительно хотите выйти с сайта?"
+        :title="Messages.LogOutTitle"
+        :text="Messages.LogOutText"
         @noPressed="async() => await LogOutCancelled()"
         @yesPressed="async() => await LogOutConfirmed()" />
 </template>

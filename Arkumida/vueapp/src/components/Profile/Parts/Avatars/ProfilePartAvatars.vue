@@ -1,15 +1,17 @@
 <script setup>
-import {defineEmits, onMounted, reactive, ref} from "vue";
-import {
-    WebClientPostForm,
-    WebClientSendGetRequest,
-    WebClientSendPostRequest,
-} from "@/js/libWebClient";
+    import {defineEmits, onMounted, reactive, ref} from "vue";
+    import {
+        WebClientPostForm,
+        WebClientSendGetRequest,
+        WebClientSendPostRequest,
+    } from "@/js/libWebClient";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-import {PostprocessCreatureProfile, UndefinedOrNullToNull} from "@/js/libArkumida";
-import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/ProfileAvatarSelectionComponent.vue";
-import {required} from "@vuelidate/validators";
-import useVuelidate from "@vuelidate/core";
+    import {PostprocessCreatureProfile, UndefinedOrNullToNull} from "@/js/libArkumida";
+    import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/ProfileAvatarSelectionComponent.vue";
+    import {required} from "@vuelidate/validators";
+    import useVuelidate from "@vuelidate/core";
+    import PopupYesNo from "@/components/Shared/Popups/PopupYesNo.vue";
+    import {Messages} from "@/js/constants";
 
     const emit = defineEmits(['reloadProfile'])
 
@@ -32,6 +34,12 @@ import useVuelidate from "@vuelidate/core";
     }
 
     const newAvatarUploadValidator = useVuelidate(newAvatarUploadRules, newAvatarUploadFormData)
+
+    const avatarToDelete = ref(null)
+
+    const isDeleteAvatarConfirmationPopupShown = ref(false)
+
+    const deleteAvatarPopupContent = ref("")
 
     onMounted(async () =>
     {
@@ -69,7 +77,7 @@ import useVuelidate from "@vuelidate/core";
         // Do we have files?
         if (newAvatarUploadInput.value.files.length !== 1)
         {
-            alert("Выберите ровно один файл для загрузки в качестве аварки.")
+            alert(Messages.SelectOnlyOneFileForUploadAsAvatar)
             return
         }
 
@@ -113,6 +121,48 @@ import useVuelidate from "@vuelidate/core";
 
         await LoadProfile()
     }
+
+    async function PrepareAvatarDeletion(avatarId)
+    {
+        avatarToDelete.value = GetAvatarById(avatarId)
+
+        deleteAvatarPopupContent.value = Messages.DeleteAvatarTextFirstPart + avatarToDelete.value.name + Messages.DeleteAvatarTextSecondPart
+
+        isDeleteAvatarConfirmationPopupShown.value = true
+    }
+
+    async function CancelAvatarDeletion()
+    {
+        avatarToDelete.value = null
+        isDeleteAvatarConfirmationPopupShown.value = false
+    }
+
+    async function ConfirmAvatarDeletion()
+    {
+        isDeleteAvatarConfirmationPopupShown.value = false
+
+        await WebClientSendPostRequest("/api/Users/" + creatureId.value + "/DeleteAvatar",{
+            "avatarId": avatarToDelete.value.id
+        })
+
+        avatarToDelete.value = null
+
+        await LoadProfile()
+
+        emit("reloadProfile")
+    }
+
+    function GetAvatarById(avatarId)
+    {
+        let result = creatureProfile.value.avatars.filter(function (a) { return a.id === avatarId })
+
+        if (result.length !== 1)
+        {
+            throw new Error("Avatar with ID = " + avatarId + " is not found!");
+        }
+
+        return result[0]
+    }
 </script>
 
 <template>
@@ -128,7 +178,8 @@ import useVuelidate from "@vuelidate/core";
                     :avatar="avatar"
                     :selectedAvatarId="UndefinedOrNullToNull(creatureProfile.currentAvatar?.id)"
                     @setAsCurrentAvatar="async (aid) => await SetAsCurrentAvatar(aid)"
-                    @renameAvatar="async (aid, nn) => await RenameAvatar(aid, nn)" />
+                    @renameAvatar="async (aid, nn) => await RenameAvatar(aid, nn)"
+                    @deleteAvatar="async (aid) => await PrepareAvatarDeletion(aid)" />
 
             </div>
 
@@ -182,4 +233,12 @@ import useVuelidate from "@vuelidate/core";
         </div>
 
     </div>
+
+    <!-- Popups -->
+    <PopupYesNo
+        v-if="isDeleteAvatarConfirmationPopupShown"
+        :title="Messages.DeleteAvatarTitle"
+        :text="deleteAvatarPopupContent"
+        @noPressed="async() => await CancelAvatarDeletion()"
+        @yesPressed="async() => await ConfirmAvatarDeletion()" />
 </template>
