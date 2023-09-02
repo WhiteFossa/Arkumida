@@ -1,13 +1,15 @@
 <script setup>
-import {defineEmits, onMounted, ref} from "vue";
+import {defineEmits, onMounted, reactive, ref} from "vue";
 import {
     WebClientPostForm,
     WebClientSendGetRequest,
     WebClientSendPostRequest,
-    } from "@/js/libWebClient";
+} from "@/js/libWebClient";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 import {PostprocessCreatureProfile, UndefinedOrNullToNull} from "@/js/libArkumida";
 import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/ProfileAvatarSelectionComponent.vue";
+import {required} from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 
     const emit = defineEmits(['reloadProfile'])
 
@@ -15,6 +17,21 @@ import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/
 
     const creatureId = ref(null)
     const creatureProfile = ref(null)
+
+    const newAvatarUploadInput = ref(null)
+
+    const newAvatarUploadFormData = reactive({
+        name: ""
+    })
+
+    const newAvatarUploadRules = {
+        name: {
+            $autoDirty: true,
+            required
+        }
+    }
+
+    const newAvatarUploadValidator = useVuelidate(newAvatarUploadRules, newAvatarUploadFormData)
 
     onMounted(async () =>
     {
@@ -25,6 +42,8 @@ import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/
     {
         creatureId.value = (await (await WebClientSendGetRequest("/api/Users/Current")).json()).creature.entityId
         await LoadProfile()
+
+        await newAvatarUploadValidator.value.$validate()
 
         isLoading.value = false
     }
@@ -45,10 +64,16 @@ import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/
         emit("reloadProfile")
     }
 
-    async function UploadNewAvatar(ev)
+    async function UploadNewAvatar()
     {
-        const uploadControl = ev.target
-        const fileToUpload = uploadControl.files[0]
+        // Do we have files?
+        if (newAvatarUploadInput.value.files.length !== 1)
+        {
+            alert("Выберите ровно один файл для загрузки в качестве аварки.")
+            return
+        }
+
+        const fileToUpload = newAvatarUploadInput.value.files[0]
 
         let formData = new FormData();
         formData.append("file", fileToUpload);
@@ -59,7 +84,7 @@ import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/
         // Creating an avatar from file
         await WebClientSendPostRequest("/api/Users/" + creatureId.value + "/CreateAvatar",{
             "avatar": {
-                "name": fileUploadResult.name,
+                "name": newAvatarUploadFormData.name,
                 "fileId": fileUploadResult.id
             }
         })
@@ -116,10 +141,20 @@ import ProfileAvatarSelectionComponent from "@/components/Profile/Parts/Avatars/
             Загрузить новую:
 
             <input
-                type="file"
-                accept="image/png, image/jpeg, image/gif"
-                @change="async ($event) => await UploadNewAvatar($event)" />
+                type="text"
+                v-model="newAvatarUploadFormData.name" />
 
+            <input
+                ref="newAvatarUploadInput"
+                type="file"
+                accept="image/png, image/jpeg, image/gif" />
+
+            <button
+                type="button"
+                :disabled="newAvatarUploadValidator.$errors.length > 0"
+                @click="async () => await UploadNewAvatar()">
+                Загрузить
+            </button>
         </div>
 
     </div>

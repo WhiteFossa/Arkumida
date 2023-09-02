@@ -1,6 +1,6 @@
 <script setup>
 
-    import {reactive} from "vue";
+    import {onMounted, reactive} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
     import {AuthLogUserIn} from "@/js/auth";
@@ -25,6 +25,16 @@
     }
 
     const validator = useVuelidate(rules, logInFormData)
+
+    onMounted(async () =>
+    {
+        await OnLoad();
+    })
+
+    async function OnLoad()
+    {
+        await validator.value.$validate()
+    }
 
     async function LogIn()
     {
@@ -84,7 +94,7 @@
                     class="login-button"
                     type="button"
                     @click="async() => await LogIn()"
-                    :disabled="validator.$error">
+                    :disabled="validator.$errors.length > 0">
                     Войти
                 </button>
             </div>

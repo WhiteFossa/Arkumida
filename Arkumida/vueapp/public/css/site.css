@@ -1617,6 +1617,7 @@ body {
     flex-direction: row;
     justify-content: center;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 /* Container with one avatar in profile avatars part */
@@ -1665,6 +1666,10 @@ body {
     width: 7.2rem;
 
     margin-right: 0.2rem;
+}
+
+.avatar-selection-component-rename-input.avatar-selection-component-rename-input-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
 }
 
 /* Div with "upload new avatar" text */

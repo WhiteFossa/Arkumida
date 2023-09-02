@@ -75,7 +75,7 @@
             v-if="isEditingName">
 
             <input
-                class="avatar-selection-component-rename-input"
+                :class="(renameAvatarValidator.name.$error)?'avatar-selection-component-rename-input avatar-selection-component-rename-input-invalid':'avatar-selection-component-rename-input'"
                 type="text"
                 v-model="renameAvatarFormData.name" />
 
@@ -84,7 +84,7 @@
                 type="button"
                 title="Подтвердить переименование"
                 @click="async () => await CompleteNameEditing()"
-                :disabled="renameAvatarValidator.$error">
+                :disabled="renameAvatarValidator.$errors.length > 0">
                 <img class="small-icon" src="/images/icons/icon_ok.png" alt="Подтвердить переименование" />
             </button>
 
