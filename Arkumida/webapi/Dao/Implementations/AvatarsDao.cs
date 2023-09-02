@@ -55,4 +55,23 @@ public class AvatarsDao : IAvatarsDao
 
         return avatar;
     }
+
+    public async Task DeleteAvatarAsync(Guid avatarId)
+    {
+        var avatar = await _dbContext
+            .Avatars
+            .SingleAsync(a => a.Id == avatarId);
+
+        _dbContext.Remove(avatar);
+
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<AvatarDbo> GetAvatarByIdAsync(Guid avatarId)
+    {
+        return await _dbContext
+            .Avatars
+            .Include(a => a.File)
+            .SingleOrDefaultAsync(a => a.Id == avatarId);
+    }
 }

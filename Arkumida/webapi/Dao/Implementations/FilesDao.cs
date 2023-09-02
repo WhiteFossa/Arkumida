@@ -33,10 +33,21 @@ public class FilesDao : IFilesDao
         }
     }
 
+    public async Task DeleteFileAsync(Guid fileId)
+    {
+        var file = await _dbContext
+            .Files
+            .SingleAsync(f => f.Id == fileId);
+
+        _dbContext.Remove(file);
+
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task<FileDbo> GetFileAsync(Guid fileId)
     {
         return await _dbContext
             .Files
-            .SingleAsync(f => f.Id == fileId);
+            .SingleOrDefaultAsync(f => f.Id == fileId);
     }
 }

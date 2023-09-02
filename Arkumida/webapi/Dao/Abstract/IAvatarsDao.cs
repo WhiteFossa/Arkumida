@@ -16,4 +16,14 @@ public interface IAvatarsDao
     /// Update avatar
     /// </summary>
     Task<AvatarDbo> UpdateAvatarAsync(AvatarDbo avatarToUpdate);
+
+    /// <summary>
+    /// Delete avatar
+    /// </summary>
+    Task DeleteAvatarAsync(Guid avatarId);
+
+    /// <summary>
+    /// Get avatar by Id (may return null in case of incorrect avatar)
+    /// </summary>
+    Task<AvatarDbo> GetAvatarByIdAsync(Guid avatarId);
 }

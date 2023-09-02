@@ -225,6 +225,27 @@ public class UsersController : ControllerBase
 
         return Ok(new CreatureWithProfileResponse(profile.ToDto()));
     }
+    
+    /// <summary>
+    /// Delete creature's avatar
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/DeleteAvatar")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> DeleteAvatarAsync(Guid creatureId, DeleteAvatarRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+        
+        await _accountsService.DeleteAvatarAsync(creatureId, request.AvatarId);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
 
     /// <summary>
     /// Get creature's profile

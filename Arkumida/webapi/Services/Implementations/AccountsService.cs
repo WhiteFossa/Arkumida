@@ -23,6 +23,7 @@ public class AccountsService : IAccountsService
     private readonly IProfilesDao _profilesDao;
     private readonly IAvatarsDao _avatarsDao;
     private readonly ICreaturesWithProfilesMapper _creaturesWithProfilesMapper;
+    private readonly IFilesDao _filesDao;
 
     public AccountsService
     (
@@ -32,7 +33,8 @@ public class AccountsService : IAccountsService
         IAvatarsMapper avatarsMapper,
         IProfilesDao profilesDao,
         IAvatarsDao avatarsDao,
-        ICreaturesWithProfilesMapper creaturesWithProfilesMapper
+        ICreaturesWithProfilesMapper creaturesWithProfilesMapper,
+        IFilesDao filesDao
     )
     {
         _userManager = userManager;
@@ -42,6 +44,7 @@ public class AccountsService : IAccountsService
         _profilesDao = profilesDao;
         _avatarsDao = avatarsDao;
         _creaturesWithProfilesMapper = creaturesWithProfilesMapper;
+        _filesDao = filesDao;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
@@ -169,7 +172,7 @@ public class AccountsService : IAccountsService
         var profile = await _profilesDao.GetProfileAsync(creatureId);
         if (profile == null)
         {
-            throw new InvalidOperationException($"Profile is not found for existing creature with ID={creatureId}");
+            throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
         }
 
         if (!avatarId.HasValue)
@@ -206,7 +209,7 @@ public class AccountsService : IAccountsService
         var profile = await _profilesDao.GetProfileAsync(creatureId);
         if (profile == null)
         {
-            throw new InvalidOperationException($"Profile is not found for existing creature with ID={creatureId}");
+            throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
         }
         
         // Is it our avatar?
@@ -219,6 +222,46 @@ public class AccountsService : IAccountsService
         avatarToUpdate.Name = newName;
 
         await _avatarsDao.UpdateAvatarAsync(avatarToUpdate);
+    }
+
+    public async Task DeleteAvatarAsync(Guid creatureId, Guid avatarId)
+    {
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
+        }
+        
+        // Is it our avatar?
+        var avatarToUpdate = profile.Avatars.SingleOrDefault(a => a.Id == avatarId);
+        if (avatarToUpdate == null)
+        {
+            throw new ArgumentException($"Avatar with ID={avatarId} doesn't belong to creature with ID={creatureId}.", nameof(avatarId));
+        }
+        
+        // Is it current avatar?
+        if (profile.CurrentAvatar?.Id == avatarId)
+        {
+            await SetCurrentAvatarAsync(creatureId, null); // Switching to "no avatar"
+            
+            profile = await _profilesDao.GetProfileAsync(creatureId); // Reloading because it is possible that profile was changed due to switching to 
+        }
+        
+        // Removing from profile
+        profile.Avatars = profile
+            .Avatars
+            .Where(a => a.Id != avatarId)
+            .ToList();
+
+        await _profilesDao.UpdateProfileAsync(profile);
+
+        var avatar = await _avatarsDao.GetAvatarByIdAsync(avatarId);
+        
+        // Deleting avatar
+        await _avatarsDao.DeleteAvatarAsync(avatarId);
+        
+        // And avatar file
+        await _filesDao.DeleteFileAsync(avatar.File.Id);
     }
 
     public async Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId)

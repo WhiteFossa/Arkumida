@@ -91,6 +91,10 @@ import useVuelidate from "@vuelidate/core";
 
         // Reloading profile
         await LoadProfile()
+
+        // Clearing avatar name and files
+        newAvatarUploadFormData.name = ""
+        newAvatarUploadInput.value.value = ""
     }
 
     async function LoadProfile()

@@ -14,6 +14,11 @@ public interface IFilesDao
     /// </summary>
     Task CreateFileAsync(FileDbo file);
 
+    /// <summary>
+    /// Delete file by ID
+    /// </summary>
+    Task DeleteFileAsync(Guid fileId);
+
     #endregion
     
     #region Get
