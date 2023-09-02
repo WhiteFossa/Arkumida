@@ -1432,6 +1432,12 @@ body {
     font-weight: bold;
 }
 
+/* Incorrect login credentials message */
+.login-form-incorrect-credentials {
+    color: hsl(0, 100%, 56%);
+    font-weight: bold;
+}
+
 /* Text fields in login form */
 .login-form-text-field {
     border-radius: 0.5rem;

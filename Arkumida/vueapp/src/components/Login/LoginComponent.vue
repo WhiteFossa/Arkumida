@@ -1,6 +1,6 @@
 <script setup>
 
-    import {onMounted, reactive} from "vue";
+import {onMounted, reactive, ref} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
     import {AuthLogUserIn} from "@/js/auth";
@@ -26,6 +26,8 @@
 
     const validator = useVuelidate(rules, logInFormData)
 
+    const isIncorrectCredentialsMessageShown = ref(false)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -38,17 +40,18 @@
 
     async function LogIn()
     {
-        await validator.value.$validate()
+        isIncorrectCredentialsMessageShown.value = false
 
-        if (!validator.value.$error)
+        const loginResult = await AuthLogUserIn(logInFormData.login, logInFormData.password, logInFormData.isRememberMe)
+
+        // On successfull login redirecting to main page
+        if (loginResult === LoginResult.OK)
         {
-            const loginResult = await AuthLogUserIn(logInFormData.login, logInFormData.password, logInFormData.isRememberMe)
-
-            // On successfull login redirecting to main page
-            if (loginResult === LoginResult.OK)
-            {
-                await router.push("/");
-            }
+            await router.push("/");
+        }
+        else
+        {
+            isIncorrectCredentialsMessageShown.value = true
         }
     }
 </script>
@@ -57,6 +60,12 @@
     <div class="login-form-container">
         <div class="login-form-title">
             Вход на сайт
+        </div>
+
+        <div
+            v-if="isIncorrectCredentialsMessageShown"
+            class="login-form-incorrect-credentials">
+            Неверный логин или пароль!
         </div>
 
         <form>
