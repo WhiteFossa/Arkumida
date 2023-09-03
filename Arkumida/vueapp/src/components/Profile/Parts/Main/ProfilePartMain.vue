@@ -7,7 +7,7 @@ import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClie
     import {AvatarClass} from "@/js/constants";
 import {required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import {PostprocessCreatureProfile} from "@/js/libArkumida";
+import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
 
     const isLoading = ref(true)
 
@@ -29,6 +29,9 @@ import {PostprocessCreatureProfile} from "@/js/libArkumida";
 
     const renameValidator = useVuelidate(renameRules, renameFormData)
 
+    const aboutInfoAsElements = ref(null)
+    const renderedAbout = ref("")
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -49,6 +52,10 @@ import {PostprocessCreatureProfile} from "@/js/libArkumida";
         creatureProfile.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Profile")).json()).creatureWithProfile
 
         PostprocessCreatureProfile(creatureProfile)
+
+        // Getting and rendering About information
+        aboutInfoAsElements.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/About/GetAsElements")).json()).elements
+        aboutInfoAsElements.value.forEach(e => renderedAbout.value += RenderTextElement(e))
     }
 
     async function StartToRename()
@@ -125,8 +132,9 @@ import {PostprocessCreatureProfile} from "@/js/libArkumida";
             <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Big" />
         </div>
 
-        <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <!-- About info -->
+        <div
+            v-html="renderedAbout">
         </div>
     </div>
 </template>
