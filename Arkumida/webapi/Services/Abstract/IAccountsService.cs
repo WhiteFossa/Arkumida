@@ -63,4 +63,10 @@ public interface IAccountsService
     /// Change creature's display name
     /// </summary>
     Task RenameCreatureAsync(Guid creatureId, string newName);
+    
+    /// <summary>
+    /// Update creature's about information
+    /// </summary>
+    Task UpdateAboutAsync(Guid creatureId, string newAbout);
+    
 }

@@ -9,4 +9,6 @@ public class FtUser
     public string Email { get; set; }
 
     public int AvatarType { get; set; }
+
+    public string About { get; set; }
 }

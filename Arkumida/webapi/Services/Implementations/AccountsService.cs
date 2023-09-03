@@ -84,7 +84,8 @@ public class AccountsService : IAccountsService
             DisplayName = creatureDto.Login,
             OneTimePlaintextPassword = registrationData.Password,
             Avatars = new List<AvatarDbo>(),
-            CurrentAvatar = null
+            CurrentAvatar = null,
+            About = string.Empty
         };
 
         await _profilesDao.CreateProfileAsync(creatureProfileDbo);
@@ -295,6 +296,21 @@ public class AccountsService : IAccountsService
         }
 
         profile.DisplayName = newName;
+
+        await _profilesDao.UpdateProfileAsync(profile);
+    }
+
+    public async Task UpdateAboutAsync(Guid creatureId, string newAbout)
+    {
+        _ = newAbout ?? throw new ArgumentException("Creature's new about must not be null.", nameof(newAbout));
+        
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
+        }
+
+        profile.About = newAbout;
 
         await _profilesDao.UpdateProfileAsync(profile);
     }

@@ -22,6 +22,11 @@ public class CreatureWithProfile : Creature
     /// </summary>
     public Avatar CurrentAvatar { get; set; }
     
+    /// <summary>
+    /// Information about creature (in the format, processable by ITextUtilsService.ParseTextToElements())
+    /// </summary>
+    public string About { get; set; }
+    
     public CreatureWithProfile
     (
         Guid id,
@@ -29,12 +34,15 @@ public class CreatureWithProfile : Creature
         string email,
         string displayName,
         IList<Avatar> avatars,
-        Avatar currentAvatar
+        Avatar currentAvatar,
+        string about
     ) : base(id, login, email)
     {
+        // All fields may be null (for example when creating a new text)
         DisplayName = displayName;
         Avatars = avatars;
         CurrentAvatar = currentAvatar;
+        About = about;
     }
 
     public new CreatureWithProfileDto ToDto()
@@ -47,7 +55,8 @@ public class CreatureWithProfile : Creature
             Email,
             DisplayName,
             Avatars?.Select(a => a.ToDto()).ToList(),
-            CurrentAvatar?.ToDto()
+            CurrentAvatar?.ToDto(),
+            About
         );
     }
 }

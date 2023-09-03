@@ -25,7 +25,8 @@ public class CreaturesWithProfilesMapper : ICreaturesWithProfilesMapper
             creature.Email,
             profile.DisplayName,
             _avatarsMapper.Map(profile.Avatars).ToList(),
-            _avatarsMapper.Map(profile.CurrentAvatar)
+            _avatarsMapper.Map(profile.CurrentAvatar),
+            profile.About
         );
     }
 
@@ -44,7 +45,8 @@ public class CreaturesWithProfilesMapper : ICreaturesWithProfilesMapper
             DisplayName = creatureWithProfile.DisplayName,
             OneTimePlaintextPassword = string.Empty,
             Avatars = _avatarsMapper.Map(creatureWithProfile.Avatars).ToList(),
-            CurrentAvatar = _avatarsMapper.Map(creatureWithProfile.CurrentAvatar)
+            CurrentAvatar = _avatarsMapper.Map(creatureWithProfile.CurrentAvatar),
+            About = creatureWithProfile.About
         };
 
         return new Tuple<CreatureDbo, CreatureProfileDbo>(creatureDbo, profileDbo);

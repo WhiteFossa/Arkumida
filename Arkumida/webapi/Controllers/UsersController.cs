@@ -280,6 +280,27 @@ public class UsersController : ControllerBase
 
         return Ok(new CreatureWithProfileResponse(profile.ToDto()));
     }
+    
+    /// <summary>
+    /// Change creature's about information
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/About/Update")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> UpdateAboutAsync(Guid creatureId, UpdateAboutInfoRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+
+        await _accountsService.UpdateAboutAsync(creatureId, request.NewAbout);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
 
     /// <summary>
     /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception

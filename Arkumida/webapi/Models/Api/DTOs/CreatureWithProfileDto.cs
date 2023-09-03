@@ -25,6 +25,12 @@ public class CreatureWithProfileDto : CreatureDto
     [JsonPropertyName("currentAvatar")]
     public AvatarDto CurrentAvatar { get; set; }
     
+    /// <summary>
+    /// Information about creature (in the format, processable by ITextUtilsService.ParseTextToElements())
+    /// </summary>
+    [JsonPropertyName("about")]
+    public string About { get; set; }
+    
     public CreatureWithProfileDto
     (
         Guid id,
@@ -33,13 +39,15 @@ public class CreatureWithProfileDto : CreatureDto
         string email,
         string displayName,
         IReadOnlyCollection<AvatarDto> avatars,
-        AvatarDto currentAvatar
+        AvatarDto currentAvatar,
+        string about
     ) : base(id, furryReadableId, login, email)
     {
         // All fields may be null (during the text creation, for example)
         DisplayName = displayName;
         Avatars = avatars;
         CurrentAvatar = currentAvatar;
+        About = about;
     }
 
     public CreatureWithProfile ToCreatureWithProfile()
@@ -51,7 +59,8 @@ public class CreatureWithProfileDto : CreatureDto
             Email,
             DisplayName,
             Avatars?.Select(a => a.ToModel()).ToList(),
-            CurrentAvatar?.ToModel()
+            CurrentAvatar?.ToModel(),
+            About
         );
     }
 }

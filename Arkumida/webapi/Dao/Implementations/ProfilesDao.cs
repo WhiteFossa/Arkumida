@@ -49,6 +49,7 @@ public class ProfilesDao : IProfilesDao
         
         profile.OneTimePlaintextPassword = newProfile.OneTimePlaintextPassword;
         profile.DisplayName = newProfile.DisplayName;
+        profile.About = newProfile.About;
 
         await _dbContext.SaveChangesAsync();
 
