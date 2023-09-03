@@ -1665,7 +1665,6 @@ body {
 
     padding: 0.5rem;
 
-    position: relative;
     overflow: hidden;
 }
 
@@ -1677,16 +1676,13 @@ body {
     text-align: right;
     width: 100%;
 
-    position: absolute;
-
-    top: 0.3rem;
-    right: 0.5rem;
-
     display: flex;
     flex-direction: row;
     justify-content: right;
     flex-wrap: nowrap;
     gap: 0.5rem;
+
+    padding-bottom: 0.3rem;
 }
 
 /* Container with avatar and textarea to show when editing about info*/
@@ -1701,8 +1697,6 @@ body {
 .profile-main-part-edit-about-textarea {
     width: 100%;
     box-sizing: border-box;
-
-    margin-top: 1.3rem;
 }
 
 /* Container with avatars in profile avatars part */
