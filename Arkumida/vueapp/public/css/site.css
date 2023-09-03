@@ -1605,10 +1605,47 @@ body {
     color: hsl(225, 100%, 35%);
 }
 
-/* Creature name in profile main part */
-.profile-main-part-creature-name {
+/* Creature name in profile main part (show mode)*/
+.profile-main-part-creature-name-show {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
     font-size: 2rem;
     text-align: center;
+}
+
+/* Creature name in profile main part (edit mode)*/
+.profile-main-part-creature-name-edit {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    font-size: 2rem;
+    text-align: center;
+
+    margin-bottom: 1rem;
+}
+
+/* Input for creature renaming */
+.profile-main-part-creature-rename-input {
+    font-size: 2rem;
+    line-height: 3rem;
+
+    border-radius: 0.5rem;
+
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.profile-main-part-creature-rename-input.profile-main-part-creature-rename-input-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
 }
 
 /* Avatar container in profile main part */

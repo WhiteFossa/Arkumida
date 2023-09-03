@@ -58,4 +58,9 @@ public interface IAccountsService
     /// Get creature profile by ID
     /// </summary>
     Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId);
+
+    /// <summary>
+    /// Change creature's display name
+    /// </summary>
+    Task RenameCreatureAsync(Guid creatureId, string newName);
 }

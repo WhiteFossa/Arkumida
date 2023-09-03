@@ -259,6 +259,27 @@ public class UsersController : ControllerBase
 
         return Ok(new CreatureWithProfileResponse(profile.ToDto()));
     }
+    
+    /// <summary>
+    /// Change creature's display name
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/Rename")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> RenameAsync(Guid creatureId, RenameCreatureRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+
+        await _accountsService.RenameCreatureAsync(creatureId, request.NewName);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
 
     /// <summary>
     /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception

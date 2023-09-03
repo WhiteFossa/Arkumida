@@ -62,7 +62,7 @@
         if (!response.ok)
         {
             // Something went wrong
-            return;
+            return
         }
 
         // Reloading profile

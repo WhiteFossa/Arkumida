@@ -280,4 +280,22 @@ public class AccountsService : IAccountsService
 
         return _creaturesWithProfilesMapper.Map(creature, profile);
     }
+
+    public async Task RenameCreatureAsync(Guid creatureId, string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+        {
+            throw new ArgumentException("Creature's new name must not be empty.", nameof(newName));
+        }
+        
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
+        }
+
+        profile.DisplayName = newName;
+
+        await _profilesDao.UpdateProfileAsync(profile);
+    }
 }
