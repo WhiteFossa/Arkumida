@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Requests;
 using webapi.Models.Api.Responses;
+using webapi.Models.Api.Responses.Creature;
 using webapi.Services.Abstract;
 
 namespace webapi.Controllers;
@@ -15,13 +17,16 @@ namespace webapi.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IAccountsService _accountsService;
+    private readonly ITextUtilsService _textUtilsService;
 
     public UsersController
     (
-        IAccountsService accountsService
+        IAccountsService accountsService,
+        ITextUtilsService textUtilsService
     )
     {
         _accountsService = accountsService;
+        _textUtilsService = textUtilsService;
     }
 
     /// <summary>
@@ -258,6 +263,63 @@ public class UsersController : ControllerBase
         var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
 
         return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
+    
+    /// <summary>
+    /// Change creature's display name
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/Rename")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> RenameAsync(Guid creatureId, RenameCreatureRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+
+        await _accountsService.RenameCreatureAsync(creatureId, request.NewName);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
+    
+    /// <summary>
+    /// Change creature's about information
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/About/Update")]
+    public async Task<ActionResult<CreatureWithProfileResponse>> UpdateAboutAsync(Guid creatureId, UpdateAboutInfoRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+
+        await _accountsService.UpdateAboutAsync(creatureId, request.NewAbout);
+        
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        return Ok(new CreatureWithProfileResponse(profile.ToDto()));
+    }
+
+    /// <summary>
+    /// Get creature's about info as elements
+    /// </summary>
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("api/Users/{creatureId}/About/GetAsElements")]
+    public async Task<ActionResult<AboutInfoAsElementsResponse>> GetAboutAsElementsAsync(Guid creatureId)
+    {
+        var profile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
+
+        var aboutAsElements = _textUtilsService.ParseTextToElements(profile.About, new List<TextFile>()); // About info have no files
+
+        return Ok(new AboutInfoAsElementsResponse(aboutAsElements));
     }
 
     /// <summary>

@@ -21,4 +21,10 @@ public class CreatureWithProfileDto : CreatureDto
     /// </summary>
     [JsonPropertyName("currentAvatar")]
     public AvatarDto CurrentAvatar { get; set; }
+    
+    /// <summary>
+    /// Information about creature (in the format, processable by ITextUtilsService.ParseTextToElements())
+    /// </summary>
+    [JsonPropertyName("about")]
+    public string About { get; set; }
 }

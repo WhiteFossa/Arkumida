@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using webapi.Models.Api.DTOs;
 
-namespace webapi.Models.Api.Responses;
+namespace webapi.Models.Api.Responses.Creature;
 
 /// <summary>
 /// Current (logged in) user

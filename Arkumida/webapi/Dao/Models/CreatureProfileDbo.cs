@@ -33,4 +33,9 @@ public class CreatureProfileDbo
     /// Creature's current avatar
     /// </summary>
     public AvatarDbo CurrentAvatar { get; set; }
+
+    /// <summary>
+    /// Information about creature (in the format, processable by ITextUtilsService.ParseTextToElements())
+    /// </summary>
+    public string About { get; set; }
 }

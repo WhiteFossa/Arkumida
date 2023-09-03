@@ -3,7 +3,7 @@ import {defineEmits, defineProps, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import router from "@/router";
     import ProfilePartButton from "@/components/Profile/ProfilePartButton.vue";
-    import ProfilePartMain from "@/components/Profile/Parts/ProfilePartMain.vue";
+    import ProfilePartMain from "@/components/Profile/Parts/Main/ProfilePartMain.vue";
     import ProfilePartAvatars from "@/components/Profile/Parts/Avatars/ProfilePartAvatars.vue";
     import ProfilePartSecurity from "@/components/Profile/Parts/ProfilePartSecurity.vue";
     import ProfilePartLogout from "@/components/Profile/Parts/ProfilePartLogout.vue";
@@ -116,9 +116,9 @@ import {defineEmits, defineProps, onMounted, ref} from "vue";
 
             <div class="profile-content-container">
 
-                <ProfilePartMain v-if="currentPart.id === ProfilePartsIds.Main"/>
+                <ProfilePartMain v-if="currentPart.id === ProfilePartsIds.Main" @reloadProfile="async () => await EmitReloadProfile()" />
 
-                <ProfilePartAvatars v-if="currentPart.id === ProfilePartsIds.Avatars" @reloadProfile="async () => await EmitReloadProfile()"/>
+                <ProfilePartAvatars v-if="currentPart.id === ProfilePartsIds.Avatars" @reloadProfile="async () => await EmitReloadProfile()" />
 
                 <ProfilePartSecurity v-if="currentPart.id === ProfilePartsIds.Security" />
 

@@ -31,7 +31,8 @@ public class UsersImporter
                     id as Id,
                     username as Username,
                     email as Email,
-                    avatar as AvatarType
+                    avatar as AvatarType,
+                    info as About
                 from ft_users
                 order by registered desc"
             )
@@ -39,6 +40,15 @@ public class UsersImporter
 
         foreach (var user in users)
         {
+            #region Creature data fixup
+
+            if (user.About == null)
+            {
+                user.About = String.Empty;
+            }
+            
+            #endregion
+            
             // User may have no email set, we must generate UNIQUE nonexistent email
             if (string.IsNullOrWhiteSpace(user.Email))
             {
@@ -116,6 +126,10 @@ public class UsersImporter
                         await SetCurrentAvatarAsync(userHttpClient, currentLoggedInUser.Id, createdAvatar.Id);
                     }
                 }
+                
+                // Editing about info
+                Console.WriteLine("Editing about...");
+                await UpdateAboutInfoAsync(userHttpClient, currentLoggedInUser.Id, user.About);
             }
 
             Console.WriteLine("Done");
@@ -259,7 +273,20 @@ public class UsersImporter
     
     public async Task<CreatureWithProfileDto> SetCurrentAvatarAsync(HttpClient client, Guid creatureId, Guid avatarId)
     {
-        var response = await client.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/{ creatureId }/SetCurrentAvatar", new SetCurrentAvatarRequest() { AvatarId = avatarId});
+        var response = await client.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/{ creatureId }/SetCurrentAvatar", new SetCurrentAvatarRequest() { AvatarId = avatarId });
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+            
+        var responseData = JsonSerializer.Deserialize<CreatureWithProfileResponse>(await response.Content.ReadAsStringAsync());
+
+        return responseData.CreatureWithProfile;
+    }
+
+    public async Task<CreatureWithProfileDto> UpdateAboutInfoAsync(HttpClient client, Guid creatureId, string newAbout)
+    {
+        var response = await client.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/{ creatureId }/About/Update", new UpdateAboutInfoRequest() { NewAbout = newAbout });
         if (!response.IsSuccessStatusCode)
         {
             throw new InvalidOperationException();
