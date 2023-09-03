@@ -47,7 +47,7 @@ public class AccountsService : IAccountsService
         _filesDao = filesDao;
     }
 
-    public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
+    public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData, bool isImporting)
     {
         _ = registrationData ?? throw new ArgumentNullException(nameof(registrationData), "Registration data must not be null!");
         
@@ -82,7 +82,10 @@ public class AccountsService : IAccountsService
         {
             Id = creatureDto.Id,
             DisplayName = creatureDto.Login,
-            OneTimePlaintextPassword = registrationData.Password,
+            
+            IsPasswordChangeRequired = isImporting,
+            OneTimePlaintextPassword = isImporting ? registrationData.Password : string.Empty,
+            
             Avatars = new List<AvatarDbo>(),
             CurrentAvatar = null,
             About = string.Empty

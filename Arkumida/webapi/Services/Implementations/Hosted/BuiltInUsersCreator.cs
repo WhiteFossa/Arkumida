@@ -44,7 +44,7 @@ public class BuiltInUsersCreator : IHostedService
             return;
         }
 
-        var registrationResult = await accountsService.RegisterUserAsync(new RegistrationDataDto() { Login = login, Email = email, Password = password });
+        var registrationResult = await accountsService.RegisterUserAsync(new RegistrationDataDto() { Login = login, Email = email, Password = password }, false);
         if (registrationResult.Result != UserRegistrationResult.OK)
         {
             throw new InvalidOperationException($"Failed to create built-in user with login { login }");

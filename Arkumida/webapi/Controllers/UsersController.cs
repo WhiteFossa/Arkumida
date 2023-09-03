@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using webapi.Constants;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Requests;
@@ -18,15 +19,18 @@ public class UsersController : ControllerBase
 {
     private readonly IAccountsService _accountsService;
     private readonly ITextUtilsService _textUtilsService;
+    private readonly IConfigurationService _configurationService;
 
     public UsersController
     (
         IAccountsService accountsService,
-        ITextUtilsService textUtilsService
+        ITextUtilsService textUtilsService,
+        IConfigurationService configurationService
     )
     {
         _accountsService = accountsService;
         _textUtilsService = textUtilsService;
+        _configurationService = configurationService;
     }
 
     /// <summary>
@@ -46,8 +50,11 @@ public class UsersController : ControllerBase
         {
             return BadRequest("Registration data must not be null.");
         }
+        
+        // Is importing user?
+        var isImporting = User.Identity.Name == await _configurationService.GetConfigurationStringAsync(GlobalConstants.ImporterUserLoginSettingName);
 
-        var registrationResult = await _accountsService.RegisterUserAsync(request.RegistrationData);
+        var registrationResult = await _accountsService.RegisterUserAsync(request.RegistrationData, isImporting);
 
         return Ok(new UserRegistrationResponse(registrationResult));
     }

@@ -12,10 +12,15 @@ public class CreatureProfileDbo
     /// </summary>
     [Key]
     public Guid Id { get; set; }
-    
+
     /// <summary>
-    /// Plaintext password, it is used to send notifications to creatures about "You are registered on Arkumida now, your password is...".
-    /// After first successful login it should be wiped-out
+    /// If true, then creature must change hir password
+    /// </summary>
+    public bool IsPasswordChangeRequired { get; set; }
+
+    /// <summary>
+    /// Plaintext password, it is used to send notifications to creatures about "You are registered on Arkumida now, your password is..." if case of migration from furtails.pw
+    /// After password change it should be wiped-out
     /// </summary>
     public string OneTimePlaintextPassword { get; set; }
 

@@ -57,6 +57,8 @@ public class CreatureWithProfileDto : CreatureDto
             Id,
             Login,
             Email,
+            false,
+            string.Empty,
             DisplayName,
             Avatars?.Select(a => a.ToModel()).ToList(),
             CurrentAvatar?.ToModel(),

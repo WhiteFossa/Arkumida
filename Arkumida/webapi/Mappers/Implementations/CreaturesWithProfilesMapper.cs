@@ -23,6 +23,8 @@ public class CreaturesWithProfilesMapper : ICreaturesWithProfilesMapper
             creature.Id,
             creature.UserName,
             creature.Email,
+            profile.IsPasswordChangeRequired,
+            profile.OneTimePlaintextPassword,
             profile.DisplayName,
             _avatarsMapper.Map(profile.Avatars).ToList(),
             _avatarsMapper.Map(profile.CurrentAvatar),
@@ -42,8 +44,9 @@ public class CreaturesWithProfilesMapper : ICreaturesWithProfilesMapper
         var profileDbo = new CreatureProfileDbo()
         {
             Id = creatureWithProfile.Id,
+            IsPasswordChangeRequired = creatureWithProfile.IsPasswordChangeRequired,
+            OneTimePlaintextPassword = creatureWithProfile.OneTimePlaintextPassword,
             DisplayName = creatureWithProfile.DisplayName,
-            OneTimePlaintextPassword = string.Empty,
             Avatars = _avatarsMapper.Map(creatureWithProfile.Avatars).ToList(),
             CurrentAvatar = _avatarsMapper.Map(creatureWithProfile.CurrentAvatar),
             About = creatureWithProfile.About
