@@ -116,9 +116,9 @@ import {defineEmits, defineProps, onMounted, ref} from "vue";
 
             <div class="profile-content-container">
 
-                <ProfilePartMain v-if="currentPart.id === ProfilePartsIds.Main"/>
+                <ProfilePartMain v-if="currentPart.id === ProfilePartsIds.Main" @reloadProfile="async () => await EmitReloadProfile()" />
 
-                <ProfilePartAvatars v-if="currentPart.id === ProfilePartsIds.Avatars" @reloadProfile="async () => await EmitReloadProfile()"/>
+                <ProfilePartAvatars v-if="currentPart.id === ProfilePartsIds.Avatars" @reloadProfile="async () => await EmitReloadProfile()" />
 
                 <ProfilePartSecurity v-if="currentPart.id === ProfilePartsIds.Security" />
 

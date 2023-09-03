@@ -1,6 +1,6 @@
 <script setup>
 
-import {onMounted, reactive, ref} from "vue";
+    import {defineEmits, onMounted, reactive, ref} from "vue";
 import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
@@ -8,6 +8,8 @@ import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClie
 import {required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
+
+    const emit = defineEmits(['reloadProfile'])
 
     const isLoading = ref(true)
 
@@ -32,6 +34,13 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
     const aboutInfoAsElements = ref(null)
     const renderedAbout = ref("")
 
+    const isAboutEditing = ref(false)
+
+    // We don't need validator for about, because even empty string is allowed
+    const aboutEditingFormData = reactive({
+        about: ""
+    })
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -55,6 +64,7 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
 
         // Getting and rendering About information
         aboutInfoAsElements.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/About/GetAsElements")).json()).elements
+        renderedAbout.value = ""
         aboutInfoAsElements.value.forEach(e => renderedAbout.value += RenderTextElement(e))
     }
 
@@ -72,12 +82,35 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
 
     async function CompleteRename()
     {
+        isRenaming.value = false
+
         await WebClientSendPostRequest("/api/Users/" + creatureId.value + "/Rename", { "newName": renameFormData.name })
 
         // Reloading profile to be sure that server accepted changes
         await LoadProfile()
 
-        isRenaming.value = false
+        emit("reloadProfile")
+    }
+
+    async function StartToEditAbout()
+    {
+        aboutEditingFormData.about = creatureProfile.value.about
+
+        isAboutEditing.value = true
+    }
+
+    async function CancelAboutEditing()
+    {
+        isAboutEditing.value = false
+    }
+
+    async function CompleteAboutEditing()
+    {
+        isAboutEditing.value = false
+
+        await WebClientSendPostRequest("/api/Users/" + creatureId.value + "/About/Update", { "newAbout": aboutEditingFormData.about })
+
+        await LoadProfile()
     }
 </script>
 
@@ -128,13 +161,68 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
             </button>
         </div>
 
-        <div class="profile-main-part-avatar-container">
-            <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Big" />
-        </div>
-
         <!-- About info -->
-        <div
-            v-html="renderedAbout">
+        <div class="profile-main-part-about-container">
+
+            <div class="profile-main-part-about-caption">
+                <button
+                    v-if="!isAboutEditing"
+                    class="button-with-image"
+                    type="button"
+                    title="Редактировать информацию о себе"
+                    @click="async () => await StartToEditAbout()">
+                    <img class="small-icon" src="/images/icons/icon_edit.png" alt="Редактировать информацию о себе" />
+                </button>
+
+                <button
+                    v-if="isAboutEditing"
+                    class="button-with-image"
+                    type="button"
+                    title="Сохранить изменения"
+                    @click="async () => await CompleteAboutEditing()">
+                    <img class="small-icon" src="/images/icons/icon_ok.png" alt="Сохранить изменения" />
+                </button>
+
+                <button
+                    v-if="isAboutEditing"
+                    class="button-with-image"
+                    type="button"
+                    title="Отменить изменения"
+                    @click="async () => await CancelAboutEditing()">
+                    <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отменить изменения" />
+                </button>
+
+                О себе
+            </div>
+
+            <!-- About info (show) -->
+            <div v-if="!isAboutEditing">
+                <!-- Avatar (big) -->
+                <div class="profile-main-part-avatar-container-show-about">
+                    <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Big" />
+                </div>
+
+                <div
+                    v-html="renderedAbout">
+                </div>
+            </div>
+
+            <!-- About info (edit) -->
+            <div
+                v-if="isAboutEditing"
+                class="profile-main-part-edit-about-container">
+
+                <div class="profile-main-part-avatar-container-edit-about">
+                    <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Big" />
+                </div>
+
+                <textarea
+                    class="profile-main-part-edit-about-textarea"
+                    v-model="aboutEditingFormData.about">
+                </textarea>
+
+            </div>
+
         </div>
     </div>
 </template>

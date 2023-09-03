@@ -1648,10 +1648,61 @@ body {
     border: 0.2rem solid hsl(0, 100%, 56%);
 }
 
-/* Avatar container in profile main part */
-.profile-main-part-avatar-container {
+/* Avatar container in profile main part (show about info) */
+.profile-main-part-avatar-container-show-about {
     float: left;
-    padding-right: 1.0rem;
+    padding-right: 0.5rem;
+}
+
+/* Avatar container in profile main part (edit about info) */
+.profile-main-part-avatar-container-edit-about {
+}
+
+/* Profile main part about info container */
+.profile-main-part-about-container {
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+
+    padding: 0.5rem;
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* Small text "About yourself" */
+.profile-main-part-about-caption {
+    font-size: 0.8rem;
+    color: hsl(0, 0%, 60%);
+
+    text-align: right;
+    width: 100%;
+
+    position: absolute;
+
+    top: 0.3rem;
+    right: 0.5rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+}
+
+/* Container with avatar and textarea to show when editing about info*/
+.profile-main-part-edit-about-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+}
+
+/* Textarea with about info to edit */
+.profile-main-part-edit-about-textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-top: 1.3rem;
 }
 
 /* Container with avatars in profile avatars part */
