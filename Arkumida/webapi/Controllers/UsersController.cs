@@ -4,6 +4,7 @@ using webapi.Constants;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Requests;
+using webapi.Models.Api.Requests.Creature;
 using webapi.Models.Api.Responses;
 using webapi.Models.Api.Responses.Creature;
 using webapi.Services.Abstract;
@@ -327,6 +328,25 @@ public class UsersController : ControllerBase
         var aboutAsElements = _textUtilsService.ParseTextToElements(profile.About, new List<TextFile>()); // About info have no files
 
         return Ok(new AboutInfoAsElementsResponse(aboutAsElements));
+    }
+    
+    /// <summary>
+    /// Change creature's password
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/ChangePassword")]
+    public async Task<ActionResult<ChangePasswordResponse>> ChangePasswordAsync(Guid creatureId, ChangePasswordRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+
+        var isSuccessful = await _accountsService.ChangePasswordAsync(creatureId, request.OldPassword, request.NewPassword);
+
+        return Ok(new ChangePasswordResponse(isSuccessful));
     }
 
     /// <summary>

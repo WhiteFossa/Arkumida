@@ -317,4 +317,27 @@ public class AccountsService : IAccountsService
 
         await _profilesDao.UpdateProfileAsync(profile);
     }
+
+    public async Task<bool> ChangePasswordAsync(Guid creatureId, string oldPassword, string newPassword)
+    {
+        if (string.IsNullOrWhiteSpace(oldPassword))
+        {
+            throw new ArgumentException("Old password must be non-empty.", nameof(oldPassword));
+        }
+        
+        if (string.IsNullOrWhiteSpace(oldPassword))
+        {
+            throw new ArgumentException("New password must be non-empty.", nameof(newPassword));
+        }
+
+        var user = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (user == null)
+        {
+            throw new InvalidOperationException($"Creature with ID={ creatureId } is not found.");
+        }
+        
+        var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        
+        return result.Succeeded;
+    }
 }

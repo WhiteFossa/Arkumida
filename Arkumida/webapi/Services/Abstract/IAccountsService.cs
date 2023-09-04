@@ -69,4 +69,9 @@ public interface IAccountsService
     /// Update creature's about information
     /// </summary>
     Task UpdateAboutAsync(Guid creatureId, string newAbout);
+
+    /// <summary>
+    /// Change creature's password
+    /// </summary>
+    Task<bool> ChangePasswordAsync(Guid creatureId, string oldPassword, string newPassword);
 }
