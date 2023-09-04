@@ -68,6 +68,7 @@ public class CreatureWithProfile : Creature
             "not_ready",
             Login,
             Email,
+            IsPasswordChangeRequired,
             DisplayName,
             Avatars?.Select(a => a.ToDto()).ToList(),
             CurrentAvatar?.ToDto(),
