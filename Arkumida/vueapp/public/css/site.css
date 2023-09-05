@@ -247,6 +247,12 @@ body {
     padding: 0;
 }
 
+/* UL tag with better than default margins */
+.ul-with-better-margins {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
 /* Menu stuff starts here */
 
 /* Central menu item */
@@ -1794,6 +1800,7 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    white-space: nowrap;
     gap: 0.5rem;
 
     margin-bottom: 0.5rem;
@@ -1810,6 +1817,7 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    white-space: nowrap;
     gap: 0.5rem;
 
     margin-bottom: 0.5rem;
@@ -1824,6 +1832,104 @@ body {
 /* New avatar submit button form group */
 .profile-avatars-part-upload-new-avatar-upload-form-group {
     text-align: right;
+}
+
+/* Information about creature's login is here */
+.profile-security-part-login-container {
+    margin-bottom: 0.5rem;
+}
+
+/* Comment to login (it says "login can't be changed") */
+.profile-security-part-login-comment {
+    font-size: 0.8rem;
+    color: hsl(0, 0%, 60%);
+}
+
+/* Information about creature's password is here */
+.profile-security-part-password-container {
+    margin-bottom: 0.5rem;
+}
+
+/* Password change form lives here */
+.profile-security-part-change-password-container {
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+
+    padding: 0.5rem;
+
+    overflow: hidden;
+}
+
+/* Small text "Change password" and buttons */
+.profile-security-part-change-password-caption {
+    font-size: 0.8rem;
+    color: hsl(0, 0%, 60%);
+
+    text-align: right;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    padding-bottom: 0.3rem;
+}
+
+/* Table cell for old password */
+.profile-security-part-change-password-old-password-table-cell {
+    width: 100%;
+}
+
+/* Input for old password */
+.profile-security-part-change-password-old-password-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.profile-security-part-change-password-old-password-input.profile-security-part-change-password-old-password-input-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Table cell for new password */
+.profile-security-part-change-password-new-password-table-cell {
+    width: 100%;
+}
+
+/* Input for new password */
+.profile-security-part-change-password-new-password-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.profile-security-part-change-password-new-password-input.profile-security-part-change-password-new-password-input-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Table cell for new password confirmation */
+.profile-security-part-change-password-new-password-confirmation-table-cell {
+    width: 100%;
+}
+
+/* Input for new password confirmation */
+.profile-security-part-change-password-new-password-confirmation-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.profile-security-part-change-password-new-password-confirmation-input.profile-security-part-change-password-new-password-confirmation-input-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Information about failed password change */
+.profile-security-part-change-password-change-failed-info {
+    color: hsl(0, 100%, 56%);
+    font-weight: bold;
+}
+
+/* Information about creature's email is here */
+.profile-security-part-email-container {
 }
 
 /* Profile stuff ends here */

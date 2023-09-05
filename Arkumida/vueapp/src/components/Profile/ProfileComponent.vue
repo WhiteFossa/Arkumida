@@ -1,11 +1,11 @@
 <script setup>
-import {defineEmits, defineProps, onMounted, ref} from "vue";
+    import {defineEmits, defineProps, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import router from "@/router";
     import ProfilePartButton from "@/components/Profile/ProfilePartButton.vue";
     import ProfilePartMain from "@/components/Profile/Parts/Main/ProfilePartMain.vue";
     import ProfilePartAvatars from "@/components/Profile/Parts/Avatars/ProfilePartAvatars.vue";
-    import ProfilePartSecurity from "@/components/Profile/Parts/ProfilePartSecurity.vue";
+    import ProfilePartSecurity from "@/components/Profile/Parts/Security/ProfilePartSecurity.vue";
     import ProfilePartLogout from "@/components/Profile/Parts/ProfilePartLogout.vue";
     import { AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
 

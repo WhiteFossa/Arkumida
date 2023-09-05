@@ -28,6 +28,8 @@ export class Messages
     static DeleteAvatarTextSecondPart = '"?'
 
     static SelectOnlyOneFileForUploadAsAvatar = "Выберите ровно один файл для загрузки в качестве аварки."
+
+    static PasswordChangedMessage = "Ваш пароль успешно изменён, сейчас вы будете перенаправлены на страницу входа для ввода нового пароля."
 }
 
 // Category tag types

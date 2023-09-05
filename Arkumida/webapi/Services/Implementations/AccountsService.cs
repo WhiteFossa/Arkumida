@@ -338,6 +338,24 @@ public class AccountsService : IAccountsService
         
         var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
         
+        // Clearing one-time password if set
+        if (result.Succeeded)
+        {
+            var profile = await _profilesDao.GetProfileAsync(creatureId);
+            if (profile == null)
+            {
+                throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
+            }
+
+            if (profile.IsPasswordChangeRequired)
+            {
+                profile.IsPasswordChangeRequired = false;
+                profile.OneTimePlaintextPassword = string.Empty;
+                
+                await _profilesDao.UpdateProfileAsync(profile);   
+            }
+        }
+        
         return result.Succeeded;
     }
 }
