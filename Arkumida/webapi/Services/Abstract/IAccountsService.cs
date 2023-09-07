@@ -10,9 +10,10 @@ namespace webapi.Services.Abstract;
 public interface IAccountsService
 {
     /// <summary>
-    /// Try to register an user
+    /// Try to register an user.
+    /// If isImporting == true, then we are creating a creature by furtails-importer, so we will store the password and will require to change it
     /// </summary>
-    Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData);
+    Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData, bool isImporting);
 
     /// <summary>
     /// Try to log-in user
@@ -68,4 +69,9 @@ public interface IAccountsService
     /// Update creature's about information
     /// </summary>
     Task UpdateAboutAsync(Guid creatureId, string newAbout);
+
+    /// <summary>
+    /// Change creature's password
+    /// </summary>
+    Task<bool> ChangePasswordAsync(Guid creatureId, string oldPassword, string newPassword);
 }

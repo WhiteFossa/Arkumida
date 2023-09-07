@@ -2,13 +2,17 @@
 
 import {
     ComicsImageIdPrefix,
-    FullsizeImageIdPrefix,
+    FullsizeImageIdPrefix, Messages, ProfileConsts,
     SpecialTextType,
     TagMeaning,
     TextElementType,
     TextIconType,
     TextType
 } from "@/js/constants";
+import {WebClientSendGetRequest} from "@/js/libWebClient";
+import {AuthIsUserLoggedIn} from "@/js/auth";
+import {ref} from "vue";
+import router from "@/router";
 
 function AddIconToList(sourceIcons, iconsList)
 {
@@ -319,6 +323,46 @@ function UndefinedOrNullToNull(value)
     return value;
 }
 
+// Call this from each view, this function processes actions, which needed to be made when page is loaded
+async function OnPageLoad()
+{
+    const isUserLoggedIn = ref(await AuthIsUserLoggedIn())
+
+    if (!isUserLoggedIn.value)
+    {
+        // Put here calls for non-logged in creatures
+    }
+    else
+    {
+        // Put here calls for logged-in creatures
+        const creatureId = ref((await (await WebClientSendGetRequest("/api/Users/Current")).json()).creature.entityId)
+        const creatureProfile = ref((await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Profile")).json()).creatureWithProfile)
+        PostprocessCreatureProfile(creatureProfile)
+
+        // Do we need to force password change?
+        await RedirectToForcePasswordChangeIfNeeded(creatureProfile)
+    }
+
+}
+
+// If creature is logged in and hir password needs to be changed - redirects to password change
+async function RedirectToForcePasswordChangeIfNeeded(creatureProfile)
+{
+    const forcePasswordChangeRoute = "/profile/security/" + ProfileConsts.ForcePasswordChangeActionName
+
+    if (window.location.pathname.startsWith(forcePasswordChangeRoute))
+    {
+        return // To avoid self-redirection
+    }
+
+    if (creatureProfile.value.isPasswordChangeRequired)
+    {
+        alert(Messages.PasswordChangeRequiredAfterImport)
+
+        await router.push(forcePasswordChangeRoute)
+    }
+}
+
 export
 {
     AddIconToList,
@@ -333,5 +377,6 @@ export
     RenderTextElement,
     GenerateLinkToText,
     PostprocessCreatureProfile,
-    UndefinedOrNullToNull
+    UndefinedOrNullToNull,
+    OnPageLoad
 }

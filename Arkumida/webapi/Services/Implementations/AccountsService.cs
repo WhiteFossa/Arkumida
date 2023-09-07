@@ -47,7 +47,7 @@ public class AccountsService : IAccountsService
         _filesDao = filesDao;
     }
 
-    public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData)
+    public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData, bool isImporting)
     {
         _ = registrationData ?? throw new ArgumentNullException(nameof(registrationData), "Registration data must not be null!");
         
@@ -82,7 +82,10 @@ public class AccountsService : IAccountsService
         {
             Id = creatureDto.Id,
             DisplayName = creatureDto.Login,
-            OneTimePlaintextPassword = registrationData.Password,
+            
+            IsPasswordChangeRequired = isImporting,
+            OneTimePlaintextPassword = isImporting ? registrationData.Password : string.Empty,
+            
             Avatars = new List<AvatarDbo>(),
             CurrentAvatar = null,
             About = string.Empty
@@ -313,5 +316,46 @@ public class AccountsService : IAccountsService
         profile.About = newAbout;
 
         await _profilesDao.UpdateProfileAsync(profile);
+    }
+
+    public async Task<bool> ChangePasswordAsync(Guid creatureId, string oldPassword, string newPassword)
+    {
+        if (string.IsNullOrWhiteSpace(oldPassword))
+        {
+            throw new ArgumentException("Old password must be non-empty.", nameof(oldPassword));
+        }
+        
+        if (string.IsNullOrWhiteSpace(oldPassword))
+        {
+            throw new ArgumentException("New password must be non-empty.", nameof(newPassword));
+        }
+
+        var user = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (user == null)
+        {
+            throw new InvalidOperationException($"Creature with ID={ creatureId } is not found.");
+        }
+        
+        var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        
+        // Clearing one-time password if set
+        if (result.Succeeded)
+        {
+            var profile = await _profilesDao.GetProfileAsync(creatureId);
+            if (profile == null)
+            {
+                throw new InvalidOperationException($"Creature with ID={creatureId} doesn't exist.");
+            }
+
+            if (profile.IsPasswordChangeRequired)
+            {
+                profile.IsPasswordChangeRequired = false;
+                profile.OneTimePlaintextPassword = string.Empty;
+                
+                await _profilesDao.UpdateProfileAsync(profile);   
+            }
+        }
+        
+        return result.Succeeded;
     }
 }

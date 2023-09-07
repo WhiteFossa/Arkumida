@@ -218,6 +218,14 @@ async function AuthLogUserOut()
     await router.push("/")
 }
 
+async function AuthLogUserOutAndReLogIn()
+{
+    await AuthClearCredentials()
+    await AuthClearToken()
+
+    await AuthRedirectToLoginPageIfNotLoggedIn()
+}
+
 async function AuthRedirectToLoginPageIfNotLoggedIn()
 {
     if (!await AuthIsUserLoggedIn())
@@ -234,5 +242,6 @@ export
     AuthGetToken,
     AuthRefreshToken,
     AuthIsUserLoggedIn,
-    AuthRedirectToLoginPageIfNotLoggedIn
+    AuthRedirectToLoginPageIfNotLoggedIn,
+    AuthLogUserOutAndReLogIn
 }

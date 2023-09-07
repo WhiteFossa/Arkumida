@@ -8,6 +8,12 @@ namespace webapi.Models.Api.DTOs;
 public class CreatureWithProfileDto : CreatureDto
 {
     /// <summary>
+    /// If true, then creature must change hir password
+    /// </summary>
+    [JsonPropertyName("isPasswordChangeRequired")]
+    public bool IsPasswordChangeRequired { get; set; }
+    
+    /// <summary>
     /// User's visible name
     /// </summary>
     [JsonPropertyName("name")]
@@ -37,6 +43,7 @@ public class CreatureWithProfileDto : CreatureDto
         string furryReadableId,
         string login,
         string email,
+        bool isPasswordChangeRequired,
         string displayName,
         IReadOnlyCollection<AvatarDto> avatars,
         AvatarDto currentAvatar,
@@ -44,6 +51,7 @@ public class CreatureWithProfileDto : CreatureDto
     ) : base(id, furryReadableId, login, email)
     {
         // All fields may be null (during the text creation, for example)
+        IsPasswordChangeRequired = isPasswordChangeRequired;
         DisplayName = displayName;
         Avatars = avatars;
         CurrentAvatar = currentAvatar;
@@ -57,6 +65,8 @@ public class CreatureWithProfileDto : CreatureDto
             Id,
             Login,
             Email,
+            false,
+            string.Empty,
             DisplayName,
             Avatars?.Select(a => a.ToModel()).ToList(),
             CurrentAvatar?.ToModel(),

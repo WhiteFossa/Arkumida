@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Requests;
+namespace webapi.Models.Api.Requests.Creature;
 
 /// <summary>
 /// Request to rename creature

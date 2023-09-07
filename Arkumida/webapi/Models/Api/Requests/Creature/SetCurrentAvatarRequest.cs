@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Requests;
+namespace webapi.Models.Api.Requests.Creature;
 
 /// <summary>
 /// Set current avatar for current user

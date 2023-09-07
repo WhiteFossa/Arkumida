@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using webapi.Constants;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Requests;
+using webapi.Models.Api.Requests.Creature;
 using webapi.Models.Api.Responses;
 using webapi.Models.Api.Responses.Creature;
 using webapi.Services.Abstract;
@@ -18,15 +20,18 @@ public class UsersController : ControllerBase
 {
     private readonly IAccountsService _accountsService;
     private readonly ITextUtilsService _textUtilsService;
+    private readonly IConfigurationService _configurationService;
 
     public UsersController
     (
         IAccountsService accountsService,
-        ITextUtilsService textUtilsService
+        ITextUtilsService textUtilsService,
+        IConfigurationService configurationService
     )
     {
         _accountsService = accountsService;
         _textUtilsService = textUtilsService;
+        _configurationService = configurationService;
     }
 
     /// <summary>
@@ -46,8 +51,11 @@ public class UsersController : ControllerBase
         {
             return BadRequest("Registration data must not be null.");
         }
+        
+        // Is importing user?
+        var isImporting = User.Identity.Name == await _configurationService.GetConfigurationStringAsync(GlobalConstants.ImporterUserLoginSettingName);
 
-        var registrationResult = await _accountsService.RegisterUserAsync(request.RegistrationData);
+        var registrationResult = await _accountsService.RegisterUserAsync(request.RegistrationData, isImporting);
 
         return Ok(new UserRegistrationResponse(registrationResult));
     }
@@ -320,6 +328,25 @@ public class UsersController : ControllerBase
         var aboutAsElements = _textUtilsService.ParseTextToElements(profile.About, new List<TextFile>()); // About info have no files
 
         return Ok(new AboutInfoAsElementsResponse(aboutAsElements));
+    }
+    
+    /// <summary>
+    /// Change creature's password
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/ChangePassword")]
+    public async Task<ActionResult<ChangePasswordResponse>> ChangePasswordAsync(Guid creatureId, ChangePasswordRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        await CheckPrivilegesAsync(creatureId);
+
+        var isSuccessful = await _accountsService.ChangePasswordAsync(creatureId, request.OldPassword, request.NewPassword);
+
+        return Ok(new ChangePasswordResponse(isSuccessful));
     }
 
     /// <summary>

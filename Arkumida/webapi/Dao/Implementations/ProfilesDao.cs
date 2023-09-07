@@ -46,7 +46,8 @@ public class ProfilesDao : IProfilesDao
         var profile = await GetProfileAsync(newProfile.Id);
 
         profile = await LoadLinkedEntities(profile);
-        
+
+        profile.IsPasswordChangeRequired = newProfile.IsPasswordChangeRequired;
         profile.OneTimePlaintextPassword = newProfile.OneTimePlaintextPassword;
         profile.DisplayName = newProfile.DisplayName;
         profile.About = newProfile.About;

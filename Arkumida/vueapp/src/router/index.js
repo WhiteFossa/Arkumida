@@ -30,7 +30,7 @@ const routes =
 
     // Profile
     {
-        path: '/profile/:part?',
+        path: '/profile/:part?/:action?',
         name: 'profile',
         component: ProfileView,
         props: true
