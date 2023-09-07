@@ -27,7 +27,7 @@ export class Messages
     static DeleteAvatarTextFirstPart = 'Вы действительно хотите удалить аватарку "'
     static DeleteAvatarTextSecondPart = '"?'
 
-    static SelectOnlyOneFileForUploadAsAvatar = "Выберите ровно один файл для загрузки в качестве аварки."
+    static SelectOnlyOneFileForUploadAsAvatar = "Выберите ровно один файл для загрузки в качестве аватарки."
 
     static PasswordChangedMessage = "Ваш пароль успешно изменён, сейчас вы будете перенаправлены на страницу входа для ввода нового пароля."
 
