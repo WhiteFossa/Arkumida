@@ -30,6 +30,14 @@ export class Messages
     static SelectOnlyOneFileForUploadAsAvatar = "Выберите ровно один файл для загрузки в качестве аварки."
 
     static PasswordChangedMessage = "Ваш пароль успешно изменён, сейчас вы будете перенаправлены на страницу входа для ввода нового пароля."
+
+    static PasswordChangeRequiredAfterImport = "Ваш аккаунт был перенесён с старой версии сайта. Вам необходимо сменить пароль. Сейчас вы будете перенаправлены на страницу изменения пароля."
+}
+
+export class ProfileConsts
+{
+    // If this action is specified for profile/security, then force password change
+    static ForcePasswordChangeActionName = "forcePasswordChange"
 }
 
 // Category tag types

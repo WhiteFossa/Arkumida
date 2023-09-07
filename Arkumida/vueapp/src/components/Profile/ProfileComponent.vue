@@ -10,7 +10,8 @@
     import { AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
 
     const props = defineProps({
-        part: String
+        part: String,
+        action: String
     })
 
     const emit = defineEmits(['reloadProfile'])
@@ -116,13 +117,20 @@
 
             <div class="profile-content-container">
 
-                <ProfilePartMain v-if="currentPart.id === ProfilePartsIds.Main" @reloadProfile="async () => await EmitReloadProfile()" />
+                <ProfilePartMain
+                    v-if="currentPart.id === ProfilePartsIds.Main"
+                    @reloadProfile="async () => await EmitReloadProfile()" />
 
-                <ProfilePartAvatars v-if="currentPart.id === ProfilePartsIds.Avatars" @reloadProfile="async () => await EmitReloadProfile()" />
+                <ProfilePartAvatars
+                    v-if="currentPart.id === ProfilePartsIds.Avatars"
+                    @reloadProfile="async () => await EmitReloadProfile()" />
 
-                <ProfilePartSecurity v-if="currentPart.id === ProfilePartsIds.Security" />
+                <ProfilePartSecurity
+                    v-if="currentPart.id === ProfilePartsIds.Security"
+                    :action="props.action"/>
 
-                <ProfilePartLogout v-if="currentPart.id === ProfilePartsIds.Logout" />
+                <ProfilePartLogout
+                    v-if="currentPart.id === ProfilePartsIds.Logout" />
 
             </div>
         </div>

@@ -1,12 +1,16 @@
 <script setup>
-    import {onMounted, reactive, ref} from "vue";
+import {defineProps, onMounted, reactive, ref} from "vue";
     import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
     import {PostprocessCreatureProfile} from "@/js/libArkumida";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
     import {AuthLogUserOutAndReLogIn} from "@/js/auth";
-    import {Messages} from "@/js/constants";
+import {Messages, ProfileConsts} from "@/js/constants";
+
+    const props = defineProps({
+        action: String
+    })
 
     const isLoading = ref(true)
 
@@ -52,6 +56,11 @@
     {
         creatureId.value = (await (await WebClientSendGetRequest("/api/Users/Current")).json()).creature.entityId
         await LoadProfile()
+
+        if (props.action === ProfileConsts.ForcePasswordChangeActionName)
+        {
+            await StartToChangePassword()
+        }
 
         isLoading.value = false
     }
