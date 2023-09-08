@@ -47,6 +47,8 @@ import {Messages, ProfileConsts} from "@/js/constants";
 
     const isPasswordChangeFailed = ref(false)
 
+    const isEmailConfirmed = ref(false)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -70,11 +72,13 @@ import {Messages, ProfileConsts} from "@/js/constants";
         creatureProfile.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Profile")).json()).creatureWithProfile
 
         PostprocessCreatureProfile(creatureProfile)
+
+        isEmailConfirmed.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Email/IsConfirmed")).json()).isConfirmed
     }
 
     async function StartToChangePassword()
     {
-        ClearChangePasswordForm()
+        await ClearChangePasswordForm()
 
         passwordChangeValidator.value.$validate()
 
@@ -106,7 +110,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
         }
 
         // Clearing the form to force creature to re-input data
-        ClearChangePasswordForm()
+        await ClearChangePasswordForm()
         isPasswordChangeFailed.value = true
     }
 
@@ -116,11 +120,16 @@ import {Messages, ProfileConsts} from "@/js/constants";
         return newPasswordConfirmation === passwordChangeFormData.newPassword
     }
 
-    function ClearChangePasswordForm()
+    async function ClearChangePasswordForm()
     {
         passwordChangeFormData.oldPassword = ""
         passwordChangeFormData.newPassword = ""
         passwordChangeFormData.newPasswordConfirmation = ""
+    }
+
+    async function StartEmailConfirmation()
+    {
+        alert("Sending confirmation email")
     }
 </script>
 
@@ -255,6 +264,28 @@ import {Messages, ProfileConsts} from "@/js/constants";
         <div class="profile-security-part-email-container">
             E-mail:
             {{creatureProfile.email}}
+
+            <div
+                v-if="!isEmailConfirmed"
+                class="profile-security-part-email-not-confirmed-warning-container">
+
+                <div class="profile-security-part-email-not-confirmed-warning">
+                    <div class="vertical-align-flex">
+                        <img class="small-icon" src="/images/icons/icon_warning.png" alt="Адрес не подтверждён!" />
+                    </div>
+
+                    <div>
+                        Адрес не подтверждён, вы не сможете получать уведомления на почту!
+                    </div>
+                </div>
+
+                <div
+                    class="underlined-pseudolink"
+                    @click="async () => await StartEmailConfirmation()">
+                    Подтвердить
+                </div>
+
+            </div>
         </div>
     </div>
 </template>

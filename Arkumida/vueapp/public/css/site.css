@@ -253,6 +253,13 @@ body {
     margin-bottom: 0.5rem;
 }
 
+/* Vertical align via flex */
+.vertical-align-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Menu stuff starts here */
 
 /* Central menu item */
@@ -1930,6 +1937,29 @@ body {
 
 /* Information about creature's email is here */
 .profile-security-part-email-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 0.5rem;
+}
+
+/* Container with warning about "email not confirmed" */
+.profile-security-part-email-not-confirmed-warning-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 0.5rem;
+}
+
+/* Warning about "email not confirmed" */
+.profile-security-part-email-not-confirmed-warning {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 0.3rem;
+
+    color: hsl(0, 100%, 56%);
+    font-weight: bold;
 }
 
 /* Profile stuff ends here */
