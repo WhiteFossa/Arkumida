@@ -350,6 +350,20 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
+    /// Checks if creature have confirmed email
+    /// </summary>
+    [HttpGet]
+    [Route("api/Users/{creatureId}/Email/IsConfirmed")]
+    public async Task<ActionResult<IsEmailConfirmedResponse>> IsEmailConfirmedAsync(Guid creatureId)
+    {
+        await CheckPrivilegesAsync(creatureId);
+
+        var isConfirmed = await _accountsService.IsCreatureEmailConfirmedAsync(creatureId);
+
+        return Ok(new IsEmailConfirmedResponse(isConfirmed));
+    }
+
+    /// <summary>
     /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception
     /// </summary>
     private async Task CheckPrivilegesAsync(Guid creatureId)

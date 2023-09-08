@@ -358,4 +358,15 @@ public class AccountsService : IAccountsService
         
         return result.Succeeded;
     }
+
+    public async Task<bool> IsCreatureEmailConfirmedAsync(Guid creatureId)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID={creatureId} is not found!", nameof(creatureId));
+        }
+
+        return creature.EmailConfirmed;
+    }
 }

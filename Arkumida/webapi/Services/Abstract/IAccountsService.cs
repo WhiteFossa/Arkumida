@@ -74,4 +74,9 @@ public interface IAccountsService
     /// Change creature's password
     /// </summary>
     Task<bool> ChangePasswordAsync(Guid creatureId, string oldPassword, string newPassword);
+
+    /// <summary>
+    /// Returns true if creature's email is confirmed
+    /// </summary>
+    Task<bool> IsCreatureEmailConfirmedAsync(Guid creatureId);
 }
