@@ -13,6 +13,7 @@ using webapi.Dao.Implementations;
 using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Mappers.Implementations;
+using webapi.Models.Email;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.TextRenderers;
 using webapi.Services.Implementations;
@@ -48,6 +49,8 @@ builder.Services.AddScoped<IProfilesDao, ProfilesDao>();
 
 builder.Services.AddScoped<IAvatarsDao, AvatarsDao>();
 
+builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
+
 #endregion
 
 #region Singletons
@@ -72,6 +75,12 @@ builder.Services.AddSingleton<ICreaturesWithProfilesMapper, CreaturesWithProfile
 builder.Services.AddHostedService<BuiltInUsersCreator>();
 
 #endregion
+
+#endregion
+
+#region Settings
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
 
 #endregion
 

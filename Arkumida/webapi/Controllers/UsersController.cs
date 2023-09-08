@@ -364,6 +364,24 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
+    /// Initiate email confirmation process
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/Email/InitiateConfirmation")]
+    public async Task<ActionResult<InitiateEmailConfirmationResponse>> InitiateEmailConfirmationAsync(Guid creatureId)
+    {
+        await CheckPrivilegesAsync(creatureId);
+
+        if (await _accountsService.IsCreatureEmailConfirmedAsync(creatureId))
+        {
+            // Already confirmed
+            return Ok(new InitiateEmailConfirmationResponse(false));
+        }
+        
+        return Ok(new InitiateEmailConfirmationResponse(await _accountsService.InitiateEmailConfirmation(creatureId)));
+    }
+
+    /// <summary>
     /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception
     /// </summary>
     private async Task CheckPrivilegesAsync(Guid creatureId)

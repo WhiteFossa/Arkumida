@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using webapi.Constants;
 using webapi.Dao.Abstract;
@@ -9,6 +10,7 @@ using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
+using webapi.Models.Email;
 using webapi.Models.Enums;
 using webapi.Services.Abstract;
 
@@ -24,6 +26,7 @@ public class AccountsService : IAccountsService
     private readonly IAvatarsDao _avatarsDao;
     private readonly ICreaturesWithProfilesMapper _creaturesWithProfilesMapper;
     private readonly IFilesDao _filesDao;
+    private readonly IEmailSenderService _emailSenderService;
 
     public AccountsService
     (
@@ -34,7 +37,8 @@ public class AccountsService : IAccountsService
         IProfilesDao profilesDao,
         IAvatarsDao avatarsDao,
         ICreaturesWithProfilesMapper creaturesWithProfilesMapper,
-        IFilesDao filesDao
+        IFilesDao filesDao,
+        IEmailSenderService emailSenderService
     )
     {
         _userManager = userManager;
@@ -45,6 +49,7 @@ public class AccountsService : IAccountsService
         _avatarsDao = avatarsDao;
         _creaturesWithProfilesMapper = creaturesWithProfilesMapper;
         _filesDao = filesDao;
+        _emailSenderService = emailSenderService;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData, bool isImporting)
@@ -368,5 +373,33 @@ public class AccountsService : IAccountsService
         }
 
         return creature.EmailConfirmed;
+    }
+
+    public async Task<bool> InitiateEmailConfirmation(Guid creatureId)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID={creatureId} is not found!", nameof(creatureId));
+        }
+
+        if (creature.EmailConfirmed)
+        {
+            return false; // Already confirmed
+        }
+
+        var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(creature);
+
+        var siteBaseUrl = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoBaseUrlSettingName);
+        var confirmationLink = string.Format(GlobalConstants.EmailConfirmationLinkTemplate, siteBaseUrl, creatureId, confirmationToken);
+
+        var message = new Email
+        (
+            new List<string>() { creature.Email },
+            "Подтвердите ваш адрес электронной почты",
+            $"Ссылка для подтверждения адреса: {confirmationLink}"
+        );
+
+        return await _emailSenderService.SendAsync(message, new CancellationToken());
     }
 }

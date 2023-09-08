@@ -61,4 +61,13 @@ public static class GlobalConstants
     public const string SiteInfoTitleSettingName = "SiteInfo:Title";
     
     #endregion
+    
+    #region Email
+
+    /// <summary>
+    /// Email confirmation links are generated using this template
+    /// </summary>
+    public const string EmailConfirmationLinkTemplate = "{0}/confirmEmail?user={1}&token={2}";
+
+    #endregion
 }
