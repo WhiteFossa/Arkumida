@@ -13,6 +13,7 @@ using webapi.Models.Api.DTOs;
 using webapi.Models.Email;
 using webapi.Models.Enums;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.Email;
 
 namespace webapi.Services.Implementations;
 
@@ -27,6 +28,7 @@ public class AccountsService : IAccountsService
     private readonly ICreaturesWithProfilesMapper _creaturesWithProfilesMapper;
     private readonly IFilesDao _filesDao;
     private readonly IEmailSenderService _emailSenderService;
+    private readonly IEmailsGeneratorService _emailsGeneratorService;
 
     public AccountsService
     (
@@ -38,7 +40,8 @@ public class AccountsService : IAccountsService
         IAvatarsDao avatarsDao,
         ICreaturesWithProfilesMapper creaturesWithProfilesMapper,
         IFilesDao filesDao,
-        IEmailSenderService emailSenderService
+        IEmailSenderService emailSenderService,
+        IEmailsGeneratorService emailsGeneratorService
     )
     {
         _userManager = userManager;
@@ -50,6 +53,7 @@ public class AccountsService : IAccountsService
         _creaturesWithProfilesMapper = creaturesWithProfilesMapper;
         _filesDao = filesDao;
         _emailSenderService = emailSenderService;
+        _emailsGeneratorService = emailsGeneratorService;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData, bool isImporting)
@@ -390,15 +394,9 @@ public class AccountsService : IAccountsService
 
         var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(creature);
 
-        var siteBaseUrl = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoBaseUrlSettingName);
-        var confirmationLink = string.Format(GlobalConstants.EmailConfirmationLinkTemplate, siteBaseUrl, creatureId, confirmationToken);
-
-        var message = new Email
-        (
-            new List<string>() { creature.Email },
-            "Подтвердите ваш адрес электронной почты",
-            $"Ссылка для подтверждения адреса: {confirmationLink}"
-        );
+        var creatureWithProfile = await GetProfileByCreatureIdAsync(creatureId);
+        
+        var message = await _emailsGeneratorService.GenerateEmailAddressConfirmationEmail(creatureWithProfile, confirmationToken);
 
         return await _emailSenderService.SendAsync(message, new CancellationToken());
     }

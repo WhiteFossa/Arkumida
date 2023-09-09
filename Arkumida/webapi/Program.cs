@@ -15,8 +15,10 @@ using webapi.Mappers.Abstract;
 using webapi.Mappers.Implementations;
 using webapi.Models.Email;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.Email;
 using webapi.Services.Abstract.TextRenderers;
 using webapi.Services.Implementations;
+using webapi.Services.Implementations.Email;
 using webapi.Services.Implementations.Hosted;
 using webapi.Services.Implementations.TextRenderers;
 
@@ -50,6 +52,7 @@ builder.Services.AddScoped<IProfilesDao, ProfilesDao>();
 builder.Services.AddScoped<IAvatarsDao, AvatarsDao>();
 
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
+builder.Services.AddScoped<IEmailsGeneratorService, EmailsGeneratorService>();
 
 #endregion
 

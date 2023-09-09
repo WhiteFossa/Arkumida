@@ -3,26 +3,26 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using webapi.Models.Email;
-using webapi.Services.Abstract;
+using webapi.Services.Abstract.Email;
 
-namespace webapi.Services.Implementations;
+namespace webapi.Services.Implementations.Email;
 
 public class EmailSenderService : IEmailSenderService
 {
-    /// <summary>
-    /// Email settings
-    /// </summary>
+    private ILogger _logger;
     private readonly EmailSettings _emailSettings;
 
     public EmailSenderService
     (
+        ILogger<EmailSenderService> logger,
         IOptions<EmailSettings> emailSettings
     )
     {
+        _logger = logger;
         _emailSettings = emailSettings.Value;
     }
     
-    public async Task<bool> SendAsync(Email email, CancellationToken ct)
+    public async Task<bool> SendAsync(Models.Email.Email email, CancellationToken ct)
     {
         try
         {
@@ -91,6 +91,10 @@ public class EmailSenderService : IEmailSenderService
             {
                 await smtp.ConnectAsync(_emailSettings.SmtpHost, _emailSettings.SmtpPort, SecureSocketOptions.StartTls, ct);
             }
+            else
+            {
+                throw new InvalidOperationException("Either SSL or StartTLS have to be enabled.");
+            }
 
             if (!string.IsNullOrEmpty(_emailSettings.UserName))
             {
@@ -105,8 +109,10 @@ public class EmailSenderService : IEmailSenderService
             return true;
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            // TODO: Add logging here
+            _logger.LogError($"Failed to send email: { ex.Message }");
             return false;
         }
     }

@@ -1,6 +1,4 @@
-using webapi.Models.Email;
-
-namespace webapi.Services.Abstract;
+namespace webapi.Services.Abstract.Email;
 
 /// <summary>
 /// Service to send email
@@ -10,5 +8,5 @@ public interface IEmailSenderService
     /// <summary>
     /// Send one email. Returns true if email sent successfully
     /// </summary>
-    Task<bool> SendAsync(Email email, CancellationToken ct);
+    Task<bool> SendAsync(Models.Email.Email email, CancellationToken ct);
 }
