@@ -32,6 +32,14 @@ export class Messages
     static PasswordChangedMessage = "Ваш пароль успешно изменён, сейчас вы будете перенаправлены на страницу входа для ввода нового пароля."
 
     static PasswordChangeRequiredAfterImport = "Ваш аккаунт был перенесён с старой версии сайта. Вам необходимо сменить пароль. Сейчас вы будете перенаправлены на страницу изменения пароля."
+
+    static EmailAddressConfirmationEmailSent = "Письмо с инструкциями по подтверждению адреса электронной почты отправлено."
+
+    static EmailAddressConfirmationEmailNotSent = "Не удалось отправить письмо с инструкциями по подтверждению адреса электронной почты. Корректен-ли адрес?"
+
+    static EmailAddressConfirmed = "Адрес электронной почты подтверждён."
+
+    static EmailAddressFailedToConfirm = "Не удалось подтвердить адрес электронной почты. Корректна-ли ссылка? Не протухло-ли письмо?"
 }
 
 export class ProfileConsts

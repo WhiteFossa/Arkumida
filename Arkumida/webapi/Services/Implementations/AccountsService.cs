@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using webapi.Constants;
@@ -379,7 +380,7 @@ public class AccountsService : IAccountsService
         return creature.EmailConfirmed;
     }
 
-    public async Task<bool> InitiateEmailConfirmation(Guid creatureId)
+    public async Task<bool> InitiateEmailConfirmationAsync(Guid creatureId)
     {
         var creature = await _userManager.FindByIdAsync(creatureId.ToString());
         if (creature == null)
@@ -392,12 +393,32 @@ public class AccountsService : IAccountsService
             return false; // Already confirmed
         }
 
-        var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(creature);
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(creature);
+        var tokenAsBase64 = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
         var creatureWithProfile = await GetProfileByCreatureIdAsync(creatureId);
         
-        var message = await _emailsGeneratorService.GenerateEmailAddressConfirmationEmail(creatureWithProfile, confirmationToken);
+        var message = await _emailsGeneratorService.GenerateEmailAddressConfirmationEmail(creatureWithProfile, tokenAsBase64);
 
         return await _emailSenderService.SendAsync(message, new CancellationToken());
+    }
+
+    public async Task<bool> ConfirmEmailAsync(Guid creatureId, string token)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID={creatureId} is not found!", nameof(creatureId));
+        }
+
+        if (creature.EmailConfirmed)
+        {
+            return false; // Already confirmed
+        }
+
+        var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+        var result = await _userManager.ConfirmEmailAsync(creature, decodedToken);
+
+        return result.Succeeded;
     }
 }

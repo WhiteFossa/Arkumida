@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from "@/views/LoginView.vue";
 import ReadTextView from "@/views/ReadTextView.vue";
 import ProfileView from "@/views/ProfileView.vue";
+import ConfirmEmailView from "@/views/ConfirmEmailView.vue";
 
 const routes =
 [
@@ -33,6 +34,14 @@ const routes =
         path: '/profile/:part?/:action?',
         name: 'profile',
         component: ProfileView,
+        props: true
+    },
+
+    // Email confirmation
+    {
+        path: '/confirmEmail',
+        name: 'confirmEmail',
+        component: ConfirmEmailView,
         props: true
     }
 ]

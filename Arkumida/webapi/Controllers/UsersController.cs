@@ -378,7 +378,21 @@ public class UsersController : ControllerBase
             return Ok(new InitiateEmailConfirmationResponse(false));
         }
         
-        return Ok(new InitiateEmailConfirmationResponse(await _accountsService.InitiateEmailConfirmation(creatureId)));
+        return Ok(new InitiateEmailConfirmationResponse(await _accountsService.InitiateEmailConfirmationAsync(creatureId)));
+    }
+
+    [HttpPost]
+    [Route("api/Users/{creatureId}/Email/Confirm")]
+    public async Task<ActionResult<ConfirmEmailResponse>> ConfirmEmailAsync(Guid creatureId, ConfirmEmailRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+        
+        await CheckPrivilegesAsync(creatureId);
+
+        return Ok(new ConfirmEmailResponse(await _accountsService.ConfirmEmailAsync(creatureId, request.Token)));
     }
 
     /// <summary>

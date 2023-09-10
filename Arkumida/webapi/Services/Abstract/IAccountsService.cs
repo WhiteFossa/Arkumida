@@ -83,5 +83,10 @@ public interface IAccountsService
     /// <summary>
     /// Initiate email confirmation process for creature. Returns true if email with confirmation link is sent successfully 
     /// </summary>
-    Task<bool> InitiateEmailConfirmation(Guid creatureId);
+    Task<bool> InitiateEmailConfirmationAsync(Guid creatureId);
+
+    /// <summary>
+    /// Confirm creature's email
+    /// </summary>
+    Task<bool> ConfirmEmailAsync(Guid creatureId, string token);
 }

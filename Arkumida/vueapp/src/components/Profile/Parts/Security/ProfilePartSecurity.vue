@@ -47,7 +47,9 @@ import {Messages, ProfileConsts} from "@/js/constants";
 
     const isPasswordChangeFailed = ref(false)
 
+
     const isEmailConfirmed = ref(false)
+    const isEmailConfirmationBeingSent = ref(false)
 
     onMounted(async () =>
     {
@@ -129,7 +131,22 @@ import {Messages, ProfileConsts} from "@/js/constants";
 
     async function StartEmailConfirmation()
     {
-        alert("Sending confirmation email")
+        isEmailConfirmationBeingSent.value = true
+
+        const isConfirmationSent = (await (await WebClientSendPostRequest(
+            "/api/Users/" + creatureId.value + "/Email/InitiateConfirmation",
+            {})).json()).isSuccessful
+
+        isEmailConfirmationBeingSent.value = false
+
+        if (isConfirmationSent)
+        {
+            alert(Messages.EmailAddressConfirmationEmailSent)
+        }
+        else
+        {
+            alert(Messages.EmailAddressConfirmationEmailNotSent)
+        }
     }
 </script>
 
@@ -280,9 +297,13 @@ import {Messages, ProfileConsts} from "@/js/constants";
                 </div>
 
                 <div
+                    v-if="!isEmailConfirmationBeingSent"
                     class="underlined-pseudolink"
                     @click="async () => await StartEmailConfirmation()">
                     Подтвердить
+                </div>
+                <div v-else>
+                    <LoadingSymbol />
                 </div>
 
             </div>
