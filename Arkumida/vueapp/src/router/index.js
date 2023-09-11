@@ -4,6 +4,7 @@ import LoginView from "@/views/LoginView.vue";
 import ReadTextView from "@/views/ReadTextView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import ConfirmEmailView from "@/views/ConfirmEmailView.vue";
+import ChangeEmailView from "@/views/ChangeEmailView.vue";
 
 const routes =
 [
@@ -43,7 +44,15 @@ const routes =
         name: 'confirmEmail',
         component: ConfirmEmailView,
         props: true
-    }
+    },
+
+    // Email change
+    {
+        path: '/changeEmail',
+        name: 'changeEmail',
+        component: ChangeEmailView,
+        props: true
+    },
 ]
 
 const router = createRouter({

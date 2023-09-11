@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using webapi.Constants;
 using webapi.Dao.Abstract;
@@ -11,7 +10,6 @@ using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
-using webapi.Models.Email;
 using webapi.Models.Enums;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Email;
@@ -417,9 +415,7 @@ public class AccountsService : IAccountsService
         }
 
         var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
-        var result = await _userManager.ConfirmEmailAsync(creature, decodedToken);
-
-        return result.Succeeded;
+        return (await _userManager.ConfirmEmailAsync(creature, decodedToken)).Succeeded;
     }
 
     public async Task<Tuple<bool, bool>> InitiateEmailChangeAsync(Guid creatureId, string newEmail)
@@ -444,5 +440,19 @@ public class AccountsService : IAccountsService
         var message = await _emailsGeneratorService.GenerateEmailAddressChangeEmail(creatureWithProfile, newEmail, tokenAsBase64);
 
         return new Tuple<bool, bool>(await _emailSenderService.SendAsync(message, new CancellationToken()), true);
+    }
+
+    public async Task<bool> ChangeEmailAsync(Guid creatureId, string encodedEmail, string token)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID={creatureId} is not found!", nameof(creatureId));
+        }
+        
+        var decodedEmail = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(encodedEmail));
+        var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+        return (await _userManager.ChangeEmailAsync(creature, decodedEmail, decodedToken)).Succeeded;
     }
 }

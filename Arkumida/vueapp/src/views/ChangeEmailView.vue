@@ -18,21 +18,23 @@
         await OnPageLoad()
 
         const creatureId = ref(route.query.creature)
+        const emailAsBase64 = ref(route.query.email)
         const token = ref(route.query.token)
 
-        const isConfirmed = (await (await WebClientSendPostRequest(
-            "/api/Users/" + creatureId.value + "/Email/Confirm",
+        const isChanged = (await (await WebClientSendPostRequest(
+            "/api/Users/" + creatureId.value + "/Email/Change",
             {
+                "email": emailAsBase64.value,
                 "token": token.value,
             })).json()).isSuccessful
 
-        if (isConfirmed)
+        if (isChanged)
         {
-            alert(Messages.EmailAddressConfirmed)
+            alert(Messages.EmailAddressChanged)
         }
         else
         {
-            alert(Messages.EmailAddressFailedToConfirm)
+            alert(Messages.EmailAddressFailedToChange)
         }
 
         await router.push("/profile/security")
@@ -40,5 +42,5 @@
 </script>
 
 <template>
-    Подтверждение адреса электронной почты...
+    Изменение адреса электронной почты...
 </template>

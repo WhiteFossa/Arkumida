@@ -95,4 +95,9 @@ public interface IAccountsService
     /// </summary>
     /// <returns>Item1 - is successful, Item2 - is email confirmation required</returns>
     Task<Tuple<bool, bool>> InitiateEmailChangeAsync(Guid creatureId, string newEmail);
+
+    /// <summary>
+    /// Complete email change. Please note that email is encoded as BASE64
+    /// </summary>
+    Task<bool> ChangeEmailAsync(Guid creatureId, string encodedEmail, string token);
 }

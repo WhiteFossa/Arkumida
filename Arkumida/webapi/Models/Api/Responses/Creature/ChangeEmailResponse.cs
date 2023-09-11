@@ -3,17 +3,17 @@ using System.Text.Json.Serialization;
 namespace webapi.Models.Api.Responses.Creature;
 
 /// <summary>
-/// Response with email confirmation result
+/// Email change response
 /// </summary>
-public class ConfirmEmailResponse
+public class ChangeEmailResponse
 {
     /// <summary>
-    /// Is confirmation successful?
+    /// Is change successful?
     /// </summary>
     [JsonPropertyName("isSuccessful")]
     public bool IsSuccessful { get; private set; }
 
-    public ConfirmEmailResponse
+    public ChangeEmailResponse
     (
         bool isSuccessful
     )

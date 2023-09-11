@@ -40,6 +40,10 @@ export class Messages
     static EmailAddressConfirmed = "Адрес электронной почты подтверждён."
 
     static EmailAddressFailedToConfirm = "Не удалось подтвердить адрес электронной почты. Корректна-ли ссылка? Не протухло-ли письмо?"
+
+    static EmailAddressChanged = "Адрес электронной почты изменён."
+
+    static EmailAddressFailedToChange = "Не удалось изменить адрес электронной почты. Корректна-ли ссылка? Не протухло-ли письмо?"
 }
 
 export class ProfileConsts

@@ -380,7 +380,10 @@ public class UsersController : ControllerBase
         
         return Ok(new InitiateEmailConfirmationResponse(await _accountsService.InitiateEmailConfirmationAsync(creatureId)));
     }
-
+    
+    /// <summary>
+    /// Confirm email address
+    /// </summary>
     [HttpPost]
     [Route("api/Users/{creatureId}/Email/Confirm")]
     public async Task<ActionResult<ConfirmEmailResponse>> ConfirmEmailAsync(Guid creatureId, ConfirmEmailRequest request)
@@ -411,6 +414,23 @@ public class UsersController : ControllerBase
 
         var result = await _accountsService.InitiateEmailChangeAsync(creatureId, request.NewEmail);
         return Ok(new InitiateEmailChangeResponse(result.Item1, result.Item2));
+    }
+    
+    /// <summary>
+    /// Change email address
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/Email/Change")]
+    public async Task<ActionResult<ChangeEmailResponse>> ChangeEmailAsync(Guid creatureId, ChangeEmailRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+        
+        await CheckPrivilegesAsync(creatureId);
+
+        return Ok(new ChangeEmailResponse(await _accountsService.ChangeEmailAsync(creatureId, request.Email, request.Token)));
     }
     
     /// <summary>
