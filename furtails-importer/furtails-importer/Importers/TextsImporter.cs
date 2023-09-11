@@ -682,7 +682,7 @@ public class TextsImporter
         var creature = await _usersImporter.FindCreatureByLogin(login);
         if (creature == null)
         {
-            await _usersImporter.RegisterUserAsync(new RegistrationDataDto() { Login = login, Email = _usersImporter.GenerateNonexistentEmail(), Password = _usersImporter.GeneratePassword()} );
+            await _usersImporter.RegisterUserAsync(new RegistrationDataDto() { Login = login, Email = string.Empty, Password = _usersImporter.GeneratePassword()} );
             creature = await _usersImporter.FindCreatureByLogin(login);
         }
 

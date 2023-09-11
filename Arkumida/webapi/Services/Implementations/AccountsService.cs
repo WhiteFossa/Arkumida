@@ -65,11 +65,6 @@ public class AccountsService : IAccountsService
         {
             return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.LoginIsTaken);
         }
-
-        if (await IsUserExistByEmailAsync(registrationData.Email))
-        {
-            return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.EmailIsTaken);
-        }
         
         var creatureDbo = new CreatureDbo()
         {  
@@ -159,6 +154,12 @@ public class AccountsService : IAccountsService
     public async Task<bool> IsUserExistByEmailAsync(string email)
     {
         _ = email ?? throw new ArgumentNullException(nameof(email), "Email must be specified, at least empty string.");
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            // It is possible that many users will empty emails
+            return false;
+        }
         
         return (await _userManager.FindByEmailAsync(email)) != null;
     }
@@ -392,9 +393,8 @@ public class AccountsService : IAccountsService
         {
             return false; // Already confirmed
         }
-
-        var token = await _userManager.GenerateEmailConfirmationTokenAsync(creature);
-        var tokenAsBase64 = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+        
+        var tokenAsBase64 = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(await _userManager.GenerateEmailConfirmationTokenAsync(creature)));
 
         var creatureWithProfile = await GetProfileByCreatureIdAsync(creatureId);
         
@@ -420,5 +420,29 @@ public class AccountsService : IAccountsService
         var result = await _userManager.ConfirmEmailAsync(creature, decodedToken);
 
         return result.Succeeded;
+    }
+
+    public async Task<Tuple<bool, bool>> InitiateEmailChangeAsync(Guid creatureId, string newEmail)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID={creatureId} is not found!", nameof(creatureId));
+        }
+
+        if (newEmail == string.Empty)
+        {
+            // Empty email, just setting it
+            var result = await _userManager.SetEmailAsync(creature, "");
+            return new Tuple<bool, bool>(result.Succeeded, false);
+        }
+        
+        // We need to send an email confirmation message
+        var tokenAsBase64 = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(await _userManager.GenerateChangeEmailTokenAsync(creature, newEmail)));
+        
+        var creatureWithProfile = await GetProfileByCreatureIdAsync(creatureId);
+        var message = await _emailsGeneratorService.GenerateEmailAddressChangeEmail(creatureWithProfile, newEmail, tokenAsBase64);
+
+        return new Tuple<bool, bool>(await _emailSenderService.SendAsync(message, new CancellationToken()), true);
     }
 }

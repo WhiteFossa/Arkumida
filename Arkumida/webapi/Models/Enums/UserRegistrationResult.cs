@@ -10,8 +10,6 @@ public enum UserRegistrationResult
     LoginIsTaken = 1,
     
     WeakPassword = 2,
-    
-    EmailIsTaken = 3,
 
     GenericError = 4
 }

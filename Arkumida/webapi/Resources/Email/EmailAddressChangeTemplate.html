@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <title>Изменение адреса электронной почты</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
+        <style>
+            .paragraph-with-margin-below {{
+                margin-bottom: 1rem;
+            }}
+        </style>
+    </head>
+
+    <body>
+        <p class="paragraph-with-margin-below">
+            Здравствуй, {0}.
+        </p>
+        
+        <p class="paragraph-with-margin-below">
+            Кто-то (надеюсь, что ты), хочет изменить свой адрес электронной почны на <strong>{1}</strong> в профиле на <a href="{2}" title="{2}">{2}</a>.
+        </p>
+    
+        <p class="paragraph-with-margin-below">
+            Если это действительно был ты - пройди, пожалуйста, по ссылке:
+        </p>
+        
+        <p class="paragraph-with-margin-below">
+            <a href="{2}/changeEmail?creature={3}&email={4}&token={5}" title="Изменить адрес электронной почты">{2}/changeEmail?creature={3}&email={4}&token={5}</a>
+        </p>
+        
+        <p class="paragraph-with-margin-below">
+            Если ты не понимаешь, о чём речь - просто проигнорируй это письмо.
+        </p>
+        
+        <p>
+            Твоя Аркумида.
+        </p>
+    </body>
+</html>
