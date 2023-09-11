@@ -396,6 +396,24 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
+    /// Initiate email change process
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/Email/InitiateChange")]
+    public async Task<ActionResult<InitiateEmailChangeResponse>> InitiateEmailChangeAsync(Guid creatureId, InitiateEmailChangeRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+        
+        await CheckPrivilegesAsync(creatureId);
+
+        var result = await _accountsService.InitiateEmailChangeAsync(creatureId, request.NewEmail);
+        return Ok(new InitiateEmailChangeResponse(result.Item1, result.Item2));
+    }
+    
+    /// <summary>
     /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception
     /// </summary>
     private async Task CheckPrivilegesAsync(Guid creatureId)
