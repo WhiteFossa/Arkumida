@@ -149,11 +149,10 @@ builder.Services.AddControllers();
         .AddEntityFrameworkStores<MainDbContext>()  
         .AddDefaultTokenProviders();
 
-builder.Services.Configure<IdentityOptions>(options =>
+    builder.Services.Configure<IdentityOptions>(options =>
     {
         // User settings
         options.User.AllowedUserNameCharacters = string.Empty; // Any characters is allowed
-        options.User.RequireUniqueEmail = true;
         
         // Password settings
         options.Password.RequiredLength = 8;

@@ -1943,6 +1943,33 @@ body {
     gap: 0.5rem;
 }
 
+/* Show email container */
+.profile-security-part-email-show-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 0.5rem;
+}
+
+/* Edit email container */
+.profile-security-part-email-edit-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+/* Input for email change */
+.profile-security-part-email-edit-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.profile-security-part-email-edit-input.profile-security-part-email-edit-input-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
 /* Container with warning about "email not confirmed" */
 .profile-security-part-email-not-confirmed-warning-container {
     display: flex;

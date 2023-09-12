@@ -32,12 +32,8 @@ public class CreatureDto : IdedEntityDto
             throw new ArgumentException("Login must be populated!", nameof(login));
         }
         Login = login;
-        
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            throw new ArgumentException("Email must be populated!", nameof(email));
-        }
-        Email = email;
+
+        Email = email ?? throw new ArgumentNullException(nameof(email), "Email must not be null, at least empty string required!");
     }
 
     /// <summary>

@@ -8,7 +8,12 @@ namespace webapi.Services.Abstract.Email;
 public interface IEmailsGeneratorService
 {
     /// <summary>
-    /// Generate email with email address confirmation link
+    /// Generate an email with email address confirmation link
     /// </summary>
     Task<Models.Email.Email> GenerateEmailAddressConfirmationEmail(CreatureWithProfile creatureWithProfile, string confirmationToken);
+    
+    /// <summary>
+    /// Generate an email with email address change link
+    /// </summary>
+    Task<Models.Email.Email> GenerateEmailAddressChangeEmail(CreatureWithProfile creatureWithProfile, string newEmail, string changeToken);
 }

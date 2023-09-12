@@ -50,9 +50,9 @@ public class UsersImporter
             #endregion
             
             // User may have no email set, we must generate UNIQUE nonexistent email
-            if (string.IsNullOrWhiteSpace(user.Email))
+            if (user.Email == null)
             {
-                user.Email = GenerateNonexistentEmail();
+                user.Email = string.Empty;
             }
             
             Console.WriteLine($"Registering: { user.Username } <{ user.Email }>... ");
@@ -83,13 +83,7 @@ public class UsersImporter
                 
                 registrationData.Login = newLogin;
             }
-
-            if (await IsEmailTakenAsync(registrationData.Email))
-            {
-                // Email is taken, we have to discard it and force user to set a new email
-                registrationData.Email = GenerateNonexistentEmail();
-            }
-
+            
             await RegisterUserAsync(registrationData);
             
             Console.WriteLine("Starting to edit profile...");
@@ -135,12 +129,7 @@ public class UsersImporter
             Console.WriteLine("Done");
         }
     }
-
-    public string GenerateNonexistentEmail()
-    {
-        return $"nonexistent-{Guid.NewGuid()}@example.com";
-    }
-
+    
     public string GeneratePassword()
     {
         return SHA512Helper.CalculateSHA512(Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())); // TODO: Is it secure? Seems so;

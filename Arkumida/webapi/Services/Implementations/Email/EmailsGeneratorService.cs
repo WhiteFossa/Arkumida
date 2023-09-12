@@ -1,3 +1,5 @@
+using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
 using webapi.Constants;
 using webapi.Models;
 using webapi.Services.Abstract;
@@ -38,6 +40,32 @@ public class EmailsGeneratorService : IEmailsGeneratorService
         (
             new List<string>() { creatureWithProfile.Email },
             "Подтверждение адреса электронной почты",
+            body
+        );
+    }
+
+    public async Task<Models.Email.Email> GenerateEmailAddressChangeEmail(CreatureWithProfile creatureWithProfile, string newEmail, string changeToken)
+    {
+        var template = await File.ReadAllTextAsync("Resources/Email/EmailAddressChangeTemplate.html");
+
+        var siteBaseUrl = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoBaseUrlSettingName);
+        var encodedEmail = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(newEmail));
+
+        var body = string.Format
+        (
+            template,
+            creatureWithProfile.DisplayName, // {0}
+            newEmail, // {1}
+            siteBaseUrl, // {2}
+            creatureWithProfile.Id, // {3}
+            encodedEmail, // {4}
+            changeToken // {5}
+        );
+        
+        return new Models.Email.Email
+        (
+            new List<string>() { newEmail },
+            "Изменение адреса электронной почты",
             body
         );
     }

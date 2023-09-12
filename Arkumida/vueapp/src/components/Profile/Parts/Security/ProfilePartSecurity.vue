@@ -3,7 +3,7 @@ import {defineProps, onMounted, reactive, ref} from "vue";
     import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
     import {PostprocessCreatureProfile} from "@/js/libArkumida";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-    import {required} from "@vuelidate/validators";
+import {email, required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
     import {AuthLogUserOutAndReLogIn} from "@/js/auth";
 import {Messages, ProfileConsts} from "@/js/constants";
@@ -47,9 +47,27 @@ import {Messages, ProfileConsts} from "@/js/constants";
 
     const isPasswordChangeFailed = ref(false)
 
-
     const isEmailConfirmed = ref(false)
-    const isEmailConfirmationBeingSent = ref(false)
+    const isEmailConfirmationMessageBeingSent = ref(false)
+
+    const isEmailEmpty = ref(false)
+
+    const isEmailBeingEdited = ref(false)
+
+    const emailChangeFormData = reactive({
+        email: ""
+    })
+
+    const emailChangeRules = {
+        email: {
+            $autoDirty: true,
+            email
+        }
+    }
+
+    const emailChangeValidator = useVuelidate(emailChangeRules, emailChangeFormData)
+
+    const isEmailChangeMessageBeingSent = ref(false)
 
     onMounted(async () =>
     {
@@ -76,6 +94,8 @@ import {Messages, ProfileConsts} from "@/js/constants";
         PostprocessCreatureProfile(creatureProfile)
 
         isEmailConfirmed.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Email/IsConfirmed")).json()).isConfirmed
+
+        isEmailEmpty.value = creatureProfile.value.email.length === 0
     }
 
     async function StartToChangePassword()
@@ -129,23 +149,71 @@ import {Messages, ProfileConsts} from "@/js/constants";
         passwordChangeFormData.newPasswordConfirmation = ""
     }
 
-    async function StartEmailConfirmation()
+    async function BeginEmailConfirmation()
     {
-        isEmailConfirmationBeingSent.value = true
+        isEmailConfirmationMessageBeingSent.value = true
 
-        const isConfirmationSent = (await (await WebClientSendPostRequest(
+        const isConfirmationMessageSent = (await (await WebClientSendPostRequest(
             "/api/Users/" + creatureId.value + "/Email/InitiateConfirmation",
             {})).json()).isSuccessful
 
-        isEmailConfirmationBeingSent.value = false
+        isEmailConfirmationMessageBeingSent.value = false
 
-        if (isConfirmationSent)
+        if (isConfirmationMessageSent)
         {
             alert(Messages.EmailAddressConfirmationEmailSent)
         }
         else
         {
             alert(Messages.EmailAddressConfirmationEmailNotSent)
+        }
+    }
+
+    async function BeginEmailChange()
+    {
+        emailChangeFormData.email = creatureProfile.value.email
+
+        emailChangeValidator.value.$validate()
+
+        isEmailBeingEdited.value = true
+    }
+
+    async function CancelEmailChange()
+    {
+        isEmailBeingEdited.value = false
+    }
+
+    async function CompleteEmailChange()
+    {
+        isEmailBeingEdited.value = false
+
+        isEmailChangeMessageBeingSent.value = true
+
+        const emailChangeInitiationResult = await (await WebClientSendPostRequest(
+            "/api/Users/" + creatureId.value + "/Email/InitiateChange",
+            {
+                "newEmail": emailChangeFormData.email
+            })).json()
+
+        isEmailChangeMessageBeingSent.value = false
+
+        if (!emailChangeInitiationResult.isSuccessful)
+        {
+            alert(Messages.EmailAddressChangeRequestFailed)
+
+            await LoadProfile()
+
+            return
+        }
+
+        if (emailChangeInitiationResult.isEmailSent)
+        {
+            alert(Messages.EmailAddressChangeEmailSent)
+        }
+        else
+        {
+            // Email changed without sending a message, reloading
+            await LoadProfile()
         }
     }
 </script>
@@ -280,33 +348,93 @@ import {Messages, ProfileConsts} from "@/js/constants";
         <!-- Email -->
         <div class="profile-security-part-email-container">
             E-mail:
-            {{creatureProfile.email}}
 
+            <!-- Show email form -->
             <div
-                v-if="!isEmailConfirmed"
-                class="profile-security-part-email-not-confirmed-warning-container">
+                v-if="!isEmailBeingEdited"
+                class="profile-security-part-email-show-container">
 
-                <div class="profile-security-part-email-not-confirmed-warning">
-                    <div class="vertical-align-flex">
-                        <img class="small-icon" src="/images/icons/icon_warning.png" alt="Адрес не подтверждён!" />
-                    </div>
-
-                    <div>
-                        Адрес не подтверждён, вы не сможете получать уведомления на почту!
-                    </div>
+                <div v-if="!isEmailEmpty">
+                    <!-- Non-empty email -->
+                    {{creatureProfile.email}}
+                </div>
+                <div v-else>
+                    <!-- Empty email -->
+                    Не указан
                 </div>
 
-                <div
-                    v-if="!isEmailConfirmationBeingSent"
-                    class="underlined-pseudolink"
-                    @click="async () => await StartEmailConfirmation()">
-                    Подтвердить
+                <div v-if="!isEmailChangeMessageBeingSent">
+                    <!-- Email change button -->
+                    <button
+                        class="button-with-image"
+                        type="button"
+                        title="Изменить адрес электронной почты"
+                        @click="async () => await BeginEmailChange()">
+                        <img class="small-icon" src="/images/icons/icon_edit.png" alt="Изменить адрес электронной почты" />
+                    </button>
                 </div>
                 <div v-else>
                     <LoadingSymbol />
                 </div>
 
+
+                <!-- Email not confirmed message -->
+                <div
+                    v-if="!isEmailConfirmed && !isEmailEmpty"
+                    class="profile-security-part-email-not-confirmed-warning-container">
+
+                    <div class="profile-security-part-email-not-confirmed-warning">
+                        <div class="vertical-align-flex">
+                            <img class="small-icon" src="/images/icons/icon_warning.png" alt="Адрес не подтверждён!" />
+                        </div>
+
+                        <div>
+                            Адрес не подтверждён, вы не сможете получать уведомления на почту!
+                        </div>
+                    </div>
+
+                    <div
+                        v-if="!isEmailConfirmationMessageBeingSent"
+                        class="underlined-pseudolink"
+                        @click="async () => await BeginEmailConfirmation()">
+                        Подтвердить
+                    </div>
+                    <div v-else>
+                        <LoadingSymbol />
+                    </div>
+
+                </div>
             </div>
+
+            <!-- Email editing form -->
+            <div
+                v-if="isEmailBeingEdited"
+                class="profile-security-part-email-edit-container">
+
+                <input
+                    :class="(emailChangeValidator.email.$error)?'profile-security-part-email-edit-input profile-security-part-email-edit-input-invalid':'profile-security-part-email-edit-input'"
+                    type="text"
+                    v-model="emailChangeFormData.email"/>
+
+                <button
+                    class="button-with-image"
+                    type="button"
+                    title="Подтвердить изменение адреса электронной почты"
+                    :disabled="emailChangeValidator.$errors.length > 0"
+                    @click="async () => await CompleteEmailChange()">
+                    <img class="small-icon" src="/images/icons/icon_ok.png" alt="Подтвердить изменение адреса электронной почты" />
+                </button>
+
+                <button
+                    class="button-with-image"
+                    type="button"
+                    title="Отменить изменение адреса электронной почты"
+                    @click="async () => await CancelEmailChange()">
+                    <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отменить изменение адреса электронной почты" />
+                </button>
+
+            </div>
+
         </div>
     </div>
 </template>
