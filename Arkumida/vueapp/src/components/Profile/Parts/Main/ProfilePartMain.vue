@@ -162,65 +162,75 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
         </div>
 
         <!-- About info -->
-        <div class="profile-main-part-about-container">
+        <div class="profile-main-part-about-outer-container">
+            <div class="profile-main-part-about-inner-container">
 
-            <div class="profile-main-part-about-caption">
-                <button
-                    v-if="!isAboutEditing"
-                    class="button-with-image"
-                    type="button"
-                    title="Редактировать информацию о себе"
-                    @click="async () => await StartToEditAbout()">
-                    <img class="small-icon" src="/images/icons/icon_edit.png" alt="Редактировать информацию о себе" />
-                </button>
+                <div class="profile-main-part-about-caption">
+                    <button
+                        v-if="!isAboutEditing"
+                        class="button-with-image"
+                        type="button"
+                        title="Редактировать информацию о себе"
+                        @click="async () => await StartToEditAbout()">
+                        <img class="small-icon" src="/images/icons/icon_edit.png" alt="Редактировать информацию о себе" />
+                    </button>
 
-                <button
-                    v-if="isAboutEditing"
-                    class="button-with-image"
-                    type="button"
-                    title="Сохранить изменения"
-                    @click="async () => await CompleteAboutEditing()">
-                    <img class="small-icon" src="/images/icons/icon_ok.png" alt="Сохранить изменения" />
-                </button>
-
-                <button
-                    v-if="isAboutEditing"
-                    class="button-with-image"
-                    type="button"
-                    title="Отменить изменения"
-                    @click="async () => await CancelAboutEditing()">
-                    <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отменить изменения" />
-                </button>
-
-                О себе
-            </div>
-
-            <!-- About info (show) -->
-            <div v-if="!isAboutEditing">
-                <!-- Avatar (big) -->
-                <div class="profile-main-part-avatar-container-show-about">
-                    <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Big" />
+                    О себе
                 </div>
 
+                <!-- About info (show) -->
+                <div v-if="!isAboutEditing">
+                    <!-- Avatar (big) -->
+                    <div class="profile-main-part-avatar-container-show-about">
+                        <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Big" />
+                    </div>
+
+                    <div
+                        v-html="renderedAbout">
+                    </div>
+                </div>
+
+                <!-- About info (edit) -->
                 <div
-                    v-html="renderedAbout">
+                    v-if="isAboutEditing"
+                    class="profile-main-part-edit-about-container">
+
+                    <div class="profile-main-part-avatar-container-edit-about">
+                        <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Big" />
+                    </div>
+
+                    <textarea
+                        class="profile-main-part-edit-about-textarea"
+                        v-model="aboutEditingFormData.about">
+                    </textarea>
+
                 </div>
             </div>
 
-            <!-- About info (edit) -->
+            <!-- About editing buttons -->
             <div
                 v-if="isAboutEditing"
-                class="profile-main-part-edit-about-container">
+                class="profile-main-part-about-edit-buttons-outer-container">
+                <div
+                    class="profile-main-part-about-edit-buttons-bordered-inner-container">
 
-                <div class="profile-main-part-avatar-container-edit-about">
-                    <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Big" />
+                    <button
+                        class="button-with-image"
+                        type="button"
+                        title="Сохранить изменения"
+                        @click="async () => await CompleteAboutEditing()">
+                        <img class="small-icon" src="/images/icons/icon_ok.png" alt="Сохранить изменения" />
+                    </button>
+
+                    <button
+                        class="button-with-image"
+                        type="button"
+                        title="Отменить изменения"
+                        @click="async () => await CancelAboutEditing()">
+                        <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отменить изменения" />
+                    </button>
+
                 </div>
-
-                <textarea
-                    class="profile-main-part-edit-about-textarea"
-                    v-model="aboutEditingFormData.about">
-                </textarea>
-
             </div>
 
         </div>
