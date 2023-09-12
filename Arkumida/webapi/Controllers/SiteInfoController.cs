@@ -31,7 +31,7 @@ public class SiteInfoController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<VersionInfoResponse>> GetVersionInfoAsync()
     {
-        return Ok(new VersionInfoResponse("Аркумида-В мод. 4", "https://github.com/WhiteFossa/Arkumida"));
+        return Ok(new VersionInfoResponse("Аркумида-В мод. 5", "https://github.com/WhiteFossa/Arkumida"));
     }
     
     /// <summary>

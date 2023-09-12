@@ -246,103 +246,109 @@ import {Messages, ProfileConsts} from "@/js/constants";
             <!-- Edit password -->
             <div
                 v-if="isPasswordChanging"
-                class="profile-security-part-change-password-container">
-
-                <div class="profile-security-part-change-password-caption">
-
-                    <button
-                        class="button-with-image"
-                        type="button"
-                        title="Изменить пароль"
-                        :disabled="passwordChangeValidator.$errors.length > 0"
-                        @click="async () => await ConfirmPasswordChange()">
-                        <img class="small-icon" src="/images/icons/icon_ok.png" alt="Изменить пароль" />
-                    </button>
-
-                    <button
-                        class="button-with-image"
-                        type="button"
-                        title="Отказаться от изменения пароля"
-                        @click="async () => await CancelPasswordChange()">
-                        <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отказаться от изменения пароля" />
-                    </button>
-
-                    Изменить пароль
-                </div>
-
+                class="profile-security-part-change-password-outer-container">
                 <div
-                    v-if="isPasswordChangeFailed"
-                    class="profile-security-part-change-password-change-failed-info">
+                    class="profile-security-part-change-password-inner-container">
 
-                    <div>
-                        Не удалось изменить пароль!
+                    <div class="profile-security-part-change-password-caption">
+                        Изменить пароль
                     </div>
 
-                    <div>
-                        Обычно это случается если:
+                    <div
+                        v-if="isPasswordChangeFailed"
+                        class="profile-security-part-change-password-change-failed-info">
+
+                        <div>
+                            Не удалось изменить пароль!
+                        </div>
+
+                        <div>
+                            Обычно это случается если:
+                        </div>
+
+                        <ul class="ul-with-better-margins">
+                            <li>Старый пароль неверен</li>
+                            <li>Новый пароль слишком простой</li>
+                        </ul>
+
                     </div>
 
-                    <ul class="ul-with-better-margins">
-                        <li>Старый пароль неверен</li>
-                        <li>Новый пароль слишком простой</li>
-                    </ul>
+                    <table>
+                        <!-- Old password -->
+                        <tr>
+                            <td>
+                                <label>
+                                    Старый пароль:
+                                </label>
+                            </td>
 
+                            <td class="profile-security-part-change-password-old-password-table-cell">
+                                <input
+                                    :class="(passwordChangeValidator.oldPassword.$error)?'profile-security-part-change-password-old-password-input profile-security-part-change-password-old-password-input-invalid':'profile-security-part-change-password-old-password-input'"
+                                    type="password"
+                                    placeholder="Старый пароль"
+                                    v-model="passwordChangeFormData.oldPassword" />
+                            </td>
+                        </tr>
+
+                        <!-- New password -->
+                        <tr>
+                            <td>
+                                <label>
+                                    Новый пароль:
+                                </label>
+                            </td>
+
+                            <td class="profile-security-part-change-password-new-password-table-cell">
+                                <input
+                                    :class="(passwordChangeValidator.newPassword.$error)?'profile-security-part-change-password-new-password-input profile-security-part-change-password-new-password-input-invalid':'profile-security-part-change-password-new-password-input'"
+                                    type="password"
+                                    placeholder="Новый пароль"
+                                    v-model="passwordChangeFormData.newPassword" />
+                            </td>
+                        </tr>
+
+                        <!-- Password confirmation -->
+                        <tr>
+                            <td>
+                                <label>
+                                    Подтверждение:
+                                </label>
+                            </td>
+
+                            <td class="profile-security-part-change-password-new-password-confirmation-table-cell">
+                                <input
+                                    :class="(passwordChangeValidator.newPasswordConfirmation.$error)?'profile-security-part-change-password-new-password-confirmation-input profile-security-part-change-password-new-password-confirmation-input-invalid':'profile-security-part-change-password-new-password-confirmation-input'"
+                                    type="password"
+                                    placeholder="Повторите новый пароль"
+                                    v-model="passwordChangeFormData.newPasswordConfirmation" />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
-                <table>
-                    <!-- Old password -->
-                    <tr>
-                        <td>
-                            <label>
-                                Старый пароль:
-                            </label>
-                        </td>
+                <!-- Password change OK / Cancel buttons -->
+                <div class="profile-security-part-change-password-buttons-outer-container">
+                    <div class="profile-security-part-change-password-buttons-inner-container">
+                        <button
+                            class="button-with-image"
+                            type="button"
+                            title="Изменить пароль"
+                            :disabled="passwordChangeValidator.$errors.length > 0"
+                            @click="async () => await ConfirmPasswordChange()">
+                            <img class="small-icon" src="/images/icons/icon_ok.png" alt="Изменить пароль" />
+                        </button>
 
-                        <td class="profile-security-part-change-password-old-password-table-cell">
-                            <input
-                                :class="(passwordChangeValidator.oldPassword.$error)?'profile-security-part-change-password-old-password-input profile-security-part-change-password-old-password-input-invalid':'profile-security-part-change-password-old-password-input'"
-                                type="password"
-                                placeholder="Старый пароль"
-                                v-model="passwordChangeFormData.oldPassword" />
-                        </td>
-                    </tr>
-
-                    <!-- New password -->
-                    <tr>
-                        <td>
-                            <label>
-                                Новый пароль:
-                            </label>
-                        </td>
-
-                        <td class="profile-security-part-change-password-new-password-table-cell">
-                            <input
-                                :class="(passwordChangeValidator.newPassword.$error)?'profile-security-part-change-password-new-password-input profile-security-part-change-password-new-password-input-invalid':'profile-security-part-change-password-new-password-input'"
-                                type="password"
-                                placeholder="Новый пароль"
-                                v-model="passwordChangeFormData.newPassword" />
-                        </td>
-                    </tr>
-
-                    <!-- Password confirmation -->
-                    <tr>
-                        <td>
-                            <label>
-                                Подтверждение:
-                            </label>
-                        </td>
-
-                        <td class="profile-security-part-change-password-new-password-confirmation-table-cell">
-                            <input
-                                :class="(passwordChangeValidator.newPasswordConfirmation.$error)?'profile-security-part-change-password-new-password-confirmation-input profile-security-part-change-password-new-password-confirmation-input-invalid':'profile-security-part-change-password-new-password-confirmation-input'"
-                                type="password"
-                                placeholder="Повторите новый пароль"
-                                v-model="passwordChangeFormData.newPasswordConfirmation" />
-                        </td>
-                    </tr>
-                </table>
+                        <button
+                            class="button-with-image"
+                            type="button"
+                            title="Отказаться от изменения пароля"
+                            @click="async () => await CancelPasswordChange()">
+                            <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отказаться от изменения пароля" />
+                        </button>
+                    </div>
+                </div>
             </div>
-
         </div>
 
         <!-- Email -->
