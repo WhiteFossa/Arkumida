@@ -211,8 +211,7 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
             <div
                 v-if="isAboutEditing"
                 class="profile-main-part-about-edit-buttons-outer-container">
-                <div
-                    class="profile-main-part-about-edit-buttons-bordered-inner-container">
+                <div class="profile-main-part-about-edit-buttons-bordered-inner-container">
 
                     <button
                         class="button-with-image"

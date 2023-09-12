@@ -1681,7 +1681,9 @@ body {
 
 /* Profile main part about info container (inner, with padding) */
 .profile-main-part-about-inner-container {
-    padding: 0.5rem;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 /* Small text "About yourself" and edit button inside */
@@ -1889,17 +1891,22 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Password change form lives here */
-.profile-security-part-change-password-container {
+/* Password change form lives here (outer, paddingless) */
+.profile-security-part-change-password-outer-container {
     border: 0.1rem solid hsl(225, 5%, 85%);
     border-radius: 0.5rem;
-
-    padding: 0.5rem;
 
     overflow: hidden;
 }
 
-/* Small text "Change password" and buttons */
+/* Password change form lives here (inner, with padding) */
+.profile-security-part-change-password-inner-container {
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+/* Small text "Change password" */
 .profile-security-part-change-password-caption {
     font-size: 0.8rem;
     color: hsl(0, 0%, 60%);
@@ -1965,6 +1972,35 @@ body {
 .profile-security-part-change-password-change-failed-info {
     color: hsl(0, 100%, 56%);
     font-weight: bold;
+}
+
+/* OK and Cancel buttons container (outer) for password change */
+.profile-security-part-change-password-buttons-outer-container {
+    text-align: right;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    margin-top: 0.3rem;
+}
+
+/* OK and Cancel buttons for password change live here */
+.profile-security-part-change-password-buttons-inner-container {
+    border-top: 0.1rem solid hsl(225, 5%, 85%);
+    border-left: 0.1rem solid hsl(225, 5%, 85%);
+    border-top-left-radius: 0.5rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    padding: 0.5rem;
 }
 
 /* Information about creature's email is here */
