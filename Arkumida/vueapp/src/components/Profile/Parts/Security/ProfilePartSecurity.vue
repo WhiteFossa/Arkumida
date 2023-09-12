@@ -48,7 +48,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
     const isPasswordChangeFailed = ref(false)
 
     const isEmailConfirmed = ref(false)
-    const isEmailConfirmationBeingSent = ref(false)
+    const isEmailConfirmationMessageBeingSent = ref(false)
 
     const isEmailEmpty = ref(false)
 
@@ -66,6 +66,8 @@ import {Messages, ProfileConsts} from "@/js/constants";
     }
 
     const emailChangeValidator = useVuelidate(emailChangeRules, emailChangeFormData)
+
+    const isEmailChangeMessageBeingSent = ref(false)
 
     onMounted(async () =>
     {
@@ -149,15 +151,15 @@ import {Messages, ProfileConsts} from "@/js/constants";
 
     async function BeginEmailConfirmation()
     {
-        isEmailConfirmationBeingSent.value = true
+        isEmailConfirmationMessageBeingSent.value = true
 
-        const isConfirmationSent = (await (await WebClientSendPostRequest(
+        const isConfirmationMessageSent = (await (await WebClientSendPostRequest(
             "/api/Users/" + creatureId.value + "/Email/InitiateConfirmation",
             {})).json()).isSuccessful
 
-        isEmailConfirmationBeingSent.value = false
+        isEmailConfirmationMessageBeingSent.value = false
 
-        if (isConfirmationSent)
+        if (isConfirmationMessageSent)
         {
             alert(Messages.EmailAddressConfirmationEmailSent)
         }
@@ -184,6 +186,35 @@ import {Messages, ProfileConsts} from "@/js/constants";
     async function CompleteEmailChange()
     {
         isEmailBeingEdited.value = false
+
+        isEmailChangeMessageBeingSent.value = true
+
+        const emailChangeInitiationResult = await (await WebClientSendPostRequest(
+            "/api/Users/" + creatureId.value + "/Email/InitiateChange",
+            {
+                "newEmail": emailChangeFormData.email
+            })).json()
+
+        isEmailChangeMessageBeingSent.value = false
+
+        if (!emailChangeInitiationResult.isSuccessful)
+        {
+            alert(Messages.EmailAddressChangeRequestFailed)
+
+            await LoadProfile()
+
+            return
+        }
+
+        if (emailChangeInitiationResult.isEmailSent)
+        {
+            alert(Messages.EmailAddressChangeEmailSent)
+        }
+        else
+        {
+            // Email changed without sending a message, reloading
+            await LoadProfile()
+        }
     }
 </script>
 
@@ -332,14 +363,20 @@ import {Messages, ProfileConsts} from "@/js/constants";
                     Не указан
                 </div>
 
-                <!-- Email change button -->
-                <button
-                    class="button-with-image"
-                    type="button"
-                    title="Изменить адрес электронной почты"
-                    @click="async () => await BeginEmailChange()">
-                    <img class="small-icon" src="/images/icons/icon_edit.png" alt="Изменить адрес электронной почты" />
-                </button>
+                <div v-if="!isEmailChangeMessageBeingSent">
+                    <!-- Email change button -->
+                    <button
+                        class="button-with-image"
+                        type="button"
+                        title="Изменить адрес электронной почты"
+                        @click="async () => await BeginEmailChange()">
+                        <img class="small-icon" src="/images/icons/icon_edit.png" alt="Изменить адрес электронной почты" />
+                    </button>
+                </div>
+                <div v-else>
+                    <LoadingSymbol />
+                </div>
+
 
                 <!-- Email not confirmed message -->
                 <div
@@ -357,7 +394,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
                     </div>
 
                     <div
-                        v-if="!isEmailConfirmationBeingSent"
+                        v-if="!isEmailConfirmationMessageBeingSent"
                         class="underlined-pseudolink"
                         @click="async () => await BeginEmailConfirmation()">
                         Подтвердить
