@@ -1,11 +1,12 @@
 <script setup>
-    import {onMounted, reactive} from "vue";
+import {onMounted, reactive, ref} from "vue";
     import {AuthIsUserLoggedIn} from "@/js/auth";
     import router from "@/router";
     import useVuelidate from "@vuelidate/core";
     import {required} from "@vuelidate/validators";
     import {WebClientSendPostRequest} from "@/js/libWebClient";
-    import {UserRegistrationResult} from "@/js/constants";
+    import {Messages, UserRegistrationResult} from "@/js/constants";
+    import PopupYesNo from "@/components/Shared/Popups/PopupYesNo.vue";
 
     const registrationFormData = reactive({
         login: "",
@@ -33,6 +34,8 @@
 
     const registrationFormValidator = useVuelidate(registrationFormRules, registrationFormData)
 
+    const isRegistrationConfirmationPopupShown = ref(false)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -57,6 +60,18 @@
 
     async function Register()
     {
+        isRegistrationConfirmationPopupShown.value = true
+    }
+
+    async function CancelRegistration()
+    {
+        isRegistrationConfirmationPopupShown.value = false
+    }
+
+    async function ConfirmRegistration()
+    {
+        isRegistrationConfirmationPopupShown.value = false
+
         const registrationResult = (await (await WebClientSendPostRequest(
             "/api/Users/Register",
             {
@@ -70,21 +85,21 @@
         switch (registrationResult.result)
         {
             case UserRegistrationResult.OK:
-                alert("Регистрация успешна, сейчас вы будете перенаправлены на страницу входа на сайт.")
+                alert(Messages.RegistrationSuccess)
 
                 await router.push("/login")
                 break;
 
             case UserRegistrationResult.LoginIsTaken:
-                alert("Этот логин уже занят.")
+                alert(Messages.LoginIsTaken)
                 break;
 
             case UserRegistrationResult.WeakPassword:
-                alert("Вы выбрали слишком простой пароль, усложните его.")
+                alert(Messages.PasswordTooWeak)
                 break;
 
             case UserRegistrationResult.GenericError:
-                alert("Неизвестная ошибка в процессе регистрации.")
+                alert(Messages.GenericRegistrationError)
                 break;
 
             default:
@@ -149,4 +164,14 @@
             <a class="registration-bottom-link" href="/login" title="Вход на сайт">Уже зарегистрированы?</a>
         </div>
     </div>
+
+    <!-- Popups -->
+
+    <!-- Registration confirmation popup -->
+    <PopupYesNo
+        v-if="isRegistrationConfirmationPopupShown"
+        :title="Messages.RegistrationConfirmationTitle"
+        :text="Messages.RegistrationConfirmationText"
+        @noPressed="async() => await CancelRegistration()"
+        @yesPressed="async() => await ConfirmRegistration()" />
 </template>
