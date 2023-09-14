@@ -1421,26 +1421,110 @@ body {
     font-size: 1.5rem;
 }
 
-/* Container for reset password link */
-.login-reset-password-container {
+/* Container for small links at the bottom of login form */
+.login-bottom-links-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+
     margin-top: 0.5rem;
     text-align: center;
 }
 
-/* Reset password link */
-.login-reset-password-link {
+/* Small link at the bottom of the login form */
+.login-bottom-link {
     font-size: 0.8rem;
     color: hsl(240, 12%, 27%);
 
     text-decoration: none;
 }
 
-.login-reset-password-link:hover {
+.login-bottom-link:hover {
     text-decoration: underline;
 }
 
 /* Login-related stuff ends here */
 
+/* Registration-related stuff begins here */
+
+/* Container for registration form */
+.registration-form-container {
+    background: hsl(0, 0%, 100%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 1rem;
+
+    width: 90vw;
+
+    max-width: 30rem;
+    height: min-content;
+}
+
+/* Registration form title */
+.registration-form-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Text fields in registration form */
+.registration-form-text-field {
+    border-radius: 0.5rem;
+
+    height: 3rem;
+    font-size: 1.5rem;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Text field in registration form, which didn't pass validation*/
+.registration-form-text-field-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Registration button */
+.registration-button {
+    height: 3rem;
+    width: 100%;
+
+    font-size: 1.5rem;
+}
+
+/* Container for small links at the bottom of registration form */
+.registration-bottom-links-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* Small link at the bottom of the registration form */
+.registration-bottom-link {
+    font-size: 0.8rem;
+    color: hsl(240, 12%, 27%);
+
+    text-decoration: none;
+}
+
+.registration-bottom-link:hover {
+    text-decoration: underline;
+}
+
+/* Registration-related stuff ends here */
 
 /* Avatars stuff begins here */
 

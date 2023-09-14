@@ -68,15 +68,15 @@ import {onMounted, reactive, ref} from "vue";
             Неверный логин или пароль!
         </div>
 
-        <form>
+        <div>
             <!-- Login -->
             <div>
-                Имя пользователя:
+                Логин:
             </div>
             <input
                 :class="(validator.login.$error)?'login-form-text-field login-form-text-field-invalid':'login-form-text-field'"
                 type="text"
-                placeholder="Имя пользователя"
+                placeholder="Логин"
                 v-model="logInFormData.login" />
 
             <!-- Password -->
@@ -98,19 +98,18 @@ import {onMounted, reactive, ref} from "vue";
             </div>
 
             <!-- Log in button -->
-            <div>
-                <button
-                    class="login-button"
-                    type="button"
-                    @click="async() => await LogIn()"
-                    :disabled="validator.$errors.length > 0">
-                    Войти
-                </button>
-            </div>
-        </form>
+            <button
+                class="login-button"
+                type="button"
+                @click="async() => await LogIn()"
+                :disabled="validator.$errors.length > 0">
+                Войти
+            </button>
+        </div>
 
-        <div class="login-reset-password-container">
-            <a class="login-reset-password-link" href="/resetPassword" title="Восстановить пароль">Забыли пароль?</a>
+        <div class="login-bottom-links-container">
+            <a class="login-bottom-link" href="/resetPassword" title="Восстановить пароль">Забыли пароль?</a>
+            <a class="login-bottom-link" href="/register" title="Регистрация">Хотите зарегистрироваться?</a>
         </div>
     </div>
 </template>
