@@ -194,3 +194,15 @@ export class AvatarClass
     static Small = 0
     static Big = 1
 }
+
+// Possible user registration results
+export class UserRegistrationResult
+{
+    static OK = 0
+
+    static LoginIsTaken = 1
+
+    static WeakPassword = 2
+
+    static GenericError = 4
+}

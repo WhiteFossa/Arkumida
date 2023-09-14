@@ -4,6 +4,8 @@
     import router from "@/router";
     import useVuelidate from "@vuelidate/core";
     import {required} from "@vuelidate/validators";
+    import {WebClientSendPostRequest} from "@/js/libWebClient";
+    import {UserRegistrationResult} from "@/js/constants";
 
     const registrationFormData = reactive({
         login: "",
@@ -55,7 +57,39 @@
 
     async function Register()
     {
+        const registrationResult = (await (await WebClientSendPostRequest(
+            "/api/Users/Register",
+            {
+                "registrationData": {
+                    "login": registrationFormData.login,
+                    "email": "",
+                    "password": registrationFormData.password
+                }
+            })).json()).registrationResult
 
+        switch (registrationResult.result)
+        {
+            case UserRegistrationResult.OK:
+                alert("Регистрация успешна, сейчас вы будете перенаправлены на страницу входа на сайт.")
+
+                await router.push("/login")
+                break;
+
+            case UserRegistrationResult.LoginIsTaken:
+                alert("Этот логин уже занят.")
+                break;
+
+            case UserRegistrationResult.WeakPassword:
+                alert("Вы выбрали слишком простой пароль, усложните его.")
+                break;
+
+            case UserRegistrationResult.GenericError:
+                alert("Неизвестная ошибка в процессе регистрации.")
+                break;
+
+            default:
+                throw new Error("Unknown registration response.")
+        }
     }
 </script>
 
