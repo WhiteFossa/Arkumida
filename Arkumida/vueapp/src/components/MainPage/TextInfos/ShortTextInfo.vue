@@ -167,7 +167,7 @@
 
                     <!-- Authors and title -->
                     <span v-for="authorLink in authorsLinks" :key="authorLink.id">
-                        <a class="text-short-info-author-link" :href="authorLink.href" :title="authorLink.title">{{ authorLink.name }}</a>
+                        <a class="black-link-without-underline" :href="authorLink.href" :title="authorLink.title">{{ authorLink.name }}</a>
                         <span v-if="authorLink.id !== authorsLinks[authorsLinks.length - 1].id" class="spacer">,</span>
                     </span>&nbsp;<a class="text-short-info-text-link" :href="textLinkHref">«{{ textInfo.textInfo.title }}»</a>
 

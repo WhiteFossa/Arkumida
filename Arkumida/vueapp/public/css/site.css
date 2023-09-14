@@ -260,6 +260,18 @@ body {
     justify-content: center;
 }
 
+/* Black link without underline */
+.black-link-without-underline {
+    color: hsl(0, 0%, 0%);
+
+    text-decoration: none;
+}
+
+.black-link-without-underline:hover
+{
+    text-decoration: underline;
+}
+
 /* Menu stuff starts here */
 
 /* Central menu item */
@@ -503,16 +515,6 @@ body {
     justify-content: space-between;
 }
 
-/* Text short info - author link */
-.text-short-info-author-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-short-info-author-link:hover {
-    text-decoration: underline;
-}
-
 /* Text short info - text link */
 .text-short-info-text-link {
     color: hsl(17, 36%, 24%);
@@ -632,16 +634,6 @@ body {
     font-size: 1.1rem;
 }
 
-/* Text long info - author link */
-.text-long-info-author-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-long-info-author-link:hover {
-    text-decoration: underline;
-}
-
 /* Text long info - text link */
 .text-long-info-text-link {
     color: hsl(17, 36%, 24%);
@@ -677,43 +669,12 @@ body {
 .text-long-info-block-publisher-line {
 }
 
-/* Text long info - publisher link */
-.text-long-info-publisher-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-long-info-publisher-link:hover {
-    text-decoration: underline;
-}
-
-/* Text long info - translator link */
-.text-long-info-translator-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-long-info-translator-link:hover {
-    text-decoration: underline;
-}
-
 /* Text long info - description */
 .text-long-info-block-description {
 }
 
 /* Text long info - type and tags line */
 .text-long-info-block-type-and-tags-line {
-}
-
-/* Text type link */
-.text-long-info-block-text-type-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-long-info-block-text-type-link:hover
-{
-    text-decoration: underline;
 }
 
 /* Long text info stuff ends here */
@@ -1140,18 +1101,6 @@ body {
     padding-left: 1rem;
 }
 
-/* Link for rendered text file download */
-.read-text-download-file-link {
-    color: black;
-
-    text-decoration: none;
-}
-
-.read-text-download-file-link:hover
-{
-    text-decoration: underline;
-}
-
 /* Read text page stuff ends here */
 
 /* Creatures info container stuff starts here */
@@ -1408,17 +1357,6 @@ body {
 
 /* Login-related stuff begins here */
 
-/* Link for logging in*/
-.login-link {
-    color: hsl(0, 0%, 0%);
-
-    text-decoration: none;
-}
-
-.login-link:hover {
-    text-decoration: underline;
-}
-
 /* Container for login form */
 .login-form-container {
     background: hsl(0, 0%, 100%);
@@ -1498,32 +1436,6 @@ body {
 }
 
 .login-reset-password-link:hover {
-    text-decoration: underline;
-}
-
-/* Pseudolink for logging out */
-.logout-pseudolink {
-    color: hsl(240, 12%, 27%);
-
-    cursor: pointer;
-
-    font-size: 0.8rem;
-
-    display: inline-block;
-}
-
-.logout-pseudolink:hover {
-    text-decoration: underline;
-}
-
-/* Link to creature's profile (top right) */
-.creature-profile-link {
-    color: hsl(0, 0%, 0%);
-
-    text-decoration: none;
-}
-
-.creature-profile-link:hover {
     text-decoration: underline;
 }
 
