@@ -1524,6 +1524,26 @@ body {
     text-decoration: underline;
 }
 
+/* Explaination about "Login can't be changed" and (potentially) other small texts */
+.registration-small-gray-text {
+    font-size: 0.8rem;
+    color: hsl(240, 12%, 27%);
+}
+
+/* Login title lives here */
+.registration-login-title-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+/* Login is taken message */
+.registration-login-taken-message {
+    color: hsl(0, 100%, 56%);
+    font-weight: bold;
+}
+
 /* Registration-related stuff ends here */
 
 /* Avatars stuff begins here */
@@ -1661,6 +1681,7 @@ body {
 .profile-main-part-avatar-container-show-about {
     float: left;
     padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 /* Avatar container in profile main part (edit about info) */

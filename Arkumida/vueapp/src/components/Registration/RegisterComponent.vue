@@ -3,7 +3,7 @@ import {onMounted, reactive, ref} from "vue";
     import {AuthIsUserLoggedIn} from "@/js/auth";
     import router from "@/router";
     import useVuelidate from "@vuelidate/core";
-    import {required} from "@vuelidate/validators";
+import {helpers, required} from "@vuelidate/validators";
     import {WebClientSendPostRequest} from "@/js/libWebClient";
     import {Messages, UserRegistrationResult} from "@/js/constants";
     import PopupYesNo from "@/components/Shared/Popups/PopupYesNo.vue";
@@ -17,7 +17,8 @@ import {onMounted, reactive, ref} from "vue";
     const registrationFormRules = {
         login: {
             $autoDirty: true,
-            required
+            required,
+            isLoginTaken: helpers.withAsync(IsLoginTaken)
         },
 
         password: {
@@ -56,6 +57,21 @@ import {onMounted, reactive, ref} from "vue";
     function CheckPasswordConfirmation(passwordConfirmation)
     {
         return passwordConfirmation === registrationFormData.password
+    }
+
+    async function IsLoginTaken(login)
+    {
+        const isTaken = (await (await WebClientSendPostRequest(
+            "/api/Users/IsLoginTaken",
+            {
+                "checkData": {
+                    "login": login
+                }
+            })).json())
+            .checkResult
+            .isTaken
+
+        return !isTaken
     }
 
     async function Register()
@@ -119,14 +135,26 @@ import {onMounted, reactive, ref} from "vue";
         <div>
 
             <!-- Login -->
-            <div>
-                Логин:
+            <div class="registration-login-title-container">
+                <div>
+                    Логин:
+                </div>
+
+                <div
+                    v-if="registrationFormValidator.login.isLoginTaken.$invalid"
+                    class="registration-login-taken-message">
+                    Этот логин занят
+                </div>
             </div>
             <input
                 :class="(registrationFormValidator.login.$error)?'registration-form-text-field registration-form-text-field-invalid':'registration-form-text-field'"
                 type="text"
                 placeholder="Логин"
                 v-model="registrationFormData.login" />
+
+            <div class="registration-small-gray-text">
+                (Логин не может быть изменён после регистрации, но отображаемое имя пользователя — может)
+            </div>
 
             <!-- Password -->
             <div>
