@@ -19,7 +19,7 @@ import {defineProps, ref} from "vue";
         <div class="read-text-download-caption">Скачать</div>
 
         <ul class="read-text-download-list">
-            <li><a class="read-text-download-file-link" :href="plaintextDownloadUrl" title="Скачать в формате TXT">TXT</a></li>
+            <li><a class="black-link-without-underline" :href="plaintextDownloadUrl" title="Скачать в формате TXT">TXT</a></li>
             <li>PDF</li>
         </ul>
     </div>

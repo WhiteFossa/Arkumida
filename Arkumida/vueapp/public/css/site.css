@@ -260,6 +260,18 @@ body {
     justify-content: center;
 }
 
+/* Black link without underline */
+.black-link-without-underline {
+    color: hsl(0, 0%, 0%);
+
+    text-decoration: none;
+}
+
+.black-link-without-underline:hover
+{
+    text-decoration: underline;
+}
+
 /* Menu stuff starts here */
 
 /* Central menu item */
@@ -503,16 +515,6 @@ body {
     justify-content: space-between;
 }
 
-/* Text short info - author link */
-.text-short-info-author-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-short-info-author-link:hover {
-    text-decoration: underline;
-}
-
 /* Text short info - text link */
 .text-short-info-text-link {
     color: hsl(17, 36%, 24%);
@@ -632,16 +634,6 @@ body {
     font-size: 1.1rem;
 }
 
-/* Text long info - author link */
-.text-long-info-author-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-long-info-author-link:hover {
-    text-decoration: underline;
-}
-
 /* Text long info - text link */
 .text-long-info-text-link {
     color: hsl(17, 36%, 24%);
@@ -677,43 +669,12 @@ body {
 .text-long-info-block-publisher-line {
 }
 
-/* Text long info - publisher link */
-.text-long-info-publisher-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-long-info-publisher-link:hover {
-    text-decoration: underline;
-}
-
-/* Text long info - translator link */
-.text-long-info-translator-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-long-info-translator-link:hover {
-    text-decoration: underline;
-}
-
 /* Text long info - description */
 .text-long-info-block-description {
 }
 
 /* Text long info - type and tags line */
 .text-long-info-block-type-and-tags-line {
-}
-
-/* Text type link */
-.text-long-info-block-text-type-link {
-    color: hsl(0, 0%, 0%);
-    text-decoration: none;
-}
-
-.text-long-info-block-text-type-link:hover
-{
-    text-decoration: underline;
 }
 
 /* Long text info stuff ends here */
@@ -1140,18 +1101,6 @@ body {
     padding-left: 1rem;
 }
 
-/* Link for rendered text file download */
-.read-text-download-file-link {
-    color: black;
-
-    text-decoration: none;
-}
-
-.read-text-download-file-link:hover
-{
-    text-decoration: underline;
-}
-
 /* Read text page stuff ends here */
 
 /* Creatures info container stuff starts here */
@@ -1408,17 +1357,6 @@ body {
 
 /* Login-related stuff begins here */
 
-/* Link for logging in*/
-.login-link {
-    color: hsl(0, 0%, 0%);
-
-    text-decoration: none;
-}
-
-.login-link:hover {
-    text-decoration: underline;
-}
-
 /* Container for login form */
 .login-form-container {
     background: hsl(0, 0%, 100%);
@@ -1483,52 +1421,130 @@ body {
     font-size: 1.5rem;
 }
 
-/* Container for reset password link */
-.login-reset-password-container {
+/* Container for small links at the bottom of login form */
+.login-bottom-links-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+
     margin-top: 0.5rem;
     text-align: center;
 }
 
-/* Reset password link */
-.login-reset-password-link {
+/* Small link at the bottom of the login form */
+.login-bottom-link {
     font-size: 0.8rem;
     color: hsl(240, 12%, 27%);
 
     text-decoration: none;
 }
 
-.login-reset-password-link:hover {
-    text-decoration: underline;
-}
-
-/* Pseudolink for logging out */
-.logout-pseudolink {
-    color: hsl(240, 12%, 27%);
-
-    cursor: pointer;
-
-    font-size: 0.8rem;
-
-    display: inline-block;
-}
-
-.logout-pseudolink:hover {
-    text-decoration: underline;
-}
-
-/* Link to creature's profile (top right) */
-.creature-profile-link {
-    color: hsl(0, 0%, 0%);
-
-    text-decoration: none;
-}
-
-.creature-profile-link:hover {
+.login-bottom-link:hover {
     text-decoration: underline;
 }
 
 /* Login-related stuff ends here */
 
+/* Registration-related stuff begins here */
+
+/* Container for registration form */
+.registration-form-container {
+    background: hsl(0, 0%, 100%);
+    border: 0.1rem solid hsl(225, 5%, 85%);
+    border-radius: 0.5rem;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 1rem;
+
+    width: 90vw;
+
+    max-width: 30rem;
+    height: min-content;
+}
+
+/* Registration form title */
+.registration-form-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Text fields in registration form */
+.registration-form-text-field {
+    border-radius: 0.5rem;
+
+    height: 3rem;
+    font-size: 1.5rem;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Text field in registration form, which didn't pass validation*/
+.registration-form-text-field-invalid {
+    border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Registration button */
+.registration-button {
+    height: 3rem;
+    width: 100%;
+
+    font-size: 1.5rem;
+}
+
+/* Container for small links at the bottom of registration form */
+.registration-bottom-links-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* Small link at the bottom of the registration form */
+.registration-bottom-link {
+    font-size: 0.8rem;
+    color: hsl(240, 12%, 27%);
+
+    text-decoration: none;
+}
+
+.registration-bottom-link:hover {
+    text-decoration: underline;
+}
+
+/* Explaination about "Login can't be changed" and (potentially) other small texts */
+.registration-small-gray-text {
+    font-size: 0.8rem;
+    color: hsl(240, 12%, 27%);
+}
+
+/* Login title lives here */
+.registration-login-title-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+/* Login is taken message */
+.registration-login-taken-message {
+    color: hsl(0, 100%, 56%);
+    font-weight: bold;
+}
+
+/* Registration-related stuff ends here */
 
 /* Avatars stuff begins here */
 
@@ -1665,6 +1681,7 @@ body {
 .profile-main-part-avatar-container-show-about {
     float: left;
     padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 /* Avatar container in profile main part (edit about info) */

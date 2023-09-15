@@ -44,6 +44,13 @@ export class Messages
 
     static EmailAddressChangeEmailSent = "Письмо с инструкциями по изменению адреса электронной почты отправлено."
     static EmailAddressChangeRequestFailed = "Не удалось начать процесс изменения адреса электронной почты."
+
+    static RegistrationSuccess = "Регистрация успешна, сейчас вы будете перенаправлены на страницу входа на сайт."
+    static LoginIsTaken = "Этот логин уже занят."
+    static PasswordTooWeak = "Вы выбрали слишком простой пароль, усложните его."
+    static GenericRegistrationError = "Неизвестная ошибка в процессе регистрации."
+    static RegistrationConfirmationTitle = "Корректны-ли данные?"
+    static RegistrationConfirmationText = "Корректны-ли введённые данные? Указанный логин будет невозможно изменить (но можно будет изменить отображаемое имя пользователя)."
 }
 
 export class ProfileConsts
@@ -193,4 +200,16 @@ export class AvatarClass
 {
     static Small = 0
     static Big = 1
+}
+
+// Possible user registration results
+export class UserRegistrationResult
+{
+    static OK = 0
+
+    static LoginIsTaken = 1
+
+    static WeakPassword = 2
+
+    static GenericError = 4
 }

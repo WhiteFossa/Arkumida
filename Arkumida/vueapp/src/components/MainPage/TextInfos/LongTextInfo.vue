@@ -188,9 +188,9 @@
                     <SmallTextIcon v-for="leftIcon in leftIcons" :key="leftIcon.type" :type="leftIcon.type" :url="leftIcon.url" />
 
                     <span v-for="authorLink in authorsLinks" :key="authorLink.id">
-                        <a class="text-short-info-author-link" :href="authorLink.href" :title="authorLink.title">{{ authorLink.name }}</a>
+                        <a class="black-link-without-underline" :href="authorLink.href" :title="authorLink.title">{{ authorLink.name }}</a>
                         <span v-if="authorLink.id !== authorsLinks[authorsLinks.length - 1].id" class="spacer">,</span>
-                    </span>&nbsp;<a class="text-long-info-text-link" :href="textLinkHref"><strong>«{{ textInfo.textInfo.title }}»</strong></a>
+                    </span>&nbsp;<a class="black-link-without-underline" :href="textLinkHref"><strong>«{{ textInfo.textInfo.title }}»</strong></a>
 
                     <!-- Right icons -->
                     <SmallTextIcon v-for="rightIcon in rightIcons" :key="rightIcon.type" :type="rightIcon.type" :url="rightIcon.url" />
@@ -215,13 +215,13 @@
 
                 <!-- Publisher, translator and size -->
                 <div class="text-long-info-block-publisher-line">
-                    Разместил: <a class="text-long-info-publisher-link" :href="publisherLinkHref" :title="publisherLinkTitle"><strong>{{ textInfo.textInfo.publisher.name }}</strong></a>
+                    Разместил: <a class="black-link-without-underline" :href="publisherLinkHref" :title="publisherLinkTitle"><strong>{{ textInfo.textInfo.publisher.name }}</strong></a>
 
                     <span v-if="translatorsLinks.length > 0">
                         Переводчик(и):
 
                         <span v-for="translatorLink in translatorsLinks" :key="translatorLink.id">
-                            <a class="text-long-info-translator-link" :href="translatorLink.href" :title="translatorLink.title"><strong>{{ translatorLink.name }}</strong></a>
+                            <a class="black-link-without-underline" :href="translatorLink.href" :title="translatorLink.title"><strong>{{ translatorLink.name }}</strong></a>
                             <span v-if="translatorLink.id !== translatorsLinks[translatorsLinks.length - 1].id" class="spacer">,</span>
                         </span>
                     </span>

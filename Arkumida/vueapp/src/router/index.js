@@ -5,6 +5,7 @@ import ReadTextView from "@/views/ReadTextView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import ConfirmEmailView from "@/views/ConfirmEmailView.vue";
 import ChangeEmailView from "@/views/ChangeEmailView.vue";
+import RegisterView from "@/views/RegisterView.vue";
 
 const routes =
 [
@@ -53,6 +54,13 @@ const routes =
         component: ChangeEmailView,
         props: true
     },
+
+    // Registration
+    {
+        path: '/register',
+        name: 'register',
+        component: RegisterView
+    }
 ]
 
 const router = createRouter({
