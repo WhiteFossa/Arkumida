@@ -6,10 +6,12 @@
 /* Basic gamma */
 @lightest-color1: hsl(0, 0%, 100%);
 @lighter-color1: hsl(240, 11%, 98%);
-@lighter-color2: hsl(228, 10%, 90%);
+@lighter-color2: hsl(0, 0%, 93%);
+@lighter-color3: hsl(228, 10%, 90%);
 @light-color1: hsl(225, 5%, 85%);
-@darker-color1: hsl(0, 0%, 36%);
-@darker-color2: hsl(240, 12%, 27%);
+@darker-color1: hsl(0, 0%, 60%);
+@darker-color2: hsl(0, 0%, 36%);
+@darker-color3: hsl(240, 12%, 27%);
 @dark-color1: hsl(243, 48%, 9%);
 @darkest-color1: hsl(0, 0%, 0%);
 
@@ -60,16 +62,40 @@
 
 /* Popups */
 @popup-lower-background-color: hsla(0, 0%, 10%, 0.8);
+@popup-button-background-color-hover: hsl(357, 85%, 33%);
 
 /* Long text info */
 @long-text-info-popup-background-color: hsl(87, 89%, 93%);
 @long-text-info-popup-border-color: hsl(87, 100%, 80%);
 
 /* Alert colors */
-@brightest-alert-color: hsl(10, 100%, 50%);
+@alert-color: hsl(0, 100%, 56%);
 
 /* Category block */
 @category-block-background-color: hsl(199, 74%, 79%);
+
+/* Tags classes */
+@tag-class0-color: hsl(325, 70%, 4%);
+@tag-class1-color: hsl(325, 70%, 5.5%);
+@tag-class2-color: hsl(325, 70%, 7%);
+@tag-class3-color: hsl(325, 70%, 10.5%);
+@tag-class4-color: hsl(325, 70%, 14%);
+@tag-class5-color: hsl(325, 70%, 15.5%);
+@tag-class6-color: hsl(325, 70%, 17%);
+@tag-class7-color: hsl(325, 70%, 19%);
+@tag-class8-color: hsl(325, 70%, 21%);
+@tag-class9-color: hsl(325, 70%, 26.5%);
+@tag-class10-color: hsl(325, 70%, 32%);
+@tag-class11-color: hsl(325, 70%, 43%);
+@tag-class12-color: hsl(325, 70%, 54%);
+@tag-class13-color: hsl(325, 70%, 60%);
+
+/* Pagination */
+@pagination-active-background-color: hsl(357, 85%, 33%);
+
+/* Avatars */
+@selected-avatar-background-color: hsl(36, 100%, 60%);
+@selected-avatar-color: hsl(225, 100%, 35%);
 
 /* Variables ends here */
 
@@ -103,7 +129,7 @@ body {
 .header {
   padding: 1rem 2rem;
   background: @lightest-color1;
-  box-shadow: 0 0.1rem 0 0 @light-color1, 0 0 0 0.1rem @lighter-color2;
+  box-shadow: 0 0.1rem 0 0 @light-color1, 0 0 0 0.1rem @lighter-color3;
 }
 
 /* Container with header content */
@@ -121,10 +147,10 @@ body {
 /* Footer */
 .footer {
   background: @lighter-color1;
-  box-shadow: 0 0.1rem 0 0 @light-color1, 0 0 0 0.1rem @lighter-color2;
+  box-shadow: 0 0.1rem 0 0 @light-color1, 0 0 0 0.1rem @lighter-color3;
   padding-top: 5rem;
   padding-bottom: 1rem;
-  color: @darker-color2;
+  color: @darker-color3;
 }
 
 /* Footer container */
@@ -196,7 +222,7 @@ body {
 
 /* Version info */
 .version-info {
-  color: @darker-color2;
+  color: @darker-color3;
   background-color: @lighter-color1;
   font-size: 0.8rem;
   text-align: center;
@@ -204,7 +230,7 @@ body {
 
 /* Sources link */
 .sources-link {
-  color: @darker-color2;
+  color: @darker-color3;
   background-color: @lighter-color1;
   font-size: 0.8rem;
   text-align: center;
@@ -420,7 +446,7 @@ body {
 /* Optional small text on top button */
 .top-button-small-text {
   font-size: 0.7rem;
-  color: @darker-color1;
+  color: @darker-color2;
 }
 
 /* Container for top buttons */
@@ -832,7 +858,7 @@ body {
 /* Donate to Redgerra - details button */
 .donate-to-redgerra-button {
   color: @lightest-color1;
-  background: @brightest-alert-color;
+  background: @alert-color;
   border: 0 solid;
   border-radius: 0.2rem;
   padding-top: 0.2rem;
@@ -946,72 +972,72 @@ body {
 /* Tags size classes starts here */
 
 .tag-size-class0 {
-  color: hsl(325, 70%, 4%);
+  color: @tag-class0-color;
   font-size: 0.8rem;
 }
 
 .tag-size-class1 {
-  color: hsl(325, 70%, 5.5%);
+  color: @tag-class1-color;
   font-size: 0.85rem;
 }
 
 .tag-size-class2 {
-  color: hsl(325, 70%, 7%);
+  color: @tag-class2-color;
   font-size: 0.9rem;
 }
 
 .tag-size-class3 {
-  color: hsl(325, 70%, 10.5%);
+  color: @tag-class3-color;
   font-size: 0.95rem;
 }
 
 .tag-size-class4 {
-  color: hsl(325, 70%, 14%);
+  color: @tag-class4-color;
   font-size: 1.0rem;
 }
 
 .tag-size-class5 {
-  color: hsl(325, 70%, 15.5%);
+  color: @tag-class5-color;
   font-size: 1.05rem;
 }
 
 .tag-size-class6 {
-  color: hsl(325, 70%, 17%);
+  color: @tag-class6-color;
   font-size: 1.1rem;
 }
 
 .tag-size-class7 {
-  color: hsl(325, 70%, 19%);
+  color: @tag-class7-color;
   font-size: 1.15rem;
 }
 
 .tag-size-class8 {
-  color: hsl(325, 70%, 21%);
+  color: @tag-class8-color;
   font-size: 1.2rem;
 }
 
 .tag-size-class9 {
-  color: hsl(325, 70%, 26.5%);
+  color: @tag-class9-color;
   font-size: 1.25rem;
 }
 
 .tag-size-class10 {
-  color: hsl(325, 70%, 32%);
+  color: @tag-class10-color;
   font-size: 1.3rem;
 }
 
 .tag-size-class11 {
-  color: hsl(325, 70%, 43%);
+  color: @tag-class11-color;
   font-size: 1.35rem;
 }
 
 .tag-size-class12 {
-  color: hsl(325, 70%, 54%);
+  color: @tag-class12-color;
   font-size: 1.4rem;
 }
 
 .tag-size-class13 {
-  color: hsl(325, 70%, 60%);
+  color: @tag-class13-color;
   font-size: 1.45rem;
 }
 
@@ -1160,7 +1186,7 @@ body {
 /* Caption with a word "download" for rendered text files download component */
 .read-text-download-caption {
   font-size: 0.8rem;
-  color: hsl(0, 0%, 60%);
+  color: @darker-color1;
   text-align: right;
   width: 100%;
   position: absolute;
@@ -1219,7 +1245,7 @@ body {
 /* Style for creatures role */
 .creatures-info-creatures-role {
   font-size: 0.8rem;
-  color: hsl(0, 0%, 60%);
+  color: @darker-color1;
   text-align: right;
   width: 100%;
   position: absolute;
@@ -1281,7 +1307,7 @@ body {
 /* Full size image popup close button */
 .full-size-image-popup-close-button {
   background: transparent;
-  border: 0 none hsl(0, 100%, 100%);
+  border: 0 none @lightest-color1;
   position: absolute;
   right: 0.5rem;
   top: 0.5rem;
@@ -1361,7 +1387,7 @@ body {
 
 /* Validation error */
 .read-text-pagination-go-to-page-input.read-text-pagination-go-to-page-input-invalid {
-  border: 0.2rem solid hsl(0, 100%, 56%);
+  border: 0.2rem solid @alert-color;
 }
 
 /* Pagination go to page button */
@@ -1397,7 +1423,7 @@ body {
 
 /* Base class for active pages */
 .read-text-pagination-page-base.read-text-pagination-page-base-active {
-  background: hsl(357, 85%, 33%);
+  background: @pagination-active-background-color;
   color: @lightest-color1;
   font-weight: bold;
   cursor: unset;
@@ -1460,7 +1486,7 @@ body {
 
 /* Incorrect login credentials message */
 .login-form-incorrect-credentials {
-  color: hsl(0, 100%, 56%);
+  color: @alert-color;
   font-weight: bold;
 }
 
@@ -1480,7 +1506,7 @@ body {
 
 /* Text field in login form, which didn't pass validation*/
 .login-form-text-field-invalid {
-  border: 0.2rem solid hsl(0, 100%, 56%);
+  border: 0.2rem solid @alert-color;
 }
 
 /* Container for remember me checkbox */
@@ -1510,7 +1536,7 @@ body {
 /* Small link at the bottom of the login form */
 .login-bottom-link {
   font-size: 0.8rem;
-  color: @darker-color2;
+  color: @darker-color3;
 
   text-decoration: none;
 }
@@ -1565,7 +1591,7 @@ body {
 
 /* Text field in registration form, which didn't pass validation*/
 .registration-form-text-field-invalid {
-  border: 0.2rem solid hsl(0, 100%, 56%);
+  border: 0.2rem solid @alert-color;
 }
 
 /* Registration button */
@@ -1590,7 +1616,7 @@ body {
 /* Small link at the bottom of the registration form */
 .registration-bottom-link {
   font-size: 0.8rem;
-  color: @darker-color2;
+  color: @darker-color3;
 
   text-decoration: none;
 }
@@ -1602,7 +1628,7 @@ body {
 /* Explaination about "Login can't be changed" and (potentially) other small texts */
 .registration-small-gray-text {
   font-size: 0.8rem;
-  color: @darker-color2;
+  color: @darker-color3;
 }
 
 /* Login title lives here */
@@ -1615,7 +1641,7 @@ body {
 
 /* Login is taken message */
 .registration-login-taken-message {
-  color: hsl(0, 100%, 56%);
+  color: @alert-color;
   font-weight: bold;
 }
 
@@ -1749,7 +1775,7 @@ body {
 }
 
 .profile-main-part-creature-rename-input.profile-main-part-creature-rename-input-invalid {
-  border: 0.2rem solid hsl(0, 100%, 56%);
+  border: 0.2rem solid @alert-color;
 }
 
 /* Avatar container in profile main part (show about info) */
@@ -1781,7 +1807,7 @@ body {
 /* Small text "About yourself" and edit button inside */
 .profile-main-part-about-caption {
   font-size: 0.8rem;
-  color: hsl(0, 0%, 60%);
+  color: @darker-color1;
 
   text-align: right;
   width: 100%;
@@ -1851,7 +1877,7 @@ body {
 
 /* Container with one avatar in profile avatars part */
 .profile-avatars-part-avatar-container {
-  background: hsl(0, 0%, 93%);
+  background: @lighter-color2;
   border: 0.1rem solid @light-color1;
   border-radius: 1rem;
 
@@ -1864,9 +1890,9 @@ body {
 }
 
 .profile-avatars-part-avatar-container.profile-avatars-part-avatar-container-selected {
-  background: hsl(36, 100%, 60%);
+  background: @selected-avatar-background-color;
 
-  color: hsl(225, 100%, 35%);
+  color: @selected-avatar-color;
 }
 
 /* Avatar selection component icons container */
@@ -1898,7 +1924,7 @@ body {
 }
 
 .avatar-selection-component-rename-input.avatar-selection-component-rename-input-invalid {
-  border: 0.2rem solid hsl(0, 100%, 56%);
+  border: 0.2rem solid @alert-color;
 }
 
 /* "Upload new avatar" container */
@@ -1922,7 +1948,7 @@ body {
 /* "Upload new avatar" small text */
 .profile-avatars-part-upload-new-avatar-caption {
   font-size: 0.8rem;
-  color: hsl(0, 0%, 60%);
+  color: @darker-color1;
   text-align: right;
 
   margin-bottom: 0.5rem;
@@ -1975,7 +2001,7 @@ body {
 /* Comment to login (it says "login can't be changed") */
 .profile-security-part-login-comment {
   font-size: 0.8rem;
-  color: hsl(0, 0%, 60%);
+  color: @darker-color1;
 }
 
 /* Information about creature's password is here */
@@ -2001,7 +2027,7 @@ body {
 /* Small text "Change password" */
 .profile-security-part-change-password-caption {
   font-size: 0.8rem;
-  color: hsl(0, 0%, 60%);
+  color: @darker-color1;
 
   text-align: right;
   width: 100%;
@@ -2027,7 +2053,7 @@ body {
 }
 
 .profile-security-part-change-password-old-password-input.profile-security-part-change-password-old-password-input-invalid {
-  border: 0.2rem solid hsl(0, 100%, 56%);
+  border: 0.2rem solid @alert-color;
 }
 
 /* Table cell for new password */
@@ -2042,7 +2068,7 @@ body {
 }
 
 .profile-security-part-change-password-new-password-input.profile-security-part-change-password-new-password-input-invalid {
-  border: 0.2rem solid hsl(0, 100%, 56%);
+  border: 0.2rem solid @alert-color;
 }
 
 /* Table cell for new password confirmation */
@@ -2057,12 +2083,12 @@ body {
 }
 
 .profile-security-part-change-password-new-password-confirmation-input.profile-security-part-change-password-new-password-confirmation-input-invalid {
-  border: 0.2rem solid hsl(0, 100%, 56%);
+  border: 0.2rem solid @alert-color;
 }
 
 /* Information about failed password change */
 .profile-security-part-change-password-change-failed-info {
-  color: hsl(0, 100%, 56%);
+  color: @alert-color;
   font-weight: bold;
 }
 
@@ -2127,7 +2153,7 @@ body {
 }
 
 .profile-security-part-email-edit-input.profile-security-part-email-edit-input-invalid {
-  border: 0.2rem solid hsl(0, 100%, 56%);
+  border: 0.2rem solid @alert-color;
 }
 
 /* Container with warning about "email not confirmed" */
@@ -2145,7 +2171,7 @@ body {
   justify-content: left;
   gap: 0.3rem;
 
-  color: hsl(0, 100%, 56%);
+  color: @alert-color;
   font-weight: bold;
 }
 
@@ -2226,7 +2252,7 @@ body {
 }
 
 .popup-button:hover {
-  background: hsl(357, 85%, 33%);
+  background: @popup-button-background-color-hover;
   color: @lightest-color1;
 }
 

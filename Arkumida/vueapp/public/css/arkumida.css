@@ -17,6 +17,9 @@
 /* Long text info */
 /* Alert colors */
 /* Category block */
+/* Tags classes */
+/* Pagination */
+/* Avatars */
 /* Variables ends here */
 /* Fonts */
 @font-face {
@@ -638,7 +641,7 @@ body {
 /* Donate to Redgerra - details button */
 .donate-to-redgerra-button {
   color: hsl(0, 0%, 100%);
-  background: hsl(10, 100%, 50%);
+  background: hsl(0, 100%, 56%);
   border: 0 solid;
   border-radius: 0.2rem;
   padding-top: 0.2rem;
