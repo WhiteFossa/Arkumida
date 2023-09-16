@@ -1,4 +1,4 @@
-/* Variables starts here */
+/* Variables start here */
 /* Background color for body */
 /* Basic gamma */
 /* Menu underline color*/
@@ -20,7 +20,43 @@
 /* Tags classes */
 /* Pagination */
 /* Avatars */
-/* Variables ends here */
+/* Borders */
+/* Fonts */
+/* Variables end here */
+/* Mixins start here */
+/* Footer column base */
+.mixin-footer-column-base {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 20rem;
+}
+/* Parent for dark links without underline */
+.mixin-darkest-color1-link-without-underline-base {
+  color: hsl(0, 0%, 0%);
+  text-decoration: none;
+}
+/* Underlined text */
+.mixin-underlined {
+  text-decoration: underline;
+}
+/* Small links at bottom of login / registration forms */
+.mixin-login-registration-forms-small-bottom-link-base {
+  font-size: 0.8rem;
+  color: hsl(240, 12%, 27%);
+  text-decoration: none;
+}
+/* Base for version info and sources links */
+.mixin-version-info-sources-links-base {
+  color: hsl(240, 12%, 27%);
+  background-color: hsl(240, 11%, 98%);
+  font-size: 0.8rem;
+  text-align: center;
+}
+/* Base for centered texts */
+.mixin-centered-text-base {
+  text-align: center;
+}
+/* Mixins end here */
 /* Fonts */
 @font-face {
   font-family: 'Open Sans';
@@ -237,12 +273,12 @@ body {
   align-items: center;
   justify-content: center;
 }
-/* Black link without underline */
-.black-link-without-underline {
+/* Darkest color 1 link without underline */
+.darkest-color1-link-without-underline {
   color: hsl(0, 0%, 0%);
   text-decoration: none;
 }
-.black-link-without-underline:hover {
+.darkest-color1-link-without-underline:hover {
   text-decoration: underline;
 }
 /* Menu stuff starts here */
@@ -272,10 +308,10 @@ body {
 }
 /* Right menu item */
 .right-menu-item {
-  display: inline-block;
-  vertical-align: middle;
   color: hsl(0, 0%, 0%);
   text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
   padding-left: 0.2rem;
   padding-right: 0.2rem;
 }
@@ -286,16 +322,16 @@ body {
 /* Menu stuff ends here */
 /* Top button */
 .top-button {
+  color: hsl(0, 0%, 0%);
+  text-decoration: none;
   display: inline-block;
   border: 0.2rem solid hsl(36, 100%, 84%);
   border-radius: 3rem;
-  text-decoration: none;
   width: 20rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 1.5rem;
   text-align: center;
-  color: hsl(0, 0%, 0%);
   cursor: pointer;
 }
 /* Top button with small text */
@@ -455,7 +491,7 @@ body {
 }
 /* Text short info - text link */
 .text-short-info-text-link {
-  color: hsl(17, 36%, 24%);
+  color: hsl(0, 0%, 0%);
   text-decoration: none;
 }
 .text-short-info-text-link:hover {
@@ -839,10 +875,6 @@ body {
 /* Text, justified by width */
 .text-justify-width {
   text-align: justify;
-}
-/* Centrally aligned text */
-.text-align-center {
-  text-align: center;
 }
 /* Left-aligned-text */
 .text-align-left {

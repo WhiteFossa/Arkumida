@@ -185,7 +185,7 @@ function RenderTextElement(element)
 
     if (element.type === TextElementType.CentrallyAlignedTextBegin)
     {
-        return "<div class='text-align-center'>";
+        return "<div class='centered'>";
     }
 
     if (element.type === TextElementType.CentrallyAlignedTextEnd)

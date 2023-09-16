@@ -1,4 +1,4 @@
-/* Variables starts here */
+/* Variables start here */
 
 /* Background color for body */
 @body-background-color: hsl(220, 9%, 94%);
@@ -90,6 +90,21 @@
 @tag-class12-color: hsl(325, 70%, 54%);
 @tag-class13-color: hsl(325, 70%, 60%);
 
+@tag-class0-font-size: 0.8rem;
+@tag-class1-font-size: 0.85rem;
+@tag-class2-font-size: 0.9rem;
+@tag-class3-font-size: 0.95rem;
+@tag-class4-font-size: 1rem;
+@tag-class5-font-size: 1.05rem;
+@tag-class6-font-size: 1.1rem;
+@tag-class7-font-size: 1.15rem;
+@tag-class8-font-size: 1.20rem;
+@tag-class9-font-size: 1.25rem;
+@tag-class10-font-size: 1.3rem;
+@tag-class11-font-size: 1.35rem;
+@tag-class12-font-size: 1.4rem;
+@tag-class13-font-size: 1.45rem;
+
 /* Pagination */
 @pagination-active-background-color: hsl(357, 85%, 33%);
 
@@ -97,7 +112,71 @@
 @selected-avatar-background-color: hsl(36, 100%, 60%);
 @selected-avatar-color: hsl(225, 100%, 35%);
 
-/* Variables ends here */
+/* Borders */
+@border-thin-thickness: 0.1rem;
+@border-thick-thickness: 0.2rem;
+@border-thicker-thickness: 0.25rem;
+
+@border-style: solid;
+
+@border-radius-small: 0.2rem;
+@border-radius-normal: 0.5rem;
+@border-radius-bigger1: 1rem;
+@border-radius-bigger2: 1.5rem;
+@border-radius-biggest: 3rem;
+
+/* Fonts */
+@font-size-smallest: 0.7rem;
+@font-size-smaller1: 0.8rem;
+@font-size-smaller2: 0.85rem;
+@font-size-bigger1: 1.1rem;
+@font-size-bigger2: 1.5rem;
+@font-size-big: 2rem;
+
+/* Variables end here */
+
+/* Mixins start here */
+
+/* Footer column base */
+.mixin-footer-column-base {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 20rem;
+}
+
+/* Parent for dark links without underline */
+.mixin-darkest-color1-link-without-underline-base {
+  color: @darkest-color1;
+  text-decoration: none;
+}
+
+/* Underlined text */
+.mixin-underlined {
+  text-decoration: underline;
+}
+
+/* Small links at bottom of login / registration forms */
+.mixin-login-registration-forms-small-bottom-link-base {
+  font-size: @font-size-smaller1;
+  color: @darker-color3;
+
+  text-decoration: none;
+}
+
+/* Base for version info and sources links */
+.mixin-version-info-sources-links-base {
+  color: @darker-color3;
+  background-color: @lighter-color1;
+  font-size:@font-size-smaller1;
+  .mixin-centered-text-base();
+}
+
+/* Base for centered texts */
+.mixin-centered-text-base {
+  text-align: center;
+}
+
+/* Mixins end here */
 
 /* Fonts */
 @font-face {
@@ -162,37 +241,27 @@ body {
 
 /* Footer info column */
 .footer-info-column {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  width: 20rem;
+  .mixin-footer-column-base();
 }
 
 /* Footer useful column */
 .footer-useful-column {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  width: 20rem;
+  .mixin-footer-column-base();
 }
 
 /* Footer developers column */
 .footer-developers-column {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  width: 20rem;
+  .mixin-footer-column-base();
 }
 
 /* Footer friends column */
 .footer-friends-column {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  width: 20rem;
+  .mixin-footer-column-base();
 }
 
 /* Footer partners column */
 .footer-partners-column {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  width: 20rem;
+  .mixin-footer-column-base();
 }
 
 /* Footer columns top texts */
@@ -222,28 +291,22 @@ body {
 
 /* Version info */
 .version-info {
-  color: @darker-color3;
-  background-color: @lighter-color1;
-  font-size: 0.8rem;
-  text-align: center;
+  .mixin-version-info-sources-links-base()
 }
 
 /* Sources link */
 .sources-link {
-  color: @darker-color3;
-  background-color: @lighter-color1;
-  font-size: 0.8rem;
-  text-align: center;
+  .mixin-version-info-sources-links-base()
 }
 
 /* Centered text */
 .centered {
-  text-align: center;
+  .mixin-centered-text-base();
 }
 
 /* Loading symbol */
 .loading-symbol {
-  text-align: center;
+  .mixin-centered-text-base();
 }
 
 /* Loading symbol image */
@@ -328,7 +391,7 @@ body {
 
 /* Looks like a link */
 .underlined-pseudolink {
-  text-decoration: underline;
+  .mixin-underlined();
   cursor: pointer;
 }
 
@@ -361,40 +424,36 @@ body {
   justify-content: center;
 }
 
-/* Black link without underline */
-.black-link-without-underline {
-  color: @darkest-color1;
-
-  text-decoration: none;
+/* Darkest color 1 link without underline */
+.darkest-color1-link-without-underline {
+  .mixin-darkest-color1-link-without-underline-base();
 }
 
-.black-link-without-underline:hover
+.darkest-color1-link-without-underline:hover
 {
-  text-decoration: underline;
+  .mixin-underlined();
 }
 
 /* Menu stuff starts here */
 
 /* Central menu item */
 .central-menu-link {
-  color: @darkest-color1;
-  text-decoration: none;
+  .mixin-darkest-color1-link-without-underline-base();
   font-weight: bold;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   display: inline-block;
-  border-bottom: 0.2rem solid @central-menu-underline-color-transparent; /* To avoid shift up on hover */
+  border-bottom: @border-thick-thickness @border-style @central-menu-underline-color-transparent; /* To avoid shift up on hover */
 }
 
 /* Central menu item (hovered) */
 .central-menu-link:hover {
-  border-bottom: 0.2rem solid @central-menu-underline-color;
+  border-bottom: @border-thick-thickness @border-style @central-menu-underline-color;
 }
 
 /* Central menu item without hoverability */
 .central-menu-link-nohover {
-  color: @darkest-color1;
-  text-decoration: none;
+  .mixin-darkest-color1-link-without-underline-base();
   font-weight: bold;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -403,10 +462,11 @@ body {
 
 /* Right menu item */
 .right-menu-item {
+  .mixin-darkest-color1-link-without-underline-base();
+
   display: inline-block;
   vertical-align: middle;
-  color: @darkest-color1;
-  text-decoration: none;
+
   padding-left: 0.2rem;
   padding-right: 0.2rem;
 }
@@ -420,16 +480,16 @@ body {
 
 /* Top button */
 .top-button {
+  .mixin-darkest-color1-link-without-underline-base();
+
   display: inline-block;
-  border: 0.2rem solid @buttons1-color1;
-  border-radius: 3rem;
-  text-decoration: none;
+  border: @border-thick-thickness @border-style @buttons1-color1;
+  border-radius: @border-radius-biggest;
   width: 20rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  font-size: 1.5rem;
-  text-align: center;
-  color: @darkest-color1;
+  font-size: @font-size-bigger2;
+  .mixin-centered-text-base();
   cursor: pointer;
 }
 
@@ -445,7 +505,7 @@ body {
 
 /* Optional small text on top button */
 .top-button-small-text {
-  font-size: 0.7rem;
+  font-size: @font-size-smallest;
   color: @darker-color2;
 }
 
@@ -463,8 +523,8 @@ body {
 /* Search as a whole */
 .search {
   background-color: @search-background-color;
-  border: 0.1rem solid @search-border-color;
-  border-radius: 0.2rem;
+  border: @border-thin-thickness @border-style @search-border-color;
+  border-radius: @border-radius-small;
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 0.5rem;
@@ -480,16 +540,16 @@ body {
 .search-text-area {
   flex: 99%;
   font-size: inherit;
-  border: 0.1rem solid @search-border-color;
-  border-radius: 0.2rem;
+  border: @border-thin-thickness @border-style @search-border-color;
+  border-radius: @border-radius-small;
 }
 
 /* Search button */
 .search-button {
   flex: 1%;
   font-size: inherit;
-  border: 0.1rem solid @search-border-color;
-  border-radius: 0.2rem;
+  border: @border-thin-thickness @border-style @search-border-color;
+  border-radius: @border-radius-small;
   cursor: pointer;
 }
 
@@ -500,8 +560,8 @@ body {
 /* Statistics as a whole */
 .texts-statistics {
   background-color: @lightest-color1;
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.2rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   padding-top: 1rem;
@@ -548,30 +608,30 @@ body {
 
 /* Button for switching short texts infos display mode */
 .texts-short-infos-button {
-  border: 0.2rem solid @buttons1-border;
-  border-radius: 1rem;
+  border: @border-thick-thickness @border-style @buttons1-border;
+  border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 10rem;
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
-  font-size: 1.1rem;
+  font-size: @font-size-bigger1;
   cursor: pointer;
 }
 
 .texts-short-infos-button:hover {
   background: @buttons1-color2;
-  border: 0.2rem solid @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color3;
 }
 
 /* Button for switching short texts infos display mode - active */
 .texts-short-infos-button-active {
   background: @buttons1-color2;
-  border: 0.2rem solid @buttons1-color3;
-  border-radius: 1rem;
+  border: @border-thick-thickness @border-style @buttons1-color3;
+  border-radius: @border-radius-bigger1;
   width: 10rem;
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
-  font-size: 1.1rem;
+  font-size: @font-size-bigger1;
 }
 
 /* Texts short info stuff starts here */
@@ -590,40 +650,39 @@ body {
   padding-bottom: 0.5rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  border: 0.1rem solid @short-text-info-border;
-  border-radius: 0.2rem;
+  border: @border-thin-thickness @border-style @short-text-info-border;
+  border-radius: @border-radius-small;
   min-width: 20rem;
 }
 
 /* Text from contest */
 .text-short-info-block.text-short-info-block-contest {
-  border: 0.25rem solid @contest-color;
+  border: @border-thicker-thickness @border-style @contest-color;
 }
 
 /* Snuff text */
 .text-short-info-block.text-short-info-block-snuff {
-  border: 0.25rem solid @snuff-color;
+  border: @border-thicker-thickness @border-style @snuff-color;
 }
 
 /* Poor-quality text */
 .text-short-info-block.text-short-info-block-sandbox {
-  border: 0.25rem solid @sanbox-color;
+  border: @border-thicker-thickness @border-style @sanbox-color;
 }
 
 /* Text short info title line */
 .text-short-info-block-title-line {
-  font-size: 1.1rem;
+  font-size: @font-size-bigger1;
   justify-content: space-between;
 }
 
 /* Text short info - text link */
 .text-short-info-text-link {
-  color: @text-blocks-link-color;
-  text-decoration: none;
+  .mixin-darkest-color1-link-without-underline-base();
 }
 
 .text-short-info-text-link:hover {
-  text-decoration: underline;
+  .mixin-underlined();
 }
 
 /* Text short info - statistics line */
@@ -653,27 +712,25 @@ body {
 
 /* Category tag */
 .category-tag-link {
-  color: @darkest-color1;
-  text-decoration: none;
+  .mixin-darkest-color1-link-without-underline-base();
   white-space: nowrap;
 }
 
 .category-tag-link:hover
 {
-  text-decoration: underline;
+  .mixin-underlined();
 }
 
 /* Texts short info ends here */
 
 /* Link in small tag */
 .small-tag-link {
-  color: @darkest-color1;
-  text-decoration: none;
+  .mixin-darkest-color1-link-without-underline-base();
   white-space: nowrap;
 }
 
 .small-tag-link:hover {
-  text-decoration: underline;
+  .mixin-underlined();
 }
 
 /* Text icon (small) */
@@ -686,8 +743,8 @@ body {
 
 /* Arrows in container with short texts infos */
 .texts-short-infos-container-arrows-buttons {
-  border: 0.2rem solid @buttons1-border;
-  border-radius: 1rem;
+  border: @border-thick-thickness @border-style @buttons1-border;
+  border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 6rem;
   cursor: pointer;
@@ -695,7 +752,7 @@ body {
 
 .texts-short-infos-container-arrows-buttons:hover {
   background: @buttons1-color2;
-  border: 0.2rem solid @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color3;
 }
 
 /* Icons on arrows buttons*/
@@ -711,9 +768,9 @@ body {
 .text-long-info-button {
   background-color: @show-text-long-info-button-background-color;
   color: @lightest-color1;
-  font-size: 0.85rem;
+  font-size: @font-size-smaller2;
   border: 0 none;
-  border-radius: 0.2rem;
+  border-radius: @border-radius-small;
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
   padding-left: 0.5rem;
@@ -732,7 +789,7 @@ body {
 
 /* Text long info title line */
 .text-long-info-block-title-line {
-  font-size: 1.1rem;
+  font-size: @font-size-bigger1;
 }
 
 /* Text long info - text link */
@@ -742,7 +799,7 @@ body {
 }
 
 .text-long-info-text-link:hover {
-  text-decoration: underline;
+  .mixin-underlined();
 }
 
 /* Text long info - statistics line */
@@ -804,8 +861,8 @@ body {
 /* Popup itself */
 .long-text-info-popup {
   background: @long-text-info-popup-background-color;
-  border: 0.2rem solid @long-text-info-popup-border-color;
-  border-radius: 0.5rem;
+  border: @border-thick-thickness @border-style @long-text-info-popup-border-color;
+  border-radius: @border-radius-normal;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -839,19 +896,19 @@ body {
 /* Donate to Redgerra block */
 .donate-to-redgerra {
   background: @lightest-color1;
-  border-radius: 0.2rem;
+  border-radius: @border-radius-small;
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
   margin-top: 1rem;
-  border: 0.2rem solid @light-color1;
+  border: @border-thick-thickness @border-style @light-color1;
 }
 
 /* Donate to Redgerra - avatar */
 .donate-to-redgerra-avatar {
   width: 3rem;
-  border-radius: 1.5rem;
+  border-radius: @border-radius-bigger2;
   vertical-align: middle;
 }
 
@@ -859,8 +916,8 @@ body {
 .donate-to-redgerra-button {
   color: @lightest-color1;
   background: @alert-color;
-  border: 0 solid;
-  border-radius: 0.2rem;
+  border: 0 @border-style;
+  border-radius: @border-radius-small;
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
   padding-left: 0.5rem;
@@ -882,8 +939,8 @@ body {
 
 /* Title for categories and tags */
 .categories-and-tags-title {
-  font-size: 1.5rem;
-  text-align: center;
+  font-size: @font-size-bigger2;
+  .mixin-centered-text-base();
 }
 
 /* Categories are here */
@@ -899,8 +956,8 @@ body {
 /* Tags are grouped in subtypes, this is container with one subtype */
 .tags-subtype-container {
   background-color: @tags-subtype-container-background-color;
-  border: 0.1rem solid @tags-subtype-container-border-color;
-  border-radius: 0.2rem;
+  border: @border-thin-thickness @border-style @tags-subtype-container-border-color;
+  border-radius: @border-radius-small;
 
   margin-bottom: 0.2rem;
 
@@ -914,7 +971,7 @@ body {
 .category-block {
   background-color: @category-block-background-color;
   margin-bottom: 0.2rem;
-  border-radius: 0.2rem;
+  border-radius: @border-radius-small;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 0.2rem;
@@ -938,7 +995,7 @@ body {
   width: 1.0rem;
   height: 1.0rem;
   margin-bottom: -0.1rem;
-  border-radius: 0.2rem;
+  border-radius: @border-radius-small;
   display: inline-block;
 }
 
@@ -962,7 +1019,7 @@ body {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   background: @sandbox-background-color;
-  border-radius: 0.2rem;
+  border-radius: @border-radius-small;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 0.2rem;
@@ -973,72 +1030,72 @@ body {
 
 .tag-size-class0 {
   color: @tag-class0-color;
-  font-size: 0.8rem;
+  font-size: @tag-class0-font-size;
 }
 
 .tag-size-class1 {
   color: @tag-class1-color;
-  font-size: 0.85rem;
+  font-size: @tag-class1-font-size;
 }
 
 .tag-size-class2 {
   color: @tag-class2-color;
-  font-size: 0.9rem;
+  font-size: @tag-class2-font-size;
 }
 
 .tag-size-class3 {
   color: @tag-class3-color;
-  font-size: 0.95rem;
+  font-size: @tag-class3-font-size;
 }
 
 .tag-size-class4 {
   color: @tag-class4-color;
-  font-size: 1.0rem;
+  font-size: @tag-class4-font-size;
 }
 
 .tag-size-class5 {
   color: @tag-class5-color;
-  font-size: 1.05rem;
+  font-size: @tag-class5-font-size;
 }
 
 .tag-size-class6 {
   color: @tag-class6-color;
-  font-size: 1.1rem;
+  font-size: @tag-class6-font-size;
 }
 
 .tag-size-class7 {
   color: @tag-class7-color;
-  font-size: 1.15rem;
+  font-size: @tag-class7-font-size;
 }
 
 .tag-size-class8 {
   color: @tag-class8-color;
-  font-size: 1.2rem;
+  font-size: @tag-class8-font-size;
 }
 
 .tag-size-class9 {
   color: @tag-class9-color;
-  font-size: 1.25rem;
+  font-size: @tag-class9-font-size;
 }
 
 .tag-size-class10 {
   color: @tag-class10-color;
-  font-size: 1.3rem;
+  font-size: @tag-class10-font-size;
 }
 
 .tag-size-class11 {
   color: @tag-class11-color;
-  font-size: 1.35rem;
+  font-size: @tag-class11-font-size;
 }
 
 .tag-size-class12 {
   color: @tag-class12-color;
-  font-size: 1.4rem;
+  font-size: @tag-class12-font-size;
 }
 
 .tag-size-class13 {
   color: @tag-class13-color;
-  font-size: 1.45rem;
+  font-size: @tag-class13-font-size;
 }
 
 /* Tags size classes ends here */
@@ -1057,8 +1114,8 @@ body {
 
 /* Text title */
 .read-text-title {
-  text-align: center;
-  font-size: 2.0rem;
+  .mixin-centered-text-base();
+  font-size: @font-size-big;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
@@ -1081,13 +1138,12 @@ body {
 
 /* Link in hashed tag */
 .hashed-tag-link {
-  color: @darkest-color1;
-  text-decoration: none;
+  .mixin-darkest-color1-link-without-underline-base();
   white-space: nowrap;
 }
 
 .hashed-tag-link:hover {
-  text-decoration: underline;
+  .mixin-underlined();
 }
 
 /* Text paragraph */
@@ -1100,11 +1156,6 @@ body {
 /* Text, justified by width */
 .text-justify-width {
   text-align: justify;
-}
-
-/* Centrally aligned text */
-.text-align-center {
-  text-align: center;
 }
 
 /* Left-aligned-text */
@@ -1120,7 +1171,7 @@ body {
 /* Text quote */
 .text-quote {
   font-family: monospace;
-  font-size: 1.1rem;
+  font-size: @font-size-bigger1;
   padding: 2rem;
   background-color: @lightest-color1;
   color: @darkest-color1
@@ -1135,18 +1186,18 @@ body {
 .text-image-preview {
   max-width: 10rem;
   max-height: 10rem;
-  border-radius: 0.5rem;
+  border-radius: @border-radius-normal;
 }
 
 /* Comics image container */
 .comics-image-container {
-  text-align: center;
+  .mixin-centered-text-base();
   text-indent: 0;
 }
 
 /* Comics image */
 .comics-image {
-  border-radius: 0.5rem;
+  border-radius: @border-radius-normal;
   max-width: 95vw;
   cursor: pointer;
 }
@@ -1164,8 +1215,8 @@ body {
 /* Rendered text files download component */
 .read-text-download {
   background: @lightest-color1;
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.2rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
 
   width: min-content;
   min-width: 7.0rem;
@@ -1185,7 +1236,7 @@ body {
 
 /* Caption with a word "download" for rendered text files download component */
 .read-text-download-caption {
-  font-size: 0.8rem;
+  font-size: @font-size-smaller1;
   color: @darker-color1;
   text-align: right;
   width: 100%;
@@ -1209,8 +1260,8 @@ body {
 /* Creatures info container */
 .creatures-info-container {
   background: @lightest-color1;
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.2rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
 
   min-width: 17.0rem;
 
@@ -1244,7 +1295,7 @@ body {
 
 /* Style for creatures role */
 .creatures-info-creatures-role {
-  font-size: 0.8rem;
+  font-size: @font-size-smaller1;
   color: @darker-color1;
   text-align: right;
   width: 100%;
@@ -1299,7 +1350,7 @@ body {
 
 /* Image in full size image popup */
 .full-size-image-popup-image {
-  border-radius: 0.5rem;
+  border-radius: @border-radius-normal;
   max-width: 90vw;
   max-height: 90vh;
 }
@@ -1337,14 +1388,14 @@ body {
 .illustration-preview {
   max-width: 10rem;
   max-height: 10rem;
-  border-radius: 0.5rem;
+  border-radius: @border-radius-normal;
 }
 
 /* All illustrations title */
 .all-illustrations-title {
-  font-size: 1.5rem;
+  font-size: @font-size-bigger2;
   font-weight: bold;
-  text-align: center;
+  .mixin-centered-text-base();
 }
 
 /* Illustrations container end*/
@@ -1360,7 +1411,7 @@ body {
   flex-wrap: wrap;
   gap: 1rem;
 
-  text-align: center;
+  .mixin-centered-text-base();
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
@@ -1376,26 +1427,26 @@ body {
 /* Pagination go to page input field */
 .read-text-pagination-go-to-page-input {
   width: 3.5rem;
-  text-align: center;
+  .mixin-centered-text-base();
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
-  border: 0.1rem solid @light-color1;
-  font-size: 1.5rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  font-size: @font-size-bigger2;
   line-height: 3rem;
   vertical-align: middle;
 }
 
 /* Validation error */
 .read-text-pagination-go-to-page-input.read-text-pagination-go-to-page-input-invalid {
-  border: 0.2rem solid @alert-color;
+  border: @border-thick-thickness @border-style @alert-color;
 }
 
 /* Pagination go to page button */
 .read-text-pagination-go-to-page-button {
-  text-align: center;
+  .mixin-centered-text-base();
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-  border: 0.1rem solid @light-color1;
+  border: @border-thin-thickness @border-style @light-color1;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   line-height: 3rem;
@@ -1413,9 +1464,9 @@ body {
 /* Base class for pagination pages */
 .read-text-pagination-page-base {
   min-width: 3.5rem;
-  text-align: center;
-  border: 0.1rem solid @light-color1;
-  font-size: 1.5rem;
+  .mixin-centered-text-base();
+  border: @border-thin-thickness @border-style @light-color1;
+  font-size: @font-size-bigger2;
   line-height: 3rem;
   vertical-align: middle;
   cursor: pointer;
@@ -1461,8 +1512,8 @@ body {
 /* Container for login form */
 .login-form-container {
   background: @lightest-color1;
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.5rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
 
   position: absolute;
   top: 50%;
@@ -1479,8 +1530,8 @@ body {
 
 /* Login form title */
 .login-form-title {
-  text-align: center;
-  font-size: 1.5rem;
+  .mixin-centered-text-base();
+  font-size: @font-size-bigger2;
   font-weight: bold;
 }
 
@@ -1492,10 +1543,10 @@ body {
 
 /* Text fields in login form */
 .login-form-text-field {
-  border-radius: 0.5rem;
+  border-radius: @border-radius-normal;
 
   height: 3rem;
-  font-size: 1.5rem;
+  font-size: @font-size-bigger2;
 
   width: 100%;
   box-sizing: border-box;
@@ -1506,7 +1557,7 @@ body {
 
 /* Text field in login form, which didn't pass validation*/
 .login-form-text-field-invalid {
-  border: 0.2rem solid @alert-color;
+  border: @border-thick-thickness @border-style @alert-color;
 }
 
 /* Container for remember me checkbox */
@@ -1519,7 +1570,7 @@ body {
   height: 3rem;
   width: 100%;
 
-  font-size: 1.5rem;
+  font-size: @font-size-bigger2;
 }
 
 /* Container for small links at the bottom of login form */
@@ -1530,19 +1581,16 @@ body {
   gap: 0.5rem;
 
   margin-top: 0.5rem;
-  text-align: center;
+  .mixin-centered-text-base();
 }
 
 /* Small link at the bottom of the login form */
 .login-bottom-link {
-  font-size: 0.8rem;
-  color: @darker-color3;
-
-  text-decoration: none;
+  .mixin-login-registration-forms-small-bottom-link-base();
 }
 
 .login-bottom-link:hover {
-  text-decoration: underline;
+  .mixin-underlined();
 }
 
 /* Login-related stuff ends here */
@@ -1552,8 +1600,8 @@ body {
 /* Container for registration form */
 .registration-form-container {
   background: @lightest-color1;
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.5rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
 
   position: absolute;
   top: 50%;
@@ -1570,17 +1618,17 @@ body {
 
 /* Registration form title */
 .registration-form-title {
-  text-align: center;
-  font-size: 1.5rem;
+  .mixin-centered-text-base();
+  font-size: @font-size-bigger2;
   font-weight: bold;
 }
 
 /* Text fields in registration form */
 .registration-form-text-field {
-  border-radius: 0.5rem;
+  border-radius: @border-radius-normal;
 
   height: 3rem;
-  font-size: 1.5rem;
+  font-size: @font-size-bigger2;
 
   width: 100%;
   box-sizing: border-box;
@@ -1591,7 +1639,7 @@ body {
 
 /* Text field in registration form, which didn't pass validation*/
 .registration-form-text-field-invalid {
-  border: 0.2rem solid @alert-color;
+  border: @border-thick-thickness @border-style @alert-color;
 }
 
 /* Registration button */
@@ -1599,7 +1647,7 @@ body {
   height: 3rem;
   width: 100%;
 
-  font-size: 1.5rem;
+  font-size: @font-size-bigger2;
 }
 
 /* Container for small links at the bottom of registration form */
@@ -1610,24 +1658,21 @@ body {
   gap: 0.5rem;
 
   margin-top: 0.5rem;
-  text-align: center;
+  .mixin-centered-text-base();
 }
 
 /* Small link at the bottom of the registration form */
 .registration-bottom-link {
-  font-size: 0.8rem;
-  color: @darker-color3;
-
-  text-decoration: none;
+  .mixin-login-registration-forms-small-bottom-link-base();
 }
 
 .registration-bottom-link:hover {
-  text-decoration: underline;
+  .mixin-underlined();
 }
 
 /* Explaination about "Login can't be changed" and (potentially) other small texts */
 .registration-small-gray-text {
-  font-size: 0.8rem;
+  font-size: @font-size-smaller1;
   color: @darker-color3;
 }
 
@@ -1652,14 +1697,14 @@ body {
 /* Small avatar */
 .avatar-small {
   width: 3rem;
-  border-radius: 0.5rem;
+  border-radius: @border-radius-normal;
   vertical-align: middle;
 }
 
 /* Big avatar */
 .avatar-big {
   width: 10rem;
-  border-radius: 0.5rem;
+  border-radius: @border-radius-normal;
   vertical-align: middle;
 }
 
@@ -1686,8 +1731,8 @@ body {
 /* Container for profile content */
 .profile-content-container {
   background-color: @lightest-color1;
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.2rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1rem;
@@ -1702,14 +1747,14 @@ body {
 /* Profile part button (active) */
 .profile-part-button-active {
   display: inline-block;
-  border: 0.2rem solid @buttons1-border;
-  border-radius: 1rem;
+  border: @border-thick-thickness @border-style @buttons1-border;
+  border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 15rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  font-size: 1.5rem;
-  text-align: center;
+  font-size: @font-size-bigger2;
+  .mixin-centered-text-base();
   color: @darkest-color1;
   cursor: pointer;
 }
@@ -1717,21 +1762,21 @@ body {
 /* Hovered profile part button (active) */
 .profile-part-button-active:hover {
   background: @buttons1-color2;
-  border: 0.2rem solid @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color3;
 }
 
 /* Profile part button for current page (inactive) */
 .profile-part-button-current {
   display: inline-block;
   background: @buttons1-color2;
-  border: 0.2rem solid @buttons1-color3;
-  border-radius: 1rem;
+  border: @border-thick-thickness @border-style @buttons1-color3;
+  border-radius: @border-radius-bigger1;
   width: 15rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  font-size: 2rem;
+  font-size: @font-size-big;
   font-weight: bold;
-  text-align: center;
+  .mixin-centered-text-base();
   color: @buttons1-color3;
 }
 
@@ -1744,8 +1789,8 @@ body {
   flex-wrap: nowrap;
   gap: 0.5rem;
 
-  font-size: 2rem;
-  text-align: center;
+  font-size: @font-size-big;
+  .mixin-centered-text-base();
 }
 
 /* Creature name in profile main part (edit mode)*/
@@ -1757,25 +1802,25 @@ body {
   flex-wrap: nowrap;
   gap: 0.5rem;
 
-  font-size: 2rem;
-  text-align: center;
+  font-size: @font-size-big;
+  .mixin-centered-text-base();
 
   margin-bottom: 1rem;
 }
 
 /* Input for creature renaming */
 .profile-main-part-creature-rename-input {
-  font-size: 2rem;
+  font-size: @font-size-big;
   line-height: 3rem;
 
-  border-radius: 0.5rem;
+  border-radius: @border-radius-normal;
 
   width: 100%;
   box-sizing: border-box;
 }
 
 .profile-main-part-creature-rename-input.profile-main-part-creature-rename-input-invalid {
-  border: 0.2rem solid @alert-color;
+  border: @border-thick-thickness @border-style @alert-color;
 }
 
 /* Avatar container in profile main part (show about info) */
@@ -1791,8 +1836,8 @@ body {
 
 /* Profile main part about info container (outer, paddingless) */
 .profile-main-part-about-outer-container {
-  border: 0.1rem solid @lighter-color1;
-  border-radius: 0.5rem;
+  border: @border-thin-thickness @border-style @lighter-color1;
+  border-radius: @border-radius-normal;
 
   overflow: hidden;
 }
@@ -1806,7 +1851,7 @@ body {
 
 /* Small text "About yourself" and edit button inside */
 .profile-main-part-about-caption {
-  font-size: 0.8rem;
+  font-size: @font-size-smaller1;
   color: @darker-color1;
 
   text-align: right;
@@ -1851,8 +1896,8 @@ body {
 
 /* OK and Cancel buttons for about info editing live here */
 .profile-main-part-about-edit-buttons-bordered-inner-container {
-  border-top: 0.1rem solid @light-color1;
-  border-left: 0.1rem solid @light-color1;
+  border-top: @border-thin-thickness @border-style @light-color1;
+  border-left: @border-thin-thickness @border-style @light-color1;
   border-top-left-radius: 0.5rem;
 
   display: flex;
@@ -1878,10 +1923,10 @@ body {
 /* Container with one avatar in profile avatars part */
 .profile-avatars-part-avatar-container {
   background: @lighter-color2;
-  border: 0.1rem solid @light-color1;
-  border-radius: 1rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-bigger1;
 
-  text-align: center;
+  .mixin-centered-text-base();
 
   width: min-content;
   height: min-content;
@@ -1924,7 +1969,7 @@ body {
 }
 
 .avatar-selection-component-rename-input.avatar-selection-component-rename-input-invalid {
-  border: 0.2rem solid @alert-color;
+  border: @border-thick-thickness @border-style @alert-color;
 }
 
 /* "Upload new avatar" container */
@@ -1937,8 +1982,8 @@ body {
 
 /* Div with "upload new avatar" block */
 .profile-avatars-part-upload-new-avatar {
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.5rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
 
   width: 20rem;
 
@@ -1947,7 +1992,7 @@ body {
 
 /* "Upload new avatar" small text */
 .profile-avatars-part-upload-new-avatar-caption {
-  font-size: 0.8rem;
+  font-size: @font-size-smaller1;
   color: @darker-color1;
   text-align: right;
 
@@ -2000,7 +2045,7 @@ body {
 
 /* Comment to login (it says "login can't be changed") */
 .profile-security-part-login-comment {
-  font-size: 0.8rem;
+  font-size: @font-size-smaller1;
   color: @darker-color1;
 }
 
@@ -2011,8 +2056,8 @@ body {
 
 /* Password change form lives here (outer, paddingless) */
 .profile-security-part-change-password-outer-container {
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.5rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
 
   overflow: hidden;
 }
@@ -2026,7 +2071,7 @@ body {
 
 /* Small text "Change password" */
 .profile-security-part-change-password-caption {
-  font-size: 0.8rem;
+  font-size: @font-size-smaller1;
   color: @darker-color1;
 
   text-align: right;
@@ -2053,7 +2098,7 @@ body {
 }
 
 .profile-security-part-change-password-old-password-input.profile-security-part-change-password-old-password-input-invalid {
-  border: 0.2rem solid @alert-color;
+  border: @border-thick-thickness @border-style @alert-color;
 }
 
 /* Table cell for new password */
@@ -2068,7 +2113,7 @@ body {
 }
 
 .profile-security-part-change-password-new-password-input.profile-security-part-change-password-new-password-input-invalid {
-  border: 0.2rem solid @alert-color;
+  border: @border-thick-thickness @border-style @alert-color;
 }
 
 /* Table cell for new password confirmation */
@@ -2083,7 +2128,7 @@ body {
 }
 
 .profile-security-part-change-password-new-password-confirmation-input.profile-security-part-change-password-new-password-confirmation-input-invalid {
-  border: 0.2rem solid @alert-color;
+  border: @border-thick-thickness @border-style @alert-color;
 }
 
 /* Information about failed password change */
@@ -2108,8 +2153,8 @@ body {
 
 /* OK and Cancel buttons for password change live here */
 .profile-security-part-change-password-buttons-inner-container {
-  border-top: 0.1rem solid @light-color1;
-  border-left: 0.1rem solid @light-color1;
+  border-top: @border-thin-thickness @border-style @light-color1;
+  border-left: @border-thin-thickness @border-style @light-color1;
   border-top-left-radius: 0.5rem;
 
   display: flex;
@@ -2153,7 +2198,7 @@ body {
 }
 
 .profile-security-part-email-edit-input.profile-security-part-email-edit-input-invalid {
-  border: 0.2rem solid @alert-color;
+  border: @border-thick-thickness @border-style @alert-color;
 }
 
 /* Container with warning about "email not confirmed" */
@@ -2212,8 +2257,8 @@ body {
 /* Container for popup content */
 .popup-content-container {
   background: @lightest-color1;
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.5rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
 
   padding: 1rem;
 
@@ -2225,8 +2270,8 @@ body {
 
 /* Popup title */
 .popup-title {
-  text-align: center;
-  font-size: 1.5rem;
+  .mixin-centered-text-base();
+  font-size: @font-size-bigger2;
   font-weight: bold;
   padding-bottom: 0.5rem;
 }
@@ -2242,13 +2287,13 @@ body {
 
 /* Popup button(s) */
 .popup-button {
-  font-size: 1.5rem;
+  font-size: @font-size-bigger2;
 
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 
-  border: 0.1rem solid @light-color1;
-  border-radius: 0.5rem;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
 }
 
 .popup-button:hover {
