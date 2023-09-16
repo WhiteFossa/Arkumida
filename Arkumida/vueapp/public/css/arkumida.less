@@ -1,0 +1,2242 @@
+/* Variables starts here */
+
+/* Background color for body */
+@body-background-color: hsl(220, 9%, 94%);
+
+/* Basic gamma */
+@lightest-color1: hsl(0, 0%, 100%);
+@lighter-color1: hsl(240, 11%, 98%);
+@lighter-color2: hsl(228, 10%, 90%);
+@light-color1: hsl(225, 5%, 85%);
+@darker-color1: hsl(0, 0%, 36%);
+@darker-color2: hsl(240, 12%, 27%);
+@dark-color1: hsl(243, 48%, 9%);
+@darkest-color1: hsl(0, 0%, 0%);
+
+/* Menu underline color*/
+@central-menu-underline-color: hsl(219, 83%, 59%);
+@central-menu-underline-color-transparent: hsla(219, 83%, 59%, 0);
+
+/* Buttons type 1 */
+@buttons1-color1: hsl(36, 100%, 84%);
+@buttons1-border: hsl(225, 100%, 80%);
+@buttons1-color2: hsl(36, 100%, 60%);
+@buttons1-color3: hsl(225, 100%, 35%);
+
+/* Tags subtype container */
+@tags-subtype-container-border-color: hsl(36, 100%, 84%);
+@tags-subtype-container-background-color: hsl(38, 38%, 92%);
+
+/* Sandbox background */
+@sandbox-background-color: hsl(36, 100%, 84%);
+
+/* Search background */
+@search-background-color: hsl(199, 74%, 79%);
+
+/* Search borders */
+@search-border-color: hsl(195, 56%, 62%);
+
+/* Total texts count color */
+@total-texts-count-color: hsl(0, 100%, 30%);
+
+/* Short text info */
+@short-text-info-background: hsl(87, 89%, 93%);
+@short-text-info-border: hsl(87, 89%, 80%);
+
+/* Categories */
+@contest-color: hsl(63, 99%, 47%);
+@snuff-color: hsl(1, 74%, 88%);
+@sanbox-color: hsl(0, 0%, 78%);
+
+/* Text links color in text blocks */
+@text-blocks-link-color: hsl(17, 36%, 24%);
+
+/*  Color for "for" votes */
+@votes-for-font-color: hsl(120, 100%, 25%);
+
+/* Show text long info button */
+@show-text-long-info-button-background-color: hsl(207, 90%, 54%);
+@show-text-long-info-button-background-color-hover: hsl(207, 90%, 44%);
+
+/* Popups */
+@popup-lower-background-color: hsla(0, 0%, 10%, 0.8);
+
+/* Long text info */
+@long-text-info-popup-background-color: hsl(87, 89%, 93%);
+@long-text-info-popup-border-color: hsl(87, 100%, 80%);
+
+/* Alert colors */
+@brightest-alert-color: hsl(10, 100%, 50%);
+
+/* Category block */
+@category-block-background-color: hsl(199, 74%, 79%);
+
+/* Variables ends here */
+
+/* Fonts */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  src: url(../fonts/opensans.woff2) format('woff2');
+}
+
+/* Body */
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: @body-background-color;
+}
+
+/* Body container */
+.body-container {
+  max-width: 100rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Header stuff start */
+
+/* Header */
+.header {
+  padding: 1rem 2rem;
+  background: @lightest-color1;
+  box-shadow: 0 0.1rem 0 0 @light-color1, 0 0 0 0.1rem @lighter-color2;
+}
+
+/* Container with header content */
+.header-container {
+  flex-wrap: wrap;
+  justify-content: space-around;
+  column-gap: 10rem;
+  row-gap: 2rem;
+}
+
+/* Header stuff end */
+
+/* Footer stuff start */
+
+/* Footer */
+.footer {
+  background: @lighter-color1;
+  box-shadow: 0 0.1rem 0 0 @light-color1, 0 0 0 0.1rem @lighter-color2;
+  padding-top: 5rem;
+  padding-bottom: 1rem;
+  color: @darker-color2;
+}
+
+/* Footer container */
+.footer-container {
+  flex-wrap: wrap;
+  column-gap: 10rem;
+  row-gap: 2rem;
+}
+
+/* Footer info column */
+.footer-info-column {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 20rem;
+}
+
+/* Footer useful column */
+.footer-useful-column {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 20rem;
+}
+
+/* Footer developers column */
+.footer-developers-column {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 20rem;
+}
+
+/* Footer friends column */
+.footer-friends-column {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 20rem;
+}
+
+/* Footer partners column */
+.footer-partners-column {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 20rem;
+}
+
+/* Footer columns top texts */
+.footer-column-header {
+  font-weight: bold;
+  color: @dark-color1;
+}
+
+/* Footer text block */
+.footer-block {
+  line-height: 1.2rem;
+  display: block;
+  margin-top: 1rem;
+}
+
+/* Footer site logo */
+.footer-site-logo {
+  height: 2rem;
+}
+
+/* Footer icon gapped flex*/
+.footer-icons-gapped-flex {
+  column-gap: 0.5rem;
+}
+
+/* Footer stuff ends here */
+
+/* Version info */
+.version-info {
+  color: @darker-color2;
+  background-color: @lighter-color1;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* Sources link */
+.sources-link {
+  color: @darker-color2;
+  background-color: @lighter-color1;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* Centered text */
+.centered {
+  text-align: center;
+}
+
+/* Loading symbol */
+.loading-symbol {
+  text-align: center;
+}
+
+/* Loading symbol image */
+.loading-symbol-image {
+  width: 1.0rem;
+  height: 1.0rem;
+}
+
+/* Horizontal flex */
+.horizontal-flex {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Vertical flex */
+.vertical-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Flex (centered) */
+.flex-center {
+  justify-content: center;
+}
+
+/* Flex - space between */
+.flex-space-between
+{
+  justify-content: space-between;
+}
+
+/* Flex - cross axis central align */
+.flex-cross-center {
+  align-items: center;
+}
+
+/* Telegram group logo */
+.telegram-group-logo {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Bold text */
+.bold {
+  font-weight: bold;
+}
+
+/* Remove text decoration */
+.remove-text-decoration {
+  text-decoration: none;
+}
+
+/* Convert element into inline-block */
+.inline-block {
+  display: inline-block;
+}
+
+/* Vertical alignment - center */
+.vertical-align-center {
+  vertical-align: middle;
+}
+
+/* Vertical alignment - text-bottom */
+.vertical-align-text-bottom {
+  vertical-align: text-bottom;
+}
+
+/* Dark-colored text */
+.dark-text {
+  color: @dark-color1;
+}
+
+/* Apply this to a span with, for example, comma to get a "comma, followed by space" effect */
+.spacer {
+  display: inline-block;
+}
+
+.spacer::after {
+  content: " ";
+  white-space: pre;
+}
+
+/* Looks like a link */
+.underlined-pseudolink {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Transparent button (put image on it) */
+.button-with-image {
+  /* For vertical centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  background-color: inherit;
+
+  margin: 0;
+  padding: 0;
+}
+
+/* UL tag with better than default margins */
+.ul-with-better-margins {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* Vertical align via flex */
+.vertical-align-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Black link without underline */
+.black-link-without-underline {
+  color: @darkest-color1;
+
+  text-decoration: none;
+}
+
+.black-link-without-underline:hover
+{
+  text-decoration: underline;
+}
+
+/* Menu stuff starts here */
+
+/* Central menu item */
+.central-menu-link {
+  color: @darkest-color1;
+  text-decoration: none;
+  font-weight: bold;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  display: inline-block;
+  border-bottom: 0.2rem solid @central-menu-underline-color-transparent; /* To avoid shift up on hover */
+}
+
+/* Central menu item (hovered) */
+.central-menu-link:hover {
+  border-bottom: 0.2rem solid @central-menu-underline-color;
+}
+
+/* Central menu item without hoverability */
+.central-menu-link-nohover {
+  color: @darkest-color1;
+  text-decoration: none;
+  font-weight: bold;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  display: inline-block;
+}
+
+/* Right menu item */
+.right-menu-item {
+  display: inline-block;
+  vertical-align: middle;
+  color: @darkest-color1;
+  text-decoration: none;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+/* Right menu item - no image */
+.right-menu-item.right-menu-item-no-image {
+  vertical-align: text-bottom;
+}
+
+/* Menu stuff ends here */
+
+/* Top button */
+.top-button {
+  display: inline-block;
+  border: 0.2rem solid @buttons1-color1;
+  border-radius: 3rem;
+  text-decoration: none;
+  width: 20rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  color: @darkest-color1;
+  cursor: pointer;
+}
+
+/* Top button with small text */
+.top-button.top-button-with-small-text {
+  padding-bottom: 0;
+}
+
+/* Hovered top button */
+.top-button:hover {
+  background-color: @buttons1-color1;
+}
+
+/* Optional small text on top button */
+.top-button-small-text {
+  font-size: 0.7rem;
+  color: @darker-color1;
+}
+
+/* Container for top buttons */
+.top-buttons-container {
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Search stuff starts here */
+
+/* Search as a whole */
+.search {
+  background-color: @search-background-color;
+  border: 0.1rem solid @search-border-color;
+  border-radius: 0.2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Search controls live here*/
+.search-container {
+  gap: 0.5rem;
+}
+
+/* Search text is being entered here */
+.search-text-area {
+  flex: 99%;
+  font-size: inherit;
+  border: 0.1rem solid @search-border-color;
+  border-radius: 0.2rem;
+}
+
+/* Search button */
+.search-button {
+  flex: 1%;
+  font-size: inherit;
+  border: 0.1rem solid @search-border-color;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
+/* Search stuff ends here */
+
+/* Texts statistics starts here */
+
+/* Statistics as a whole */
+.texts-statistics {
+  background-color: @lightest-color1;
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Total amount of texts */
+.texts-statistics-total-texts {
+  color: @total-texts-count-color;
+}
+
+/* Texts statistics ends here */
+
+/* Logo and texts container */
+.logo-and-texts-container {
+  flex-wrap: wrap;
+  justify-content: space-around;
+  column-gap: 1rem;
+  row-gap: 2rem;
+}
+
+/* Main logo container */
+.main-logo-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Class for main logo iamge */
+.main-logo-image {
+  width: 37rem;
+  max-width: 90vw;
+}
+
+/* Class for texts short infos switch */
+.texts-short-infos-buttons-container {
+  justify-content: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  column-gap: 1rem;
+}
+
+/* Button for switching short texts infos display mode */
+.texts-short-infos-button {
+  border: 0.2rem solid @buttons1-border;
+  border-radius: 1rem;
+  background: @buttons1-color1;
+  width: 10rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.texts-short-infos-button:hover {
+  background: @buttons1-color2;
+  border: 0.2rem solid @buttons1-color3;
+}
+
+/* Button for switching short texts infos display mode - active */
+.texts-short-infos-button-active {
+  background: @buttons1-color2;
+  border: 0.2rem solid @buttons1-color3;
+  border-radius: 1rem;
+  width: 10rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  font-size: 1.1rem;
+}
+
+/* Texts short info stuff starts here */
+
+/* Text short infos are live here */
+.texts-short-info-blocks-container {
+  flex: 1%;
+}
+
+/* Text short info block */
+.text-short-info-block {
+  background-color: @short-text-info-background;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border: 0.1rem solid @short-text-info-border;
+  border-radius: 0.2rem;
+  min-width: 20rem;
+}
+
+/* Text from contest */
+.text-short-info-block.text-short-info-block-contest {
+  border: 0.25rem solid @contest-color;
+}
+
+/* Snuff text */
+.text-short-info-block.text-short-info-block-snuff {
+  border: 0.25rem solid @snuff-color;
+}
+
+/* Poor-quality text */
+.text-short-info-block.text-short-info-block-sandbox {
+  border: 0.25rem solid @sanbox-color;
+}
+
+/* Text short info title line */
+.text-short-info-block-title-line {
+  font-size: 1.1rem;
+  justify-content: space-between;
+}
+
+/* Text short info - text link */
+.text-short-info-text-link {
+  color: @text-blocks-link-color;
+  text-decoration: none;
+}
+
+.text-short-info-text-link:hover {
+  text-decoration: underline;
+}
+
+/* Text short info - statistics line */
+.text-short-info-block-statistics-line {
+}
+
+/* Images in statistics line*/
+.text-short-info-block-statistics-line-images {
+  width: 16px;
+  height: 16px;
+  margin-bottom: -2px;
+}
+
+/* Comments link (for case when there are comments) */
+.text-short-info-block-comments-link {
+  color: @darkest-color1;
+}
+
+/* Votes for text */
+.text-short-info-block-votes-for {
+  color: @votes-for-font-color;
+}
+
+/* Text short info - type and tags line */
+.text-short-info-block-type-and-tags-line {
+}
+
+/* Category tag */
+.category-tag-link {
+  color: @darkest-color1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.category-tag-link:hover
+{
+  text-decoration: underline;
+}
+
+/* Texts short info ends here */
+
+/* Link in small tag */
+.small-tag-link {
+  color: @darkest-color1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.small-tag-link:hover {
+  text-decoration: underline;
+}
+
+/* Text icon (small) */
+.small-text-icon {
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
+}
+
+/* Container with short texts infos starts here */
+
+/* Arrows in container with short texts infos */
+.texts-short-infos-container-arrows-buttons {
+  border: 0.2rem solid @buttons1-border;
+  border-radius: 1rem;
+  background: @buttons1-color1;
+  width: 6rem;
+  cursor: pointer;
+}
+
+.texts-short-infos-container-arrows-buttons:hover {
+  background: @buttons1-color2;
+  border: 0.2rem solid @buttons1-color3;
+}
+
+/* Icons on arrows buttons*/
+.texts-short-infos-container-arrows-buttons-images {
+  width: 1rem;
+}
+
+/* Container with short texts infos ends here */
+
+/* Long text info stuff starts here */
+
+/* Button for showing text long info */
+.text-long-info-button {
+  background-color: @show-text-long-info-button-background-color;
+  color: @lightest-color1;
+  font-size: 0.85rem;
+  border: 0 none;
+  border-radius: 0.2rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  cursor: pointer;
+}
+
+.text-long-info-button:hover {
+  background-color: @show-text-long-info-button-background-color-hover;
+}
+
+/* Text long info block */
+.text-long-info-block {
+  line-height: 1.5rem;
+}
+
+/* Text long info title line */
+.text-long-info-block-title-line {
+  font-size: 1.1rem;
+}
+
+/* Text long info - text link */
+.text-long-info-text-link {
+  color: @text-blocks-link-color;
+  text-decoration: none;
+}
+
+.text-long-info-text-link:hover {
+  text-decoration: underline;
+}
+
+/* Text long info - statistics line */
+.text-long-info-block-statistics-line {
+}
+
+/* Images in statistics line*/
+.text-long-info-block-statistics-line-images {
+  width: 16px;
+  height: 16px;
+  margin-bottom: -2px;
+}
+
+/* Comments link (for case when there are comments) */
+.text-long-info-block-comments-link {
+  color: @darkest-color1;
+}
+
+/* Votes for text */
+.text-long-info-block-votes-for {
+  color: @votes-for-font-color;
+}
+
+/* Text long info - publisher line */
+.text-long-info-block-publisher-line {
+}
+
+/* Text long info - description */
+.text-long-info-block-description {
+}
+
+/* Text long info - type and tags line */
+.text-long-info-block-type-and-tags-line {
+}
+
+/* Long text info stuff ends here */
+
+/* Popup upper layer */
+.long-text-info-popup-upper-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+}
+
+/* Popup lower layer */
+.long-text-info-popup-lower-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background: @popup-lower-background-color;
+}
+
+/* Popup itself */
+.long-text-info-popup {
+  background: @long-text-info-popup-background-color;
+  border: 0.2rem solid @long-text-info-popup-border-color;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  min-width: 60vw;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Popup close button */
+.long-text-info-popup-close-button {
+  background: transparent;
+  border: 0 none @lightest-color1;
+  position: absolute;
+  right: 0.3rem;
+  top: 0.5rem;
+}
+
+/* Popup close button image */
+.long-text-info-popup-close-button-image {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Donate to Redgerra stuff starts here */
+
+/* Donate to Redgerra block */
+.donate-to-redgerra {
+  background: @lightest-color1;
+  border-radius: 0.2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 1rem;
+  border: 0.2rem solid @light-color1;
+}
+
+/* Donate to Redgerra - avatar */
+.donate-to-redgerra-avatar {
+  width: 3rem;
+  border-radius: 1.5rem;
+  vertical-align: middle;
+}
+
+/* Donate to Redgerra - details button */
+.donate-to-redgerra-button {
+  color: @lightest-color1;
+  background: @brightest-alert-color;
+  border: 0 solid;
+  border-radius: 0.2rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  cursor: pointer;
+}
+
+/* Donate to Redgerra stuff ends here */
+
+/* Categories and tags starts here */
+
+/* Container for tags and categories */
+.categories-and-tags-contaner {
+  justify-content: space-between;
+  margin-top: 1rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Title for categories and tags */
+.categories-and-tags-title {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* Categories are here */
+.categories-container {
+  flex: auto;
+}
+
+/* Tags are here */
+.tags-container {
+  flex: 60%;
+}
+
+/* Tags are grouped in subtypes, this is container with one subtype */
+.tags-subtype-container {
+  background-color: @tags-subtype-container-background-color;
+  border: 0.1rem solid @tags-subtype-container-border-color;
+  border-radius: 0.2rem;
+
+  margin-bottom: 0.2rem;
+
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+/* One category */
+.category-block {
+  background-color: @category-block-background-color;
+  margin-bottom: 0.2rem;
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+/* Link in category block */
+.category-link {
+  color: @darkest-color1;
+}
+
+/* Special categories markers */
+.special-category-marker {
+  display: inline-block;
+  float: right;
+}
+
+
+/* Color marker for special categories */
+.category-color-marker {
+  width: 1.0rem;
+  height: 1.0rem;
+  margin-bottom: -0.1rem;
+  border-radius: 0.2rem;
+  display: inline-block;
+}
+
+/* Color marker for snuff category */
+.category-color-marker.category-color-marker-snuff {
+  background: @snuff-color;
+}
+
+/* Color marker for sandbox category */
+.category-color-marker.category-color-marker-sandbox {
+  background: @sanbox-color;
+}
+
+/* Color marker for constest category */
+.category-color-marker.category-color-marker-contest {
+  background: @contest-color;
+}
+
+/* Sandbox category text description */
+.sandbox-category-text-description {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  background: @sandbox-background-color;
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+/* Tags size classes starts here */
+
+.tag-size-class0 {
+  color: hsl(325, 70%, 4%);
+  font-size: 0.8rem;
+}
+
+.tag-size-class1 {
+  color: hsl(325, 70%, 5.5%);
+  font-size: 0.85rem;
+}
+
+.tag-size-class2 {
+  color: hsl(325, 70%, 7%);
+  font-size: 0.9rem;
+}
+
+.tag-size-class3 {
+  color: hsl(325, 70%, 10.5%);
+  font-size: 0.95rem;
+}
+
+.tag-size-class4 {
+  color: hsl(325, 70%, 14%);
+  font-size: 1.0rem;
+}
+
+.tag-size-class5 {
+  color: hsl(325, 70%, 15.5%);
+  font-size: 1.05rem;
+}
+
+.tag-size-class6 {
+  color: hsl(325, 70%, 17%);
+  font-size: 1.1rem;
+}
+
+.tag-size-class7 {
+  color: hsl(325, 70%, 19%);
+  font-size: 1.15rem;
+}
+
+.tag-size-class8 {
+  color: hsl(325, 70%, 21%);
+  font-size: 1.2rem;
+}
+
+.tag-size-class9 {
+  color: hsl(325, 70%, 26.5%);
+  font-size: 1.25rem;
+}
+
+.tag-size-class10 {
+  color: hsl(325, 70%, 32%);
+  font-size: 1.3rem;
+}
+
+.tag-size-class11 {
+  color: hsl(325, 70%, 43%);
+  font-size: 1.35rem;
+}
+
+.tag-size-class12 {
+  color: hsl(325, 70%, 54%);
+  font-size: 1.4rem;
+}
+
+.tag-size-class13 {
+  color: hsl(325, 70%, 60%);
+  font-size: 1.45rem;
+}
+
+/* Tags size classes ends here */
+
+/* Categories and tags ends here */
+
+/* Read text page stuff starts here */
+
+/* Read text author / translator / publisher info container */
+.read-text-author-publisher-translator-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+/* Text title */
+.read-text-title {
+  text-align: center;
+  font-size: 2.0rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Text categories container */
+.read-text-categories-container {
+  column-gap: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Text tags container */
+.read-text-tags-container {
+  column-gap: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Link in hashed tag */
+.hashed-tag-link {
+  color: @darkest-color1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hashed-tag-link:hover {
+  text-decoration: underline;
+}
+
+/* Text paragraph */
+.text-paragraph {
+  text-indent: 1rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* Text, justified by width */
+.text-justify-width {
+  text-align: justify;
+}
+
+/* Centrally aligned text */
+.text-align-center {
+  text-align: center;
+}
+
+/* Left-aligned-text */
+.text-align-left {
+  text-align: left;
+}
+
+/* Right-aligned-text */
+.text-align-right {
+  text-align: right;
+}
+
+/* Text quote */
+.text-quote {
+  font-family: monospace;
+  font-size: 1.1rem;
+  padding: 2rem;
+  background-color: @lightest-color1;
+  color: @darkest-color1
+}
+
+/* ASCII art in text */
+.text-ascii-art {
+  line-height: 0;
+}
+
+/* Preview of image, embedded in text */
+.text-image-preview {
+  max-width: 10rem;
+  max-height: 10rem;
+  border-radius: 0.5rem;
+}
+
+/* Comics image container */
+.comics-image-container {
+  text-align: center;
+  text-indent: 0;
+}
+
+/* Comics image */
+.comics-image {
+  border-radius: 0.5rem;
+  max-width: 95vw;
+  cursor: pointer;
+}
+
+
+/* Container for rendered text files download component (right-aligned) */
+.read-text-download-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  margin-bottom: 1.5rem;
+}
+
+/* Rendered text files download component */
+.read-text-download {
+  background: @lightest-color1;
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.2rem;
+
+  width: min-content;
+  min-width: 7.0rem;
+
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+
+  position: relative;
+
+  height: min-content;
+}
+
+/* Caption with a word "download" for rendered text files download component */
+.read-text-download-caption {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+  text-align: right;
+  width: 100%;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.5rem;
+}
+
+/* List of rendered text files to download */
+.read-text-download-list {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+
+  padding-left: 1rem;
+}
+
+/* Read text page stuff ends here */
+
+/* Creatures info container stuff starts here */
+
+/* Creatures info container */
+.creatures-info-container {
+  background: @lightest-color1;
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.2rem;
+
+  min-width: 17.0rem;
+
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+
+  position: relative;
+
+  height: min-content;
+}
+
+/* Creatures links */
+.creatures-info-link {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: @darkest-color1;
+}
+
+/* List with creatures */
+.creatures-info-creatures-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+/* Style for creatures role */
+.creatures-info-creatures-role {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+  text-align: right;
+  width: 100%;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.5rem;
+}
+
+/* Creatures info container stuff ends here */
+
+/* Invisible elements */
+.invisible {
+  opacity: 0;
+}
+
+/* Visible elements */
+.visible {
+  opacity: 1;
+}
+
+/* Full size image popup begin */
+
+/* Full size image popup upper layer */
+.full-size-image-popup-upper-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+}
+
+/* Full size image popup lower layer */
+.full-size-image-popup-lower-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background: @popup-lower-background-color;
+}
+
+/* Full size image - popup itself */
+.full-size-image-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: auto;
+}
+
+/* Image in full size image popup */
+.full-size-image-popup-image {
+  border-radius: 0.5rem;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+/* Full size image popup close button */
+.full-size-image-popup-close-button {
+  background: transparent;
+  border: 0 none hsl(0, 100%, 100%);
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
+/* Full size image popup close button image */
+.full-size-image-popup-close-button-image {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Full size image popup end */
+
+
+/* Illustrations container begin */
+
+/* Illustrations container itself */
+.illustrations-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Text illustration preview */
+.illustration-preview {
+  max-width: 10rem;
+  max-height: 10rem;
+  border-radius: 0.5rem;
+}
+
+/* All illustrations title */
+.all-illustrations-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Illustrations container end*/
+
+
+/* Read text pagination begin */
+
+/* Pagination container */
+.read-text-pagination-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Pagination go to page flex container */
+.read-text-pagination-go-to-page-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+/* Pagination go to page input field */
+.read-text-pagination-go-to-page-input {
+  width: 3.5rem;
+  text-align: center;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border: 0.1rem solid @light-color1;
+  font-size: 1.5rem;
+  line-height: 3rem;
+  vertical-align: middle;
+}
+
+/* Validation error */
+.read-text-pagination-go-to-page-input.read-text-pagination-go-to-page-input-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Pagination go to page button */
+.read-text-pagination-go-to-page-button {
+  text-align: center;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border: 0.1rem solid @light-color1;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  line-height: 3rem;
+  vertical-align: middle;
+}
+
+/* Pagination pages flex container */
+.read-text-pagination-pages-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+/* Base class for pagination pages */
+.read-text-pagination-page-base {
+  min-width: 3.5rem;
+  text-align: center;
+  border: 0.1rem solid @light-color1;
+  font-size: 1.5rem;
+  line-height: 3rem;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Base class for active pages */
+.read-text-pagination-page-base.read-text-pagination-page-base-active {
+  background: hsl(357, 85%, 33%);
+  color: @lightest-color1;
+  font-weight: bold;
+  cursor: unset;
+}
+
+/* First page pseudobutton */
+.read-text-pagination-page-base.read-text-pagination-first-page {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+/* Page pseudobutton */
+.read-text-pagination-page-base.read-text-pagination-page {
+
+}
+
+/* Last page pseudobutton */
+.read-text-pagination-page-base.read-text-pagination-last-page {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+/* Interpages gap */
+.read-text-pagination-interpages-gap {
+  background: @darkest-color1;
+  width: 0.2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+/* Read text pagination end */
+
+/* Login-related stuff begins here */
+
+/* Container for login form */
+.login-form-container {
+  background: @lightest-color1;
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.5rem;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 1rem;
+
+  width: 90vw;
+
+  max-width: 30rem;
+  height: min-content;
+}
+
+/* Login form title */
+.login-form-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Incorrect login credentials message */
+.login-form-incorrect-credentials {
+  color: hsl(0, 100%, 56%);
+  font-weight: bold;
+}
+
+/* Text fields in login form */
+.login-form-text-field {
+  border-radius: 0.5rem;
+
+  height: 3rem;
+  font-size: 1.5rem;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Text field in login form, which didn't pass validation*/
+.login-form-text-field-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Container for remember me checkbox */
+.login-remember-me-container {
+  margin-bottom: 0.5rem;
+}
+
+/* Log in button */
+.login-button {
+  height: 3rem;
+  width: 100%;
+
+  font-size: 1.5rem;
+}
+
+/* Container for small links at the bottom of login form */
+.login-bottom-links-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Small link at the bottom of the login form */
+.login-bottom-link {
+  font-size: 0.8rem;
+  color: @darker-color2;
+
+  text-decoration: none;
+}
+
+.login-bottom-link:hover {
+  text-decoration: underline;
+}
+
+/* Login-related stuff ends here */
+
+/* Registration-related stuff begins here */
+
+/* Container for registration form */
+.registration-form-container {
+  background: @lightest-color1;
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.5rem;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 1rem;
+
+  width: 90vw;
+
+  max-width: 30rem;
+  height: min-content;
+}
+
+/* Registration form title */
+.registration-form-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Text fields in registration form */
+.registration-form-text-field {
+  border-radius: 0.5rem;
+
+  height: 3rem;
+  font-size: 1.5rem;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Text field in registration form, which didn't pass validation*/
+.registration-form-text-field-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Registration button */
+.registration-button {
+  height: 3rem;
+  width: 100%;
+
+  font-size: 1.5rem;
+}
+
+/* Container for small links at the bottom of registration form */
+.registration-bottom-links-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Small link at the bottom of the registration form */
+.registration-bottom-link {
+  font-size: 0.8rem;
+  color: @darker-color2;
+
+  text-decoration: none;
+}
+
+.registration-bottom-link:hover {
+  text-decoration: underline;
+}
+
+/* Explaination about "Login can't be changed" and (potentially) other small texts */
+.registration-small-gray-text {
+  font-size: 0.8rem;
+  color: @darker-color2;
+}
+
+/* Login title lives here */
+.registration-login-title-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+/* Login is taken message */
+.registration-login-taken-message {
+  color: hsl(0, 100%, 56%);
+  font-weight: bold;
+}
+
+/* Registration-related stuff ends here */
+
+/* Avatars stuff begins here */
+
+/* Small avatar */
+.avatar-small {
+  width: 3rem;
+  border-radius: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Big avatar */
+.avatar-big {
+  width: 10rem;
+  border-radius: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Avatars stuff ends here */
+
+/* Profile stuff begins here */
+
+/* Top level container for profile*/
+.profile-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Container for profile buttons */
+.profile-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Container for profile content */
+.profile-content-container {
+  background-color: @lightest-color1;
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.2rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  width: 80rem;
+  max-width: 95vw;
+
+  height: min-content;
+}
+
+/* Profile part button (active) */
+.profile-part-button-active {
+  display: inline-block;
+  border: 0.2rem solid @buttons1-border;
+  border-radius: 1rem;
+  background: @buttons1-color1;
+  width: 15rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  color: @darkest-color1;
+  cursor: pointer;
+}
+
+/* Hovered profile part button (active) */
+.profile-part-button-active:hover {
+  background: @buttons1-color2;
+  border: 0.2rem solid @buttons1-color3;
+}
+
+/* Profile part button for current page (inactive) */
+.profile-part-button-current {
+  display: inline-block;
+  background: @buttons1-color2;
+  border: 0.2rem solid @buttons1-color3;
+  border-radius: 1rem;
+  width: 15rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: @buttons1-color3;
+}
+
+/* Creature name in profile main part (show mode)*/
+.profile-main-part-creature-name-show {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* Creature name in profile main part (edit mode)*/
+.profile-main-part-creature-name-edit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  font-size: 2rem;
+  text-align: center;
+
+  margin-bottom: 1rem;
+}
+
+/* Input for creature renaming */
+.profile-main-part-creature-rename-input {
+  font-size: 2rem;
+  line-height: 3rem;
+
+  border-radius: 0.5rem;
+
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profile-main-part-creature-rename-input.profile-main-part-creature-rename-input-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Avatar container in profile main part (show about info) */
+.profile-main-part-avatar-container-show-about {
+  float: left;
+  padding-right: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Avatar container in profile main part (edit about info) */
+.profile-main-part-avatar-container-edit-about {
+}
+
+/* Profile main part about info container (outer, paddingless) */
+.profile-main-part-about-outer-container {
+  border: 0.1rem solid @lighter-color1;
+  border-radius: 0.5rem;
+
+  overflow: hidden;
+}
+
+/* Profile main part about info container (inner, with padding) */
+.profile-main-part-about-inner-container {
+  padding-top: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Small text "About yourself" and edit button inside */
+.profile-main-part-about-caption {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+
+  text-align: right;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  padding-bottom: 0.3rem;
+}
+
+/* Container with avatar and textarea to show when editing about info*/
+.profile-main-part-edit-about-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+/* Textarea with about info to edit */
+.profile-main-part-edit-about-textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* OK and Cancel buttons container (outer) for about info editing */
+.profile-main-part-about-edit-buttons-outer-container {
+  text-align: right;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  margin-top: 0.3rem;
+}
+
+/* OK and Cancel buttons for about info editing live here */
+.profile-main-part-about-edit-buttons-bordered-inner-container {
+  border-top: 0.1rem solid @light-color1;
+  border-left: 0.1rem solid @light-color1;
+  border-top-left-radius: 0.5rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  padding: 0.5rem;
+}
+
+/* Container with avatars in profile avatars part */
+.profile-avatars-part-avatars-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  padding-bottom: 1rem;
+}
+
+/* Container with one avatar in profile avatars part */
+.profile-avatars-part-avatar-container {
+  background: hsl(0, 0%, 93%);
+  border: 0.1rem solid @light-color1;
+  border-radius: 1rem;
+
+  text-align: center;
+
+  width: min-content;
+  height: min-content;
+
+  padding: 0.5rem;
+}
+
+.profile-avatars-part-avatar-container.profile-avatars-part-avatar-container-selected {
+  background: hsl(36, 100%, 60%);
+
+  color: hsl(225, 100%, 35%);
+}
+
+/* Avatar selection component icons container */
+.avatar-selection-component-icons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  gap: 1rem;
+
+  padding-top: 0.5rem;
+}
+
+/* Div with rename avatar controls */
+.avatar-selection-component-rename-avatar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Input for avatar renaming */
+.avatar-selection-component-rename-input {
+  width: 7.2rem;
+
+  margin-right: 0.2rem;
+}
+
+.avatar-selection-component-rename-input.avatar-selection-component-rename-input-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* "Upload new avatar" container */
+.profile-avatars-part-upload-new-avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+/* Div with "upload new avatar" block */
+.profile-avatars-part-upload-new-avatar {
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.5rem;
+
+  width: 20rem;
+
+  padding: 0.5rem;
+}
+
+/* "Upload new avatar" small text */
+.profile-avatars-part-upload-new-avatar-caption {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+  text-align: right;
+
+  margin-bottom: 0.5rem;
+}
+
+/* New avatar name form group */
+.profile-avatars-part-upload-new-avatar-name-form-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  gap: 0.5rem;
+
+  margin-bottom: 0.5rem;
+}
+
+/* Input with new avatar name */
+.profile-avatars-part-upload-new-avatar-name {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* New avatar file form group */
+.profile-avatars-part-upload-new-avatar-file-form-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  gap: 0.5rem;
+
+  margin-bottom: 0.5rem;
+}
+
+/* Input with new avatar file */
+.profile-avatars-part-upload-new-avatar-file {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* New avatar submit button form group */
+.profile-avatars-part-upload-new-avatar-upload-form-group {
+  text-align: right;
+}
+
+/* Information about creature's login is here */
+.profile-security-part-login-container {
+  margin-bottom: 0.5rem;
+}
+
+/* Comment to login (it says "login can't be changed") */
+.profile-security-part-login-comment {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+}
+
+/* Information about creature's password is here */
+.profile-security-part-password-container {
+  margin-bottom: 0.5rem;
+}
+
+/* Password change form lives here (outer, paddingless) */
+.profile-security-part-change-password-outer-container {
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.5rem;
+
+  overflow: hidden;
+}
+
+/* Password change form lives here (inner, with padding) */
+.profile-security-part-change-password-inner-container {
+  padding-top: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Small text "Change password" */
+.profile-security-part-change-password-caption {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+
+  text-align: right;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  padding-bottom: 0.3rem;
+}
+
+/* Table cell for old password */
+.profile-security-part-change-password-old-password-table-cell {
+  width: 100%;
+}
+
+/* Input for old password */
+.profile-security-part-change-password-old-password-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profile-security-part-change-password-old-password-input.profile-security-part-change-password-old-password-input-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Table cell for new password */
+.profile-security-part-change-password-new-password-table-cell {
+  width: 100%;
+}
+
+/* Input for new password */
+.profile-security-part-change-password-new-password-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profile-security-part-change-password-new-password-input.profile-security-part-change-password-new-password-input-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Table cell for new password confirmation */
+.profile-security-part-change-password-new-password-confirmation-table-cell {
+  width: 100%;
+}
+
+/* Input for new password confirmation */
+.profile-security-part-change-password-new-password-confirmation-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profile-security-part-change-password-new-password-confirmation-input.profile-security-part-change-password-new-password-confirmation-input-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Information about failed password change */
+.profile-security-part-change-password-change-failed-info {
+  color: hsl(0, 100%, 56%);
+  font-weight: bold;
+}
+
+/* OK and Cancel buttons container (outer) for password change */
+.profile-security-part-change-password-buttons-outer-container {
+  text-align: right;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  margin-top: 0.3rem;
+}
+
+/* OK and Cancel buttons for password change live here */
+.profile-security-part-change-password-buttons-inner-container {
+  border-top: 0.1rem solid @light-color1;
+  border-left: 0.1rem solid @light-color1;
+  border-top-left-radius: 0.5rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  padding: 0.5rem;
+}
+
+/* Information about creature's email is here */
+.profile-security-part-email-container {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.5rem;
+}
+
+/* Show email container */
+.profile-security-part-email-show-container {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.5rem;
+}
+
+/* Edit email container */
+.profile-security-part-email-edit-container {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Input for email change */
+.profile-security-part-email-edit-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profile-security-part-email-edit-input.profile-security-part-email-edit-input-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+
+/* Container with warning about "email not confirmed" */
+.profile-security-part-email-not-confirmed-warning-container {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.5rem;
+}
+
+/* Warning about "email not confirmed" */
+.profile-security-part-email-not-confirmed-warning {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.3rem;
+
+  color: hsl(0, 100%, 56%);
+  font-weight: bold;
+}
+
+/* Profile stuff ends here */
+
+/* Popups stuff starts here */
+
+/* Popup lower layer */
+.popup-lower-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background: @popup-lower-background-color;
+}
+
+/* Popup upper layer */
+.popup-upper-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+}
+
+/* Popup itself */
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: auto;
+}
+
+/* Container for popup content */
+.popup-content-container {
+  background: @lightest-color1;
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.5rem;
+
+  padding: 1rem;
+
+  width: 90vw;
+  max-width: 30rem;
+
+  height: min-content;
+}
+
+/* Popup title */
+.popup-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+}
+
+/* Popup buttons container */
+.popup-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding-top: 1rem;
+}
+
+/* Popup button(s) */
+.popup-button {
+  font-size: 1.5rem;
+
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+
+  border: 0.1rem solid @light-color1;
+  border-radius: 0.5rem;
+}
+
+.popup-button:hover {
+  background: hsl(357, 85%, 33%);
+  color: @lightest-color1;
+}
+
+/* Popups stuff ends here */
+
+/* Icons stuff starts here */
+
+/* Small icon */
+.small-icon {
+  width: 1rem;
+}
+
+/* Icons stuff ends here */
