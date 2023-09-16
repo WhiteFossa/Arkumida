@@ -23,6 +23,8 @@
 /* Borders */
 /* Fonts */
 /* Gaps */
+/* Margins */
+/* Paddings */
 /* Variables end here */
 /* Mixins start here */
 /* Footer column base */
@@ -110,6 +112,37 @@
   box-sizing: border-box;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
+}
+/* Categories color marker base */
+.mixin-category-base {
+  width: 1rem;
+  height: 1rem;
+  margin-bottom: -0.1rem;
+  border-radius: 0.2rem;
+  display: inline-block;
+}
+/* Container for group lower buttons (OK, Cancel etc...) (outer) */
+.mixin-group-buttons-outer-container {
+  text-align: right;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+/* Container for group lower buttons (OK, Cancel etc...) (inner) */
+.mixin-group-buttons-inner-container {
+  border-top: 0.1rem solid hsl(225, 5%, 85%);
+  border-left: 0.1rem solid hsl(225, 5%, 85%);
+  border-top-left-radius: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  padding: 0.5rem;
 }
 /* Mixins end here */
 /* Fonts */
@@ -519,10 +552,7 @@ body {
   background-color: hsl(87, 89%, 93%);
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding: 0.5rem;
   border: 0.1rem solid hsl(87, 89%, 80%);
   border-radius: 0.2rem;
   min-width: 20rem;
@@ -716,10 +746,7 @@ body {
 .donate-to-redgerra {
   background: hsl(0, 0%, 100%);
   border-radius: 0.2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 1rem;
   margin-top: 1rem;
   border: 0.2rem solid hsl(225, 5%, 85%);
 }
@@ -794,7 +821,7 @@ body {
   float: right;
 }
 /* Color marker for special categories */
-.category-color-marker {
+.category {
   width: 1rem;
   height: 1rem;
   margin-bottom: -0.1rem;
@@ -802,15 +829,15 @@ body {
   display: inline-block;
 }
 /* Color marker for snuff category */
-.category-color-marker.category-color-marker-snuff {
+.category.category-color-marker-snuff {
   background: hsl(1, 74%, 88%);
 }
 /* Color marker for sandbox category */
-.category-color-marker.category-color-marker-sandbox {
+.category.category-color-marker-sandbox {
   background: hsl(0, 0%, 78%);
 }
 /* Color marker for constest category */
-.category-color-marker.category-color-marker-contest {
+.category.category-color-marker-contest {
   background: hsl(63, 99%, 47%);
 }
 /* Sandbox category text description */
@@ -982,10 +1009,7 @@ body {
   border-radius: 0.2rem;
   width: min-content;
   min-width: 7rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding: 0.5rem;
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;
   position: relative;
@@ -1015,10 +1039,7 @@ body {
   border: 0.1rem solid hsl(225, 5%, 85%);
   border-radius: 0.2rem;
   min-width: 17rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding: 0.5rem;
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;
   position: relative;
@@ -1478,7 +1499,7 @@ body {
 /* Avatar container in profile main part (edit about info) */
 /* Profile main part about info container (outer, paddingless) */
 .profile-main-part-about-outer-container {
-  border: 0.1rem solid hsl(240, 11%, 98%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
   border-radius: 0.5rem;
   overflow: hidden;
 }

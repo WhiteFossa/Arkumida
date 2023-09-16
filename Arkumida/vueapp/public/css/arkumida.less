@@ -140,14 +140,33 @@
 @gap-bigger: 2rem;
 @gap-biggest: 10rem;
 
+/* Margins */
+@margin-smallest-negative: -0.1rem;
+@margin-smallest: 0.1rem;
+@margin-small1: 0.2rem;
+@margin-small2: 0.3rem;
+@margin-smaller1: 0.5rem;
+@margin-normal: 1rem;
+@margin-bigger1: 1.5rem;
+@margin-bigger2: 2rem;
+
+/* Paddings */
+@padding-smallest: 0.1rem;
+@padding-small1: 0.2rem;
+@padding-small2: 0.3rem;
+@padding-smaller1: 0.5rem;
+@padding-normal: 1rem;
+@padding-bigger1: 2rem;
+@padding-big1: 5rem;
+
 /* Variables end here */
 
 /* Mixins start here */
 
 /* Footer column base */
 .mixin-footer-column-base {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: @padding-normal;
+  padding-right: @padding-normal;
   width: 20rem;
 }
 
@@ -223,7 +242,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
-    padding: 1rem;
+    padding: @padding-normal;
 
     width: 90vw;
 
@@ -248,8 +267,44 @@
   width: 100%;
   box-sizing: border-box;
 
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  padding: @padding-smaller1;
+  margin-bottom: @margin-smaller1;
+}
+
+/* Categories color marker base */
+.mixin-category-base {
+  width: 1.0rem;
+  height: 1.0rem;
+  margin-bottom: @margin-smallest-negative;
+  border-radius: @border-radius-small;
+  display: inline-block;
+}
+
+/* Container for group lower buttons (OK, Cancel etc...) (outer) */
+.mixin-group-buttons-outer-container {
+  text-align: right;
+  width: 100%;
+
+  .mixin-flex-row-base();
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: @gap-small;
+
+  margin-top: @margin-small2;
+}
+
+/* Container for group lower buttons (OK, Cancel etc...) (inner) */
+.mixin-group-buttons-inner-container {
+  border-top: @border-thin-thickness @border-style @light-color1;
+  border-left: @border-thin-thickness @border-style @light-color1;
+  border-top-left-radius: @border-radius-normal;
+
+  .mixin-flex-row-base();
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: @gap-small;
+
+  padding: @padding-smaller1;
 }
 
 /* Mixins end here */
@@ -274,15 +329,15 @@ body {
   max-width: 100rem;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: @margin-bigger2;
+  margin-bottom: @margin-bigger2;
 }
 
 /* Header stuff start */
 
 /* Header */
 .header {
-  padding: 1rem 2rem;
+  padding: @padding-normal @padding-bigger1;
   background: @lightest-color1;
   box-shadow: 0 0.1rem 0 0 @light-color1, 0 0 0 0.1rem @lighter-color3;
 }
@@ -301,8 +356,8 @@ body {
 .footer {
   background: @lighter-color1;
   box-shadow: 0 0.1rem 0 0 @light-color1, 0 0 0 0.1rem @lighter-color3;
-  padding-top: 5rem;
-  padding-bottom: 1rem;
+  padding-top: @padding-big1;
+  padding-bottom: @padding-normal;
   color: @darker-color3;
 }
 
@@ -346,7 +401,7 @@ body {
 .footer-block {
   line-height: 1.2rem;
   display: block;
-  margin-top: 1rem;
+  margin-top: @margin-normal;
 }
 
 /* Footer site logo */
@@ -483,7 +538,7 @@ body {
 /* UL tag with better than default margins */
 .ul-with-better-margins {
   margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: @margin-smaller1;
 }
 
 /* Vertical align via flex */
@@ -507,8 +562,8 @@ body {
 .central-menu-link {
   .mixin-darkest-color1-link-without-underline-base();
   .mixin-bold-text-base();
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
   display: inline-block;
   border-bottom: @border-thick-thickness @border-style @central-menu-underline-color-transparent; /* To avoid shift up on hover */
 }
@@ -522,8 +577,8 @@ body {
 .central-menu-link-nohover {
   .mixin-darkest-color1-link-without-underline-base();
   .mixin-bold-text-base();
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
   display: inline-block;
 }
 
@@ -534,8 +589,8 @@ body {
   display: inline-block;
   vertical-align: middle;
 
-  padding-left: 0.2rem;
-  padding-right: 0.2rem;
+  padding-left: @padding-small1;
+  padding-right: @padding-small1;
 }
 
 /* Right menu item - no image */
@@ -553,8 +608,8 @@ body {
   border: @border-thick-thickness @border-style @buttons1-color1;
   border-radius: @border-radius-biggest;
   width: 20rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: @padding-normal;
+  padding-bottom: @padding-normal;
   font-size: @font-size-bigger2;
   .mixin-centered-text-base();
   cursor: pointer;
@@ -581,8 +636,8 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: @gap-normal;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: @margin-normal;
+  margin-bottom: @margin-normal;
 }
 
 /* Search stuff starts here */
@@ -592,10 +647,10 @@ body {
   background-color: @search-background-color;
   border: @border-thin-thickness @border-style @search-border-color;
   border-radius: @border-radius-small;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-top: @padding-normal;
+  padding-bottom: @padding-normal;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
 }
 
 /* Search controls live here*/
@@ -629,12 +684,12 @@ body {
   background-color: @lightest-color1;
   border: @border-thin-thickness @border-style @light-color1;
   border-radius: @border-radius-small;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
+  padding-top: @padding-normal;
+  padding-bottom: @padding-normal;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
 }
 
 /* Total amount of texts */
@@ -667,8 +722,8 @@ body {
 /* Class for texts short infos switch */
 .texts-short-infos-buttons-container {
   justify-content: center;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
   column-gap: @gap-normal;
 }
 
@@ -678,8 +733,8 @@ body {
   border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 10rem;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  padding-top: @padding-small1;
+  padding-bottom: @padding-small1;
   font-size: @font-size-bigger1;
   cursor: pointer;
 }
@@ -695,8 +750,8 @@ body {
   border: @border-thick-thickness @border-style @buttons1-color3;
   border-radius: @border-radius-bigger1;
   width: 10rem;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  padding-top: @padding-small1;
+  padding-bottom: @padding-small1;
   font-size: @font-size-bigger1;
 }
 
@@ -710,12 +765,9 @@ body {
 /* Text short info block */
 .text-short-info-block {
   background-color: @short-text-info-background;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
+  padding: @padding-smaller1;
   border: @border-thin-thickness @border-style @short-text-info-border;
   border-radius: @border-radius-small;
   min-width: 20rem;
@@ -801,8 +853,8 @@ body {
 
 /* Text icon (small) */
 .small-text-icon {
-  margin-left: 0.1rem;
-  margin-right: 0.1rem;
+  margin-left: @margin-smallest;
+  margin-right: @margin-smallest;
 }
 
 /* Container with short texts infos starts here */
@@ -837,10 +889,10 @@ body {
   font-size: @font-size-smaller2;
   border: 0 none;
   border-radius: @border-radius-small;
-  padding-top: 0.1rem;
-  padding-bottom: 0.1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-top: @padding-smallest;
+  padding-bottom: @padding-smallest;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
   cursor: pointer;
 }
 
@@ -933,10 +985,10 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 1rem;
-  padding-right: 2rem;
+  padding-top: @padding-normal;
+  padding-bottom: @padding-normal;
+  padding-left: @padding-normal;
+  padding-right: @padding-bigger1;
   min-width: 60vw;
   max-height: 80vh;
   overflow-y: auto;
@@ -963,11 +1015,8 @@ body {
 .donate-to-redgerra {
   background: @lightest-color1;
   border-radius: @border-radius-small;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-top: 1rem;
+  padding: @padding-normal;
+  margin-top: @margin-normal;
   border: @border-thick-thickness @border-style @light-color1;
 }
 
@@ -984,10 +1033,10 @@ body {
   background: @alert-color;
   border: 0 @border-style;
   border-radius: @border-radius-small;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-top: @padding-small1;
+  padding-bottom: @padding-small1;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
   cursor: pointer;
 }
 
@@ -998,7 +1047,7 @@ body {
 /* Container for tags and categories */
 .categories-and-tags-contaner {
   justify-content: space-between;
-  margin-top: 1rem;
+  margin-top: @margin-normal;
   gap: @gap-small;
   flex-wrap: wrap;
 }
@@ -1025,23 +1074,23 @@ body {
   border: @border-thin-thickness @border-style @tags-subtype-container-border-color;
   border-radius: @border-radius-small;
 
-  margin-bottom: 0.2rem;
+  margin-bottom: @margin-small1;
 
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+  padding-top: @padding-small1;
+  padding-bottom: @padding-small1;
 }
 
 /* One category */
 .category-block {
   background-color: @category-block-background-color;
-  margin-bottom: 0.2rem;
+  margin-bottom: @margin-small1;
   border-radius: @border-radius-small;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+  padding-top: @padding-small1;
+  padding-bottom: @padding-small1;
 }
 
 /* Link in category block */
@@ -1057,39 +1106,35 @@ body {
 
 
 /* Color marker for special categories */
-.category-color-marker {
-  width: 1.0rem;
-  height: 1.0rem;
-  margin-bottom: -0.1rem;
-  border-radius: @border-radius-small;
-  display: inline-block;
+.category {
+  .mixin-category-base();
 }
 
 /* Color marker for snuff category */
-.category-color-marker.category-color-marker-snuff {
+.category.category-color-marker-snuff {
   background: @snuff-color;
 }
 
 /* Color marker for sandbox category */
-.category-color-marker.category-color-marker-sandbox {
+.category.category-color-marker-sandbox {
   background: @sanbox-color;
 }
 
 /* Color marker for constest category */
-.category-color-marker.category-color-marker-contest {
+.category.category-color-marker-contest {
   background: @contest-color;
 }
 
 /* Sandbox category text description */
 .sandbox-category-text-description {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: @margin-smaller1;
+  margin-right: @margin-smaller1;
   background: @sandbox-background-color;
   border-radius: @border-radius-small;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+  padding-top: @padding-small1;
+  padding-bottom: @padding-small1;
 }
 
 /* Tags size classes starts here */
@@ -1181,23 +1226,23 @@ body {
 .read-text-title {
   .mixin-centered-text-base();
   font-size: @font-size-big;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin-top: @margin-normal;
+  margin-bottom: @margin-smaller1;
 }
 
 /* Text categories container */
 .read-text-categories-container {
   column-gap: @gap-normal;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
   flex-wrap: wrap;
 }
 
 /* Text tags container */
 .read-text-tags-container {
   column-gap: @gap-normal;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
   flex-wrap: wrap;
 }
 
@@ -1215,7 +1260,7 @@ body {
 .text-paragraph {
   text-indent: 1rem;
   margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: @margin-smaller1;
 }
 
 /* Text, justified by width */
@@ -1237,7 +1282,7 @@ body {
 .text-quote {
   font-family: monospace;
   font-size: @font-size-bigger1;
-  padding: 2rem;
+  padding: @padding-bigger1;
   background-color: @lightest-color1;
   color: @darkest-color1
 }
@@ -1273,7 +1318,7 @@ body {
   .mixin-flex-row-base();
   justify-content: flex-end;
 
-  margin-bottom: 1.5rem;
+  margin-bottom: @margin-bigger1;
 }
 
 /* Rendered text files download component */
@@ -1285,13 +1330,10 @@ body {
   width: min-content;
   min-width: 7.0rem;
 
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding: @padding-smaller1;
 
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
+  margin-top: @margin-small1;
+  margin-bottom: @margin-small1;
 
   position: relative;
 
@@ -1311,10 +1353,10 @@ body {
 
 /* List of rendered text files to download */
 .read-text-download-list {
-  margin-top: 0.5rem;
+  margin-top: @margin-smaller1;
   margin-bottom: 0;
 
-  padding-left: 1rem;
+  padding-left: @padding-normal;
 }
 
 /* Read text page stuff ends here */
@@ -1329,13 +1371,10 @@ body {
 
   min-width: 17.0rem;
 
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding: @padding-smaller1;
 
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
+  margin-top: @margin-small1;
+  margin-bottom: @margin-small1;
 
   position: relative;
 
@@ -1344,8 +1383,8 @@ body {
 
 /* Creatures links */
 .creatures-info-link {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
   color: @darkest-color1;
 }
 
@@ -1473,8 +1512,8 @@ body {
   gap: @gap-normal;
 
   .mixin-centered-text-base();
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: @margin-normal;
+  margin-bottom: @margin-normal;
 }
 
 /* Pagination go to page flex container */
@@ -1488,8 +1527,8 @@ body {
 .read-text-pagination-go-to-page-input {
   width: 3.5rem;
   .mixin-centered-text-base();
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
+  border-top-left-radius: @border-radius-normal;
+  border-bottom-left-radius: @border-radius-normal;
   border: @border-thin-thickness @border-style @light-color1;
   font-size: @font-size-bigger2;
   line-height: 3rem;
@@ -1504,11 +1543,11 @@ body {
 /* Pagination go to page button */
 .read-text-pagination-go-to-page-button {
   .mixin-centered-text-base();
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: @border-radius-normal;
+  border-bottom-right-radius: @border-radius-normal;
   border: @border-thin-thickness @border-style @light-color1;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
   line-height: 3rem;
   vertical-align: middle;
 }
@@ -1541,8 +1580,8 @@ body {
 
 /* First page pseudobutton */
 .read-text-pagination-page-base.read-text-pagination-first-page {
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
+  border-top-left-radius: @border-radius-normal;
+  border-bottom-left-radius: @border-radius-normal;
 }
 
 /* Page pseudobutton */
@@ -1552,16 +1591,16 @@ body {
 
 /* Last page pseudobutton */
 .read-text-pagination-page-base.read-text-pagination-last-page {
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: @border-radius-normal;
+  border-bottom-right-radius: @border-radius-normal;
 }
 
 /* Interpages gap */
 .read-text-pagination-interpages-gap {
   background: @darkest-color1;
   width: 0.2rem;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: @margin-smaller1;
+  margin-right: @margin-smaller1;
 }
 
 /* Read text pagination end */
@@ -1598,7 +1637,7 @@ body {
 
 /* Container for remember me checkbox */
 .login-remember-me-container {
-  margin-bottom: 0.5rem;
+  margin-bottom: @margin-smaller1;
 }
 
 /* Log in button */
@@ -1615,7 +1654,7 @@ body {
   justify-content: center;
   gap: @gap-small;
 
-  margin-top: 0.5rem;
+  margin-top: @margin-smaller1;
   .mixin-centered-text-base();
 }
 
@@ -1668,7 +1707,7 @@ body {
   justify-content: center;
   gap: @gap-small;
 
-  margin-top: 0.5rem;
+  margin-top: @margin-smaller1;
   .mixin-centered-text-base();
 }
 
@@ -1741,10 +1780,10 @@ body {
   background-color: @lightest-color1;
   border: @border-thin-thickness @border-style @light-color1;
   border-radius: @border-radius-small;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-top: @padding-smaller1;
+  padding-bottom: @padding-smaller1;
+  padding-left: @padding-normal;
+  padding-right: @padding-normal;
 
   width: 80rem;
   max-width: 95vw;
@@ -1759,8 +1798,8 @@ body {
   border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 15rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: @padding-normal;
+  padding-bottom: @padding-normal;
   font-size: @font-size-bigger2;
   .mixin-centered-text-base();
   color: @darkest-color1;
@@ -1780,8 +1819,8 @@ body {
   border: @border-thick-thickness @border-style @buttons1-color3;
   border-radius: @border-radius-bigger1;
   width: 15rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: @padding-normal;
+  padding-bottom: @padding-normal;
   font-size: @font-size-big;
   .mixin-bold-text-base();
   .mixin-centered-text-base();
@@ -1809,7 +1848,7 @@ body {
   font-size: @font-size-big;
   .mixin-centered-text-base();
 
-  margin-bottom: 1rem;
+  margin-bottom: @margin-normal;
 }
 
 /* Input for creature renaming */
@@ -1830,8 +1869,8 @@ body {
 /* Avatar container in profile main part (show about info) */
 .profile-main-part-avatar-container-show-about {
   float: left;
-  padding-right: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-right: @padding-smaller1;
+  padding-bottom: @padding-smaller1;
 }
 
 /* Avatar container in profile main part (edit about info) */
@@ -1840,7 +1879,7 @@ body {
 
 /* Profile main part about info container (outer, paddingless) */
 .profile-main-part-about-outer-container {
-  border: @border-thin-thickness @border-style @lighter-color1;
+  border: @border-thin-thickness @border-style @light-color1;
   border-radius: @border-radius-normal;
 
   overflow: hidden;
@@ -1848,9 +1887,9 @@ body {
 
 /* Profile main part about info container (inner, with padding) */
 .profile-main-part-about-inner-container {
-  padding-top: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-top: @padding-smaller1;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
 }
 
 /* Small text "About yourself" and edit button inside */
@@ -1866,7 +1905,7 @@ body {
   flex-wrap: nowrap;
   gap: @gap-small;
 
-  padding-bottom: 0.3rem;
+  padding-bottom: @padding-small2;
 }
 
 /* Container with avatar and textarea to show when editing about info*/
@@ -1884,29 +1923,12 @@ body {
 
 /* OK and Cancel buttons container (outer) for about info editing */
 .profile-main-part-about-edit-buttons-outer-container {
-  text-align: right;
-  width: 100%;
-
-  .mixin-flex-row-base();
-  justify-content: right;
-  flex-wrap: nowrap;
-  gap: @gap-small;
-
-  margin-top: 0.3rem;
+  .mixin-group-buttons-outer-container();
 }
 
 /* OK and Cancel buttons for about info editing live here */
 .profile-main-part-about-edit-buttons-bordered-inner-container {
-  border-top: @border-thin-thickness @border-style @light-color1;
-  border-left: @border-thin-thickness @border-style @light-color1;
-  border-top-left-radius: 0.5rem;
-
-  .mixin-flex-row-base();
-  justify-content: right;
-  flex-wrap: nowrap;
-  gap: @gap-small;
-
-  padding: 0.5rem;
+  .mixin-group-buttons-inner-container();
 }
 
 /* Container with avatars in profile avatars part */
@@ -1916,7 +1938,7 @@ body {
   gap: @gap-normal;
   flex-wrap: wrap;
 
-  padding-bottom: 1rem;
+  padding-bottom: @padding-normal;
 }
 
 /* Container with one avatar in profile avatars part */
@@ -1930,7 +1952,7 @@ body {
   width: min-content;
   height: min-content;
 
-  padding: 0.5rem;
+  padding: @padding-smaller1;
 }
 
 .profile-avatars-part-avatar-container.profile-avatars-part-avatar-container-selected {
@@ -1945,7 +1967,7 @@ body {
   justify-content: center;
   gap: @gap-normal;
 
-  padding-top: 0.5rem;
+  padding-top: @padding-smaller1;
 }
 
 /* Div with rename avatar controls */
@@ -1953,15 +1975,15 @@ body {
   .mixin-flex-row-base();
   justify-content: center;
 
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: @padding-smaller1;
+  padding-bottom: @padding-smaller1;
 }
 
 /* Input for avatar renaming */
 .avatar-selection-component-rename-input {
   width: 7.2rem;
 
-  margin-right: 0.2rem;
+  margin-right: @margin-small1;
 }
 
 .avatar-selection-component-rename-input.avatar-selection-component-rename-input-invalid {
@@ -1981,7 +2003,7 @@ body {
 
   width: 20rem;
 
-  padding: 0.5rem;
+  padding: @padding-smaller1;
 }
 
 /* "Upload new avatar" small text */
@@ -1990,7 +2012,7 @@ body {
   color: @darker-color1;
   text-align: right;
 
-  margin-bottom: 0.5rem;
+  margin-bottom: @margin-smaller1;
 }
 
 /* New avatar name form group */
@@ -2000,7 +2022,7 @@ body {
   white-space: nowrap;
   gap: @gap-small;
 
-  margin-bottom: 0.5rem;
+  margin-bottom: @margin-smaller1;
 }
 
 /* Input with new avatar name */
@@ -2016,7 +2038,7 @@ body {
   white-space: nowrap;
   gap: @gap-small;
 
-  margin-bottom: 0.5rem;
+  margin-bottom: @margin-smaller1;
 }
 
 /* Input with new avatar file */
@@ -2032,7 +2054,7 @@ body {
 
 /* Information about creature's login is here */
 .profile-security-part-login-container {
-  margin-bottom: 0.5rem;
+  margin-bottom: @margin-smaller1;
 }
 
 /* Comment to login (it says "login can't be changed") */
@@ -2043,7 +2065,7 @@ body {
 
 /* Information about creature's password is here */
 .profile-security-part-password-container {
-  margin-bottom: 0.5rem;
+  margin-bottom: @margin-smaller1;
 }
 
 /* Password change form lives here (outer, paddingless) */
@@ -2056,9 +2078,9 @@ body {
 
 /* Password change form lives here (inner, with padding) */
 .profile-security-part-change-password-inner-container {
-  padding-top: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-top: @padding-smaller1;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
 }
 
 /* Small text "Change password" */
@@ -2074,7 +2096,7 @@ body {
   flex-wrap: nowrap;
   gap: @gap-small;
 
-  padding-bottom: 0.3rem;
+  padding-bottom: @padding-small2;
 }
 
 /* Table cell for old password */
@@ -2130,29 +2152,12 @@ body {
 
 /* OK and Cancel buttons container (outer) for password change */
 .profile-security-part-change-password-buttons-outer-container {
-  text-align: right;
-  width: 100%;
-
-  .mixin-flex-row-base();
-  justify-content: right;
-  flex-wrap: nowrap;
-  gap: @gap-small;
-
-  margin-top: 0.3rem;
+  .mixin-group-buttons-outer-container();
 }
 
 /* OK and Cancel buttons for password change live here */
 .profile-security-part-change-password-buttons-inner-container {
-  border-top: @border-thin-thickness @border-style @light-color1;
-  border-left: @border-thin-thickness @border-style @light-color1;
-  border-top-left-radius: 0.5rem;
-
-  .mixin-flex-row-base();
-  justify-content: right;
-  flex-wrap: nowrap;
-  gap: @gap-small;
-
-  padding: 0.5rem;
+  .mixin-group-buttons-inner-container();
 }
 
 /* Information about creature's email is here */
@@ -2249,7 +2254,7 @@ body {
   border: @border-thin-thickness @border-style @light-color1;
   border-radius: @border-radius-normal;
 
-  padding: 1rem;
+  padding: @padding-normal;
 
   width: 90vw;
   max-width: 30rem;
@@ -2262,7 +2267,7 @@ body {
   .mixin-centered-text-base();
   font-size: @font-size-bigger2;
   .mixin-bold-text-base();
-  padding-bottom: 0.5rem;
+  padding-bottom: @padding-smaller1;
 }
 
 /* Popup buttons container */
@@ -2270,15 +2275,15 @@ body {
   .mixin-flex-row-base();
   justify-content: space-between;
 
-  padding-top: 1rem;
+  padding-top: @padding-normal;
 }
 
 /* Popup button(s) */
 .popup-button {
   font-size: @font-size-bigger2;
 
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
 
   border: @border-thin-thickness @border-style @light-color1;
   border-radius: @border-radius-normal;
