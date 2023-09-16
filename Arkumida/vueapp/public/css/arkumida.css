@@ -22,6 +22,7 @@
 /* Avatars */
 /* Borders */
 /* Fonts */
+/* Gaps */
 /* Variables end here */
 /* Mixins start here */
 /* Footer column base */
@@ -56,6 +57,60 @@
 .mixin-centered-text-base {
   text-align: center;
 }
+/* Base for all bold text */
+.mixin-bold-text-base {
+  font-weight: bold;
+}
+/* Base for all flexes */
+.mixin-flex-base {
+  display: flex;
+}
+/* Base for all horizontal flexes */
+.mixin-flex-row-base {
+  display: flex;
+  flex-direction: row;
+}
+/* Base for all vertical flexes */
+.mixin-flex-column-base {
+  display: flex;
+  flex-direction: column;
+}
+/* Flex with both horizontally and vertically centered content */
+.mixin-horizontally-and-vertically-centered-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Base for login and registration containers */
+.mixin-login-registration-forms-container-base {
+  background: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  width: 90vw;
+  max-width: 30rem;
+  height: min-content;
+}
+/* Base for header and footer */
+.mixin-header-and-footer-base {
+  flex-wrap: wrap;
+  column-gap: 10rem;
+  row-gap: 2rem;
+}
+/* Base for login / registration forms text fields*/
+.mixin-login-registration-form-text-field-base {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
 /* Mixins end here */
 /* Fonts */
 @font-face {
@@ -88,9 +143,9 @@ body {
 /* Container with header content */
 .header-container {
   flex-wrap: wrap;
-  justify-content: space-around;
   column-gap: 10rem;
   row-gap: 2rem;
+  justify-content: space-around;
 }
 /* Header stuff end */
 /* Footer stuff start */
@@ -253,8 +308,8 @@ body {
 .button-with-image {
   /* For vertical centering */
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   border: none;
   cursor: pointer;
   appearance: none;
@@ -270,8 +325,8 @@ body {
 /* Vertical align via flex */
 .vertical-align-flex {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 /* Darkest color 1 link without underline */
 .darkest-color1-link-without-underline {
@@ -414,8 +469,8 @@ body {
 /* Main logo container */
 .main-logo-container {
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
 }
 /* Class for main logo iamge */
 .main-logo-image {
@@ -1177,8 +1232,8 @@ body {
 /* Login form title */
 .login-form-title {
   text-align: center;
-  font-size: 1.5rem;
   font-weight: bold;
+  font-size: 1.5rem;
 }
 /* Incorrect login credentials message */
 .login-form-incorrect-credentials {
@@ -1382,8 +1437,8 @@ body {
 }
 /* Creature name in profile main part (show mode)*/
 .profile-main-part-creature-name-show {
-  display: flex;
   flex-direction: row;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
@@ -1393,8 +1448,8 @@ body {
 }
 /* Creature name in profile main part (edit mode)*/
 .profile-main-part-creature-name-edit {
-  display: flex;
   flex-direction: row;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
@@ -1530,10 +1585,10 @@ body {
 }
 /* "Upload new avatar" container */
 .profile-avatars-part-upload-new-avatar-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 /* Div with "upload new avatar" block */
 .profile-avatars-part-upload-new-avatar {
