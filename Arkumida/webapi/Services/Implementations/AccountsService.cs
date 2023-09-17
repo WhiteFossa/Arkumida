@@ -396,7 +396,7 @@ public class AccountsService : IAccountsService
 
         var creatureWithProfile = await GetProfileByCreatureIdAsync(creatureId);
         
-        var message = await _emailsGeneratorService.GenerateEmailAddressConfirmationEmail(creatureWithProfile, tokenAsBase64);
+        var message = await _emailsGeneratorService.GenerateEmailAddressConfirmationEmailAsync(creatureWithProfile, tokenAsBase64);
 
         return await _emailSenderService.SendAsync(message, new CancellationToken());
     }
@@ -437,7 +437,7 @@ public class AccountsService : IAccountsService
         var tokenAsBase64 = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(await _userManager.GenerateChangeEmailTokenAsync(creature, newEmail)));
         
         var creatureWithProfile = await GetProfileByCreatureIdAsync(creatureId);
-        var message = await _emailsGeneratorService.GenerateEmailAddressChangeEmail(creatureWithProfile, newEmail, tokenAsBase64);
+        var message = await _emailsGeneratorService.GenerateEmailAddressChangeEmailAsync(creatureWithProfile, newEmail, tokenAsBase64);
 
         return new Tuple<bool, bool>(await _emailSenderService.SendAsync(message, new CancellationToken()), true);
     }
@@ -454,5 +454,42 @@ public class AccountsService : IAccountsService
         var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
 
         return (await _userManager.ChangeEmailAsync(creature, decodedEmail, decodedToken)).Succeeded;
+    }
+
+    public async Task<PasswordResetInitiationResult> InitiatePasswordResetAsync(string login)
+    {
+        var creature = await _userManager.FindByNameAsync(login);
+        if (creature == null)
+        {
+            return PasswordResetInitiationResult.CreatureNotFound;
+        }
+
+        if (string.IsNullOrWhiteSpace(creature.Email))
+        {
+            // No email at all
+            return PasswordResetInitiationResult.CreatureHaveNoEmail;
+        }
+        
+        if (!creature.EmailConfirmed)
+        {
+            // Creature have no confirmed email, we can't send a link to unconfirmed email
+            return PasswordResetInitiationResult.CreatureHaveNoConfirmedEmail;
+        }
+        
+        // Reset token
+        var tokenAsBase64 = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(await _userManager.GeneratePasswordResetTokenAsync(creature)));
+        
+        // Email
+        var creatureWithProfile = await GetProfileByCreatureIdAsync(creature.Id);
+        var message = await _emailsGeneratorService.GeneratePasswordResetEmailAsync(creatureWithProfile, tokenAsBase64);
+        var isSent = await _emailSenderService.SendAsync(message, new CancellationToken());
+
+        if (!isSent)
+        {
+            // Failed to send email
+            return PasswordResetInitiationResult.FailedToSendEmail;
+        }
+
+        return PasswordResetInitiationResult.Initiated;
     }
 }

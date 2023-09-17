@@ -1,6 +1,7 @@
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Requests;
+using webapi.Models.Enums;
 
 namespace webapi.Services.Abstract;
 
@@ -100,4 +101,9 @@ public interface IAccountsService
     /// Complete email change. Please note that email is encoded as BASE64
     /// </summary>
     Task<bool> ChangeEmailAsync(Guid creatureId, string encodedEmail, string token);
+
+    /// <summary>
+    /// Initiate creature's password reset
+    /// </summary>
+    Task<PasswordResetInitiationResult> InitiatePasswordResetAsync(string login);
 }
