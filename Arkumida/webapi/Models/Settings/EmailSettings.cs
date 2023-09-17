@@ -1,7 +1,7 @@
-namespace webapi.Models.Email;
+namespace webapi.Models.Settings;
 
 /// <summary>
-/// Settings for sending emails
+/// Appsettings.json email settings section
 /// </summary>
 public class EmailSettings
 {

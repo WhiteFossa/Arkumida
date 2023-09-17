@@ -14,6 +14,7 @@ using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Mappers.Implementations;
 using webapi.Models.Email;
+using webapi.Models.Settings;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Email;
 using webapi.Services.Abstract.TextRenderers;
@@ -84,6 +85,7 @@ builder.Services.AddHostedService<BuiltInUsersCreator>();
 #region Settings
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
 
 #endregion
 
@@ -163,14 +165,19 @@ builder.Services.AddControllers();
         options.Password.RequiredUniqueChars = 4;
     });
 
-    // Adding Authentication  
+    // JWT settings
+    var jwtSettings = builder
+        .Configuration
+        .GetSection(nameof(JwtSettings))
+        .Get<JwtSettings>();
+
     builder.Services.AddAuthentication(options =>  
         {  
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;  
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;  
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;  
         })  
-      
+        
         // Adding Jwt Bearer  
         .AddJwtBearer(options =>  
         {  
@@ -180,9 +187,9 @@ builder.Services.AddControllers();
             {  
                 ValidateIssuer = true,  
                 ValidateAudience = true,  
-                ValidAudience = builder.Configuration[GlobalConstants.JwtValidAudienceSettingName],  
-                ValidIssuer = builder.Configuration[GlobalConstants.JwtValidIssuerSettingName],  
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration[GlobalConstants.JwtSecretSettingName]))  
+                ValidAudience = jwtSettings.ValidAudience,  
+                ValidIssuer = jwtSettings.ValidIssuer,  
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))  
             };  
         }
     );
