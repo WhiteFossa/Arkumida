@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import {createPinia} from "pinia";
 import piniaPluginPersistedState from "pinia-plugin-persistedstate"
+import "../public/css/arkumida.less"
 
 // Setting up Pinia
 const pinia = createPinia()

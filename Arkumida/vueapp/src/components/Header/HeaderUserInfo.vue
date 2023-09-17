@@ -57,21 +57,21 @@ import {defineExpose, onMounted, ref} from "vue";
 
         <!-- User isn't logged in -->
         <div v-if="!isUserLoggedIn">
-            <a class="black-link-without-underline" href="/login" title="Войти на сайт">Войти</a>
+            <a class="darkest-color1-link-without-underline" href="/login" title="Войти на сайт">Войти</a>
             /
-            <a class="black-link-without-underline" href="/register" title="Зарегистрироваться">Зарегистрироваться</a>
+            <a class="darkest-color1-link-without-underline" href="/register" title="Зарегистрироваться">Зарегистрироваться</a>
         </div>
 
         <!-- User is logged in -->
         <div v-if="isUserLoggedIn">
 
-            <a class="black-link-without-underline" href="/profile" title="Профиль">
+            <a class="darkest-color1-link-without-underline" href="/profile" title="Профиль">
                 <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Small" :key="creatureProfile.currentAvatar"/>
             </a>
 
             <span class="spacer"></span>
 
-            <a class="black-link-without-underline" href="/profile" title="Профиль">{{ creatureProfile.name }}</a>
+            <a class="darkest-color1-link-without-underline" href="/profile" title="Профиль">{{ creatureProfile.name }}</a>
         </div>
 
     </div>
