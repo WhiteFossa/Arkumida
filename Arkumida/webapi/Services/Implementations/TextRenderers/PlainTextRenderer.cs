@@ -1,8 +1,10 @@
 using System.Text;
+using Microsoft.Extensions.Options;
 using webapi.Constants;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
+using webapi.Models.Settings;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.TextRenderers;
 
@@ -10,14 +12,14 @@ namespace webapi.Services.Implementations.TextRenderers;
 
 public class PlainTextRenderer : IPlainTextRenderer
 {
-    private readonly IConfigurationService _configurationService;
+    private readonly SiteInfoSettings _siteInfoSettings;
 
     public PlainTextRenderer
     (
-        IConfigurationService configurationService
+        IOptions<SiteInfoSettings> siteInfoSettings
     )
     {
-        _configurationService = configurationService;
+        _siteInfoSettings = siteInfoSettings.Value;
     }
     
     public async Task<string> RenderAsync(Text textMetadata, IReadOnlyCollection<TextElementDto> textElements)
@@ -87,9 +89,6 @@ public class PlainTextRenderer : IPlainTextRenderer
                 .Select(t => t.Name)
         );
         
-        // Permalink
-        var baseUrl = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoBaseUrlSettingName);
-
         return$@"--------------------------------------------------------------------------------
 Название:
 {textMetadata.Title}
@@ -110,7 +109,7 @@ public class PlainTextRenderer : IPlainTextRenderer
 {textMetadata.Description}
 
 Ссылка:
-{baseUrl}/texts/{textMetadata.Id}/page/1
+{_siteInfoSettings.BaseUrl}/texts/{textMetadata.Id}/page/1
 --------------------------------------------------------------------------------
 
 ";

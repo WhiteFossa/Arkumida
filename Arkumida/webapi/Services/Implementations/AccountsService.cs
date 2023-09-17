@@ -3,14 +3,15 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using webapi.Constants;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
+using webapi.Models.Settings;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Email;
 
@@ -19,7 +20,6 @@ namespace webapi.Services.Implementations;
 public class AccountsService : IAccountsService
 {
     private readonly UserManager<CreatureDbo> _userManager;
-    private readonly IConfigurationService _configurationService;
     private readonly ICreaturesMapper _creaturesMapper;
     private readonly IAvatarsMapper _avatarsMapper;
     private readonly IProfilesDao _profilesDao;
@@ -28,11 +28,11 @@ public class AccountsService : IAccountsService
     private readonly IFilesDao _filesDao;
     private readonly IEmailSenderService _emailSenderService;
     private readonly IEmailsGeneratorService _emailsGeneratorService;
+    private readonly JwtSettings _jwtSettings;
 
     public AccountsService
     (
         UserManager<CreatureDbo> userManager,
-        IConfigurationService configurationService,
         ICreaturesMapper creaturesMapper,
         IAvatarsMapper avatarsMapper,
         IProfilesDao profilesDao,
@@ -40,11 +40,10 @@ public class AccountsService : IAccountsService
         ICreaturesWithProfilesMapper creaturesWithProfilesMapper,
         IFilesDao filesDao,
         IEmailSenderService emailSenderService,
-        IEmailsGeneratorService emailsGeneratorService
-    )
+        IEmailsGeneratorService emailsGeneratorService,
+        IOptions<JwtSettings> jwtSettings)
     {
         _userManager = userManager;
-        _configurationService = configurationService;
         _creaturesMapper = creaturesMapper;
         _avatarsMapper = avatarsMapper;
         _profilesDao = profilesDao;
@@ -53,6 +52,7 @@ public class AccountsService : IAccountsService
         _filesDao = filesDao;
         _emailSenderService = emailSenderService;
         _emailsGeneratorService = emailsGeneratorService;
+        _jwtSettings = jwtSettings.Value;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData, bool isImporting)
@@ -129,12 +129,12 @@ public class AccountsService : IAccountsService
             authClaims.Add(new Claim(ClaimTypes.Role, userRole));  
         }  
   
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(await _configurationService.GetConfigurationStringAsync(GlobalConstants.JwtSecretSettingName)));  
+        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));  
   
         var token = new JwtSecurityToken(
-            await _configurationService.GetConfigurationStringAsync(GlobalConstants.JwtValidIssuerSettingName),
-            await _configurationService.GetConfigurationStringAsync(GlobalConstants.JwtValidAudienceSettingName),
-            expires: DateTime.UtcNow.AddHours(await _configurationService.GetConfigurationIntAsync(GlobalConstants.JwtLifetimeSettingName)),  
+            _jwtSettings.ValidIssuer,
+            _jwtSettings.ValidAudience,
+            expires: DateTime.UtcNow.AddHours(_jwtSettings.Lifetime),  
             claims: authClaims,  
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)  
         );
