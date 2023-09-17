@@ -63,6 +63,7 @@
 /* Popups */
 @popup-lower-background-color: hsla(0, 0%, 10%, 0.8);
 @popup-button-background-color-hover: hsl(357, 85%, 33%);
+@popup-close-icon-sizes: 1rem;
 
 /* Long text info */
 @long-text-info-popup-background-color: hsl(87, 89%, 93%);
@@ -111,6 +112,8 @@
 /* Avatars */
 @selected-avatar-background-color: hsl(36, 100%, 60%);
 @selected-avatar-color: hsl(225, 100%, 35%);
+@avatar-width-small: 3rem;
+@avatar-width-big: 10rem;
 
 /* Borders */
 @border-thin-thickness: 0.1rem;
@@ -159,6 +162,15 @@
 @padding-bigger1: 2rem;
 @padding-big1: 5rem;
 
+/* Inputs */
+@input-height-big: 3rem;
+
+/* Pagination */
+@pagination-height: 3rem;
+
+/* Footer */
+@footer-column-width: 20rem;
+
 /* Variables end here */
 
 /* Mixins start here */
@@ -167,7 +179,7 @@
 .mixin-footer-column-base {
   padding-left: @padding-normal;
   padding-right: @padding-normal;
-  width: 20rem;
+  width: @footer-column-width;
 }
 
 /* Parent for dark links without underline */
@@ -261,7 +273,7 @@
 .mixin-login-registration-form-text-field-base {
   border-radius: @border-radius-normal;
 
-  height: 3rem;
+  height: @input-height-big;
   font-size: @font-size-bigger2;
 
   width: 100%;
@@ -272,9 +284,9 @@
 }
 
 /* Categories color marker base */
-.mixin-category-base {
-  width: 1.0rem;
-  height: 1.0rem;
+.mixin-category-color-marker-base {
+  width: 1rem;
+  height: 1rem;
   margin-bottom: @margin-smallest-negative;
   border-radius: @border-radius-small;
   display: inline-block;
@@ -305,6 +317,25 @@
   gap: @gap-small;
 
   padding: @padding-smaller1;
+}
+
+/* Base for login / registration etc buttons */
+.mixin-login-registration-button-base {
+  height: @input-height-big;
+  width: 100%;
+
+  font-size: @font-size-bigger2;
+}
+
+/* Base for popups lower layer */
+.mixin-popup-lower-layer-base {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background: @popup-lower-background-color;
 }
 
 /* Mixins end here */
@@ -438,8 +469,8 @@ body {
 
 /* Loading symbol image */
 .loading-symbol-image {
-  width: 1.0rem;
-  height: 1.0rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 /* Horizontal flex */
@@ -967,13 +998,7 @@ body {
 
 /* Popup lower layer */
 .long-text-info-popup-lower-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1000;
-  background: @popup-lower-background-color;
+  .mixin-popup-lower-layer-base();
 }
 
 /* Popup itself */
@@ -1005,8 +1030,8 @@ body {
 
 /* Popup close button image */
 .long-text-info-popup-close-button-image {
-  width: 1rem;
-  height: 1rem;
+  width: @popup-close-icon-sizes;
+  height: @popup-close-icon-sizes;
 }
 
 /* Donate to Redgerra stuff starts here */
@@ -1022,7 +1047,7 @@ body {
 
 /* Donate to Redgerra - avatar */
 .donate-to-redgerra-avatar {
-  width: 3rem;
+  width: @avatar-width-small;
   border-radius: @border-radius-bigger2;
   vertical-align: middle;
 }
@@ -1106,22 +1131,22 @@ body {
 
 
 /* Color marker for special categories */
-.category {
-  .mixin-category-base();
+.category-color-marker {
+  .mixin-category-color-marker-base();
 }
 
 /* Color marker for snuff category */
-.category.category-color-marker-snuff {
+.category-color-marker.category-color-marker-snuff {
   background: @snuff-color;
 }
 
 /* Color marker for sandbox category */
-.category.category-color-marker-sandbox {
+.category-color-marker.category-color-marker-sandbox {
   background: @sanbox-color;
 }
 
 /* Color marker for constest category */
-.category.category-color-marker-contest {
+.category-color-marker.category-color-marker-contest {
   background: @contest-color;
 }
 
@@ -1432,13 +1457,7 @@ body {
 
 /* Full size image popup lower layer */
 .full-size-image-popup-lower-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1000;
-  background: @popup-lower-background-color;
+  .mixin-popup-lower-layer-base();
 }
 
 /* Full size image - popup itself */
@@ -1531,7 +1550,7 @@ body {
   border-bottom-left-radius: @border-radius-normal;
   border: @border-thin-thickness @border-style @light-color1;
   font-size: @font-size-bigger2;
-  line-height: 3rem;
+  line-height: @pagination-height;
   vertical-align: middle;
 }
 
@@ -1548,7 +1567,7 @@ body {
   border: @border-thin-thickness @border-style @light-color1;
   padding-left: @padding-smaller1;
   padding-right: @padding-smaller1;
-  line-height: 3rem;
+  line-height: @pagination-height;
   vertical-align: middle;
 }
 
@@ -1565,7 +1584,7 @@ body {
   .mixin-centered-text-base();
   border: @border-thin-thickness @border-style @light-color1;
   font-size: @font-size-bigger2;
-  line-height: 3rem;
+  line-height: @pagination-height;
   vertical-align: middle;
   cursor: pointer;
 }
@@ -1642,10 +1661,7 @@ body {
 
 /* Log in button */
 .login-button {
-  height: 3rem;
-  width: 100%;
-
-  font-size: @font-size-bigger2;
+  .mixin-login-registration-button-base();
 }
 
 /* Container for small links at the bottom of login form */
@@ -1695,10 +1711,7 @@ body {
 
 /* Registration button */
 .registration-button {
-  height: 3rem;
-  width: 100%;
-
-  font-size: @font-size-bigger2;
+  .mixin-login-registration-button-base();
 }
 
 /* Container for small links at the bottom of registration form */
@@ -1745,14 +1758,14 @@ body {
 
 /* Small avatar */
 .avatar-small {
-  width: 3rem;
+  width: @avatar-width-small;
   border-radius: @border-radius-normal;
   vertical-align: middle;
 }
 
 /* Big avatar */
 .avatar-big {
-  width: 10rem;
+  width: @avatar-width-big;
   border-radius: @border-radius-normal;
   vertical-align: middle;
 }
@@ -1854,7 +1867,7 @@ body {
 /* Input for creature renaming */
 .profile-main-part-creature-rename-input {
   font-size: @font-size-big;
-  line-height: 3rem;
+  line-height: @input-height-big;
 
   border-radius: @border-radius-normal;
 
@@ -2220,13 +2233,7 @@ body {
 
 /* Popup lower layer */
 .popup-lower-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1000;
-  background: @popup-lower-background-color;
+  .mixin-popup-lower-layer-base();
 }
 
 /* Popup upper layer */

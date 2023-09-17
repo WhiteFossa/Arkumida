@@ -26,7 +26,7 @@
     {
         tagLinkHref.value = "/texts/byTag/" + props.id
 
-        colorMarkerClasses.value = "category";
+        colorMarkerClasses.value = "category-color-marker";
 
         switch (props.type)
         {

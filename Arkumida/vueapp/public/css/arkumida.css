@@ -25,6 +25,9 @@
 /* Gaps */
 /* Margins */
 /* Paddings */
+/* Inputs */
+/* Pagination */
+/* Footer */
 /* Variables end here */
 /* Mixins start here */
 /* Footer column base */
@@ -114,7 +117,7 @@
   margin-bottom: 0.5rem;
 }
 /* Categories color marker base */
-.mixin-category-base {
+.mixin-category-color-marker-base {
   width: 1rem;
   height: 1rem;
   margin-bottom: -0.1rem;
@@ -143,6 +146,22 @@
   flex-wrap: nowrap;
   gap: 0.5rem;
   padding: 0.5rem;
+}
+/* Base for login / registration etc buttons */
+.mixin-login-registration-button-base {
+  height: 3rem;
+  width: 100%;
+  font-size: 1.5rem;
+}
+/* Base for popups lower layer */
+.mixin-popup-lower-layer-base {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background: hsla(0, 0%, 10%, 0.8);
 }
 /* Mixins end here */
 /* Fonts */
@@ -821,7 +840,7 @@ body {
   float: right;
 }
 /* Color marker for special categories */
-.category {
+.category-color-marker {
   width: 1rem;
   height: 1rem;
   margin-bottom: -0.1rem;
@@ -829,15 +848,15 @@ body {
   display: inline-block;
 }
 /* Color marker for snuff category */
-.category.category-color-marker-snuff {
+.category-color-marker.category-color-marker-snuff {
   background: hsl(1, 74%, 88%);
 }
 /* Color marker for sandbox category */
-.category.category-color-marker-sandbox {
+.category-color-marker.category-color-marker-sandbox {
   background: hsl(0, 0%, 78%);
 }
 /* Color marker for constest category */
-.category.category-color-marker-contest {
+.category-color-marker.category-color-marker-contest {
   background: hsl(63, 99%, 47%);
 }
 /* Sandbox category text description */
