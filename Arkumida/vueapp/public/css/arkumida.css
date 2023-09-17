@@ -163,6 +163,16 @@
   z-index: 1000;
   background: hsla(0, 0%, 10%, 0.8);
 }
+/* Small darker caption base */
+.mixin-small-darker-caption-base {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+  text-align: right;
+  width: 100%;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.5rem;
+}
 /* Mixins end here */
 /* Fonts */
 @font-face {

@@ -338,6 +338,17 @@
   background: @popup-lower-background-color;
 }
 
+/* Small darker caption base */
+.mixin-small-darker-caption-base {
+  font-size: @font-size-smaller1;
+  color: @darker-color1;
+  text-align: right;
+  width: 100%;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.5rem;
+}
+
 /* Mixins end here */
 
 /* Fonts */
@@ -1367,13 +1378,7 @@ body {
 
 /* Caption with a word "download" for rendered text files download component */
 .read-text-download-caption {
-  font-size: @font-size-smaller1;
-  color: @darker-color1;
-  text-align: right;
-  width: 100%;
-  position: absolute;
-  top: 0.3rem;
-  right: 0.5rem;
+  .mixin-small-darker-caption-base();
 }
 
 /* List of rendered text files to download */
@@ -1422,13 +1427,7 @@ body {
 
 /* Style for creatures role */
 .creatures-info-creatures-role {
-  font-size: @font-size-smaller1;
-  color: @darker-color1;
-  text-align: right;
-  width: 100%;
-  position: absolute;
-  top: 0.3rem;
-  right: 0.5rem;
+  .mixin-small-darker-caption-base();
 }
 
 /* Creatures info container stuff ends here */
