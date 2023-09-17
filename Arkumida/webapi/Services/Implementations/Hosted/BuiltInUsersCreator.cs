@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Options;
 using webapi.Constants;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
+using webapi.Models.Settings;
 using webapi.Services.Abstract;
 
 namespace webapi.Services.Implementations.Hosted;
@@ -25,14 +27,11 @@ public class BuiltInUsersCreator : IHostedService
         using (var scope = _scopeFactory.CreateScope())
         {
             // DI
-            var configurationService = scope.ServiceProvider.GetRequiredService<IConfigurationService>();
             var accountsService = scope.ServiceProvider.GetRequiredService<IAccountsService>();
+            var importerUserSettings = scope.ServiceProvider.GetRequiredService<IOptions<ImporterUserSettings>>().Value;
             
             // Creating user for importer
-            var importerUserLogin = await configurationService.GetConfigurationStringAsync(GlobalConstants.ImporterUserLoginSettingName);
-            var importerUserEmail = await configurationService.GetConfigurationStringAsync(GlobalConstants.ImporterUserEmailSettingName);
-            var importerUserPassword = await configurationService.GetConfigurationStringAsync(GlobalConstants.ImporterUserPasswordSettingName);
-            await CreateUserIfNotExistAsync(accountsService, importerUserLogin, importerUserEmail, importerUserPassword);
+            await CreateUserIfNotExistAsync(accountsService, importerUserSettings.Login, string.Empty, importerUserSettings.Password);
         }
     }
 

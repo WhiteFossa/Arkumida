@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using webapi.Constants;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
@@ -7,6 +8,7 @@ using webapi.Models.Api.Requests;
 using webapi.Models.Api.Requests.Creature;
 using webapi.Models.Api.Responses;
 using webapi.Models.Api.Responses.Creature;
+using webapi.Models.Settings;
 using webapi.Services.Abstract;
 
 namespace webapi.Controllers;
@@ -20,18 +22,18 @@ public class UsersController : ControllerBase
 {
     private readonly IAccountsService _accountsService;
     private readonly ITextUtilsService _textUtilsService;
-    private readonly IConfigurationService _configurationService;
+    private readonly ImporterUserSettings _importerUserSettings;
 
     public UsersController
     (
         IAccountsService accountsService,
         ITextUtilsService textUtilsService,
-        IConfigurationService configurationService
+        IOptions<ImporterUserSettings> importerUserSettings
     )
     {
         _accountsService = accountsService;
         _textUtilsService = textUtilsService;
-        _configurationService = configurationService;
+        _importerUserSettings = importerUserSettings.Value;
     }
 
     /// <summary>
@@ -53,7 +55,7 @@ public class UsersController : ControllerBase
         }
         
         // Is importing user?
-        var isImporting = User.Identity.Name == await _configurationService.GetConfigurationStringAsync(GlobalConstants.ImporterUserLoginSettingName);
+        var isImporting = User.Identity.Name == _importerUserSettings.Login;
 
         var registrationResult = await _accountsService.RegisterUserAsync(request.RegistrationData, isImporting);
 

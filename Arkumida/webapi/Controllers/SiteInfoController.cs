@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using webapi.Constants;
+using Microsoft.Extensions.Options;
 using webapi.Models.Api.Responses;
-using webapi.Services.Abstract;
+using webapi.Models.Settings;
 
 namespace webapi.Controllers;
 
@@ -13,14 +13,14 @@ namespace webapi.Controllers;
 [ApiController]
 public class SiteInfoController : ControllerBase
 {
-    private readonly IConfigurationService _configurationService;
+    private readonly SiteInfoSettings _siteInfoSettings;
 
     public SiteInfoController
     (
-        IConfigurationService configurationService
+        IOptions<SiteInfoSettings> siteInfoSettings
     )
     {
-        _configurationService = configurationService;
+        _siteInfoSettings = siteInfoSettings.Value;
     }
     
     /// <summary>
@@ -31,7 +31,7 @@ public class SiteInfoController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<VersionInfoResponse>> GetVersionInfoAsync()
     {
-        return Ok(new VersionInfoResponse("Аркумида-В мод. 5", "https://github.com/WhiteFossa/Arkumida"));
+        return Ok(new VersionInfoResponse("Аркумида-В мод. 6", _siteInfoSettings.SourcesUrl));
     }
     
     /// <summary>
@@ -42,10 +42,7 @@ public class SiteInfoController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<SiteUrlResponse>> GetSiteUrlAsync()
     {
-        var baseUrl = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoBaseUrlSettingName);
-        var title = await _configurationService.GetConfigurationStringAsync(GlobalConstants.SiteInfoTitleSettingName);
-        
-        return Ok(new SiteUrlResponse(baseUrl, title));
+        return Ok(new SiteUrlResponse(_siteInfoSettings.BaseUrl, _siteInfoSettings.Title));
     }
     
     /// <summary>
@@ -56,6 +53,17 @@ public class SiteInfoController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<TelegramGroupResponse>> GetTelegramGroupInfoAsync()
     {
-        return Ok(new TelegramGroupResponse("https://t.me/joinchat/Fwu72wsdu6L-ufQKIi7JqQ", "Официальный чат Furtails"));
+        return Ok(new TelegramGroupResponse(_siteInfoSettings.TelegramChatUrl, _siteInfoSettings.TelegramChatName));
+    }
+    
+    /// <summary>
+    /// Get site URL
+    /// </summary>
+    [AllowAnonymous]
+    [Route("api/SiteInfo/Admin")]
+    [HttpGet]
+    public async Task<ActionResult<AdminInfoResponse>> GetSiteAdminInfoAsync()
+    {
+        return Ok(new AdminInfoResponse(_siteInfoSettings.AdminEmail));
     }
 }

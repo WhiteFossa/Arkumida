@@ -66,7 +66,6 @@ builder.Services.AddSingleton<ITextsMapper, TextsMapper>();
 builder.Services.AddSingleton<IFilesMapper, FilesMapper>();
 builder.Services.AddSingleton<ITextFilesMapper, TextFilesMapper>();
 builder.Services.AddSingleton<ITextsPagesMapper, TextsPagesMapper>();
-builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
 builder.Services.AddSingleton<ICreaturesMapper, CreaturesMapper>();
 builder.Services.AddSingleton<IRenderedTextsMapper, RenderedTextsMapper>();
 builder.Services.AddSingleton<IAvatarsMapper, AvatarsMapper>();
@@ -86,6 +85,8 @@ builder.Services.AddHostedService<BuiltInUsersCreator>();
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
+builder.Services.Configure<ImporterUserSettings>(builder.Configuration.GetSection(nameof(ImporterUserSettings)));
+builder.Services.Configure<SiteInfoSettings>(builder.Configuration.GetSection(nameof(SiteInfoSettings)));
 
 #endregion
 

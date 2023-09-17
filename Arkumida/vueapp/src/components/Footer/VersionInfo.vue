@@ -4,15 +4,10 @@
 
     import { ref, onMounted } from 'vue'
     import {WebClientSendGetRequest} from "@/js/libWebClient";
-    
-    // True if loading under way
-    const isLoading = ref(true)
-    
-    // Version string
-    const versionString = ref(null)
 
-    // Sources URL
-    const sourcesUrl = ref(null)
+    const isLoading = ref(true)
+
+    const versionInfo = ref(null)
     
     // OnMounted hook
     onMounted(async () =>
@@ -23,10 +18,7 @@
     // Called when page is loaded
     async function OnLoad()
     {
-        const versionInfo = await (await WebClientSendGetRequest("/api/SiteInfo/Version")).json()
-        
-        versionString.value = versionInfo.versionString
-        sourcesUrl.value = versionInfo.sourcesUrl
+        versionInfo.value = await (await WebClientSendGetRequest("/api/SiteInfo/Version")).json()
         
         isLoading.value = false
     }
@@ -38,11 +30,17 @@
         <LoadingSymbol />
     </div>
     <div v-else>
-        <!-- Shown after load -->
-        <div class="version-info">Версия: {{ versionString }}</div>
-        
+        <div class="version-info">
+            <div>
+                Бэкенд: {{ versionInfo.versionString }}
+            </div>
+            <div>
+                Фронтенд: Коири-А мод. 4
+            </div>
+        </div>
+
         <div class="sources-link">
-            <a :href="sourcesUrl" title="Исходные коды">Исходные коды</a>
+            <a :href="versionInfo.sourcesUrl" title="Исходные коды">Исходные коды</a>
         </div>
     </div>
     
