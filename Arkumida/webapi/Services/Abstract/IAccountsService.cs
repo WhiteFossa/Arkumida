@@ -106,4 +106,9 @@ public interface IAccountsService
     /// Initiate creature's password reset
     /// </summary>
     Task<PasswordResetInitiationResult> InitiatePasswordResetAsync(string login);
+
+    /// <summary>
+    /// Reset creature's password
+    /// </summary>
+    Task<bool> ResetPasswordAsync(Guid creatureId, string newPassword, string token);
 }

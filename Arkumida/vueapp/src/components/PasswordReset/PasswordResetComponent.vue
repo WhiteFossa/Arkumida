@@ -2,9 +2,11 @@
 import {defineProps, onMounted, reactive} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
-    import {AuthIsUserLoggedIn} from "@/js/auth";
+import {AuthIsUserLoggedIn, AuthLogUserOutAndReLogIn} from "@/js/auth";
     import router from "@/router";
 import {Guid} from "guid-typescript";
+import {WebClientSendPostRequest} from "@/js/libWebClient";
+import {Messages} from "@/js/constants";
 
     const props = defineProps({
         creatureId: Guid,
@@ -55,9 +57,24 @@ import {Guid} from "guid-typescript";
 
     async function SetNewPassword()
     {
-        alert("Creature ID: " + props.creatureId)
-        alert("Token: " + props.token)
-        alert("Settin' password: " + passwordResetFormData.password)
+        const isPasswordResetSuccessful = (await (await WebClientSendPostRequest(
+            "/api/Users/" + props.creatureId + "/ResetPassword",
+            {
+                "newPassword": passwordResetFormData.password,
+                "token": props.token
+            })).json())
+            .isSuccessful
+
+        if (isPasswordResetSuccessful)
+        {
+            alert(Messages.PasswordResetSuccessful)
+
+            await AuthLogUserOutAndReLogIn()
+        }
+        else
+        {
+            alert(Messages.PasswordResetFailed)
+        }
     }
 </script>
 

@@ -460,6 +460,27 @@ public class UsersController : ControllerBase
     }
     
     /// <summary>
+    /// Reset password
+    /// </summary>
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("api/Users/{creatureId}/ResetPassword")]
+    public async Task<ActionResult<PasswordResetResponse>> PasswordResetAsync(Guid creatureId, PasswordResetRequest request)
+    {
+        if (User.Identity.IsAuthenticated)
+        {
+            return BadRequest("Creature must not be logged in.");
+        }
+        
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(new PasswordResetResponse(await _accountsService.ResetPasswordAsync(creatureId, request.NewPassword, request.Token)));
+    }
+    
+    /// <summary>
     /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception
     /// </summary>
     private async Task CheckPrivilegesAsync(Guid creatureId)

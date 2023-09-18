@@ -492,4 +492,17 @@ public class AccountsService : IAccountsService
 
         return PasswordResetInitiationResult.Initiated;
     }
+
+    public async Task<bool> ResetPasswordAsync(Guid creatureId, string newPassword, string token)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID={creatureId} is not found!", nameof(creatureId));
+        }
+        
+        var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+        return (await _userManager.ResetPasswordAsync(creature, decodedToken, newPassword)).Succeeded;
+    }
 }
