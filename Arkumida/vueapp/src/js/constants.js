@@ -29,7 +29,7 @@ export class Messages
 
     static SelectOnlyOneFileForUploadAsAvatar = "Выберите ровно один файл для загрузки в качестве аватарки."
 
-    static PasswordChangedMessage = "Ваш пароль успешно изменён, сейчас вы будете перенаправлены на страницу входа для ввода нового пароля."
+    static PasswordChangedMessage = "Ваш пароль успешно изменён, сейчас вы будете перенаправлены на страницу входа на сайт."
 
     static PasswordChangeRequiredAfterImport = "Ваш аккаунт был перенесён с старой версии сайта. Вам необходимо сменить пароль. Сейчас вы будете перенаправлены на страницу изменения пароля."
 
@@ -51,6 +51,10 @@ export class Messages
     static GenericRegistrationError = "Неизвестная ошибка в процессе регистрации."
     static RegistrationConfirmationTitle = "Корректны-ли данные?"
     static RegistrationConfirmationText = "Корректны-ли введённые данные? Указанный логин будет невозможно изменить (но можно будет изменить отображаемое имя пользователя)."
+
+    static PasswordResetInstructionsSent = "Инструкции по сбросу пароля отправлены на вашу почту."
+    static PasswordResetSuccessful = "Ваш пароль успешно сброшен, сейчас вы будете перенаправлены на страницу входа на сайт."
+    static PasswordResetFailed = "Не удалось сбросить пароль. Корректна-ли ссылка? Не протухло-ли письмо?"
 }
 
 export class ProfileConsts
@@ -212,4 +216,18 @@ export class UserRegistrationResult
     static WeakPassword = 2
 
     static GenericError = 4
+}
+
+// Possible password reset initiation results
+export class PasswordResetInitiationResult
+{
+    static Initiated = 0
+
+    static CreatureNotFound = 1
+
+    static CreatureHaveNoEmail = 2
+
+    static CreatureHaveNoConfirmedEmail = 3
+
+    static FailedToSendEmail = 4
 }

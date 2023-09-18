@@ -8,6 +8,7 @@ using webapi.Models.Api.Requests;
 using webapi.Models.Api.Requests.Creature;
 using webapi.Models.Api.Responses;
 using webapi.Models.Api.Responses.Creature;
+using webapi.Models.Enums;
 using webapi.Models.Settings;
 using webapi.Services.Abstract;
 
@@ -433,6 +434,50 @@ public class UsersController : ControllerBase
         await CheckPrivilegesAsync(creatureId);
 
         return Ok(new ChangeEmailResponse(await _accountsService.ChangeEmailAsync(creatureId, request.Email, request.Token)));
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("api/Users/InitiatePasswordReset")]
+    public async Task<ActionResult<PasswordResetInitiationResponse>> InitiatePasswordResetAsync(InitiatePasswordResetRequest request)
+    {
+        if (User.Identity.IsAuthenticated)
+        {
+            return BadRequest("Creature must not be logged in.");
+        }
+
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Login))
+        {
+            return BadRequest("Login must be populated.");
+        }
+
+        return Ok(new PasswordResetInitiationResponse(await _accountsService.InitiatePasswordResetAsync(request.Login)));
+    }
+    
+    /// <summary>
+    /// Reset password
+    /// </summary>
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("api/Users/{creatureId}/ResetPassword")]
+    public async Task<ActionResult<PasswordResetResponse>> PasswordResetAsync(Guid creatureId, PasswordResetRequest request)
+    {
+        if (User.Identity.IsAuthenticated)
+        {
+            return BadRequest("Creature must not be logged in.");
+        }
+        
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(new PasswordResetResponse(await _accountsService.ResetPasswordAsync(creatureId, request.NewPassword, request.Token)));
     }
     
     /// <summary>

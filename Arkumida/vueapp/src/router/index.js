@@ -6,6 +6,8 @@ import ProfileView from "@/views/ProfileView.vue";
 import ConfirmEmailView from "@/views/ConfirmEmailView.vue";
 import ChangeEmailView from "@/views/ChangeEmailView.vue";
 import RegisterView from "@/views/RegisterView.vue";
+import InitiatePasswordResetView from "@/views/InitiatePasswordResetView.vue";
+import PasswordResetView from "@/views/PasswordResetView.vue";
 
 const routes =
 [
@@ -60,6 +62,21 @@ const routes =
         path: '/register',
         name: 'register',
         component: RegisterView
+    },
+
+    // Password reset (initiation)
+    {
+        path: '/initiatePasswordReset',
+        name: 'initiatePasswordReset',
+        component: InitiatePasswordResetView
+    },
+
+    // Password reset
+    {
+        path: '/resetPassword',
+        name: 'resetPassword',
+        component: PasswordResetView,
+        props: true
     }
 ]
 

@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+    import {onMounted, reactive, ref} from "vue";
     import {AuthIsUserLoggedIn} from "@/js/auth";
     import router from "@/router";
     import useVuelidate from "@vuelidate/core";

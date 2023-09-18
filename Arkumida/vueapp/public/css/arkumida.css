@@ -1410,6 +1410,131 @@ body {
   font-weight: bold;
 }
 /* Registration-related stuff ends here */
+/* Password reset stuff starts here */
+/* Password reset form container */
+.password-reset-form-container {
+  background: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  width: 90vw;
+  max-width: 30rem;
+  height: min-content;
+}
+/* Password reset form title */
+.password-reset-form-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+/* Container for small links at the bottom of password reset form */
+.password-reset-form-bottom-links-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+/* Small link at the bottom of the password reset form */
+.password-reset-form-bottom-link {
+  font-size: 0.8rem;
+  color: hsl(240, 12%, 27%);
+  text-decoration: none;
+}
+.password-reset-form-bottom-link:hover {
+  text-decoration: underline;
+}
+/* Text fields in password reset form */
+.password-reset-form-text-field {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+/* Text fields in password reset form, which didn't pass validation*/
+.password-reset-form-text-field-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+/* Password reset button */
+.password-reset-button {
+  height: 3rem;
+  width: 100%;
+  font-size: 1.5rem;
+}
+/* Password reset error messages */
+.password-reset-error-message {
+  color: hsl(0, 100%, 56%);
+  font-weight: bold;
+}
+/* Password reset stuff ends here */
+/* Password reset confirmation stuff starts here */
+/* Password reset confirmation form container */
+.password-reset-confirmation-form-container {
+  background: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  width: 90vw;
+  max-width: 30rem;
+  height: min-content;
+}
+/* Password reset confirmation form title */
+.password-reset-confirmation-form-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+/* Text fields in password reset confirmation form */
+.password-reset-confirmation-form-text-field {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+/* Text fields in password reset confirmation form, which didn't pass validation*/
+.password-reset-confirmation-form-text-field-invalid {
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+/* Password reset confirmation button */
+.password-reset-confirmation-button {
+  height: 3rem;
+  width: 100%;
+  font-size: 1.5rem;
+}
+/* Container for small links at the bottom of password reset confirmation form */
+.password-reset-confirmation-form-bottom-links-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+/* Small link at the bottom of the password reset confirmation form */
+.password-reset-confirmation-form-bottom-link {
+  font-size: 0.8rem;
+  color: hsl(240, 12%, 27%);
+  text-decoration: none;
+}
+.password-reset-confirmation-form-bottom-link:hover {
+  text-decoration: underline;
+}
+/* Password reset confirmation stuff ends here */
 /* Avatars stuff begins here */
 /* Small avatar */
 .avatar-small {

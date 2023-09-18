@@ -21,7 +21,7 @@ public class EmailsGeneratorService : IEmailsGeneratorService
         _siteInfoSettings = siteInfoSettings.Value;
     }
     
-    public async Task<Models.Email.Email> GenerateEmailAddressConfirmationEmail(CreatureWithProfile creatureWithProfile, string confirmationToken)
+    public async Task<Models.Email.Email> GenerateEmailAddressConfirmationEmailAsync(CreatureWithProfile creatureWithProfile, string confirmationToken)
     {
         var template = await File.ReadAllTextAsync("Resources/Email/EmailAddressConfirmationTemplate.html");
 
@@ -43,7 +43,7 @@ public class EmailsGeneratorService : IEmailsGeneratorService
         );
     }
 
-    public async Task<Models.Email.Email> GenerateEmailAddressChangeEmail(CreatureWithProfile creatureWithProfile, string newEmail, string changeToken)
+    public async Task<Models.Email.Email> GenerateEmailAddressChangeEmailAsync(CreatureWithProfile creatureWithProfile, string newEmail, string changeToken)
     {
         var template = await File.ReadAllTextAsync("Resources/Email/EmailAddressChangeTemplate.html");
         
@@ -64,6 +64,27 @@ public class EmailsGeneratorService : IEmailsGeneratorService
         (
             new List<string>() { newEmail },
             "Изменение адреса электронной почты",
+            body
+        );
+    }
+
+    public async Task<Models.Email.Email> GeneratePasswordResetEmailAsync(CreatureWithProfile creatureWithProfile, string resetToken)
+    {
+        var template = await File.ReadAllTextAsync("Resources/Email/PasswordResetTemplate.html");
+
+        var body = string.Format
+        (
+            template,
+            creatureWithProfile.DisplayName, // {0}
+            _siteInfoSettings.BaseUrl, // {1}
+            creatureWithProfile.Id, // {2}
+            resetToken // {3}
+        );
+        
+        return new Models.Email.Email
+        (
+            new List<string>() { creatureWithProfile.Email },
+            "Сброс пароля",
             body
         );
     }
