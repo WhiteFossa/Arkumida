@@ -108,7 +108,7 @@ import {onMounted, reactive, ref} from "vue";
         </div>
 
         <div class="login-bottom-links-container">
-            <a class="login-bottom-link" href="/resetPassword" title="Восстановить пароль">Забыли пароль?</a>
+            <a class="login-bottom-link" href="/initiatePasswordReset" title="Восстановить пароль">Забыли пароль?</a>
             <a class="login-bottom-link" href="/register" title="Регистрация">Хотите зарегистрироваться?</a>
         </div>
     </div>
