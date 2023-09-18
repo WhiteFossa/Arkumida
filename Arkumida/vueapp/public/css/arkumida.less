@@ -1755,6 +1755,7 @@ body {
 
 /* Password reset stuff starts here */
 
+/* Password reset form container */
 .password-reset-form-container {
   .mixin-login-registration-forms-container-base();
 }
@@ -1807,6 +1808,56 @@ body {
 }
 
 /* Password reset stuff ends here */
+
+/* Password reset confirmation stuff starts here */
+
+/* Password reset confirmation form container */
+.password-reset-confirmation-form-container {
+  .mixin-login-registration-forms-container-base();
+}
+
+/* Password reset confirmation form title */
+.password-reset-confirmation-form-title {
+  .mixin-centered-text-base();
+  .mixin-bold-text-base();
+  font-size: @font-size-bigger2;
+}
+
+/* Text fields in password reset confirmation form */
+.password-reset-confirmation-form-text-field {
+  .mixin-login-registration-form-text-field-base();
+}
+
+/* Text fields in password reset confirmation form, which didn't pass validation*/
+.password-reset-confirmation-form-text-field-invalid {
+  border: @border-thick-thickness @border-style @alert-color;
+}
+
+/* Password reset confirmation button */
+.password-reset-confirmation-button {
+  .mixin-login-registration-button-base();
+}
+
+/* Container for small links at the bottom of password reset confirmation form */
+.password-reset-confirmation-form-bottom-links-container {
+  .mixin-flex-row-base();
+  justify-content: center;
+  gap: @gap-small;
+
+  margin-top: @margin-smaller1;
+  .mixin-centered-text-base();
+}
+
+/* Small link at the bottom of the password reset confirmation form */
+.password-reset-confirmation-form-bottom-link {
+  .mixin-login-registration-forms-small-bottom-link-base();
+}
+
+.password-reset-confirmation-form-bottom-link:hover {
+  .mixin-underlined();
+}
+
+/* Password reset confirmation stuff ends here */
 
 /* Avatars stuff begins here */
 

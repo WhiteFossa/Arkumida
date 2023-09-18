@@ -1,30 +1,35 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+import {defineProps, onMounted, reactive} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
-import {AuthIsUserLoggedIn} from "@/js/auth";
-import router from "@/router";
-import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
-import {Messages, PasswordResetInitiationResult} from "@/js/constants";
+    import {AuthIsUserLoggedIn} from "@/js/auth";
+    import router from "@/router";
+import {Guid} from "guid-typescript";
+
+    const props = defineProps({
+        creatureId: Guid,
+        token: String
+    })
 
     const passwordResetFormData = reactive({
-        login: ""
+        password: "",
+        passwordConfirmation: ""
     })
 
     const passwordResetFormRules = {
-        login: {
+        password: {
             $autoDirty: true,
             required
+        },
+
+        passwordConfirmation: {
+            $autoDirty: true,
+            required,
+            sameAsPassword: CheckPasswordConfirmation
         }
     }
 
     const passwordResetFormValidator = useVuelidate(passwordResetFormRules, passwordResetFormData)
-
-    const passwordResetInitiationErrorHappened = ref(false)
-    const passwordResetInitiationResult = ref(null)
-
-    const adminInfo = ref(null)
-    const adminEmailMailto = ref(null)
 
     onMounted(async () =>
     {
@@ -40,109 +45,63 @@ import {Messages, PasswordResetInitiationResult} from "@/js/constants";
         }
 
         await passwordResetFormValidator.value.$validate()
-
-        // Requesting admin info here - inoptimal to some degree, but easy
-        adminInfo.value = await (await WebClientSendGetRequest("/api/SiteInfo/Admin")).json()
-        adminEmailMailto.value = "mailto:" + adminInfo.value.email
     }
 
-    async function InitiatePasswordReset()
+    // It looks like Vuelidate's SameAs() is bugged
+    function CheckPasswordConfirmation(passwordConfirmation)
     {
-        passwordResetInitiationErrorHappened.value = false
+        return passwordConfirmation === passwordResetFormData.password
+    }
 
-        passwordResetInitiationResult.value = (await (await WebClientSendPostRequest(
-            "/api/Users/InitiatePasswordReset",
-            {
-                "login": passwordResetFormData.login
-            })).json()).result
-
-        switch (passwordResetInitiationResult.value)
-        {
-            case PasswordResetInitiationResult.Initiated:
-                alert(Messages.PasswordResetInstructionsSent)
-                break
-
-            case PasswordResetInitiationResult.CreatureNotFound:
-                passwordResetInitiationErrorHappened.value = true
-                break
-
-            case PasswordResetInitiationResult.CreatureHaveNoEmail:
-                passwordResetInitiationErrorHappened.value = true
-                break
-
-            case PasswordResetInitiationResult.CreatureHaveNoConfirmedEmail:
-                passwordResetInitiationErrorHappened.value = true
-                break
-
-            case PasswordResetInitiationResult.FailedToSendEmail:
-                passwordResetInitiationErrorHappened.value = true
-                break
-
-            default:
-                throw new Error("Unknown password reset initiation result.")
-        }
+    async function SetNewPassword()
+    {
+        alert("Creature ID: " + props.creatureId)
+        alert("Token: " + props.token)
+        alert("Settin' password: " + passwordResetFormData.password)
     }
 </script>
 
 <template>
-    <div class="password-reset-form-container">
-        <div class="password-reset-form-title">
-            Сброс пароля
+    <div class="password-reset-confirmation-form-container">
+        <div class="password-reset-confirmation-form-title">
+            Новый пароль
         </div>
 
         <div>
-            <!-- Login -->
-            <div
-                v-if="passwordResetInitiationErrorHappened"
-                class="password-reset-error-message">
-
-                <!-- Creature not found -->
-                <div v-if="passwordResetInitiationResult === PasswordResetInitiationResult.CreatureNotFound">
-                    Пользователь с таким логином не найден.
-                </div>
-
-                <!-- Creature have no email -->
-                <div v-if="passwordResetInitiationResult === PasswordResetInitiationResult.CreatureHaveNoEmail">
-                    У этого пользователя не указана электронная почта. Автоматический сброс пароля невозможен, обратитесь, пожалуйста, к администратору:
-                    <a :href="adminEmailMailto">{{adminInfo.email}}</a>.
-                </div>
-
-                <!-- Creature have no confirmed email -->
-                <div v-if="passwordResetInitiationResult === PasswordResetInitiationResult.CreatureHaveNoConfirmedEmail">
-                    Электронная почта пользователя не подтверждена. Из соображений безопасности автоматический сброс пароля невозможен, обратитесь, пожалуйста, к администратору:
-                    <a :href="adminEmailMailto">{{adminInfo.email}}</a>.
-                </div>
-
-                <!-- Failed to send email -->
-                <div v-if="passwordResetInitiationResult === PasswordResetInitiationResult.FailedToSendEmail">
-                    Не удалось отправить письмо с инструкциями по сбросу пароля, обратитесь, пожалуйста, к администратору:
-                    <a :href="adminEmailMailto">{{adminInfo.email}}</a>.
-                </div>
-
-            </div>
-
+            <!-- Password -->
             <div>
-                Логин:
+                Пароль:
             </div>
             <input
-                :class="(passwordResetFormValidator.login.$error)?'password-reset-form-text-field password-reset-form-text-field-invalid':'password-reset-form-text-field'"
-                type="text"
-                placeholder="Логин"
-                v-model="passwordResetFormData.login"
+                :class="(passwordResetFormValidator.password.$error)?'password-reset-confirmation-form-text-field password-reset-confirmation-form-text-field-invalid':'password-reset-confirmation-form-text-field'"
+                type="password"
+                placeholder="Пароль"
+                v-model="passwordResetFormData.password"
+            />
+
+            <!-- Password confirmation -->
+            <div>
+                Подтверждение пароля:
+            </div>
+            <input
+                :class="(passwordResetFormValidator.passwordConfirmation.$error)?'password-reset-confirmation-form-text-field password-reset-confirmation-form-text-field-invalid':'password-reset-confirmation-form-text-field'"
+                type="password"
+                placeholder="Подтверждение пароля"
+                v-model="passwordResetFormData.passwordConfirmation"
             />
 
             <!-- Password reset button -->
             <button
-                class="password-reset-button"
+                class="password-reset-confirmation-button"
                 type="button"
-                @click="async() => await InitiatePasswordReset()"
+                @click="async() => await SetNewPassword()"
                 :disabled="passwordResetFormValidator.$errors.length > 0">
-                Сбросить пароль
+                Установить пароль
             </button>
         </div>
 
-        <div class="password-reset-form-bottom-links-container">
-            <a class="password-reset-form-bottom-link" href="/login" title="Вход">Вспомнили пароль?</a>
+        <div class="password-reset-confirmation-form-bottom-links-container">
+            <a class="password-reset-confirmation-form-bottom-link" href="/login" title="Вход">Вспомнили старый пароль?</a>
         </div>
     </div>
 </template>
