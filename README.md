@@ -18,6 +18,9 @@ Run container: $ docker-compose -f docker-compose-arkumida-migrator.yml up
 Build image: docker build -f dockerfile-webapi -t arkumida-webapi .
 Run container: $ docker-compose -f docker-compose-arkumida-webapi.yml up -d
 
+# Build frontend
+Run (in Arkumida/vueapp directory): npm run build
+
 # Configure reverse proxy for API server
 Configure reverse proxy in a such way (example for Apache):
 
