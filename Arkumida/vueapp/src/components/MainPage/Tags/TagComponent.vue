@@ -1,11 +1,10 @@
 <script setup>
 
     import {defineProps, onMounted, ref} from "vue";
-    import {Guid} from "guid-typescript";
     import {TagSizeCategory} from "@/js/constants";
 
     const props = defineProps({
-        id: Guid,
+        id: String,
         furryReadableId: String,
         sizeCategory: Number,
         tag: String

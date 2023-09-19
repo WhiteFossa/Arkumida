@@ -20,7 +20,7 @@ import {defineExpose, ref} from "vue";
 
 <template>
     <header class="header">
-        <div class="horizontal-flex flex-cross-center header-container">
+        <div class="header-container">
             <div>
                 <HeaderSiteInfo />
             </div>

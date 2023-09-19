@@ -2,7 +2,6 @@
 <script setup>
 
     import { defineProps } from 'vue'
-    import { Guid } from 'guid-typescript'
     import { ref, onMounted } from 'vue'
     import moment from 'moment'
     import LoadingSymbol from '../../Shared/LoadingSymbol.vue'
@@ -21,7 +20,7 @@
     import {WebClientSendGetRequest} from "@/js/libWebClient";
     
     const props = defineProps({
-        id: Guid
+        id: String
     })
     
     // True if loading under way

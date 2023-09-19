@@ -5,7 +5,7 @@
 
     const props = defineProps({
         avatar: Object,
-        avatarClass: Object
+        avatarClass: Number
     })
 
     const apiBaseUrl = process.env.VUE_APP_API_URL

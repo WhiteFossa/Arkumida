@@ -207,6 +207,8 @@ body {
   flex-wrap: wrap;
   column-gap: 10rem;
   row-gap: 2rem;
+  display: flex;
+  align-items: center;
   justify-content: space-around;
 }
 /* Header stuff end */
@@ -2031,4 +2033,20 @@ body {
   width: 1rem;
 }
 /* Icons stuff ends here */
+/* Private messages stuff starts here */
+/* Container with private messages icon */
+.private-messages-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Private messages stuff ends here */
+/* Header user info stuff starts here */
+/* Put header user info here */
+.header-user-info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Header user info stuff ends here */
 /*# sourceMappingURL=arkumida.css.map */

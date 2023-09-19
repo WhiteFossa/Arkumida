@@ -63,8 +63,16 @@ import {defineExpose, onMounted, ref} from "vue";
         </div>
 
         <!-- User is logged in -->
-        <div v-if="isUserLoggedIn">
+        <div
+            class="header-user-info-container"
+            v-if="isUserLoggedIn">
 
+            <!-- Private messages -->
+            <div class="private-messages-icon-container">
+                <img src="/images/message.png" alt="Личные сообщения" />
+            </div>
+
+            <!-- Profile link -->
             <a class="darkest-color1-link-without-underline" href="/profile" title="Профиль">
                 <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Small" :key="creatureProfile.currentAvatar"/>
             </a>

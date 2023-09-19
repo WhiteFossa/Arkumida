@@ -6,7 +6,7 @@
     import {WebClientSendGetRequest} from "@/js/libWebClient";
 
     const props = defineProps({
-        subtype: TagSubtype
+        subtype: Number
     })
 
     const isLoading = ref(true)
