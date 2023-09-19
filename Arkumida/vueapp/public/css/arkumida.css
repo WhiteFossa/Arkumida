@@ -2052,10 +2052,9 @@ body {
 .mixin-private-messages-unread-icon {
   text-align: center;
   display: inline-block;
-  border: 0.1rem solid hsl(225, 100%, 35%);
   border-radius: 1rem;
-  background: hsl(36, 100%, 60%);
-  color: hsl(225, 100%, 35%);
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
   cursor: pointer;
   position: absolute;
   top: -0.3rem;
@@ -2065,10 +2064,9 @@ body {
 .private-messages-unread-icon-1-digit {
   text-align: center;
   display: inline-block;
-  border: 0.1rem solid hsl(225, 100%, 35%);
   border-radius: 1rem;
-  background: hsl(36, 100%, 60%);
-  color: hsl(225, 100%, 35%);
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
   cursor: pointer;
   position: absolute;
   top: -0.3rem;
@@ -2079,10 +2077,9 @@ body {
 .private-messages-unread-icon-2-digit {
   text-align: center;
   display: inline-block;
-  border: 0.1rem solid hsl(225, 100%, 35%);
   border-radius: 1rem;
-  background: hsl(36, 100%, 60%);
-  color: hsl(225, 100%, 35%);
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
   cursor: pointer;
   position: absolute;
   top: -0.3rem;
@@ -2093,10 +2090,9 @@ body {
 .private-messages-unread-icon-3-digit {
   text-align: center;
   display: inline-block;
-  border: 0.1rem solid hsl(225, 100%, 35%);
   border-radius: 1rem;
-  background: hsl(36, 100%, 60%);
-  color: hsl(225, 100%, 35%);
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
   cursor: pointer;
   position: absolute;
   top: -0.3rem;

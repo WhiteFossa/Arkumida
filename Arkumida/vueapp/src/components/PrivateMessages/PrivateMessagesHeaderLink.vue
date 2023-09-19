@@ -1,22 +1,72 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onBeforeUnmount, onMounted, ref} from "vue";
 import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 import {WebClientSendGetRequest} from "@/js/libWebClient";
+import {PrivateMessagesConstants} from "@/js/constants";
 
     const isLoading = ref(true)
 
     const unreadInfo = ref(null)
+
+    const unreadCountMessage = ref(null)
+
+    const unreadCountMessageClass = ref(null)
+
+    const unreadInfoPollingHandle = ref(null)
 
     onMounted(async () =>
     {
         await OnLoad();
     })
 
+    onBeforeUnmount(async () =>
+    {
+        // Stopping unread messages polling
+        if (unreadInfoPollingHandle.value != null)
+        {
+            clearInterval(unreadInfoPollingHandle.value)
+        }
+    })
+
     async function OnLoad()
+    {
+        await GetUnreadMessagesCount()
+
+        unreadInfoPollingHandle.value = setInterval (
+            function()
+            {
+                GetUnreadMessagesCount()
+            },
+            PrivateMessagesConstants.UnreadPrivateMessagesInHeaderPollingInterval);
+
+        isLoading.value = false
+    }
+
+    async function GetUnreadMessagesCount()
     {
         unreadInfo.value = await (await WebClientSendGetRequest("/api/PrivateMessages/UnreadInfo")).json()
 
-        isLoading.value = false
+        if (unreadInfo.value.unreadMessagesCount < 100)
+        {
+            unreadCountMessage.value = unreadInfo.value.unreadMessagesCount
+        }
+        else
+        {
+            unreadCountMessage.value = PrivateMessagesConstants.MaxUnreadPrivateMessagesInHeaderNotificationMessage;
+        }
+
+        if (unreadInfo.value.unreadMessagesCount < 10)
+        {
+            unreadCountMessageClass.value = "private-messages-unread-icon-1-digit"
+        }
+        else if (unreadInfo.value.unreadMessagesCount >= 10 && unreadInfo.value.unreadMessagesCount < 100)
+        {
+            unreadCountMessageClass.value = "private-messages-unread-icon-2-digit"
+        }
+        else
+        {
+            unreadCountMessageClass.value = "private-messages-unread-icon-3-digit"
+        }
     }
 </script>
 
@@ -28,8 +78,10 @@ import {WebClientSendGetRequest} from "@/js/libWebClient";
     <div v-if="!isLoading">
         <div class="private-messages-icon-container">
 
-            <div class="private-messages-unread-icon-3-digit">
-                99+
+            <div
+                v-if="unreadInfo.unreadMessagesCount > 0"
+                :class="unreadCountMessageClass">
+                {{ unreadCountMessage }}
             </div>
 
             <a href="/privateMessages" title="Личные сообщения">

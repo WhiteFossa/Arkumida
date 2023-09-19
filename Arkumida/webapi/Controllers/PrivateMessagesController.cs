@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Models.Api.Responses.PrivateMessages;
+using webapi.Services.Abstract;
 
 namespace webapi.Controllers;
 
@@ -11,6 +12,19 @@ namespace webapi.Controllers;
 [ApiController]
 public class PrivateMessagesController : ControllerBase
 {
+    private readonly IAccountsService _accountsService;
+    private readonly IPrivateMessagesService _privateMessagesService;
+
+    public PrivateMessagesController
+    (
+        IAccountsService accountsService,
+        IPrivateMessagesService privateMessagesService
+    )
+    {
+        _accountsService = accountsService;
+        _privateMessagesService = privateMessagesService;
+    }
+    
     /// <summary>
     /// Get information about unread private messages
     /// </summary>
@@ -18,6 +32,8 @@ public class PrivateMessagesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<UnreadPrivateMessagesInfoResponse>> GetUnreadInfoAsync()
     {
-        return Ok(new UnreadPrivateMessagesInfoResponse(10));
+        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        
+        return Ok(new UnreadPrivateMessagesInfoResponse(await _privateMessagesService.GetUnreadPrivateMessagesCountAsync(loggedInCreature.Id)));
     }
 }
