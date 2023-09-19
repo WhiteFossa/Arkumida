@@ -28,6 +28,7 @@
 /* Inputs */
 /* Pagination */
 /* Footer */
+/* Private messages */
 /* Variables end here */
 /* Mixins start here */
 /* Footer column base */
@@ -2039,9 +2040,77 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 1rem;
+  position: relative;
+}
+/* Private messages icon */
+.private-messages-icon {
+  vertical-align: middle;
+  width: 3rem;
+}
+/* Private messages unread icon */
+.mixin-private-messages-unread-icon {
+  text-align: center;
+  display: inline-block;
+  border: 0.1rem solid hsl(225, 100%, 35%);
+  border-radius: 1rem;
+  background: hsl(36, 100%, 60%);
+  color: hsl(225, 100%, 35%);
+  cursor: pointer;
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+}
+/* Private messages unread count icon - 1 digit size */
+.private-messages-unread-icon-1-digit {
+  text-align: center;
+  display: inline-block;
+  border: 0.1rem solid hsl(225, 100%, 35%);
+  border-radius: 1rem;
+  background: hsl(36, 100%, 60%);
+  color: hsl(225, 100%, 35%);
+  cursor: pointer;
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+  width: 1.4rem;
+}
+/* Private messages unread count icon - 2 digit size */
+.private-messages-unread-icon-2-digit {
+  text-align: center;
+  display: inline-block;
+  border: 0.1rem solid hsl(225, 100%, 35%);
+  border-radius: 1rem;
+  background: hsl(36, 100%, 60%);
+  color: hsl(225, 100%, 35%);
+  cursor: pointer;
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+  width: 2rem;
+}
+/* Private messages unread count icon - 3 digit size */
+.private-messages-unread-icon-3-digit {
+  text-align: center;
+  display: inline-block;
+  border: 0.1rem solid hsl(225, 100%, 35%);
+  border-radius: 1rem;
+  background: hsl(36, 100%, 60%);
+  color: hsl(225, 100%, 35%);
+  cursor: pointer;
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+  width: 2.5rem;
 }
 /* Private messages stuff ends here */
 /* Header user info stuff starts here */
+/* Header central menu */
+.header-central-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* Put header user info here */
 .header-user-info-container {
   display: flex;

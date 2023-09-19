@@ -21,9 +21,9 @@
 
 /* Buttons type 1 */
 @buttons1-color1: hsl(36, 100%, 84%);
-@buttons1-border: hsl(225, 100%, 80%);
-@buttons1-color2: hsl(36, 100%, 60%);
-@buttons1-color3: hsl(225, 100%, 35%);
+@buttons1-color2: hsl(225, 100%, 80%);
+@buttons1-color3: hsl(36, 100%, 60%);
+@buttons1-color4: hsl(225, 100%, 35%);
 
 /* Tags subtype container */
 @tags-subtype-container-border-color: hsl(36, 100%, 84%);
@@ -170,6 +170,10 @@
 
 /* Footer */
 @footer-column-width: 20rem;
+
+/* Private messages */
+@private-messages-icon-width: 3rem;
+@private-messages-unread-icon-border-radius: 1rem;
 
 /* Variables end here */
 
@@ -773,7 +777,7 @@ body {
 
 /* Button for switching short texts infos display mode */
 .texts-short-infos-button {
-  border: @border-thick-thickness @border-style @buttons1-border;
+  border: @border-thick-thickness @border-style @buttons1-color2;
   border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 10rem;
@@ -784,14 +788,14 @@ body {
 }
 
 .texts-short-infos-button:hover {
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
 }
 
 /* Button for switching short texts infos display mode - active */
 .texts-short-infos-button-active {
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
   border-radius: @border-radius-bigger1;
   width: 10rem;
   padding-top: @padding-small1;
@@ -905,7 +909,7 @@ body {
 
 /* Arrows in container with short texts infos */
 .texts-short-infos-container-arrows-buttons {
-  border: @border-thick-thickness @border-style @buttons1-border;
+  border: @border-thick-thickness @border-style @buttons1-color2;
   border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 6rem;
@@ -913,8 +917,8 @@ body {
 }
 
 .texts-short-infos-container-arrows-buttons:hover {
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
 }
 
 /* Icons on arrows buttons*/
@@ -1914,7 +1918,7 @@ body {
 /* Profile part button (active) */
 .profile-part-button-active {
   display: inline-block;
-  border: @border-thick-thickness @border-style @buttons1-border;
+  border: @border-thick-thickness @border-style @buttons1-color2;
   border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 15rem;
@@ -1928,15 +1932,15 @@ body {
 
 /* Hovered profile part button (active) */
 .profile-part-button-active:hover {
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
 }
 
 /* Profile part button for current page (inactive) */
 .profile-part-button-current {
   display: inline-block;
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
   border-radius: @border-radius-bigger1;
   width: 15rem;
   padding-top: @padding-normal;
@@ -1944,7 +1948,7 @@ body {
   font-size: @font-size-big;
   .mixin-bold-text-base();
   .mixin-centered-text-base();
-  color: @buttons1-color3;
+  color: @buttons1-color4;
 }
 
 /* Creature name in profile main part (show mode)*/
@@ -2424,11 +2428,66 @@ body {
 /* Container with private messages icon */
 .private-messages-icon-container {
   .mixin-horizontally-and-vertically-centered-flex();
+  margin-right: @margin-normal;
+
+  position: relative;
+}
+
+/* Private messages icon */
+.private-messages-icon {
+  vertical-align: middle;
+  width: @private-messages-icon-width;
+}
+
+/* Private messages unread icon */
+.mixin-private-messages-unread-icon {
+  .mixin-centered-text-base();
+
+  display: inline-block;
+
+  border: @border-thin-thickness @border-style @buttons1-color4;
+  border-radius: @private-messages-unread-icon-border-radius;
+
+  background: @buttons1-color3;
+
+  color: @buttons1-color4;
+
+  cursor: pointer;
+
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+}
+
+/* Private messages unread count icon - 1 digit size */
+.private-messages-unread-icon-1-digit {
+  .mixin-private-messages-unread-icon();
+
+  width: 1.4rem;
+}
+
+/* Private messages unread count icon - 2 digit size */
+.private-messages-unread-icon-2-digit {
+  .mixin-private-messages-unread-icon();
+
+  width: 2rem;
+}
+
+/* Private messages unread count icon - 3 digit size */
+.private-messages-unread-icon-3-digit {
+  .mixin-private-messages-unread-icon();
+
+  width: 2.5rem;
 }
 
 /* Private messages stuff ends here */
 
 /* Header user info stuff starts here */
+
+/* Header central menu */
+.header-central-menu {
+  .mixin-horizontally-and-vertically-centered-flex();
+}
 
 /* Put header user info here */
 .header-user-info-container {

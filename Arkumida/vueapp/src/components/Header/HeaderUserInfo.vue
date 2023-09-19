@@ -5,6 +5,7 @@ import {defineExpose, onMounted, ref} from "vue";
     import {AuthIsUserLoggedIn} from "@/js/auth";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
     import {AvatarClass} from "@/js/constants";
+import PrivateMessagesHeaderLink from "@/components/PrivateMessages/PrivateMessagesHeaderLink.vue";
 
     defineExpose({
         ReloadProfile
@@ -68,9 +69,7 @@ import {defineExpose, onMounted, ref} from "vue";
             v-if="isUserLoggedIn">
 
             <!-- Private messages -->
-            <div class="private-messages-icon-container">
-                <img src="/images/message.png" alt="Личные сообщения" />
-            </div>
+            <PrivateMessagesHeaderLink />
 
             <!-- Profile link -->
             <a class="darkest-color1-link-without-underline" href="/profile" title="Профиль">
