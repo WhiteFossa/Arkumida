@@ -55,6 +55,8 @@ builder.Services.AddScoped<IAvatarsDao, AvatarsDao>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
 builder.Services.AddScoped<IEmailsGeneratorService, EmailsGeneratorService>();
 
+builder.Services.AddScoped<IPrivateMessagesService, PrivateMessagesService>();
+
 #endregion
 
 #region Singletons

@@ -485,12 +485,12 @@ public class UsersController : ControllerBase
     /// </summary>
     private async Task CheckPrivilegesAsync(Guid creatureId)
     {
-        var loggedIdCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
         
         // TODO: Add support for admins
-        if (loggedIdCreature.Id != creatureId)
+        if (loggedInCreature.Id != creatureId)
         {
-            throw new InvalidOperationException($"User with ID = { loggedIdCreature.Id } have no privileges to read/change user's with ID = { creatureId } data!");
+            throw new InvalidOperationException($"User with ID = { loggedInCreature.Id } have no privileges to read/change user's with ID = { creatureId } data!");
         }
     }
 }

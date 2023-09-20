@@ -131,5 +131,17 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
             .Entity<CreatureProfileDbo>()
             .HasMany(p => p.Avatars)
             .WithOne(a => a.CreatureProfile);
+        
+        // Private message have one sender
+        modelBuilder
+            .Entity<PrivateMessageDbo>()
+            .HasOne(pm => pm.Sender)
+            .WithMany(cp => cp.SenderOfThisPrivateMessages);
+        
+        // Private message have one receiver
+        modelBuilder
+            .Entity<PrivateMessageDbo>()
+            .HasOne(pm => pm.Receiver)
+            .WithMany(cp => cp.ReceiverOfThisPrivateMessages);
     }
 }
