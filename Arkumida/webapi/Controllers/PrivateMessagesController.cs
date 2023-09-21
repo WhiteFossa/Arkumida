@@ -87,6 +87,9 @@ public class PrivateMessagesController : ControllerBase
         return Ok(new SentPrivateMessageResponse(result.Item1, result.Item2));
     }
 
+    /// <summary>
+    /// Mark private message as read
+    /// </summary>
     [Route("api/PrivateMessages/MarkAsRead/{messageId}")]
     [HttpPost]
     public async Task<ActionResult<MarkPrivateMessageAsReadResponse>> MarkPrivateMessageAsRead(Guid messageId)
@@ -94,5 +97,17 @@ public class PrivateMessagesController : ControllerBase
         var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
 
         return Ok(new MarkPrivateMessageAsReadResponse(await _privateMessagesService.MarkPrivateMessageAsReadAsync(loggedInCreature.Id, messageId)));
+    }
+
+    /// <summary>
+    /// Get all conversations summaries for current creature
+    /// </summary>
+    [Route("api/PrivateMessages/Conversations")]
+    [HttpGet]
+    public async Task<ActionResult<ConversationsSummariesResponse>> GetConversationsSummariesAsync()
+    {
+        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        
+        return Ok(new ConversationsSummariesResponse(await _privateMessagesService.GetConversationsSummariesAsync(loggedInCreature.Id)));
     }
 }

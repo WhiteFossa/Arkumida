@@ -100,4 +100,20 @@ public class ProfilesDao : IProfilesDao
             
             .SingleAsync(p => p.Id == creatureId);
     }
+
+    public async Task<IReadOnlyCollection<CreatureProfileDbo>> MassGetProfilesAsync(IReadOnlyCollection<Guid> creaturesIds)
+    {
+        return await _dbContext
+            .Profiles
+
+            .Include(p => p.CurrentAvatar)
+            .ThenInclude(ca => ca.File)
+
+            .Include(p => p.Avatars)
+            .ThenInclude(a => a.File)
+
+            .Where(p => creaturesIds.Contains(p.Id))
+
+            .ToListAsync();
+    }
 }

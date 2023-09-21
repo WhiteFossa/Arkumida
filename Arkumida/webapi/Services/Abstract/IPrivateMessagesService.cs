@@ -1,3 +1,4 @@
+using webapi.Models.Api.DTOs.PrivateMessages;
 using webapi.Models.Enums;
 using webapi.Models.PrivateMessages;
 
@@ -30,4 +31,9 @@ public interface IPrivateMessagesService
     /// Mark private message as read. Message must belong to receiver
     /// </summary>
     Task<MarkPrivateMessageAsReadResult> MarkPrivateMessageAsReadAsync(Guid receiverId, Guid messageId);
+    
+    /// <summary>
+    /// Get conversations summaries for given creature
+    /// </summary>
+    Task<IReadOnlyCollection<ConversationSummaryDto>> GetConversationsSummariesAsync(Guid creatureId);
 }

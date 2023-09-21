@@ -21,4 +21,9 @@ public interface IProfilesDao
     /// Get creature profile
     /// </summary>
     Task<CreatureProfileDbo> GetProfileAsync(Guid creatureId);
+
+    /// <summary>
+    /// Mass get creatures profiles by IDs
+    /// </summary>
+    Task<IReadOnlyCollection<CreatureProfileDbo>> MassGetProfilesAsync(IReadOnlyCollection<Guid> creaturesIds);
 }

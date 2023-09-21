@@ -31,4 +31,19 @@ public interface IPrivateMessagesDao
     /// Update private message
     /// </summary>
     Task<PrivateMessageDbo> UpdatePrivateMessageAsync(PrivateMessageDbo privateMessage);
+
+    /// <summary>
+    /// Get all creatures, who talked with given creature at least once
+    /// </summary>
+    Task<IReadOnlyCollection<CreatureDbo>> GetConfidantsAsync(Guid creatureId);
+
+    /// <summary>
+    /// Get last private messages times from given senders
+    /// </summary>
+    Task<IDictionary<Guid, DateTime>> GetLastPrivateMessageTimeByConfidantsAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds);
+
+    /// <summary>
+    /// Get unread private messages count by senders
+    /// </summary>
+    Task<IDictionary<Guid, int>> GetUnreadMessagesCountByConfidantsAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds);
 }

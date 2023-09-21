@@ -79,4 +79,34 @@ public class PrivateMessagesDao : IPrivateMessagesDao
 
         return privateMessageToUpdate;
     }
+
+    public async Task<IReadOnlyCollection<CreatureDbo>> GetConfidantsAsync(Guid creatureId)
+    {
+        return await _dbContext
+            .PrivateMessages
+            .Where(pm => pm.Receiver.Id == creatureId)
+            .Include(pm => pm.Sender)
+            .Select(pm => pm.Sender)
+            .ToListAsync();
+    }
+
+    public async Task<IDictionary<Guid, DateTime>> GetLastPrivateMessageTimeByConfidantsAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds)
+    {
+        return await _dbContext
+            .PrivateMessages
+            .Where(pm => pm.Receiver.Id == receiverId)
+            .Where(pm => sendersIds.Contains(pm.Sender.Id))
+            .GroupBy(pm => pm.Sender.Id)
+            .ToDictionaryAsync(g => g.Key, g => g.Max(pm => pm.SentTime));
+    }
+
+    public async Task<IDictionary<Guid, int>> GetUnreadMessagesCountByConfidantsAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds)
+    {
+        return await _dbContext
+            .PrivateMessages
+            .Where(pm => pm.Receiver.Id == receiverId)
+            .Where(pm => sendersIds.Contains(pm.Sender.Id))
+            .GroupBy(pm => pm.Sender.Id)
+            .ToDictionaryAsync(g => g.Key, g => g.Count(pm => pm.ReadTime == null));
+    }
 }
