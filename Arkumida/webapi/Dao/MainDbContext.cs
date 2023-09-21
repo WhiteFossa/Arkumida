@@ -56,6 +56,11 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
     /// </summary>
     public DbSet<CreatureProfileDbo> Profiles { get; set; }
 
+    /// <summary>
+    /// Private messages
+    /// </summary>
+    public DbSet<PrivateMessageDbo> PrivateMessages { get; set; }
+
     public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
     {
         

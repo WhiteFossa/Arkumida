@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using webapi.Dao;
 
 #nullable disable
 
-namespace webapi.Dao.Migrations
+namespace webapi.Migrations.SecurityDb
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230920155611_Add private messages DbSet")]
+    partial class AddprivatemessagesDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -351,12 +354,6 @@ namespace webapi.Dao.Migrations
 
                     b.Property<string>("Content")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsDeletedOnReceiverSide")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeletedOnSenderSide")
-                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("ReadTime")
                         .HasColumnType("timestamp with time zone");

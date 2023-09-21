@@ -43,14 +43,4 @@ public class CreatureProfileDbo
     /// Information about creature (in the format, processable by ITextUtilsService.ParseTextToElements())
     /// </summary>
     public string About { get; set; }
-
-    /// <summary>
-    /// The creature is author for the next private messages
-    /// </summary>
-    public IList<PrivateMessageDbo> SenderOfThisPrivateMessages { get; set; }
-    
-    /// <summary>
-    /// The creature is receiver of the next private messages
-    /// </summary>
-    public IList<PrivateMessageDbo> ReceiverOfThisPrivateMessages { get; set; }
 }

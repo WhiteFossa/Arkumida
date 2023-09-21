@@ -56,6 +56,8 @@ builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
 builder.Services.AddScoped<IEmailsGeneratorService, EmailsGeneratorService>();
 
 builder.Services.AddScoped<IPrivateMessagesService, PrivateMessagesService>();
+builder.Services.AddScoped<IPrivateMessagesDao, PrivateMessagesDao>();
+
 
 #endregion
 
@@ -72,6 +74,7 @@ builder.Services.AddSingleton<ICreaturesMapper, CreaturesMapper>();
 builder.Services.AddSingleton<IRenderedTextsMapper, RenderedTextsMapper>();
 builder.Services.AddSingleton<IAvatarsMapper, AvatarsMapper>();
 builder.Services.AddSingleton<ICreaturesWithProfilesMapper, CreaturesWithProfilesMapper>();
+builder.Services.AddSingleton<IPrivateMessagesMapper, PrivateMessagesMapper>();
 
 #endregion
 

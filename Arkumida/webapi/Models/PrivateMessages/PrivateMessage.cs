@@ -1,16 +1,15 @@
-using System.ComponentModel.DataAnnotations;
+using webapi.Models.Api.DTOs.PrivateMessages;
 
-namespace webapi.Dao.Models;
+namespace webapi.Models.PrivateMessages;
 
 /// <summary>
-/// Database model for private message
+/// Private message (business logic level model)
 /// </summary>
-public class PrivateMessageDbo
+public class PrivateMessage
 {
     /// <summary>
     /// ID
     /// </summary>
-    [Key]
     public Guid Id { get; set; }
 
     /// <summary>
@@ -21,12 +20,12 @@ public class PrivateMessageDbo
     /// <summary>
     /// Message sender
     /// </summary>
-    public CreatureDbo Sender { get; set; }
+    public Creature Sender { get; set; }
     
     /// <summary>
     /// Message receiver
     /// </summary>
-    public CreatureDbo Receiver { get; set; }
+    public Creature Receiver { get; set; }
 
     /// <summary>
     /// Message was sent at this time
@@ -37,7 +36,7 @@ public class PrivateMessageDbo
     /// Message was read (if was) at this time
     /// </summary>
     public DateTime? ReadTime { get; set; }
-
+    
     /// <summary>
     /// Is message received on receiver side
     /// </summary>
@@ -47,4 +46,9 @@ public class PrivateMessageDbo
     /// Is message received on receiver side
     /// </summary>
     public bool IsDeletedOnSenderSide { get; set; }
+
+    public PrivateMessageDto ToDto()
+    {
+        return new PrivateMessageDto(Id, Content, Sender.ToDto(), Receiver.ToDto(), SentTime, ReadTime);
+    }
 }
