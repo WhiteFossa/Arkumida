@@ -68,7 +68,7 @@
     async function OnLoad()
     {
         // Profile is accessible only for logged-in users
-        AuthRedirectToLoginPageIfNotLoggedIn()
+        await AuthRedirectToLoginPageIfNotLoggedIn()
 
         // If we are came directly to profile - going to main part
         if (props.part === "")

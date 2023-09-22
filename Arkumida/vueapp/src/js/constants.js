@@ -235,7 +235,7 @@ export class PasswordResetInitiationResult
 export class PrivateMessagesConstants
 {
     // Display this if we have more than 100 unread messages
-    static MaxUnreadPrivateMessagesInHeaderNotificationMessage = "99+"
+    static MaxUnreadPrivateMessagesCountMessage = "99+"
 
     // Polling interval for unread messages in header
     static UnreadPrivateMessagesInHeaderPollingInterval = 60000

@@ -175,6 +175,11 @@
 @private-messages-icon-width: 3rem;
 @private-messages-unread-icon-border-radius: 1rem;
 
+@private-messages-conversations-list-container-border-color: hsl(199, 65%, 54%);
+@private-messages-conversations-list-container-background-color: hsl(199, 74%, 79%);
+@private-messages-conversation-container-border-color: hsl(36, 100%, 84%);
+@private-messages-conversation-container-background-color: hsl(38, 38%, 92%);
+
 /* Variables end here */
 
 /* Mixins start here */
@@ -2494,3 +2499,117 @@ body {
 }
 
 /* Header user info stuff ends here */
+
+/* Private messages stuff starts here */
+
+/* Private messages top level container */
+.private-messages-top-level-container {
+  .mixin-flex-row-base();
+  justify-content: space-around;
+  column-gap: @gap-normal;
+  row-gap: @gap-bigger;
+}
+
+/* Conversations list container */
+.private-messages-conversations-list-container {
+  width: 20rem;
+  max-width: 95vw;
+}
+
+/* Conversation container */
+.private-messages-conversation-container {
+  background-color: @private-messages-conversation-container-background-color;
+  border: @border-thin-thickness @border-style @private-messages-conversation-container-border-color;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+  margin: @margin-smaller1;
+
+  flex: 99%;
+}
+
+/* Container with conversation summary */
+.private-messages-conversation-summary-container {
+  background-color: @private-messages-conversations-list-container-background-color;
+  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+  margin: @margin-smaller1;
+
+  .mixin-flex-row-base();
+
+  cursor: pointer;
+
+  position: relative;
+}
+
+/* Private messages title */
+.private-messages-title {
+  .mixin-centered-text-base();
+  font-size: @font-size-bigger2;
+  .mixin-bold-text-base();
+}
+
+/* Conversation summary info part (i.e. not avatar part) */
+.private-messages-conversation-summary-info-part {
+  .mixin-flex-base();
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+
+  margin-left: @margin-smaller1;
+}
+
+/* Creature name in conversation summary */
+.private-messages-conversation-summary-creature-name {
+  .mixin-bold-text-base();
+}
+
+/* Last message time in conversation summary */
+.private-messages-conversation-summary-last-message-time {
+  font-size: @font-size-smaller1;
+  color: @darker-color3;
+}
+
+/* Private messages unread icon in conversation summary */
+.mixin-private-messages-conversation-summary-unread-icon {
+  .mixin-centered-text-base();
+
+  display: inline-block;
+
+  border-radius: @private-messages-unread-icon-border-radius;
+
+  background: @alert-color;
+
+  color: @lightest-color1;
+
+  cursor: pointer;
+
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+}
+
+/* Private messages unread count icon in conversation summary - 1 digit size */
+.private-messages-conversation-summary-unread-icon-1-digit {
+  .mixin-private-messages-conversation-summary-unread-icon();
+
+  width: 1.4rem;
+}
+
+/* Private messages unread count icon in conversation summary - 2 digit size */
+.private-messages-conversation-summary-unread-icon-2-digit {
+  .mixin-private-messages-conversation-summary-unread-icon();
+
+  width: 2rem;
+}
+
+/* Private messages unread count icon in conversation summary - 3 digit size */
+.private-messages-conversation-summary-unread-icon-3-digit {
+  .mixin-private-messages-conversation-summary-unread-icon();
+
+  width: 2.5rem;
+}
+
+/* Private messages stuff ends here */

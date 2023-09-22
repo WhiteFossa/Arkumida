@@ -2,9 +2,9 @@
 
     import HeaderComponent from "@/components/Header/HeaderComponent.vue";
     import FooterComponent from "@/components/Footer/FooterComponent.vue";
-    import MainPage from "@/components/MainPage/MainPage.vue";
     import {onMounted} from "vue";
     import {OnPageLoad} from "@/js/libArkumida";
+    import PrivateMessagesComponent from "@/components/PrivateMessages/PrivateMessagesComponent.vue";
 
     onMounted(async () =>
     {
@@ -22,7 +22,7 @@
 
     <HeaderComponent />
 
-    <MainPage />
+    <PrivateMessagesComponent />
 
     <FooterComponent />
 

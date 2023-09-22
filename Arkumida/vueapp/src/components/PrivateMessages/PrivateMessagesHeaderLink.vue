@@ -9,7 +9,6 @@ import {PrivateMessagesConstants} from "@/js/constants";
     const unreadInfo = ref(null)
 
     const unreadCountMessage = ref(null)
-
     const unreadCountMessageClass = ref(null)
 
     const unreadInfoPollingHandle = ref(null)
@@ -52,7 +51,7 @@ import {PrivateMessagesConstants} from "@/js/constants";
         }
         else
         {
-            unreadCountMessage.value = PrivateMessagesConstants.MaxUnreadPrivateMessagesInHeaderNotificationMessage;
+            unreadCountMessage.value = PrivateMessagesConstants.MaxUnreadPrivateMessagesCountMessage;
         }
 
         if (unreadInfo.value.unreadMessagesCount < 10)
