@@ -5,10 +5,15 @@
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
+    import PrivateMessagesConversationElement
+        from "@/components/PrivateMessages/PrivateMessagesConversationElement.vue";
 
     const isLoading = ref(true)
 
     const conversationsSummaries = ref(null)
+    const selectedConfidant = ref(null)
+
+    const conversation = ref(null)
 
     onMounted(async () =>
     {
@@ -22,6 +27,13 @@
         conversationsSummaries.value = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations")).json()).conversationsSummaries
 
         isLoading.value = false
+    }
+
+    async function OpenConversation(confidantId)
+    {
+        selectedConfidant.value = (await (await WebClientSendGetRequest("/api/Users/" + confidantId + "/Profile")).json()).creatureWithProfile
+
+        conversation.value = await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + confidantId)).json()
     }
 </script>
 
@@ -39,16 +51,31 @@
         <div class="private-messages-top-level-container">
 
             <!-- Conversations container -->
-            <div class="private-messages-conversations-list-container">
+            <div class="private-messages-conversations-list-container" :key="selectedConfidant">
 
                 <PrivateMessagesConversationSummary
                     v-for="conversationSummary in conversationsSummaries" :key="conversationSummary"
-                    :conversationSummary="conversationSummary" />
+                    :conversationSummary="conversationSummary"
+                    :selectedConfidantId = "selectedConfidant?.entityId"
+                    @openConversation="async (cid) => await OpenConversation(cid)"/>
 
             </div>
 
             <div class="private-messages-conversation-container">
-                Тут будет диалог
+
+                <div v-if="conversation === null">
+                    Выберите диалог
+                </div>
+
+                <div v-if="conversation !== null">
+
+                    <!-- Conversation messages -->
+                    <PrivateMessagesConversationElement
+                        v-for="message in conversation.messages" :key="message"
+                        :message="message" />
+
+                </div>
+
             </div>
         </div>
     </div>

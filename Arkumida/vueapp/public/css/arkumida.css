@@ -2120,7 +2120,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  column-gap: 1rem;
+  column-gap: 0.5rem;
   row-gap: 2rem;
 }
 /* Conversations list container */
@@ -2138,9 +2138,7 @@ body {
   flex: 99%;
 }
 /* Container with conversation summary */
-.private-messages-conversation-summary-container {
-  background-color: hsl(199, 74%, 79%);
-  border: 0.1rem solid hsl(199, 65%, 54%);
+.mixin-private-messages-conversation-summary-container {
   border-radius: 0.2rem;
   padding: 0.5rem;
   margin: 0.5rem;
@@ -2148,6 +2146,29 @@ body {
   flex-direction: row;
   cursor: pointer;
   position: relative;
+}
+.private-messages-conversation-summary-container {
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  position: relative;
+  background-color: hsl(199, 74%, 79%);
+  border: 0.1rem solid hsl(199, 65%, 54%);
+}
+.private-messages-conversation-summary-container-selected {
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  position: relative;
+  background-color: hsl(199, 74%, 39%);
+  border: 0.1rem solid hsl(199, 65%, 14%);
+  color: hsl(0, 0%, 100%);
 }
 /* Private messages title */
 .private-messages-title {
@@ -2171,6 +2192,10 @@ body {
 .private-messages-conversation-summary-last-message-time {
   font-size: 0.8rem;
   color: hsl(240, 12%, 27%);
+}
+.private-messages-conversation-summary-last-message-time-selected {
+  font-size: 0.8rem;
+  color: hsl(240, 11%, 98%);
 }
 /* Private messages unread icon in conversation summary */
 .mixin-private-messages-conversation-summary-unread-icon {
@@ -2222,6 +2247,26 @@ body {
   top: 0.3rem;
   right: 0.3rem;
   width: 2.5rem;
+}
+/* Container with one message (outer) */
+.private-messages-message-outer-container {
+  background-color: hsl(199, 74%, 79%);
+  border: 0.1rem solid hsl(199, 65%, 54%);
+  border-radius: 0.2rem;
+  margin: 0.5rem;
+}
+.private-messages-message-inner-container {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+/* Top line with info on sent / read times */
+.private-messages-message-top-line {
+  text-align: right;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+  color: hsl(240, 12%, 27%);
 }
 /* Private messages stuff ends here */
 /*# sourceMappingURL=arkumida.css.map */

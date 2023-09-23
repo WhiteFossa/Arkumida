@@ -175,8 +175,12 @@
 @private-messages-icon-width: 3rem;
 @private-messages-unread-icon-border-radius: 1rem;
 
-@private-messages-conversations-list-container-border-color: hsl(199, 65%, 54%);
 @private-messages-conversations-list-container-background-color: hsl(199, 74%, 79%);
+@private-messages-conversations-list-container-border-color: hsl(199, 65%, 54%);
+
+@private-messages-conversations-list-container-background-color-selected: hsl(199, 74%, 39%);
+@private-messages-conversations-list-container-border-color-selected: hsl(199, 65%, 14%);
+
 @private-messages-conversation-container-border-color: hsl(36, 100%, 84%);
 @private-messages-conversation-container-background-color: hsl(38, 38%, 92%);
 
@@ -2506,7 +2510,7 @@ body {
 .private-messages-top-level-container {
   .mixin-flex-row-base();
   justify-content: space-around;
-  column-gap: @gap-normal;
+  column-gap: @gap-small;
   row-gap: @gap-bigger;
 }
 
@@ -2529,9 +2533,7 @@ body {
 }
 
 /* Container with conversation summary */
-.private-messages-conversation-summary-container {
-  background-color: @private-messages-conversations-list-container-background-color;
-  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color;
+.mixin-private-messages-conversation-summary-container {
   border-radius: @border-radius-small;
 
   padding: @padding-smaller1;
@@ -2542,6 +2544,21 @@ body {
   cursor: pointer;
 
   position: relative;
+}
+
+.private-messages-conversation-summary-container {
+  .mixin-private-messages-conversation-summary-container();
+
+  background-color: @private-messages-conversations-list-container-background-color;
+  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color;
+}
+
+.private-messages-conversation-summary-container-selected {
+  .mixin-private-messages-conversation-summary-container();
+
+  background-color: @private-messages-conversations-list-container-background-color-selected;
+  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color-selected;
+  color: @lightest-color1;
 }
 
 /* Private messages title */
@@ -2570,6 +2587,11 @@ body {
 .private-messages-conversation-summary-last-message-time {
   font-size: @font-size-smaller1;
   color: @darker-color3;
+}
+
+.private-messages-conversation-summary-last-message-time-selected {
+  font-size: @font-size-smaller1;
+  color: @lighter-color1;
 }
 
 /* Private messages unread icon in conversation summary */
@@ -2611,5 +2633,32 @@ body {
 
   width: 2.5rem;
 }
+
+/* Container with one message (outer) */
+.private-messages-message-outer-container {
+  background-color: @private-messages-conversations-list-container-background-color;
+  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color;
+  border-radius: @border-radius-small;
+
+  margin: @margin-smaller1;
+}
+
+.private-messages-message-inner-container {
+  padding: @padding-smaller1;
+
+  .mixin-flex-row-base();
+  gap: @gap-small;
+}
+
+/* Top line with info on sent / read times */
+.private-messages-message-top-line {
+  text-align: right;
+
+  padding-right: @padding-smaller1;
+
+  font-size: @font-size-smaller1;
+  color: @darker-color3;
+}
+
 
 /* Private messages stuff ends here */

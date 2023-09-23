@@ -2,13 +2,16 @@
 
 import {AvatarClass, PrivateMessagesConstants} from "@/js/constants";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
-    import {defineProps, onMounted, ref} from "vue";
+import {defineEmits, defineProps, onMounted, ref} from "vue";
     import moment from 'moment';
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const props = defineProps({
-        conversationSummary: Object
+        conversationSummary: Object,
+        selectedConfidantId: String
     })
+
+    const emit = defineEmits(['openConversation'])
 
     const isLoading = ref(true)
 
@@ -47,6 +50,11 @@ import {AvatarClass, PrivateMessagesConstants} from "@/js/constants";
         isLoading.value = false
     }
 
+    async function OpenConversation(confidantId)
+    {
+        emit('openConversation', confidantId)
+    }
+
 </script>
 
 <template>
@@ -56,7 +64,8 @@ import {AvatarClass, PrivateMessagesConstants} from "@/js/constants";
 
     <div
         v-if="!isLoading"
-        class="private-messages-conversation-summary-container">
+        :class="(selectedConfidantId === conversationSummary.confidant.entityId)?'private-messages-conversation-summary-container-selected':'private-messages-conversation-summary-container'"
+        @click="async () => await OpenConversation(props.conversationSummary.confidant.entityId)">
 
         <!-- Avatar -->
         <AvatarComponent :avatar="props.conversationSummary.confidant.currentAvatar" :avatarClass="AvatarClass.Small" />
@@ -70,7 +79,8 @@ import {AvatarClass, PrivateMessagesConstants} from "@/js/constants";
             </div>
 
             <!-- Last message time -->
-            <div class="private-messages-conversation-summary-last-message-time">
+            <div
+                :class="(selectedConfidantId === conversationSummary.confidant.entityId)?'private-messages-conversation-summary-last-message-time-selected':'private-messages-conversation-summary-last-message-time'">
                 {{ moment(props.conversationSummary.lastMessageSentTime).format('HH:mm DD.MM.YYYY') }}
             </div>
 
