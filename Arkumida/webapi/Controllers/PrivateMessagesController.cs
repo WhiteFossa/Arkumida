@@ -46,21 +46,12 @@ public class PrivateMessagesController : ControllerBase
     public async Task<ActionResult<ConversationResponse>> GetConversationAsync(Guid creatureId)
     {
         var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
-        
-        var confidantProfile = await _accountsService.GetProfileByCreatureIdAsync(creatureId);
 
-        var messages = await _privateMessagesService.GetConversationAsync(loggedInCreature.Id, creatureId);
-
-        var lastMessageSentTime = messages
-            .Select(m => m.SentTime)
-            .OrderDescending()
-            .FirstOrDefault();
-        
-        var messageDtos = messages
+        var messages = (await _privateMessagesService.GetConversationAsync(loggedInCreature.Id, creatureId))
             .Select(m => m.ToDto())
             .ToList();
         
-        return Ok(new ConversationResponse(confidantProfile.ToDto(), lastMessageSentTime, messageDtos));
+        return Ok(new ConversationResponse(messages));
     }
 
     /// <summary>

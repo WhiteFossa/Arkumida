@@ -2122,6 +2122,7 @@ body {
   justify-content: space-around;
   column-gap: 0.5rem;
   row-gap: 2rem;
+  flex-wrap: wrap;
 }
 /* Conversations list container */
 .private-messages-conversations-list-container {
@@ -2130,12 +2131,8 @@ body {
 }
 /* Conversation container */
 .private-messages-conversation-container {
-  background-color: hsl(38, 38%, 92%);
-  border: 0.1rem solid hsl(36, 100%, 84%);
-  border-radius: 0.2rem;
-  padding: 0.5rem;
-  margin: 0.5rem;
-  flex: 99%;
+  max-width: 95vw;
+  flex: 60%;
 }
 /* Container with conversation summary */
 .mixin-private-messages-conversation-summary-container {
@@ -2248,12 +2245,21 @@ body {
   right: 0.3rem;
   width: 2.5rem;
 }
-/* Container with one message (outer) */
-.private-messages-message-outer-container {
+/* Container with one message (outer) - not our message */
+.private-messages-message-outer-container-not-our-message {
+  background-color: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+/* Container with one message (outer) - our message */
+.private-messages-message-outer-container-our-message {
   background-color: hsl(199, 74%, 79%);
   border: 0.1rem solid hsl(199, 65%, 54%);
   border-radius: 0.2rem;
-  margin: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .private-messages-message-inner-container {
   padding: 0.5rem;
@@ -2262,11 +2268,29 @@ body {
   gap: 0.5rem;
 }
 /* Top line with info on sent / read times */
-.private-messages-message-top-line {
-  text-align: right;
+.private-messages-message-top-line-container {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 0.5rem;
   padding-right: 0.5rem;
   font-size: 0.8rem;
   color: hsl(240, 12%, 27%);
+}
+/* Sent time icon */
+.private-messages-sent-icon {
+  vertical-align: middle;
+  width: 1rem;
+}
+/* Read time icon */
+.private-messages-read-icon {
+  vertical-align: middle;
+  width: 1rem;
+}
+/* Unread icon */
+.private-messages-unread-icon {
+  vertical-align: middle;
+  width: 1rem;
 }
 /* Private messages stuff ends here */
 /*# sourceMappingURL=arkumida.css.map */

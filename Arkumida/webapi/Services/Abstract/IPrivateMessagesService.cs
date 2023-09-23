@@ -23,7 +23,7 @@ public interface IPrivateMessagesService
     Task<Tuple<bool, Guid>> SendPrivateMessageAsync(Guid receiverId, Guid senderId, string message);
 
     /// <summary>
-    /// Get a list of private messages, sent to receiver by sender, ordered by send time
+    /// Get a list of private messages, sent to receiver by sender or vice versa, ordered by send time
     /// </summary>
     Task<IReadOnlyCollection<PrivateMessage>> GetConversationAsync(Guid receiverId, Guid senderId);
 

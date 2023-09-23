@@ -45,8 +45,8 @@ public class PrivateMessagesDao : IPrivateMessagesDao
     {
         return await _dbContext
             .PrivateMessages
-            .Where(m => m.Receiver.Id == receiverId)
-            .Where(m => m.Sender.Id == senderId)
+            .Where(m => (m.Receiver.Id == receiverId) || (m.Receiver.Id == senderId))
+            .Where(m => (m.Sender.Id == senderId) || (m.Sender.Id == receiverId))
             .Include(m => m.Receiver)
             .Include(m => m.Sender)
             .ToListAsync();
@@ -87,6 +87,7 @@ public class PrivateMessagesDao : IPrivateMessagesDao
             .Where(pm => pm.Receiver.Id == creatureId)
             .Include(pm => pm.Sender)
             .Select(pm => pm.Sender)
+            .Distinct()
             .ToListAsync();
     }
 

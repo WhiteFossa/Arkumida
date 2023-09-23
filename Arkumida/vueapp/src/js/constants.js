@@ -240,3 +240,11 @@ export class PrivateMessagesConstants
     // Polling interval for unread messages in header
     static UnreadPrivateMessagesInHeaderPollingInterval = 60000
 }
+
+// Possible private message marking as read result
+export class MarkPrivateMessageAsReadResult
+{
+    static Successful = 0
+
+    static AlreadyMarkedAsRead = 1
+}

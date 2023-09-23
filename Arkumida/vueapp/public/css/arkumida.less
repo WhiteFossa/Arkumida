@@ -181,8 +181,12 @@
 @private-messages-conversations-list-container-background-color-selected: hsl(199, 74%, 39%);
 @private-messages-conversations-list-container-border-color-selected: hsl(199, 65%, 14%);
 
-@private-messages-conversation-container-border-color: hsl(36, 100%, 84%);
-@private-messages-conversation-container-background-color: hsl(38, 38%, 92%);
+@private-messages-small-icons-width: 1rem;
+
+@private-messages-conversation-container-background-color-not-our-message: hsl(0, 0%, 100%);
+@private-messages-conversation-container-border-color-not-our-message: hsl(225, 5%, 85%);
+@private-messages-conversation-container-background-color-our-message: hsl(199, 74%, 79%);
+@private-messages-conversation-container-border-color-our-message: hsl(199, 65%, 54%);
 
 /* Variables end here */
 
@@ -2512,6 +2516,7 @@ body {
   justify-content: space-around;
   column-gap: @gap-small;
   row-gap: @gap-bigger;
+  flex-wrap: wrap;
 }
 
 /* Conversations list container */
@@ -2522,14 +2527,9 @@ body {
 
 /* Conversation container */
 .private-messages-conversation-container {
-  background-color: @private-messages-conversation-container-background-color;
-  border: @border-thin-thickness @border-style @private-messages-conversation-container-border-color;
-  border-radius: @border-radius-small;
+  max-width: 95vw;
 
-  padding: @padding-smaller1;
-  margin: @margin-smaller1;
-
-  flex: 99%;
+  flex: 60%;
 }
 
 /* Container with conversation summary */
@@ -2634,13 +2634,24 @@ body {
   width: 2.5rem;
 }
 
-/* Container with one message (outer) */
-.private-messages-message-outer-container {
-  background-color: @private-messages-conversations-list-container-background-color;
-  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color;
+/* Container with one message (outer) - not our message */
+.private-messages-message-outer-container-not-our-message {
+  background-color: @private-messages-conversation-container-background-color-not-our-message;
+  border: @border-thin-thickness @border-style @private-messages-conversation-container-border-color-not-our-message;
   border-radius: @border-radius-small;
 
-  margin: @margin-smaller1;
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
+}
+
+/* Container with one message (outer) - our message */
+.private-messages-message-outer-container-our-message {
+  background-color: @private-messages-conversation-container-background-color-our-message;
+  border: @border-thin-thickness @border-style @private-messages-conversation-container-border-color-our-message;
+  border-radius: @border-radius-small;
+
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
 }
 
 .private-messages-message-inner-container {
@@ -2651,8 +2662,11 @@ body {
 }
 
 /* Top line with info on sent / read times */
-.private-messages-message-top-line {
-  text-align: right;
+.private-messages-message-top-line-container {
+  .mixin-flex-base();
+  justify-content: right;
+  align-items: center;
+  gap: @gap-small;
 
   padding-right: @padding-smaller1;
 
@@ -2660,5 +2674,22 @@ body {
   color: @darker-color3;
 }
 
+/* Sent time icon */
+.private-messages-sent-icon {
+  vertical-align: middle;
+  width: @private-messages-small-icons-width;
+}
+
+/* Read time icon */
+.private-messages-read-icon {
+  vertical-align: middle;
+  width: @private-messages-small-icons-width;
+}
+
+/* Unread icon */
+.private-messages-unread-icon {
+  vertical-align: middle;
+  width: @private-messages-small-icons-width;
+}
 
 /* Private messages stuff ends here */
