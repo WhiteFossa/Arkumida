@@ -87,7 +87,8 @@ public class PrivateMessagesController : ControllerBase
     {
         var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
 
-        return Ok(new MarkPrivateMessageAsReadResponse(await _privateMessagesService.MarkPrivateMessageAsReadAsync(loggedInCreature.Id, messageId)));
+        var markResult = await _privateMessagesService.MarkPrivateMessageAsReadAsync(loggedInCreature.Id, messageId);
+        return Ok(new MarkPrivateMessageAsReadResponse(markResult.Item1, markResult.Item2));
     }
 
     /// <summary>

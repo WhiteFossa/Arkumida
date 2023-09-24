@@ -14,11 +14,19 @@ public class MarkPrivateMessageAsReadResponse
     [JsonPropertyName("result")]
     public MarkPrivateMessageAsReadResult Result { get; }
 
+    /// <summary>
+    /// If message was successfully marked as read, here will be the time of mark
+    /// </summary>
+    [JsonPropertyName("markTime")]
+    public DateTime MarkTime { get; }
+
     public MarkPrivateMessageAsReadResponse
     (
-        MarkPrivateMessageAsReadResult result
+        MarkPrivateMessageAsReadResult result,
+        DateTime markTime
     )
     {
         Result = result;
+        MarkTime = markTime;
     }
 }

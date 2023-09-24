@@ -84,7 +84,7 @@ public class PrivateMessagesService : IPrivateMessagesService
         return _privateMessagesMapper.Map(messages);
     }
 
-    public async Task<MarkPrivateMessageAsReadResult> MarkPrivateMessageAsReadAsync(Guid receiverId, Guid messageId)
+    public async Task<Tuple<MarkPrivateMessageAsReadResult, DateTime>> MarkPrivateMessageAsReadAsync(Guid receiverId, Guid messageId)
     {
         var message = await _privateMessagesDao.GetPrivateMessageAsync(messageId);
 
@@ -95,14 +95,14 @@ public class PrivateMessagesService : IPrivateMessagesService
 
         if (message.ReadTime.HasValue)
         {
-            return MarkPrivateMessageAsReadResult.AlreadyMarkedAsRead;
+            return new Tuple<MarkPrivateMessageAsReadResult, DateTime>(MarkPrivateMessageAsReadResult.AlreadyMarkedAsRead, message.ReadTime.Value);
         }
         
         message.ReadTime = DateTime.UtcNow;
 
         await _privateMessagesDao.UpdatePrivateMessageAsync(message);
 
-        return MarkPrivateMessageAsReadResult.Successful;
+        return new Tuple<MarkPrivateMessageAsReadResult, DateTime>(MarkPrivateMessageAsReadResult.Successful, message.ReadTime.Value);
     }
 
     public async Task<IReadOnlyCollection<ConversationSummaryDto>> GetConversationsSummariesAsync(Guid creatureId)

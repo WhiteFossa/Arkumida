@@ -5,6 +5,9 @@
     import useVuelidate from "@vuelidate/core";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
+    // Add this height to new message textarea when calculating its height. It is needed to avoid vertical scrollbar
+    const newMessageTextareaHeightAdd = 5
+
     const isLoading = ref(true)
 
     const newMessageFormData = reactive({
@@ -38,7 +41,7 @@
     {
         // Resizing textarea vertically
         newMessageTextarea.value.style.height = "auto"
-        newMessageTextarea.value.style.height = `${newMessageTextarea.value.scrollHeight}px`
+        newMessageTextarea.value.style.height = `${newMessageTextarea.value.scrollHeight + newMessageTextareaHeightAdd}px`
     }
 
 </script>

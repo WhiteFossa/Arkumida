@@ -33,15 +33,15 @@
             // Not our message, marking it as read
             const markingResult = (await (await WebClientSendPostRequest(
                 "/api/PrivateMessages/MarkAsRead/" + privateMessage.value.id,
-                {})).json()).result
+                {})).json())
 
-            if (markingResult !== MarkPrivateMessageAsReadResult.Successful)
+            if (markingResult.result !== MarkPrivateMessageAsReadResult.Successful)
             {
                 console.error("Failed to mark message " + privateMessage.value.id + " as read!")
             }
             else
             {
-                privateMessage.value.readTime = new Date();
+                privateMessage.value.readTime = markingResult.markTime
             }
         }
 

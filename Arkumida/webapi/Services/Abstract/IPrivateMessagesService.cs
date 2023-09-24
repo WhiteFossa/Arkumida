@@ -29,8 +29,9 @@ public interface IPrivateMessagesService
 
     /// <summary>
     /// Mark private message as read. Message must belong to receiver
+    /// Item1 - mark result, Item2 - mark time (in case of successful marking, otherwise undefiled)
     /// </summary>
-    Task<MarkPrivateMessageAsReadResult> MarkPrivateMessageAsReadAsync(Guid receiverId, Guid messageId);
+    Task<Tuple<MarkPrivateMessageAsReadResult, DateTime>> MarkPrivateMessageAsReadAsync(Guid receiverId, Guid messageId);
     
     /// <summary>
     /// Get conversations summaries for given creature
