@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs.PrivateMessages;
 
 namespace webapi.Models.Api.Responses.PrivateMessages;
 
@@ -14,18 +15,18 @@ public class SentPrivateMessageResponse
     public bool IsSuccessful { get; }
 
     /// <summary>
-    /// Sent message ID
+    /// Sent message
     /// </summary>
-    [JsonPropertyName("sentMessageId")]
-    public Guid SentMessageId { get; }
+    [JsonPropertyName("message")]
+    public PrivateMessageDto Message { get; }
 
     public SentPrivateMessageResponse
     (
         bool isSuccessful,
-        Guid sentMessageId
+        PrivateMessageDto message
     )
     {
         IsSuccessful = isSuccessful;
-        SentMessageId = sentMessageId;
+        Message = message ?? throw new ArgumentNullException(nameof(message), "Sent message must not be null!");
     }
 }

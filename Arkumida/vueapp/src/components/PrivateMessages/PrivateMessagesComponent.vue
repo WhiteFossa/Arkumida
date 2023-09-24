@@ -77,7 +77,8 @@
                         :message="message" />
 
                     <!-- New message field -->
-                    <PrivateMessagesNewMessageComponent />
+                    <PrivateMessagesNewMessageComponent
+                        :selectedConfidantId="selectedConfidant?.entityId"/>
                 </div>
 
             </div>

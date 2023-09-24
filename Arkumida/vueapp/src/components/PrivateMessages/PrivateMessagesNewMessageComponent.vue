@@ -1,12 +1,18 @@
 <script setup>
 
-    import {onMounted, reactive, ref} from "vue";
+import {defineProps, onMounted, reactive, ref} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+    import {WebClientSendPostRequest} from "@/js/libWebClient";
+import {Messages} from "@/js/constants";
 
     // Add this height to new message textarea when calculating its height. It is needed to avoid vertical scrollbar
     const newMessageTextareaHeightAdd = 5
+
+    const props = defineProps({
+        selectedConfidantId: String
+    })
 
     const isLoading = ref(true)
 
@@ -24,6 +30,8 @@
     const newMessageFormValidator = useVuelidate(newMessageFormRules, newMessageFormData)
 
     const newMessageTextarea = ref(null)
+
+    const isNewMessageBeingSent = ref(false)
 
     onMounted(async () =>
     {
@@ -44,6 +52,28 @@
         newMessageTextarea.value.style.height = `${newMessageTextarea.value.scrollHeight + newMessageTextareaHeightAdd}px`
     }
 
+    async function SendNewMessage()
+    {
+        isNewMessageBeingSent.value = true
+
+        const sendMessageResult = (await (await WebClientSendPostRequest(
+            "/api/PrivateMessages/SendTo/" + props.selectedConfidantId,
+            {
+                "message": newMessageFormData.message,
+            })).json())
+
+        if (!sendMessageResult.isSuccessful)
+        {
+            isNewMessageBeingSent.value = false
+            alert(Messages.PrivateMessagesFailedToSend)
+            return
+        }
+
+        newMessageFormData.message = ""
+
+        isNewMessageBeingSent.value = false
+    }
+
 </script>
 
 <template>
@@ -62,14 +92,23 @@
                 @input="async () => await OnNewMessageTextareaContentChange()"/>
         </div>
 
+        <!-- Send new message button (or loading symbol if message being sent) -->
         <div class="private-messages-new-message-send-button-container">
-            <button
-                class="button-with-image"
-                type="button"
-                title="Отправить сообщение"
-                :disabled="newMessageFormValidator.$errors.length > 0">
-                <img class="private-messages-send-icon" src="/images/icons/icon_send.png" alt="Отправить" title="Отправить" />
-            </button>
+
+            <div v-if="isNewMessageBeingSent">
+                <LoadingSymbol />
+            </div>
+
+            <div v-if="!isNewMessageBeingSent">
+                <button
+                    class="button-with-image"
+                    type="button"
+                    title="Отправить сообщение"
+                    :disabled="newMessageFormValidator.$errors.length > 0"
+                    @click="async() => await SendNewMessage()">
+                    <img class="private-messages-send-icon" src="/images/icons/icon_send.png" alt="Отправить" title="Отправить" />
+                </button>
+            </div>
         </div>
 
     </div>

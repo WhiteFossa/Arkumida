@@ -38,25 +38,25 @@ public class PrivateMessagesService : IPrivateMessagesService
         return await _privateMessagesDao.CountUnreadPrivateMessagesAsync(creatureId);
     }
 
-    public async Task<Tuple<bool, Guid>> SendPrivateMessageAsync(Guid receiverId, Guid senderId, string message)
+    public async Task<Tuple<bool, PrivateMessageDto>> SendPrivateMessageAsync(Guid receiverId, Guid senderId, string message)
     {
         if (string.IsNullOrWhiteSpace(message))
         {
-            return new Tuple<bool, Guid>(false, Guid.NewGuid());
+            return new Tuple<bool, PrivateMessageDto>(false, null);
         }
 
         // Sender
         var senderCreature = await _userManager.FindByIdAsync(senderId.ToString());
         if (senderCreature == null)
         {
-            return new Tuple<bool, Guid>(false, Guid.NewGuid());
+            return new Tuple<bool, PrivateMessageDto>(false, null);
         }
         
         // Receiver
         var receiverCreature = await _userManager.FindByIdAsync(receiverId.ToString());
         if (receiverCreature == null)
         {
-            return new Tuple<bool, Guid>(false, Guid.NewGuid());
+            return new Tuple<bool, PrivateMessageDto>(false, null);
         }
         
         var privateMessage = new PrivateMessageDbo()
@@ -70,9 +70,11 @@ public class PrivateMessagesService : IPrivateMessagesService
             IsDeletedOnSenderSide = false
         };
 
-        var sentPrivateMessage = await _privateMessagesDao.AddPrivateMessageAsync(privateMessage);
+        var sentPrivateMessageDbo = await _privateMessagesDao.AddPrivateMessageAsync(privateMessage);
+        
+        var sentPrivateMessage = _privateMessagesMapper.Map(sentPrivateMessageDbo);
 
-        return new Tuple<bool, Guid>(true, sentPrivateMessage.Id);
+        return new Tuple<bool, PrivateMessageDto>(true, sentPrivateMessage.ToDto());
     }
 
     public async Task<IReadOnlyCollection<PrivateMessage>> GetConversationAsync(Guid receiverId, Guid senderId)

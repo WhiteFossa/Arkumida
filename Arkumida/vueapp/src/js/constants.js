@@ -55,6 +55,8 @@ export class Messages
     static PasswordResetInstructionsSent = "Инструкции по сбросу пароля отправлены на вашу почту."
     static PasswordResetSuccessful = "Ваш пароль успешно сброшен, сейчас вы будете перенаправлены на страницу входа на сайт."
     static PasswordResetFailed = "Не удалось сбросить пароль. Корректна-ли ссылка? Не протухло-ли письмо?"
+
+    static PrivateMessagesFailedToSend = "Не удалось отправить личное сообщение, повторите попытку позже или свяжитесь с администраторами!"
 }
 
 export class ProfileConsts
