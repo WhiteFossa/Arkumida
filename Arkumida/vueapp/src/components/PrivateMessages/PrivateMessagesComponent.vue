@@ -6,9 +6,9 @@
     import {AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
     import PrivateMessagesConversationElement
-        from "@/components/PrivateMessages/PrivateMessagesConversationElement.vue";
+    from "@/components/PrivateMessages/PrivateMessagesConversationElement.vue";
     import PrivateMessagesNewMessageComponent
-        from "@/components/PrivateMessages/PrivateMessagesNewMessageComponent.vue";
+    from "@/components/PrivateMessages/PrivateMessagesNewMessageComponent.vue";
 
     const isLoading = ref(true)
 
@@ -35,7 +35,17 @@
     {
         selectedConfidant.value = (await (await WebClientSendGetRequest("/api/Users/" + confidantId + "/Profile")).json()).creatureWithProfile
 
+        await LoadConversation(selectedConfidant.value.entityId)
+    }
+
+    async function LoadConversation(confidantId)
+    {
         conversation.value = await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + confidantId)).json()
+    }
+
+    async function ReloadConversation()
+    {
+        await LoadConversation(selectedConfidant.value.entityId)
     }
 </script>
 
@@ -78,7 +88,8 @@
 
                     <!-- New message field -->
                     <PrivateMessagesNewMessageComponent
-                        :selectedConfidantId="selectedConfidant?.entityId"/>
+                        :selectedConfidantId="selectedConfidant?.entityId"
+                        @newMessageSent="async() => await ReloadConversation()" />
                 </div>
 
             </div>

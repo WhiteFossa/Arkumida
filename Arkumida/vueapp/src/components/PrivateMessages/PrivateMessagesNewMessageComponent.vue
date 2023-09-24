@@ -1,11 +1,11 @@
 <script setup>
 
-import {defineProps, onMounted, reactive, ref} from "vue";
+import {defineEmits, defineProps, onMounted, reactive, ref} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {WebClientSendPostRequest} from "@/js/libWebClient";
-import {Messages} from "@/js/constants";
+    import {Messages} from "@/js/constants";
 
     // Add this height to new message textarea when calculating its height. It is needed to avoid vertical scrollbar
     const newMessageTextareaHeightAdd = 5
@@ -13,6 +13,8 @@ import {Messages} from "@/js/constants";
     const props = defineProps({
         selectedConfidantId: String
     })
+
+    const emit = defineEmits(['newMessageSent'])
 
     const isLoading = ref(true)
 
@@ -71,6 +73,7 @@ import {Messages} from "@/js/constants";
 
         newMessageFormData.message = ""
 
+        emit('newMessageSent')
         isNewMessageBeingSent.value = false
     }
 
