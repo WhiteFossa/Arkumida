@@ -7,6 +7,8 @@
     import {WebClientSendGetRequest} from "@/js/libWebClient";
     import PrivateMessagesConversationElement
         from "@/components/PrivateMessages/PrivateMessagesConversationElement.vue";
+    import PrivateMessagesNewMessageComponent
+        from "@/components/PrivateMessages/PrivateMessagesNewMessageComponent.vue";
 
     const isLoading = ref(true)
 
@@ -74,6 +76,8 @@
                         v-for="message in conversation.messages" :key="message"
                         :message="message" />
 
+                    <!-- New message field -->
+                    <PrivateMessagesNewMessageComponent />
                 </div>
 
             </div>

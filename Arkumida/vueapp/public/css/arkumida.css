@@ -2292,5 +2292,45 @@ body {
   vertical-align: middle;
   width: 1rem;
 }
+/* Container for new private message */
+.private-messages-new-message-container {
+  background-color: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+/* Textarea with new private message text */
+.private-messages-new-message-textarea-container {
+  flex: 99%;
+}
+/* New private message send button */
+.private-messages-new-message-send-button-container {
+  flex: 1%;
+  align-self: end;
+}
+/* Send private message icon */
+.private-messages-send-icon {
+  width: 2rem;
+}
+/* New private message textarea */
+.mixin-private-messages-new-message-textarea {
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+.private-messages-new-message-textarea {
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+.private-messages-new-message-textarea-invalid {
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
 /* Private messages stuff ends here */
 /*# sourceMappingURL=arkumida.css.map */
