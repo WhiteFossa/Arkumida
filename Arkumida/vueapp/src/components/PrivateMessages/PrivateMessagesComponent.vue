@@ -26,7 +26,7 @@
     {
         await AuthRedirectToLoginPageIfNotLoggedIn()
 
-        conversationsSummaries.value = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations")).json()).conversationsSummaries
+        await LoadConversationSummaries()
 
         isLoading.value = false
     }
@@ -46,6 +46,19 @@
     async function ReloadConversation()
     {
         await LoadConversation(selectedConfidant.value.entityId)
+    }
+
+    async function LoadConversationSummaries()
+    {
+        conversationsSummaries.value = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations")).json()).conversationsSummaries
+    }
+
+    // TODO: Add more intellectual conversations summaries reload
+    // Disabling the warning because we hope in future to make more intellectual conversations summaries reload
+    // eslint-disable-next-line
+    async function OnMessageMarkedAsRead(messageId)
+    {
+        await LoadConversationSummaries()
     }
 </script>
 
@@ -73,24 +86,30 @@
 
             </div>
 
-            <div class="private-messages-conversation-container">
+            <div class="private-messages-conversation-and-new-message-container">
 
-                <div v-if="conversation === null">
-                    Выберите диалог
+                <div class="private-messages-conversation-container">
+
+                    <div v-if="conversation === null">
+                        Выберите диалог
+                    </div>
+
+                    <div v-if="conversation !== null">
+
+                        <!-- Conversation messages -->
+                        <PrivateMessagesConversationElement
+                            v-for="message in conversation.messages" :key="message"
+                            :message="message"
+                            @messageMarkedAsRead="async (mid) => await OnMessageMarkedAsRead(mid)"/>
+
+                    </div>
+
                 </div>
 
-                <div v-if="conversation !== null">
-
-                    <!-- Conversation messages -->
-                    <PrivateMessagesConversationElement
-                        v-for="message in conversation.messages" :key="message"
-                        :message="message" />
-
-                    <!-- New message field -->
-                    <PrivateMessagesNewMessageComponent
-                        :selectedConfidantId="selectedConfidant?.entityId"
-                        @newMessageSent="async() => await ReloadConversation()" />
-                </div>
+                <!-- New message field -->
+                <PrivateMessagesNewMessageComponent
+                    :selectedConfidantId="selectedConfidant?.entityId"
+                    @newMessageSent="async() => await ReloadConversation()" />
 
             </div>
         </div>

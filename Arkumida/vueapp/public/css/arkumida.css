@@ -2129,10 +2129,16 @@ body {
   width: 20rem;
   max-width: 95vw;
 }
-/* Conversation container */
-.private-messages-conversation-container {
+/* Conversation and new message container */
+.private-messages-conversation-and-new-message-container {
   max-width: 95vw;
   flex: 60%;
+}
+/* Conversation container */
+.private-messages-conversation-container {
+  margin-top: 0.5rem;
+  height: 70vh;
+  overflow-y: auto;
 }
 /* Container with conversation summary */
 .mixin-private-messages-conversation-summary-container {
@@ -2245,6 +2251,11 @@ body {
   right: 0.3rem;
   width: 2.5rem;
 }
+/* Visibility marker for one message (message not loaded yet) */
+.private-messages-message-visibility-container-not-loaded {
+  height: 10rem;
+}
+/* Visibility marker for one message (message loaded) */
 /* Container with one message (outer) - not our message */
 .private-messages-message-outer-container-not-our-message {
   background-color: hsl(0, 0%, 100%);
