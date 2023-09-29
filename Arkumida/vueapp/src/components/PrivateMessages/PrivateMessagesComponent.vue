@@ -1,7 +1,7 @@
 <script setup>
 
     import PrivateMessagesConversationSummary from "@/components/PrivateMessages/PrivateMessagesConversationSummary.vue";
-    import {onMounted, ref} from "vue";
+    import {onMounted, onUpdated, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
@@ -17,9 +17,16 @@
 
     const conversation = ref(null)
 
+    const privateMessagesScrollContainer = ref(null)
+
     onMounted(async () =>
     {
         await OnLoad();
+    })
+
+    onUpdated(async() =>
+    {
+        await ScrollPrivateMessagesDown()
     })
 
     async function OnLoad()
@@ -60,6 +67,14 @@
     {
         await LoadConversationSummaries()
     }
+
+    async function ScrollPrivateMessagesDown()
+    {
+        if (privateMessagesScrollContainer.value !== null)
+        {
+            privateMessagesScrollContainer.value.scrollTop = privateMessagesScrollContainer.value.scrollHeight
+        }
+    }
 </script>
 
 <template>
@@ -88,20 +103,22 @@
 
             <div class="private-messages-conversation-and-new-message-container">
 
-                <div class="private-messages-conversation-container">
+                <div
+                    class="private-messages-conversation-container"
+                    ref="privateMessagesScrollContainer">
 
                     <div v-if="conversation === null">
                         Выберите диалог
                     </div>
 
-                    <div v-if="conversation !== null">
+                    <div
+                        v-if="conversation !== null">
 
                         <!-- Conversation messages -->
                         <PrivateMessagesConversationElement
                             v-for="message in conversation.messages" :key="message"
                             :message="message"
                             @messageMarkedAsRead="async (mid) => await OnMessageMarkedAsRead(mid)"/>
-
                     </div>
 
                 </div>
