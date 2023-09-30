@@ -1,9 +1,9 @@
 <script setup>
     import {defineEmits, defineProps, ref} from "vue";
-    import {AvatarClass, MarkPrivateMessageAsReadResult} from "@/js/constants";
+    import {AvatarClass} from "@/js/constants";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-    import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
     import moment from "moment/moment";
     import { vElementVisibility } from '@vueuse/components'
 
@@ -11,7 +11,7 @@
         message: Object
     })
 
-    const emit = defineEmits(['messageMarkedAsRead'])
+    const emit = defineEmits(['messageBecameVisible'])
 
     const isLoading = ref(true)
 
@@ -21,9 +21,9 @@
 
     const senderProfile = ref(null)
 
-    async function ReportMessageMarkedAsRead(messageId)
+    async function ReportThatMessageBecameVisible(messageId)
     {
-        emit('messageMarkedAsRead', messageId)
+        emit('messageBecameVisible', messageId)
     }
 
     async function OnPrivateMessageVisibility(isVisible)
@@ -31,6 +31,8 @@
         if (isVisible)
         {
             await LoadPrivateMessage()
+
+            ReportThatMessageBecameVisible(props.message.id)
         }
     }
 
@@ -38,25 +40,6 @@
     {
         currentCreature.value = (await (await WebClientSendGetRequest("/api/Users/Current")).json()).creature
         senderProfile.value = (await (await WebClientSendGetRequest("/api/Users/" + privateMessage.value.sender.entityId + "/Profile")).json()).creatureWithProfile
-
-        if (privateMessage.value.readTime === null && currentCreature.value.entityId === privateMessage.value.receiver.entityId)
-        {
-            // Not our message, marking it as read
-            const markingResult = (await (await WebClientSendPostRequest(
-                "/api/PrivateMessages/MarkAsRead/" + privateMessage.value.id,
-                {})).json())
-
-            if (markingResult.result !== MarkPrivateMessageAsReadResult.Successful)
-            {
-                console.error("Failed to mark message " + privateMessage.value.id + " as read!")
-            }
-            else
-            {
-                // Successfully marked as ready
-                privateMessage.value.readTime = markingResult.markTime
-                await ReportMessageMarkedAsRead(privateMessage.value.id)
-            }
-        }
 
         isLoading.value = false
     }

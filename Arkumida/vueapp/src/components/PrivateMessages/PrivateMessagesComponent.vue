@@ -10,14 +10,18 @@
     import PrivateMessagesNewMessageComponent
     from "@/components/PrivateMessages/PrivateMessagesNewMessageComponent.vue";
 
+    // Load this amount of private messages at once
+    const loadBlockSize = 15
+
     const isLoading = ref(true)
 
     const conversationsSummaries = ref(null)
     const selectedConfidant = ref(null)
 
-    const conversation = ref(null)
-
+    const isPrivateMessagesScrollDownRequested = ref(false)
     const privateMessagesScrollContainer = ref(null)
+
+    const privateMessagesCollection = ref([])
 
     onMounted(async () =>
     {
@@ -47,7 +51,28 @@
 
     async function LoadConversation(confidantId)
     {
-        conversation.value = await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + confidantId)).json()
+        // Initializing messages collection with last N messages
+        privateMessagesCollection.value = []
+
+        const initialLoadBefore = new Date();
+        initialLoadBefore.setSeconds(initialLoadBefore.getSeconds() + 1); // To load message, which just arrived
+
+        const initialMessages = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + confidantId + "/Before/" + initialLoadBefore.toISOString() + "/Limit/" + loadBlockSize)).json())
+            .messages
+
+        privateMessagesCollection.value = privateMessagesCollection.value.concat(initialMessages)
+        OrderPrivateMessagesToDisplay(privateMessagesCollection.value)
+
+        isPrivateMessagesScrollDownRequested.value = true
+    }
+
+    // Order private messages before displaying
+    function OrderPrivateMessagesToDisplay(privateMessages)
+    {
+        privateMessages.sort(function(a, b)
+            {
+                return a.sentTime.localeCompare(b.sentTime);
+            });
     }
 
     async function ReloadConversation()
@@ -60,19 +85,38 @@
         conversationsSummaries.value = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations")).json()).conversationsSummaries
     }
 
-    // TODO: Add more intellectual conversations summaries reload
-    // Disabling the warning because we hope in future to make more intellectual conversations summaries reload
-    // eslint-disable-next-line
-    async function OnMessageMarkedAsRead(messageId)
+    async function OnMessageBecameVisible(messageId)
     {
-        await LoadConversationSummaries()
+        if (messageId === privateMessagesCollection.value[0].id)
+        {
+            await OnFirstMessageBecameVisible()
+        }
+    }
+
+    async function OnFirstMessageBecameVisible()
+    {
+        if (selectedConfidant.value === null)
+        {
+            // No conversation selected
+            return
+        }
+
+        const firstMessageSentTime = privateMessagesCollection.value[0].sentTime
+
+        const newMessages = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + selectedConfidant.value.entityId + "/Before/" + firstMessageSentTime + "/Limit/" + loadBlockSize)).json())
+            .messages
+
+        privateMessagesCollection.value = privateMessagesCollection.value.concat(newMessages)
+        OrderPrivateMessagesToDisplay(privateMessagesCollection.value)
     }
 
     async function ScrollPrivateMessagesDown()
     {
-        if (privateMessagesScrollContainer.value !== null)
+        if (privateMessagesScrollContainer.value !== null && isPrivateMessagesScrollDownRequested.value)
         {
             privateMessagesScrollContainer.value.scrollTop = privateMessagesScrollContainer.value.scrollHeight
+
+            isPrivateMessagesScrollDownRequested.value = false
         }
     }
 </script>
@@ -107,18 +151,18 @@
                     class="private-messages-conversation-container"
                     ref="privateMessagesScrollContainer">
 
-                    <div v-if="conversation === null">
+                    <div v-if="selectedConfidant === null">
                         Выберите диалог
                     </div>
 
                     <div
-                        v-if="conversation !== null">
+                        v-if="selectedConfidant !== null">
 
                         <!-- Conversation messages -->
                         <PrivateMessagesConversationElement
-                            v-for="message in conversation.messages" :key="message"
+                            v-for="message in privateMessagesCollection" :key="message"
                             :message="message"
-                            @messageMarkedAsRead="async (mid) => await OnMessageMarkedAsRead(mid)"/>
+                            @messageBecameVisible="async (mid) => await OnMessageBecameVisible(mid)"/>
                     </div>
 
                 </div>

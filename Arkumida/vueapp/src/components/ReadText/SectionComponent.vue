@@ -18,7 +18,10 @@ import FullsizeImagePopup from "@/components/ReadText/Illustrations/FullsizeImag
     // Ordering variants by time
     const orderedVariants = ref([])
     orderedVariants.value = [...props.variants];
-    orderedVariants.value.sort((a, b) => b.creationTime - a.creationTime);
+    orderedVariants.value.sort(function(a, b) // TODO: Check will such type of sorting work or not
+        {
+            return a.creationTime.localeCompare(b.creationTime);
+        });
 
     // Last variant - for now we display only it
 
