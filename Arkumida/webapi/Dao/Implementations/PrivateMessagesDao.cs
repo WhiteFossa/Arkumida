@@ -52,17 +52,32 @@ public class PrivateMessagesDao : IPrivateMessagesDao
             .ToListAsync();
     }
 
-    public async Task<IReadOnlyCollection<PrivateMessageDbo>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime startTime, int limit)
+    public async Task<IReadOnlyCollection<PrivateMessageDbo>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime afterTime, int limit)
     {
         return await _dbContext
             .PrivateMessages
             .Where(m => (m.Receiver.Id == receiverId) || (m.Receiver.Id == senderId))
             .Where(m => (m.Sender.Id == senderId) || (m.Sender.Id == receiverId))
-            .Where(m => m.SentTime > startTime)
+            .Where(m => m.SentTime > afterTime)
             .Include(m => m.Receiver)
             .Include(m => m.Sender)
             .OrderBy(m => m.SentTime)
             .Take(limit)
+            .ToListAsync();
+    }
+
+    public async Task<IReadOnlyCollection<PrivateMessageDbo>> GetConversationBeforeTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime beforeTime, int limit)
+    {
+        return await _dbContext
+            .PrivateMessages
+            .Where(m => (m.Receiver.Id == receiverId) || (m.Receiver.Id == senderId))
+            .Where(m => (m.Sender.Id == senderId) || (m.Sender.Id == receiverId))
+            .Where(m => m.SentTime < beforeTime)
+            .Include(m => m.Receiver)
+            .Include(m => m.Sender)
+            .OrderByDescending(m => m.SentTime)
+            .Take(limit)
+            .OrderBy(m => m.SentTime)
             .ToListAsync();
     }
 

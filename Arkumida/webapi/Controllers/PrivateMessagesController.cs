@@ -55,16 +55,33 @@ public class PrivateMessagesController : ControllerBase
     }
 
     /// <summary>
-    /// Get no more than limit of messages sent after startTime in conversation with creature, identified by creatureId.
+    /// Get no more than limit of messages sent after afterTime in conversation with creature, identified by creatureId.
     /// Messages are ordered by sentTime, from earlier to later
     /// </summary>
-    [Route("api/PrivateMessages/Conversations/With/{creatureId}/After/{startTime}/Limit/{limit}")]
+    [Route("api/PrivateMessages/Conversations/With/{creatureId}/After/{afterTime}/Limit/{limit}")]
     [HttpGet]
-    public async Task<ActionResult<PrivateMessagesCollectionResponse>> GetMessagesAfterTimeAsync(Guid creatureId, DateTime startTime, int limit)
+    public async Task<ActionResult<PrivateMessagesCollectionResponse>> GetMessagesAfterTimeAsync(Guid creatureId, DateTime afterTime, int limit)
     {
         var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
         
-        var messages = (await _privateMessagesService.GetConversationAfterTimeWithLimitAsync(loggedInCreature.Id, creatureId, startTime, limit))
+        var messages = (await _privateMessagesService.GetConversationAfterTimeWithLimitAsync(loggedInCreature.Id, creatureId, afterTime, limit))
+            .Select(m => m.ToDto())
+            .ToList();
+        
+        return Ok(new PrivateMessagesCollectionResponse(messages));
+    }
+    
+    /// <summary>
+    /// Get no more than limit of messages sent before beforeTime in conversation with creature, identified by creatureId.
+    /// Messages are ordered by sentTime, from earlier to later
+    /// </summary>
+    [Route("api/PrivateMessages/Conversations/With/{creatureId}/Before/{beforeTime}/Limit/{limit}")]
+    [HttpGet]
+    public async Task<ActionResult<PrivateMessagesCollectionResponse>> GetMessagesBeforeTimeAsync(Guid creatureId, DateTime beforeTime, int limit)
+    {
+        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        
+        var messages = (await _privateMessagesService.GetConversationBeforeTimeWithLimitAsync(loggedInCreature.Id, creatureId, beforeTime, limit))
             .Select(m => m.ToDto())
             .ToList();
         

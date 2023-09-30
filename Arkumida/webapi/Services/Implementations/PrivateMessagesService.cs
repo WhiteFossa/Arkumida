@@ -86,9 +86,14 @@ public class PrivateMessagesService : IPrivateMessagesService
         return _privateMessagesMapper.Map(messages);
     }
 
-    public async Task<IReadOnlyCollection<PrivateMessage>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime startTime, int limit)
+    public async Task<IReadOnlyCollection<PrivateMessage>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime afterTime, int limit)
     {
-        return _privateMessagesMapper.Map(await _privateMessagesDao.GetConversationAfterTimeWithLimitAsync(receiverId, senderId, startTime, limit));
+        return _privateMessagesMapper.Map(await _privateMessagesDao.GetConversationAfterTimeWithLimitAsync(receiverId, senderId, afterTime, limit));
+    }
+
+    public async Task<IReadOnlyCollection<PrivateMessage>> GetConversationBeforeTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime beforeTime, int limit)
+    {
+        return _privateMessagesMapper.Map(await _privateMessagesDao.GetConversationBeforeTimeWithLimitAsync(receiverId, senderId, beforeTime, limit));
     }
 
     public async Task<Tuple<MarkPrivateMessageAsReadResult, DateTime>> MarkPrivateMessageAsReadAsync(Guid receiverId, Guid messageId)

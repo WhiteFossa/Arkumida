@@ -29,9 +29,15 @@ public interface IPrivateMessagesService
     
     /// <summary>
     /// Get a list of private messages, sent to receiver by sender or vice versa, ordered by send time
-    /// Only messages sent later than startTime will be returned, and no more than limit of messages
+    /// Only messages sent later than afterTime will be returned, and no more than limit of messages
     /// </summary>
-    Task<IReadOnlyCollection<PrivateMessage>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime startTime, int limit);
+    Task<IReadOnlyCollection<PrivateMessage>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime afterTime, int limit);
+    
+    /// <summary>
+    /// Get a list of private messages, sent to receiver by sender or vice versa, ordered by send time
+    /// Only messages sent earlier than beforeTime will be returned, and no more than limit of messages
+    /// </summary>
+    Task<IReadOnlyCollection<PrivateMessage>> GetConversationBeforeTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime beforeTime, int limit);
 
     /// <summary>
     /// Mark private message as read. Message must belong to receiver
