@@ -21,6 +21,12 @@ public interface IPrivateMessagesDao
     /// Get conversation between sender and receiver
     /// </summary>
     Task<IReadOnlyCollection<PrivateMessageDbo>> GetConversationAsync(Guid receiverId, Guid senderId);
+    
+    /// <summary>
+    /// Get conversation between sender and receiver. Only limit of messages will be returned, after startTime. Messages will be ordered by
+    /// sent time
+    /// </summary>
+    Task<IReadOnlyCollection<PrivateMessageDbo>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime startTime, int limit);
 
     /// <summary>
     /// Get private message by ID

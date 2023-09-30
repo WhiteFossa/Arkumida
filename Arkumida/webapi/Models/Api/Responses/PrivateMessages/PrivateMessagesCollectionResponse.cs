@@ -7,7 +7,7 @@ namespace webapi.Models.Api.Responses.PrivateMessages;
 /// <summary>
 /// Content of one conversation
 /// </summary>
-public class ConversationResponse
+public class PrivateMessagesCollectionResponse
 {
     /// <summary>
     /// Messages of conversation
@@ -15,7 +15,7 @@ public class ConversationResponse
     [JsonPropertyName("messages")]
     public IReadOnlyCollection<PrivateMessageDto> Messages { get; }
 
-    public ConversationResponse
+    public PrivateMessagesCollectionResponse
     (
         IReadOnlyCollection<PrivateMessageDto> messages
     )

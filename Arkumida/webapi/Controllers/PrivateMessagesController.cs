@@ -43,7 +43,7 @@ public class PrivateMessagesController : ControllerBase
     /// </summary>
     [Route("api/PrivateMessages/Conversations/With/{creatureId}")]
     [HttpGet]
-    public async Task<ActionResult<ConversationResponse>> GetConversationAsync(Guid creatureId)
+    public async Task<ActionResult<PrivateMessagesCollectionResponse>> GetConversationAsync(Guid creatureId)
     {
         var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
 
@@ -51,7 +51,24 @@ public class PrivateMessagesController : ControllerBase
             .Select(m => m.ToDto())
             .ToList();
         
-        return Ok(new ConversationResponse(messages));
+        return Ok(new PrivateMessagesCollectionResponse(messages));
+    }
+
+    /// <summary>
+    /// Get no more than limit of messages sent after startTime in conversation with creature, identified by creatureId.
+    /// Messages are ordered by sentTime, from earlier to later
+    /// </summary>
+    [Route("api/PrivateMessages/Conversations/With/{creatureId}/After/{startTime}/Limit/{limit}")]
+    [HttpGet]
+    public async Task<ActionResult<PrivateMessagesCollectionResponse>> GetMessagesAfterTimeAsync(Guid creatureId, DateTime startTime, int limit)
+    {
+        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        
+        var messages = (await _privateMessagesService.GetConversationAfterTimeWithLimitAsync(loggedInCreature.Id, creatureId, startTime, limit))
+            .Select(m => m.ToDto())
+            .ToList();
+        
+        return Ok(new PrivateMessagesCollectionResponse(messages));
     }
 
     /// <summary>

@@ -52,6 +52,20 @@ public class PrivateMessagesDao : IPrivateMessagesDao
             .ToListAsync();
     }
 
+    public async Task<IReadOnlyCollection<PrivateMessageDbo>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime startTime, int limit)
+    {
+        return await _dbContext
+            .PrivateMessages
+            .Where(m => (m.Receiver.Id == receiverId) || (m.Receiver.Id == senderId))
+            .Where(m => (m.Sender.Id == senderId) || (m.Sender.Id == receiverId))
+            .Where(m => m.SentTime > startTime)
+            .Include(m => m.Receiver)
+            .Include(m => m.Sender)
+            .OrderBy(m => m.SentTime)
+            .Take(limit)
+            .ToListAsync();
+    }
+
     public async Task<PrivateMessageDbo> GetPrivateMessageAsync(Guid messageId)
     {
         return await _dbContext
