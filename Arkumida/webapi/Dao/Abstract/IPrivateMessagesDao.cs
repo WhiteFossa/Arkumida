@@ -16,11 +16,6 @@ public interface IPrivateMessagesDao
     /// Add private message (all fields except message ID must be populated)
     /// </summary>
     Task<PrivateMessageDbo> AddPrivateMessageAsync(PrivateMessageDbo privateMessage);
-
-    /// <summary>
-    /// Get conversation between sender and receiver
-    /// </summary>
-    Task<IReadOnlyCollection<PrivateMessageDbo>> GetConversationAsync(Guid receiverId, Guid senderId);
     
     /// <summary>
     /// Get conversation between sender and receiver. Only limit of messages will be returned, sent after afterTime. Messages will be ordered by

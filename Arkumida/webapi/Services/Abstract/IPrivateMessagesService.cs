@@ -21,11 +21,6 @@ public interface IPrivateMessagesService
     /// 2 - new message
     /// </summary>
     Task<Tuple<bool, PrivateMessageDto>> SendPrivateMessageAsync(Guid receiverId, Guid senderId, string message);
-
-    /// <summary>
-    /// Get a list of private messages, sent to receiver by sender or vice versa, ordered by send time
-    /// </summary>
-    Task<IReadOnlyCollection<PrivateMessage>> GetConversationAsync(Guid receiverId, Guid senderId);
     
     /// <summary>
     /// Get a list of private messages, sent to receiver by sender or vice versa, ordered by send time

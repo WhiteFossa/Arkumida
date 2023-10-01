@@ -37,22 +37,6 @@ public class PrivateMessagesController : ControllerBase
         
         return Ok(new UnreadPrivateMessagesInfoResponse(await _privateMessagesService.GetUnreadPrivateMessagesCountAsync(loggedInCreature.Id)));
     }
-    
-    /// <summary>
-    /// Get conversation with given creature
-    /// </summary>
-    [Route("api/PrivateMessages/Conversations/With/{creatureId}")]
-    [HttpGet]
-    public async Task<ActionResult<PrivateMessagesCollectionResponse>> GetConversationAsync(Guid creatureId)
-    {
-        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
-
-        var messages = (await _privateMessagesService.GetConversationAsync(loggedInCreature.Id, creatureId))
-            .Select(m => m.ToDto())
-            .ToList();
-        
-        return Ok(new PrivateMessagesCollectionResponse(messages));
-    }
 
     /// <summary>
     /// Get no more than limit of messages sent after afterTime in conversation with creature, identified by creatureId.

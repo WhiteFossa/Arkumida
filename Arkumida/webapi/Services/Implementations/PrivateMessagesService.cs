@@ -76,16 +76,7 @@ public class PrivateMessagesService : IPrivateMessagesService
 
         return new Tuple<bool, PrivateMessageDto>(true, sentPrivateMessage.ToDto());
     }
-
-    public async Task<IReadOnlyCollection<PrivateMessage>> GetConversationAsync(Guid receiverId, Guid senderId)
-    {
-        var messages = (await _privateMessagesDao.GetConversationAsync(receiverId, senderId))
-            .Where(m => !m.IsDeletedOnReceiverSide)
-            .OrderBy(m => m.SentTime);
-            
-        return _privateMessagesMapper.Map(messages);
-    }
-
+    
     public async Task<IReadOnlyCollection<PrivateMessage>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime afterTime, int limit)
     {
         return _privateMessagesMapper.Map(await _privateMessagesDao.GetConversationAfterTimeWithLimitAsync(receiverId, senderId, afterTime, limit));
