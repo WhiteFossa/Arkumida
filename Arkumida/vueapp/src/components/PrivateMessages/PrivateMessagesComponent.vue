@@ -1,7 +1,7 @@
 <script setup>
 
     import PrivateMessagesConversationSummary from "@/components/PrivateMessages/PrivateMessagesConversationSummary.vue";
-    import {onMounted, onUpdated, ref} from "vue";
+    import {onBeforeUnmount, onMounted, onUpdated, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
     import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
@@ -9,10 +9,8 @@
     from "@/components/PrivateMessages/PrivateMessagesConversationElement.vue";
     import PrivateMessagesNewMessageComponent
     from "@/components/PrivateMessages/PrivateMessagesNewMessageComponent.vue";
-    import {MarkPrivateMessageAsReadResult} from "@/js/constants";
-
-    // Load this amount of private messages at once
-    const loadBlockSize = 15
+    import {CommonConstants, MarkPrivateMessageAsReadResult, PrivateMessagesConstants} from "@/js/constants";
+    import objectHash from "object-hash";
 
     const isLoading = ref(true)
 
@@ -26,6 +24,8 @@
 
     const currentCreature = ref(null)
 
+    const updateTimerHandle = ref(null)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -36,6 +36,14 @@
         await ScrollPrivateMessagesDown()
     })
 
+    onBeforeUnmount(async () =>
+    {
+        if (updateTimerHandle.value != null)
+        {
+            clearInterval(updateTimerHandle.value)
+        }
+    })
+
     async function OnLoad()
     {
         await AuthRedirectToLoginPageIfNotLoggedIn()
@@ -43,6 +51,15 @@
         currentCreature.value = (await (await WebClientSendGetRequest("/api/Users/Current")).json()).creature
 
         await LoadConversationSummaries()
+
+        updateTimerHandle.value = setInterval (
+            function()
+            {
+                OnUpdateTimerTick()
+            },
+            PrivateMessagesConstants.PrivateMessagesPollingInterval)
+
+        isLoading.value = false
 
         isLoading.value = false
     }
@@ -60,9 +77,10 @@
         privateMessagesCollection.value = []
 
         const initialLoadBefore = new Date();
-        initialLoadBefore.setSeconds(initialLoadBefore.getSeconds() + 1); // To load message, which just arrived
+        initialLoadBefore.setSeconds(initialLoadBefore.getSeconds() + 1) // To load message, which just arrived
 
-        const initialMessages = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + confidantId + "/Before/" + initialLoadBefore.toISOString() + "/Limit/" + loadBlockSize)).json())
+        const initialMessages = (await
+            (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + confidantId + "/Before/" + initialLoadBefore.toISOString() + "/Limit/" + PrivateMessagesConstants.LoadBatchSize)).json())
             .messages
 
         privateMessagesCollection.value = privateMessagesCollection.value.concat(initialMessages)
@@ -78,11 +96,6 @@
             {
                 return a.sentTime.localeCompare(b.sentTime);
             });
-    }
-
-    async function ReloadConversation()
-    {
-        await LoadConversation(selectedConfidant.value.entityId)
     }
 
     async function LoadConversationSummaries()
@@ -110,7 +123,8 @@
 
         const firstMessageSentTime = privateMessagesCollection.value[0].sentTime
 
-        const newMessages = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + selectedConfidant.value.entityId + "/Before/" + firstMessageSentTime + "/Limit/" + loadBlockSize)).json())
+        const newMessages = (await
+            (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + selectedConfidant.value.entityId + "/Before/" + firstMessageSentTime + "/Limit/" + PrivateMessagesConstants.LoadBatchSize)).json())
             .messages
 
         privateMessagesCollection.value = privateMessagesCollection.value.concat(newMessages)
@@ -150,6 +164,63 @@
             // Kinda dirty - reloading all conversations summaries to display new (lessened) number of unread messages
             await LoadConversationSummaries()
         }
+    }
+
+    async function CheckForNewMessages()
+    {
+        const firstMessageTime = new Date(Math.min(...privateMessagesCollection.value.map(pm => (new Date(pm.sentTime)).getTime())));
+
+        const loadMessagesAfterTime = firstMessageTime
+        loadMessagesAfterTime.setSeconds(loadMessagesAfterTime.getSeconds() - 1) // To guarantee that first message in collection will be loaded too
+
+        // Loading all existing messages (what if new message got somehow inserted inbetween / we need to process "message read" changes)
+        const messagesAfter = (await
+            (await WebClientSendGetRequest("/api/PrivateMessages/Conversations/With/" + selectedConfidant.value.entityId + "/After/" + loadMessagesAfterTime.toISOString() + "/Limit/" + CommonConstants.DotnetIntMaxValue)).json())
+            .messages
+
+        messagesAfter.forEach(serverMessage =>
+        {
+            // Do we have this message locally?
+            var isExistsLocally = privateMessagesCollection.value.find((pm) => pm.id === serverMessage.id)
+
+            if (isExistsLocally)
+            {
+                // Replacing old message with received from server ONLY IF IT CHANGED (any replace causes re-render)
+                privateMessagesCollection.value = privateMessagesCollection.value.map(localMessage => {
+                    if (localMessage.id === serverMessage.id && objectHash.sha1(localMessage) !== objectHash.sha1(serverMessage))
+                    {
+                        return serverMessage
+                    }
+
+                    return localMessage
+                });
+            }
+            else
+            {
+                // New message, we need to insert it. We can just append, because re-ordering will be called a bit later
+                privateMessagesCollection.value.push(serverMessage)
+
+                isPrivateMessagesScrollDownRequested.value = true
+            }
+        })
+
+        OrderPrivateMessagesToDisplay(privateMessagesCollection.value)
+    }
+
+    // Call this regularly to fetch new data from server
+    async function OnUpdateTimerTick()
+    {
+        await LoadConversationSummaries()
+
+        if (selectedConfidant.value !== null)
+        {
+            await CheckForNewMessages()
+        }
+    }
+
+    async function OnNewMessageSent()
+    {
+        isPrivateMessagesScrollDownRequested.value = true
     }
 </script>
 
@@ -202,7 +273,7 @@
                 <!-- New message field -->
                 <PrivateMessagesNewMessageComponent
                     :selectedConfidantId="selectedConfidant?.entityId"
-                    @newMessageSent="async() => await ReloadConversation()" />
+                    @newMessageSent="async() => await OnNewMessageSent()" />
 
             </div>
         </div>

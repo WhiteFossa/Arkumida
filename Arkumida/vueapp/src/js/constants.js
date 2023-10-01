@@ -241,6 +241,12 @@ export class PrivateMessagesConstants
 
     // Polling interval for unread messages in header
     static UnreadPrivateMessagesInHeaderPollingInterval = 60000
+
+    // Load no more than this amount of private messages at once
+    static LoadBatchSize = 10
+
+    // Polling interval for private messages update (on private messages page)
+    static PrivateMessagesPollingInterval = 5000
 }
 
 // Possible private message marking as read result
@@ -249,4 +255,14 @@ export class MarkPrivateMessageAsReadResult
     static Successful = 0
 
     static AlreadyMarkedAsRead = 1
+}
+
+// Common constants
+export class CommonConstants
+{
+    // .NET int max value
+    static DotnetIntMaxValue = 2147483647
+
+    // .NET int min value
+    static DotnetIntMinValue = -2147483648
 }

@@ -36,7 +36,7 @@ import {PrivateMessagesConstants} from "@/js/constants";
             {
                 GetUnreadMessagesCount()
             },
-            PrivateMessagesConstants.UnreadPrivateMessagesInHeaderPollingInterval);
+            PrivateMessagesConstants.UnreadPrivateMessagesInHeaderPollingInterval)
 
         isLoading.value = false
     }
