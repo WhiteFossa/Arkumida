@@ -1,8 +1,12 @@
 <script setup>
-import {onBeforeUnmount, onMounted, ref} from "vue";
-import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-import {WebClientSendGetRequest} from "@/js/libWebClient";
-import {PrivateMessagesConstants} from "@/js/constants";
+    import {defineExpose, onBeforeUnmount, onMounted, ref} from "vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
+    import {PrivateMessagesConstants} from "@/js/constants";
+
+    defineExpose({
+        OnPrivateMessageMarkedAsRead
+    })
 
     const isLoading = ref(true)
 
@@ -66,6 +70,13 @@ import {PrivateMessagesConstants} from "@/js/constants";
         {
             unreadCountMessageClass.value = "private-messages-unread-icon-3-digit"
         }
+    }
+
+    // Call it when private message marked as read
+    // eslint-disable-next-line no-unused-vars
+    async function OnPrivateMessageMarkedAsRead(messageId)
+    {
+        await GetUnreadMessagesCount()
     }
 </script>
 

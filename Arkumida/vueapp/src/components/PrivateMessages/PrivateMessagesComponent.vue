@@ -1,7 +1,7 @@
 <script setup>
 
     import PrivateMessagesConversationSummary from "@/components/PrivateMessages/PrivateMessagesConversationSummary.vue";
-    import {onBeforeUnmount, onMounted, onUpdated, ref} from "vue";
+    import {defineEmits, onBeforeUnmount, onMounted, onUpdated, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
     import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
@@ -11,6 +11,8 @@
     from "@/components/PrivateMessages/PrivateMessagesNewMessageComponent.vue";
     import {CommonConstants, MarkPrivateMessageAsReadResult, PrivateMessagesConstants} from "@/js/constants";
     import objectHash from "object-hash";
+
+    const emit = defineEmits(['messageWasMarkedAsRead'])
 
     const isLoading = ref(true)
 
@@ -163,6 +165,8 @@
 
             // Kinda dirty - reloading all conversations summaries to display new (lessened) number of unread messages
             await LoadConversationSummaries()
+
+            emit('messageWasMarkedAsRead', messageId)
         }
     }
 

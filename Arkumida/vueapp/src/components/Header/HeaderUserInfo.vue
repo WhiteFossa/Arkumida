@@ -1,5 +1,5 @@
 <script setup>
-import {defineExpose, onMounted, ref} from "vue";
+    import {defineExpose, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
     import {AuthIsUserLoggedIn} from "@/js/auth";
@@ -8,7 +8,8 @@ import {defineExpose, onMounted, ref} from "vue";
 import PrivateMessagesHeaderLink from "@/components/PrivateMessages/PrivateMessagesHeaderLink.vue";
 
     defineExpose({
-        ReloadProfile
+        ReloadProfile,
+        OnPrivateMessageMarkedAsRead
     })
 
     const isLoading = ref(true)
@@ -17,6 +18,8 @@ import PrivateMessagesHeaderLink from "@/components/PrivateMessages/PrivateMessa
 
     const creatureId = ref(null)
     const creatureProfile = ref(null)
+
+    const privateMessagesLink = ref(null)
 
     // OnMounted hook
     onMounted(async () =>
@@ -47,6 +50,12 @@ import PrivateMessagesHeaderLink from "@/components/PrivateMessages/PrivateMessa
     {
         creatureProfile.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Profile")).json()).creatureWithProfile
     }
+
+    // Call it when private message marked as read
+    async function OnPrivateMessageMarkedAsRead(messageId)
+    {
+        privateMessagesLink.value.OnPrivateMessageMarkedAsRead(messageId)
+    }
 </script>
 
 <template>
@@ -69,7 +78,7 @@ import PrivateMessagesHeaderLink from "@/components/PrivateMessages/PrivateMessa
             v-if="isUserLoggedIn">
 
             <!-- Private messages -->
-            <PrivateMessagesHeaderLink />
+            <PrivateMessagesHeaderLink ref="privateMessagesLink" />
 
             <!-- Profile link -->
             <a class="darkest-color1-link-without-underline" href="/profile" title="Профиль">
