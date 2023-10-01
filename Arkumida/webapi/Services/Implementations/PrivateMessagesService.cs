@@ -122,12 +122,24 @@ public class PrivateMessagesService : IPrivateMessagesService
             .Select(cid => _creaturesWithProfilesMapper.Map(confidants.Single(c => c.Id == cid), profilesDbos.Single(p => p.Id == cid)))
             .ToDictionary(p => p.Id, p => p);
         
-        var lastMessagesTimes = await _privateMessagesDao.GetLastPrivateMessageTimeByConfidantsAsync(creatureId, confidantsIds);
+        var lastMessagesTimesBySenders = await _privateMessagesDao.GetLastPrivateMessageTimeBySendersAsync(creatureId, confidantsIds);
+        var lastMessagesTimesByReceivers = await _privateMessagesDao.GetLastPrivateMessageTimeByReceiversAsync(creatureId, confidantsIds);
 
         var unreadMessagesCounts = await _privateMessagesDao.GetUnreadMessagesCountByConfidantsAsync(creatureId, confidantsIds);
 
         return confidants
-            .Select(c => new ConversationSummaryDto(profiles[c.Id].ToDto(), lastMessagesTimes[c.Id], unreadMessagesCounts[c.Id]))
+            .Select(c =>
+            {
+                var lastMessageTimestampBySender = (lastMessagesTimesBySenders.ContainsKey(c.Id) ? lastMessagesTimesBySenders[c.Id] : DateTime.MinValue).Ticks;
+                var lastMessageTimestampByReceiver = (lastMessagesTimesByReceivers.ContainsKey(c.Id) ? lastMessagesTimesByReceivers[c.Id] : DateTime.MinValue).Ticks;
+                
+                return new ConversationSummaryDto
+                (
+                    profiles[c.Id].ToDto(),
+                    new DateTime(Math.Max(lastMessageTimestampBySender, lastMessageTimestampByReceiver), DateTimeKind.Utc),
+                    unreadMessagesCounts[c.Id]
+                );
+            })
             .ToList();
     }
 }

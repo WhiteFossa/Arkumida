@@ -47,7 +47,12 @@ public interface IPrivateMessagesDao
     /// <summary>
     /// Get last private messages times from given senders
     /// </summary>
-    Task<IDictionary<Guid, DateTime>> GetLastPrivateMessageTimeByConfidantsAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds);
+    Task<IDictionary<Guid, DateTime>> GetLastPrivateMessageTimeBySendersAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds);
+    
+    /// <summary>
+    /// Get last private messages times sent to given receivers
+    /// </summary>
+    Task<IDictionary<Guid, DateTime>> GetLastPrivateMessageTimeByReceiversAsync(Guid senderId, IReadOnlyCollection<Guid> receiversIds);
 
     /// <summary>
     /// Get unread private messages count by senders

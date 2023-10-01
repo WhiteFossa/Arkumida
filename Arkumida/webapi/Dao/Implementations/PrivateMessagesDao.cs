@@ -109,13 +109,23 @@ public class PrivateMessagesDao : IPrivateMessagesDao
             .ToListAsync();
     }
 
-    public async Task<IDictionary<Guid, DateTime>> GetLastPrivateMessageTimeByConfidantsAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds)
+    public async Task<IDictionary<Guid, DateTime>> GetLastPrivateMessageTimeBySendersAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds)
     {
         return await _dbContext
             .PrivateMessages
             .Where(pm => pm.Receiver.Id == receiverId)
             .Where(pm => sendersIds.Contains(pm.Sender.Id))
             .GroupBy(pm => pm.Sender.Id)
+            .ToDictionaryAsync(g => g.Key, g => g.Max(pm => pm.SentTime));
+    }
+
+    public async Task<IDictionary<Guid, DateTime>> GetLastPrivateMessageTimeByReceiversAsync(Guid senderId, IReadOnlyCollection<Guid> receiversIds)
+    {
+        return await _dbContext
+            .PrivateMessages
+            .Where(pm => pm.Sender.Id == senderId)
+            .Where(pm => receiversIds.Contains(pm.Receiver.Id))
+            .GroupBy(pm => pm.Receiver.Id)
             .ToDictionaryAsync(g => g.Key, g => g.Max(pm => pm.SentTime));
     }
 
