@@ -4,11 +4,12 @@
     import {onMounted, onUpdated, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
-    import {WebClientSendGetRequest} from "@/js/libWebClient";
+    import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
     import PrivateMessagesConversationElement
     from "@/components/PrivateMessages/PrivateMessagesConversationElement.vue";
     import PrivateMessagesNewMessageComponent
     from "@/components/PrivateMessages/PrivateMessagesNewMessageComponent.vue";
+    import {MarkPrivateMessageAsReadResult} from "@/js/constants";
 
     // Load this amount of private messages at once
     const loadBlockSize = 15
@@ -23,6 +24,8 @@
 
     const privateMessagesCollection = ref([])
 
+    const currentCreature = ref(null)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -36,6 +39,8 @@
     async function OnLoad()
     {
         await AuthRedirectToLoginPageIfNotLoggedIn()
+
+        currentCreature.value = (await (await WebClientSendGetRequest("/api/Users/Current")).json()).creature
 
         await LoadConversationSummaries()
 
@@ -91,6 +96,8 @@
         {
             await OnFirstMessageBecameVisible()
         }
+
+        await MarkMessageAsReadIfNeeded(messageId)
     }
 
     async function OnFirstMessageBecameVisible()
@@ -117,6 +124,31 @@
             privateMessagesScrollContainer.value.scrollTop = privateMessagesScrollContainer.value.scrollHeight
 
             isPrivateMessagesScrollDownRequested.value = false
+        }
+    }
+
+    async function MarkMessageAsReadIfNeeded(messageId)
+    {
+        let message = privateMessagesCollection
+            .value
+            .filter(function (pm) { return pm.id === messageId })[0]
+
+        if (message.readTime === null && currentCreature.value.entityId === message.receiver.entityId)
+        {
+            const markingResult = (await (await WebClientSendPostRequest(
+                "/api/PrivateMessages/MarkAsRead/" + message.id,
+                {})).json())
+
+            if (markingResult.result !== MarkPrivateMessageAsReadResult.Successful)
+            {
+                console.error("Failed to mark message " + message.id + " as read!")
+                return
+            }
+
+            message.readTime = markingResult.markTime
+
+            // Kinda dirty - reloading all conversations summaries to display new (lessened) number of unread messages
+            await LoadConversationSummaries()
         }
     }
 </script>
