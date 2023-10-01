@@ -218,8 +218,11 @@
         }
     }
 
-    async function OnNewMessageSent()
+    async function OnNewMessageSent(newMessage)
     {
+        privateMessagesCollection.value.push(newMessage)
+        OrderPrivateMessagesToDisplay(privateMessagesCollection.value)
+
         isPrivateMessagesScrollDownRequested.value = true
     }
 </script>
@@ -273,7 +276,7 @@
                 <!-- New message field -->
                 <PrivateMessagesNewMessageComponent
                     :selectedConfidantId="selectedConfidant?.entityId"
-                    @newMessageSent="async() => await OnNewMessageSent()" />
+                    @newMessageSent="async(nm) => await OnNewMessageSent(nm)" />
 
             </div>
         </div>

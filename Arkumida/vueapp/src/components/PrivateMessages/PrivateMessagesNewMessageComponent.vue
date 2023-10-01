@@ -73,7 +73,7 @@ import {defineEmits, defineProps, onMounted, reactive, ref} from "vue";
 
         newMessageFormData.message = ""
 
-        emit('newMessageSent')
+        emit('newMessageSent', sendMessageResult.message)
         isNewMessageBeingSent.value = false
     }
 
