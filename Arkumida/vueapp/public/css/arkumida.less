@@ -2539,8 +2539,6 @@ body {
 
 /* Conversation container */
 .private-messages-conversation-container {
-  margin-top: @margin-smaller1;
-
   height: 70vh;
 
   overflow-y: auto;
@@ -2759,6 +2757,20 @@ body {
   .mixin-private-messages-new-message-textarea();
 
   border: @border-thick-thickness @border-style @alert-color;
+}
+
+/* Container message "Select a conversation" */
+.private-messages-select-conversation-container {
+  background-color: @private-messages-conversation-container-background-color-our-message;
+  border: @border-thin-thickness @border-style @private-messages-conversation-container-border-color-our-message;
+  border-radius: @border-radius-small;
+
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
+
+  padding: @padding-smaller1;
+
+  .mixin-centered-text-base();
 }
 
 /* Private messages stuff ends here */

@@ -273,8 +273,10 @@
                     class="private-messages-conversation-container"
                     ref="privateMessagesScrollContainer">
 
-                    <div v-if="selectedConfidant === null">
-                        Выберите диалог
+                    <div
+                        v-if="selectedConfidant === null"
+                        class="private-messages-select-conversation-container">
+                        Выберите диалог или начните новый
                     </div>
 
                     <div
@@ -291,6 +293,7 @@
 
                 <!-- New message field -->
                 <PrivateMessagesNewMessageComponent
+                    v-if="selectedConfidant !== null"
                     :selectedConfidantId="selectedConfidant?.entityId"
                     @newMessageSent="async(nm) => await OnNewMessageSent(nm)" />
 
