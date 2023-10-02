@@ -259,11 +259,23 @@
             <!-- Conversations container -->
             <div class="private-messages-conversations-list-container" :key="selectedConfidant">
 
-                <PrivateMessagesConversationSummary
-                    v-for="conversationSummary in conversationsSummaries" :key="conversationSummary"
-                    :conversationSummary="conversationSummary"
-                    :selectedConfidantId = "selectedConfidant?.entityId"
-                    @openConversation="async (cid) => await OpenConversation(cid)"/>
+                <div class="private-messages-new-conversation-button">
+                    <button
+                        class="button-with-image"
+                        type="button"
+                        title="Начать новый диалог">
+                        <img class="small-icon" src="/images/icons/icon_add.png" alt="Начать новый диалог" />
+                    </button>
+                </div>
+
+                <div class="private-messages-conversations-summaries-container">
+
+                    <PrivateMessagesConversationSummary
+                        v-for="conversationSummary in conversationsSummaries" :key="conversationSummary"
+                        :conversationSummary="conversationSummary"
+                        :selectedConfidantId = "selectedConfidant?.entityId"
+                        @openConversation="async (cid) => await OpenConversation(cid)"/>
+                </div>
 
             </div>
 

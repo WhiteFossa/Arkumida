@@ -2773,4 +2773,27 @@ body {
   .mixin-centered-text-base();
 }
 
+/* Conversations summaries container */
+.private-messages-conversations-summaries-container {
+  height: 70vh;
+
+  overflow-y: auto;
+}
+
+/* "Button" for new conversation */
+.private-messages-new-conversation-button {
+  background-color: @private-messages-conversations-list-container-background-color;
+  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+  margin-left: @margin-smaller1;
+  margin-right: @margin-smaller1;
+  margin-top: @margin-smaller1;
+
+  cursor: pointer;
+
+  .mixin-horizontally-and-vertically-centered-flex();
+}
+
 /* Private messages stuff ends here */

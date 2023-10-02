@@ -2352,5 +2352,24 @@ body {
   padding: 0.5rem;
   text-align: center;
 }
+/* Conversations summaries container */
+.private-messages-conversations-summaries-container {
+  height: 70vh;
+  overflow-y: auto;
+}
+/* "Button" for new conversation */
+.private-messages-new-conversation-button {
+  background-color: hsl(199, 74%, 79%);
+  border: 0.1rem solid hsl(199, 65%, 54%);
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* Private messages stuff ends here */
 /*# sourceMappingURL=arkumida.css.map */
