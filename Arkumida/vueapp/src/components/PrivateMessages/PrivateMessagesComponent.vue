@@ -103,6 +103,16 @@
     async function LoadConversationSummaries()
     {
         conversationsSummaries.value = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations")).json()).conversationsSummaries
+        OrderConversationsSummariesToDisplay(conversationsSummaries.value)
+    }
+
+    // Order conversations summaries before displaying
+    function OrderConversationsSummariesToDisplay(conversationsSummaries)
+    {
+        conversationsSummaries.sort(function(a, b)
+        {
+            return b.lastMessageSentTime.localeCompare(a.lastMessageSentTime);
+        });
     }
 
     async function OnMessageBecameVisible(messageId)
@@ -226,6 +236,8 @@
     {
         privateMessagesCollection.value.push(newMessage)
         OrderPrivateMessagesToDisplay(privateMessagesCollection.value)
+
+        await LoadConversationSummaries() // To display current conversation on top
 
         isPrivateMessagesScrollDownRequested.value = true
     }

@@ -243,7 +243,7 @@ export class PrivateMessagesConstants
     static UnreadPrivateMessagesInHeaderPollingInterval = 60000
 
     // Load no more than this amount of private messages at once
-    static LoadBatchSize = 10
+    static LoadBatchSize = 20
 
     // Polling interval for private messages update (on private messages page)
     static PrivateMessagesPollingInterval = 5000
