@@ -1,6 +1,8 @@
 <script setup>
 
-import {defineEmits, reactive, ref} from "vue";
+    import {defineEmits, onMounted, reactive, ref} from "vue";
+    import {required} from "@vuelidate/validators";
+    import useVuelidate from "@vuelidate/core";
 
     const emit = defineEmits([ "cancelPressed", "confidantSelected" ])
 
@@ -10,8 +12,26 @@ import {defineEmits, reactive, ref} from "vue";
         confidantName: ""
     })
 
+    const newConversationFormRules = {
+        confidantName: {
+            $autoDirty: true,
+            required
+        }
+    }
 
-async function OnCancelPressed()
+    const newConversationFormValidator = useVuelidate(newConversationFormRules, newConversationFormData)
+
+    onMounted(async () =>
+    {
+        await OnLoad();
+    })
+
+    async function OnLoad()
+    {
+        await newConversationFormValidator.value.$validate()
+    }
+
+    async function OnCancelPressed()
     {
         emit("cancelPressed")
     }
@@ -19,6 +39,11 @@ async function OnCancelPressed()
     async function OnConfidantSelected()
     {
         emit("confidantSelected", selectedConfidantId.value)
+    }
+
+    async function OnConfidantNameType()
+    {
+        console.log(newConversationFormData.confidantName)
     }
 </script>
 
@@ -42,7 +67,9 @@ async function OnCancelPressed()
                     <input
                         type="text"
                         placeholder="Имя собеседника"
-                        v-model="newConversationFormData.confidantName" />
+                        v-model="newConversationFormData.confidantName"
+                        :class="(newConversationFormValidator.confidantName.$error)?'private-messages-new-conversation-confidant-name-input-invalid':'private-messages-new-conversation-confidant-name-input'"
+                        @input="async () => await OnConfidantNameType()" />
                 </div>
 
                 <div class="popup-buttons-container">
@@ -54,7 +81,8 @@ async function OnCancelPressed()
 
                     <button
                         class="popup-button"
-                        @click="async() => await OnConfidantSelected()">
+                        @click="async() => await OnConfidantSelected()"
+                        :disabled="newConversationFormValidator.$errors.length > 0">
                         Начать
                     </button>
                 </div>

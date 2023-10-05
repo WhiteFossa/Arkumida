@@ -2796,4 +2796,28 @@ body {
   .mixin-horizontally-and-vertically-centered-flex();
 }
 
+/* Input, where confidant name will be typed when creating new conversation */
+.mixin-private-messages-new-conversation-confidant-name-input()
+{
+  border-radius: @border-radius-normal;
+
+  height: @input-height-big;
+  font-size: @font-size-bigger2;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: @padding-smaller1;
+  margin-bottom: @margin-smaller1;
+}
+
+.private-messages-new-conversation-confidant-name-input {
+  .mixin-private-messages-new-conversation-confidant-name-input();
+}
+
+.private-messages-new-conversation-confidant-name-input-invalid {
+  .mixin-private-messages-new-conversation-confidant-name-input();
+  border: @border-thick-thickness @border-style @alert-color;
+}
+
 /* Private messages stuff ends here */

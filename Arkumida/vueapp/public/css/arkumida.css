@@ -2371,5 +2371,25 @@ body {
   justify-content: center;
   align-items: center;
 }
+/* Input, where confidant name will be typed when creating new conversation */
+.private-messages-new-conversation-confidant-name-input {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.private-messages-new-conversation-confidant-name-input-invalid {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
 /* Private messages stuff ends here */
 /*# sourceMappingURL=arkumida.css.map */
