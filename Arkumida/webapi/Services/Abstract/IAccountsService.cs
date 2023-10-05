@@ -111,4 +111,9 @@ public interface IAccountsService
     /// Reset creature's password
     /// </summary>
     Task<bool> ResetPasswordAsync(Guid creatureId, string newPassword, string token);
+
+    /// <summary>
+    /// Find all creatures, who's display names contains displayNamePart (case insensitive)
+    /// </summary>
+    Task<IReadOnlyCollection<CreatureWithProfile>> FindCreaturesByDisplayNamePartAsync(string displayNamePart);
 }

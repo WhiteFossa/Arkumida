@@ -116,4 +116,20 @@ public class ProfilesDao : IProfilesDao
 
             .ToListAsync();
     }
+
+    public async Task<IReadOnlyCollection<CreatureProfileDbo>> FindCreaturesProfilesByDisplayNamePartAsync(string displayNamePart)
+    {
+        return await _dbContext
+            .Profiles
+
+            .Include(p => p.CurrentAvatar)
+            .ThenInclude(ca => ca.File)
+
+            .Include(p => p.Avatars)
+            .ThenInclude(a => a.File)
+
+            .Where(p => p.DisplayName.ToLower().Contains(displayNamePart.ToLower()))
+
+            .ToListAsync();
+    }
 }

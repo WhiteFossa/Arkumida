@@ -26,4 +26,9 @@ public interface IProfilesDao
     /// Mass get creatures profiles by IDs
     /// </summary>
     Task<IReadOnlyCollection<CreatureProfileDbo>> MassGetProfilesAsync(IReadOnlyCollection<Guid> creaturesIds);
+
+    /// <summary>
+    /// Return all creatures profiles, who's display names contain displayNamePart (case insensitive)
+    /// </summary>
+    Task<IReadOnlyCollection<CreatureProfileDbo>> FindCreaturesProfilesByDisplayNamePartAsync(string displayNamePart);
 }

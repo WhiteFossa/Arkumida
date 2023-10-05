@@ -11,6 +11,8 @@
     from "@/components/PrivateMessages/PrivateMessagesNewMessageComponent.vue";
     import {CommonConstants, MarkPrivateMessageAsReadResult, PrivateMessagesConstants} from "@/js/constants";
     import objectHash from "object-hash";
+    import PrivateMessagesNewConversationPopup
+        from "@/components/PrivateMessages/PrivateMessagesNewConversationPopup.vue";
 
     const emit = defineEmits(['messageWasMarkedAsRead'])
 
@@ -27,6 +29,8 @@
     const currentCreature = ref(null)
 
     const updateTimerHandle = ref(null)
+
+    const isNewConversationPopupShown = ref(false)
 
     onMounted(async () =>
     {
@@ -241,6 +245,24 @@
 
         isPrivateMessagesScrollDownRequested.value = true
     }
+
+    // Open a new conversation popup to determine confidant name
+    async function OnNewConversationClicked()
+    {
+        isNewConversationPopupShown.value = true
+    }
+
+    async function OnNewConversationCreationCancelled()
+    {
+        isNewConversationPopupShown.value = false
+    }
+
+    async function OnNewConversationConfidantSelected(confidantId)
+    {
+        isNewConversationPopupShown.value = false
+
+        alert("New conversation: " + confidantId)
+    }
 </script>
 
 <template>
@@ -259,7 +281,9 @@
             <!-- Conversations container -->
             <div class="private-messages-conversations-list-container" :key="selectedConfidant">
 
-                <div class="private-messages-new-conversation-button">
+                <div
+                    class="private-messages-new-conversation-button"
+                    @click="async() => await OnNewConversationClicked()">
                     <button
                         class="button-with-image"
                         type="button"
@@ -313,4 +337,8 @@
         </div>
     </div>
 
+    <PrivateMessagesNewConversationPopup
+        v-if="isNewConversationPopupShown"
+        @cancelPressed="async() => await OnNewConversationCreationCancelled()"
+        @confidantSelected="async(cid) => await OnNewConversationConfidantSelected(cid)" />
 </template>

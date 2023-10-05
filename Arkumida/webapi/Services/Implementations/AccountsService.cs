@@ -505,4 +505,20 @@ public class AccountsService : IAccountsService
 
         return (await _userManager.ResetPasswordAsync(creature, decodedToken, newPassword)).Succeeded;
     }
+
+    public async Task<IReadOnlyCollection<CreatureWithProfile>> FindCreaturesByDisplayNamePartAsync(string displayNamePart)
+    {
+        var profiles = await _profilesDao.FindCreaturesProfilesByDisplayNamePartAsync(displayNamePart);
+
+        var result = new List<CreatureWithProfile>();
+
+        foreach (var profile in profiles)
+        {
+            var creature = await _userManager.FindByIdAsync(profile.Id.ToString());
+
+            result.Add(_creaturesWithProfilesMapper.Map(creature, profile));
+        }
+
+        return result;
+    }
 }

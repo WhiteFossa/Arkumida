@@ -479,6 +479,25 @@ public class UsersController : ControllerBase
 
         return Ok(new PasswordResetResponse(await _accountsService.ResetPasswordAsync(creatureId, request.NewPassword, request.Token)));
     }
+
+    /// <summary>
+    /// Find creatures by display name (case insensitive)
+    /// </summary>
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("api/Users/Find/ByDisplayName/{displayName}")]
+    public async Task<ActionResult<CreaturesWithProfilesListResponse>> FindCreaturesByDisplayName(string displayName)
+    {
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            // No need to query service in this case to avoid listing of all users
+            return Ok(new CreaturesWithProfilesListResponse(new List<CreatureWithProfileDto>()));
+        }
+
+        return Ok(new CreaturesWithProfilesListResponse((await _accountsService.FindCreaturesByDisplayNamePartAsync(displayName))
+            .Select(cwp => cwp.ToDto())
+            .ToList()));
+    }
     
     /// <summary>
     /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception
