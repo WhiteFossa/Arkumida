@@ -2391,5 +2391,41 @@ body {
   margin-bottom: 0.5rem;
   border: 0.2rem solid hsl(0, 100%, 56%);
 }
+/* Container for dynamic confidants list (outer)*/
+.private-messages-new-conversation-confidants-list-container-outer {
+  position: relative;
+}
+/* Container for dynamic confidants list */
+.private-messages-new-conversation-confidants-list-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.5rem;
+  max-height: 20rem;
+  overflow-y: scroll;
+  z-index: 3000;
+}
+/* New conversation popup */
+.private-messages-new-conversation-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* Potential confidant (in dropdown) */
+.private-messages-new-conversation-potential-confidant {
+  background: hsl(0, 0%, 100%);
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  cursor: pointer;
+}
+.private-messages-new-conversation-potential-confidant:hover {
+  background: hsl(199, 74%, 79%);
+}
 /* Private messages stuff ends here */
 /*# sourceMappingURL=arkumida.css.map */

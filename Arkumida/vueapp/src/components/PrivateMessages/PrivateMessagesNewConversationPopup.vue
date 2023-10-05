@@ -3,6 +3,7 @@
     import {defineEmits, onMounted, reactive, ref} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
 
     const emit = defineEmits([ "cancelPressed", "confidantSelected" ])
 
@@ -18,6 +19,8 @@
             required
         }
     }
+
+    const foundConfidantsList = ref([])
 
     const newConversationFormValidator = useVuelidate(newConversationFormRules, newConversationFormData)
 
@@ -43,7 +46,13 @@
 
     async function OnConfidantNameType()
     {
-        console.log(newConversationFormData.confidantName)
+        if (newConversationFormData.confidantName === "")
+        {
+            foundConfidantsList.value = []
+            return
+        }
+
+        foundConfidantsList.value = (await (await WebClientSendGetRequest("/api/Users/Find/ByDisplayName/" + newConversationFormData.confidantName)).json()).creatures
     }
 </script>
 
@@ -54,7 +63,7 @@
     <!-- Upper layer -->
     <div class="popup-upper-layer">
 
-        <div class="popup">
+        <div class="private-messages-new-conversation-popup">
 
             <div class="popup-content-container">
 
@@ -70,6 +79,21 @@
                         v-model="newConversationFormData.confidantName"
                         :class="(newConversationFormValidator.confidantName.$error)?'private-messages-new-conversation-confidant-name-input-invalid':'private-messages-new-conversation-confidant-name-input'"
                         @input="async () => await OnConfidantNameType()" />
+                </div>
+
+                <!-- Found creatures list -->
+                <div
+                    v-if="foundConfidantsList.length > 0"
+                    class="private-messages-new-conversation-confidants-list-container-outer">
+                    <div class="private-messages-new-conversation-confidants-list-container">
+
+                        <div
+                            v-for="foundConfidant in foundConfidantsList" :key="foundConfidant.entityId"
+                            class="private-messages-new-conversation-potential-confidant">
+                            {{ foundConfidant.name }}
+                        </div>
+
+                    </div>
                 </div>
 
                 <div class="popup-buttons-container">
