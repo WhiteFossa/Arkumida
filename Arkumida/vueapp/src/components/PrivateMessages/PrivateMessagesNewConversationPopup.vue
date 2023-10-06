@@ -24,6 +24,8 @@
 
     const newConversationFormValidator = useVuelidate(newConversationFormRules, newConversationFormData)
 
+    const lastConfidantsListRequestId = ref(null)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -46,13 +48,33 @@
 
     async function OnConfidantNameType()
     {
+        lastConfidantsListRequestId.value = crypto.randomUUID();
+
         if (newConversationFormData.confidantName === "")
         {
             foundConfidantsList.value = []
             return
         }
 
-        foundConfidantsList.value = (await (await WebClientSendGetRequest("/api/Users/Find/ByDisplayName/" + newConversationFormData.confidantName)).json()).creatures
+        DoPotentialConfidantsLookup(newConversationFormData.confidantName, lastConfidantsListRequestId.value)
+            .then((result) => {
+                // This code will be executed on request completion, co lastConfidantsListRequestId may change
+                if (result.requestId !== lastConfidantsListRequestId.value)
+                {
+                    // Discarding the result because new request was made
+                    return
+                }
+
+                foundConfidantsList.value = result.result
+            })
+    }
+
+    async function DoPotentialConfidantsLookup(partOfName, requestId)
+    {
+        return {
+            "result": (await (await WebClientSendGetRequest("/api/Users/Find/ByDisplayName/" + newConversationFormData.confidantName)).json()).creatures,
+            "requestId": requestId
+        }
     }
 </script>
 
