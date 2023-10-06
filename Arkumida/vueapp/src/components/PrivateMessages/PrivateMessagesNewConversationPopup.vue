@@ -72,7 +72,12 @@
     async function DoPotentialConfidantsLookup(partOfName, requestId)
     {
         return {
-            "result": (await (await WebClientSendGetRequest("/api/Users/Find/ByDisplayName/" + newConversationFormData.confidantName)).json()).creatures,
+            "result": (await (await WebClientSendGetRequest("/api/Users/Find/ByDisplayName/" + newConversationFormData.confidantName)).json())
+                .creatures
+                .sort(function(a, b)
+                {
+                    return a.name.localeCompare(b.name);
+                }),
             "requestId": requestId
         }
     }
