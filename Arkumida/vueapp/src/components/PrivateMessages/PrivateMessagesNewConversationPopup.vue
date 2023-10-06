@@ -4,10 +4,9 @@
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
+    import {CommonConstants, Messages} from "@/js/constants";
 
     const emit = defineEmits([ "cancelPressed", "confidantSelected" ])
-
-    const selectedConfidantId = ref(null)
 
     const newConversationFormData = reactive({
         confidantName: ""
@@ -43,14 +42,22 @@
 
     async function OnConfidantSelected()
     {
-        emit("confidantSelected", selectedConfidantId.value)
+        const confidantSearchResponse = await (await WebClientSendGetRequest("/api/Users/Find/ByDisplayName/" + newConversationFormData.confidantName)).json()
+
+        if (!confidantSearchResponse.isFound)
+        {
+            alert(Messages.UserNotFoundByName)
+            return
+        }
+
+        emit("confidantSelected", confidantSearchResponse.creature.entityId)
     }
 
     async function OnConfidantNameType()
     {
         lastConfidantsListRequestId.value = crypto.randomUUID();
 
-        if (newConversationFormData.confidantName === "")
+        if (newConversationFormData.confidantName.length < CommonConstants.NamePartMinimalLengthToLookup)
         {
             foundConfidantsList.value = []
             return
@@ -72,7 +79,7 @@
     async function DoPotentialConfidantsLookup(partOfName, requestId)
     {
         return {
-            "result": (await (await WebClientSendGetRequest("/api/Users/Find/ByDisplayName/" + newConversationFormData.confidantName)).json())
+            "result": (await (await WebClientSendGetRequest("/api/Users/Find/ByDisplayNamePart/" + newConversationFormData.confidantName)).json())
                 .creatures
                 .sort(function(a, b)
                 {
@@ -80,6 +87,13 @@
                 }),
             "requestId": requestId
         }
+    }
+
+    async function OnPotentialConfidantSelected(potentialConfidantName)
+    {
+        newConversationFormData.confidantName = potentialConfidantName
+
+        await OnConfidantNameType() // Setting confidantName don't cause input event to fire
     }
 </script>
 
@@ -116,7 +130,8 @@
 
                         <div
                             v-for="foundConfidant in foundConfidantsList" :key="foundConfidant.entityId"
-                            class="private-messages-new-conversation-potential-confidant">
+                            class="private-messages-new-conversation-potential-confidant"
+                            @click="async () => await OnPotentialConfidantSelected(foundConfidant.name)">
                             {{ foundConfidant.name }}
                         </div>
 

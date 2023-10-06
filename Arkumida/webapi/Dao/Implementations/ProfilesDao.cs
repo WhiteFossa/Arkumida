@@ -132,4 +132,18 @@ public class ProfilesDao : IProfilesDao
 
             .ToListAsync();
     }
+
+    public async Task<CreatureProfileDbo> FindCreatureByDisplayNameAsync(string displayName)
+    {
+        return await _dbContext
+            .Profiles
+
+            .Include(p => p.CurrentAvatar)
+            .ThenInclude(ca => ca.File)
+
+            .Include(p => p.Avatars)
+            .ThenInclude(a => a.File)
+
+            .SingleOrDefaultAsync(p => p.DisplayName.Equals(displayName));
+    }
 }

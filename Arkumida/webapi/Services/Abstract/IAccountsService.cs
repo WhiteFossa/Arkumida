@@ -62,7 +62,7 @@ public interface IAccountsService
     Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId);
 
     /// <summary>
-    /// Change creature's display name
+    /// Change creature's display displayName
     /// </summary>
     Task RenameCreatureAsync(Guid creatureId, string newName);
     
@@ -116,4 +116,9 @@ public interface IAccountsService
     /// Find all creatures, who's display names contains displayNamePart (case insensitive)
     /// </summary>
     Task<IReadOnlyCollection<CreatureWithProfile>> FindCreaturesByDisplayNamePartAsync(string displayNamePart);
+
+    /// <summary>
+    /// Find creature by exact display displayName match
+    /// </summary>
+    Task<Creature> FindCreatureByDisplayNameAsync(string displayName);
 }

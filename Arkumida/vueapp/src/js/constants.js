@@ -56,7 +56,9 @@ export class Messages
     static PasswordResetSuccessful = "Ваш пароль успешно сброшен, сейчас вы будете перенаправлены на страницу входа на сайт."
     static PasswordResetFailed = "Не удалось сбросить пароль. Корректна-ли ссылка? Не протухло-ли письмо?"
 
-    static PrivateMessagesFailedToSend = "Не удалось отправить личное сообщение, повторите попытку позже или свяжитесь с администраторами!"
+    static PrivateMessagesFailedToSend = "Не удалось отправить личное сообщение, повторите попытку позже или свяжитесь с администраторами."
+
+    static UserNotFoundByName = "Пользователь с таким именем не найден."
 }
 
 export class ProfileConsts
@@ -265,4 +267,7 @@ export class CommonConstants
 
     // .NET int min value
     static DotnetIntMinValue = -2147483648
+
+    // Do requests for list of creatures by part of name only when part of name longer or equal to this value
+    static NamePartMinimalLengthToLookup = 3
 }
