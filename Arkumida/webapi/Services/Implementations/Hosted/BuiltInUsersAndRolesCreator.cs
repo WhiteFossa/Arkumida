@@ -57,9 +57,9 @@ public class BuiltInUsersAndRolesCreator : IHostedService
             creatures = await accountsService.GetAllCreaturesAsync();
         }
         
-        // Giving users roles outside the scope - because we will create a lot of scopes in parallel operations
         #region Giving all creatures an User role
-            
+        
+        // Giving users roles outside the scope - because we will create a lot of scopes in parallel operations
         ParallelOptions userRoleAddingParallelismLevel = new()
         {
             MaxDegreeOfParallelism = GlobalConstants.AddingUserRoleToCreaturesParallelismLevel
