@@ -3,8 +3,10 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using webapi.Constants;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
@@ -29,6 +31,7 @@ public class AccountsService : IAccountsService
     private readonly IEmailSenderService _emailSenderService;
     private readonly IEmailsGeneratorService _emailsGeneratorService;
     private readonly JwtSettings _jwtSettings;
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
     public AccountsService
     (
@@ -41,7 +44,8 @@ public class AccountsService : IAccountsService
         IFilesDao filesDao,
         IEmailSenderService emailSenderService,
         IEmailsGeneratorService emailsGeneratorService,
-        IOptions<JwtSettings> jwtSettings)
+        IOptions<JwtSettings> jwtSettings,
+        RoleManager<IdentityRole<Guid>> roleManager)
     {
         _userManager = userManager;
         _creaturesMapper = creaturesMapper;
@@ -53,6 +57,7 @@ public class AccountsService : IAccountsService
         _emailSenderService = emailSenderService;
         _emailsGeneratorService = emailsGeneratorService;
         _jwtSettings = jwtSettings.Value;
+        _roleManager = roleManager;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData, bool isImporting)
@@ -78,13 +83,16 @@ public class AccountsService : IAccountsService
             return new RegistrationResultDto(Guid.Empty, UserRegistrationResult.WeakPassword);
         }
         
-        var creatureDto = _creaturesMapper.Map(creatureDbo);
+        var creature = _creaturesMapper.Map(creatureDbo);
+
+        // Each creature is user
+        await AddCreatureToRoleAsync(creature.Id, RolesConstants.UserRole);
         
         // Now creating the profile
         var creatureProfileDbo = new CreatureProfileDbo()
         {
-            Id = creatureDto.Id,
-            DisplayName = creatureDto.Login,
+            Id = creature.Id,
+            DisplayName = creature.Login,
             
             IsPasswordChangeRequired = isImporting,
             OneTimePlaintextPassword = isImporting ? registrationData.Password : string.Empty,
@@ -96,7 +104,7 @@ public class AccountsService : IAccountsService
 
         await _profilesDao.CreateProfileAsync(creatureProfileDbo);
         
-        return new RegistrationResultDto(creatureDto.Id, UserRegistrationResult.OK);
+        return new RegistrationResultDto(creature.Id, UserRegistrationResult.OK);
     }
 
     public async Task<LoginResultDto> LoginAsync(LoginDto loginData)
@@ -532,5 +540,49 @@ public class AccountsService : IAccountsService
         }
 
         return _creaturesMapper.Map(await _userManager.FindByIdAsync(profile.Id.ToString()));
+    }
+
+    public async Task<bool> IsRoleExistsAsync(string roleName)
+    {
+        return await _roleManager.RoleExistsAsync(roleName);
+    }
+
+    public async Task CreateRoleAsync(string roleName)
+    {
+        var result = await _roleManager.CreateAsync(new IdentityRole<Guid>(roleName));
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException($"Failed to create a role with Name = { roleName }");
+        }
+    }
+
+    public async Task<bool> IsCreatureInRoleAsync(Guid creatureId, string roleName)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID = { creatureId } is not found!", nameof(creatureId));
+        }
+
+        return await _userManager.IsInRoleAsync(creature, roleName);
+    }
+
+    public async Task AddCreatureToRoleAsync(Guid creatureId, string roleNameToAddTo)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID = { creatureId } is not found!", nameof(creatureId));
+        }
+        
+        if (!(await _userManager.AddToRoleAsync(creature, roleNameToAddTo)).Succeeded)
+        {
+            throw new InvalidOperationException($"Failed to add creature with ID = { creatureId } to role { roleNameToAddTo }");
+        }
+    }
+
+    public async Task<IReadOnlyCollection<Creature>> GetAllCreaturesAsync()
+    {
+        return _creaturesMapper.Map(await _userManager.Users.ToListAsync());
     }
 }

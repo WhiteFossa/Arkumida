@@ -121,4 +121,29 @@ public interface IAccountsService
     /// Find creature by exact display displayName match
     /// </summary>
     Task<Creature> FindCreatureByDisplayNameAsync(string displayName);
+
+    /// <summary>
+    /// Is role exists?
+    /// </summary>
+    Task<bool> IsRoleExistsAsync(string roleName);
+
+    /// <summary>
+    /// Creates a new role (without checks, checks for role existence by hirself, please)
+    /// </summary>
+    Task CreateRoleAsync(string roleName);
+
+    /// <summary>
+    /// Is creature in given role?
+    /// </summary>
+    Task<bool> IsCreatureInRoleAsync(Guid creatureId, string roleName);
+
+    /// <summary>
+    /// Adds creature to a role
+    /// </summary>
+    Task AddCreatureToRoleAsync(Guid creatureId, string roleNameToAddTo);
+
+    /// <summary>
+    /// Lists all registered creatures including service accounts like Importer
+    /// </summary>
+    Task<IReadOnlyCollection<Creature>> GetAllCreaturesAsync();
 }

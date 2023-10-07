@@ -80,7 +80,7 @@ builder.Services.AddSingleton<IPrivateMessagesMapper, PrivateMessagesMapper>();
 
 #region Hosted
 
-builder.Services.AddHostedService<BuiltInUsersCreator>();
+builder.Services.AddHostedService<BuiltInUsersAndRolesCreator>();
 
 #endregion
 
