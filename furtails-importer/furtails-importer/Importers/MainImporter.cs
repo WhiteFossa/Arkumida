@@ -19,22 +19,24 @@ public class MainImporter
     public const string TextsDbRoot = @"/home/fossa/Projects/Arkumida-private/furtails-site/furtails/public/filedb/texts/";
     public const string UsersDbRoot = @"/home/fossa/Projects/Arkumida-private/furtails-site/furtails/public/filedb/users/";
 
+    public const int ParallelismDegree = 10;
+
     public async Task ImportAsync()
     {
         await using (var connection = new MySqlConnection(ConnectionString))
         using (var httpClient = await LoginHelper.LogInAsUserAsync(Login, Password))
         {
-            // Importing users
+            /*// Importing users
             var usersImporter = new UsersImporter(connection, httpClient);
-            await usersImporter.ImportAsync();
+            await usersImporter.ImportAsync();*/
 
             // Importing tags
             var tagsImporter = new TagsImporter(connection, httpClient);
             await tagsImporter.Import();
             
-            // Importing texts
+            /*// Importing texts
             var textsImporter = new TextsImporter(connection, httpClient, usersImporter);
-            await textsImporter.Import();
+            await textsImporter.Import();*/
         }
     }
 }
