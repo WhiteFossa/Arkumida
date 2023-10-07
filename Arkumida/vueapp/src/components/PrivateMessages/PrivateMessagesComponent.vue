@@ -32,6 +32,9 @@
 
     const isNewConversationPopupShown = ref(false)
 
+    const conversationsSummariesRefs = ref([])
+    const conversationsSummariesContainerRef = ref(null)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -75,6 +78,14 @@
         selectedConfidant.value = (await (await WebClientSendGetRequest("/api/Users/" + confidantId + "/Profile")).json()).creatureWithProfile
 
         await LoadConversation(selectedConfidant.value.entityId)
+
+        // Scrolling to conversation summary
+        const conversationSummaryIndex = conversationsCollection.value
+            .findIndex(c => c.confidant.entityId === selectedConfidant.value.entityId)
+
+        const conversationSummary = conversationsSummariesRefs.value[conversationSummaryIndex]
+
+        conversationSummary.scrollIntoView({ behavior: "smooth", block: "end" })
     }
 
     async function LoadConversation(confidantId)
@@ -111,10 +122,7 @@
         conversationsFromServer.forEach(conversationFromServer =>
         {
             // Do we have this conversation locally?
-            var isExistsLocally = conversationsCollection.value.some((c) =>
-            {
-                return c.confidant.entityId === conversationFromServer.confidant.entityId
-            })
+            var isExistsLocally = conversationsCollection.value.some((c) => c.confidant.entityId === conversationFromServer.confidant.entityId)
 
             if (isExistsLocally)
             {
@@ -342,13 +350,19 @@
                     </button>
                 </div>
 
-                <div class="private-messages-conversations-summaries-container">
+                <div
+                    ref="conversationsSummariesContainerRef"
+                    class="private-messages-conversations-summaries-container">
 
-                    <PrivateMessagesConversationSummary
+                    <div
                         v-for="conversationSummary in conversationsCollection" :key="conversationSummary"
-                        :conversationSummary="conversationSummary"
-                        :selectedConfidantId = "selectedConfidant?.entityId"
-                        @openConversation="async (cid) => await OpenConversation(cid)"/>
+                        ref="conversationsSummariesRefs">
+
+                        <PrivateMessagesConversationSummary
+                            :conversationSummary="conversationSummary"
+                            :selectedConfidantId = "selectedConfidant?.entityId"
+                            @openConversation="async (cid) => await OpenConversation(cid)"/>
+                    </div>
                 </div>
 
             </div>
