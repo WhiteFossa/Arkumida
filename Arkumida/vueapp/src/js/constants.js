@@ -55,6 +55,10 @@ export class Messages
     static PasswordResetInstructionsSent = "Инструкции по сбросу пароля отправлены на вашу почту."
     static PasswordResetSuccessful = "Ваш пароль успешно сброшен, сейчас вы будете перенаправлены на страницу входа на сайт."
     static PasswordResetFailed = "Не удалось сбросить пароль. Корректна-ли ссылка? Не протухло-ли письмо?"
+
+    static PrivateMessagesFailedToSend = "Не удалось отправить личное сообщение, повторите попытку позже или свяжитесь с администраторами."
+
+    static UserNotFoundByName = "Пользователь с таким именем не найден."
 }
 
 export class ProfileConsts
@@ -230,4 +234,40 @@ export class PasswordResetInitiationResult
     static CreatureHaveNoConfirmedEmail = 3
 
     static FailedToSendEmail = 4
+}
+
+export class PrivateMessagesConstants
+{
+    // Display this if we have more than 100 unread messages
+    static MaxUnreadPrivateMessagesCountMessage = "99+"
+
+    // Polling interval for unread messages in header
+    static UnreadPrivateMessagesInHeaderPollingInterval = 60000
+
+    // Load no more than this amount of private messages at once
+    static LoadBatchSize = 20
+
+    // Polling interval for private messages update (on private messages page)
+    static PrivateMessagesPollingInterval = 5000
+}
+
+// Possible private message marking as read result
+export class MarkPrivateMessageAsReadResult
+{
+    static Successful = 0
+
+    static AlreadyMarkedAsRead = 1
+}
+
+// Common constants
+export class CommonConstants
+{
+    // .NET int max value
+    static DotnetIntMaxValue = 2147483647
+
+    // .NET int min value
+    static DotnetIntMinValue = -2147483648
+
+    // Do requests for list of creatures by part of name only when part of name longer or equal to this value
+    static NamePartMinimalLengthToLookup = 3
 }

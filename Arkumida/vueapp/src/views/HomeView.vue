@@ -19,6 +19,7 @@
 </script>
 
 <template>
+
     <HeaderComponent />
 
     <MainPage />

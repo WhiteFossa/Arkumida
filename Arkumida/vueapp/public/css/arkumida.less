@@ -21,9 +21,9 @@
 
 /* Buttons type 1 */
 @buttons1-color1: hsl(36, 100%, 84%);
-@buttons1-border: hsl(225, 100%, 80%);
-@buttons1-color2: hsl(36, 100%, 60%);
-@buttons1-color3: hsl(225, 100%, 35%);
+@buttons1-color2: hsl(225, 100%, 80%);
+@buttons1-color3: hsl(36, 100%, 60%);
+@buttons1-color4: hsl(225, 100%, 35%);
 
 /* Tags subtype container */
 @tags-subtype-container-border-color: hsl(36, 100%, 84%);
@@ -170,6 +170,30 @@
 
 /* Footer */
 @footer-column-width: 20rem;
+
+/* Private messages */
+@private-messages-icon-width: 3rem;
+@private-messages-unread-icon-border-radius: 1rem;
+
+@private-messages-conversations-list-container-background-color: hsl(199, 74%, 79%);
+@private-messages-conversations-list-container-border-color: hsl(199, 65%, 54%);
+
+@private-messages-conversations-list-container-background-color-selected: hsl(199, 74%, 39%);
+@private-messages-conversations-list-container-border-color-selected: hsl(199, 65%, 14%);
+
+@private-messages-small-icons-width: 1rem;
+
+@private-messages-conversation-container-background-color-not-our-message: hsl(0, 0%, 100%);
+@private-messages-conversation-container-border-color-not-our-message: hsl(225, 5%, 85%);
+@private-messages-conversation-container-background-color-our-message: hsl(199, 74%, 79%);
+@private-messages-conversation-container-border-color-our-message: hsl(199, 65%, 54%);
+
+@private-messages-new-message-container-background-color: hsl(0, 0%, 100%);
+@private-messages-new-message-container-border-color: hsl(225, 5%, 85%);
+
+@private-messages-send-icon-width: 2rem;
+
+@private-messages-new-conversation-hovered-confidant-background-color: hsl(199, 74%, 79%);
 
 /* Variables end here */
 
@@ -387,6 +411,8 @@ body {
 /* Container with header content */
 .header-container {
   .mixin-header-and-footer-base();
+  display: flex;
+  align-items: center;
   justify-content: space-around;
 }
 
@@ -771,7 +797,7 @@ body {
 
 /* Button for switching short texts infos display mode */
 .texts-short-infos-button {
-  border: @border-thick-thickness @border-style @buttons1-border;
+  border: @border-thick-thickness @border-style @buttons1-color2;
   border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 10rem;
@@ -782,14 +808,14 @@ body {
 }
 
 .texts-short-infos-button:hover {
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
 }
 
 /* Button for switching short texts infos display mode - active */
 .texts-short-infos-button-active {
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
   border-radius: @border-radius-bigger1;
   width: 10rem;
   padding-top: @padding-small1;
@@ -903,7 +929,7 @@ body {
 
 /* Arrows in container with short texts infos */
 .texts-short-infos-container-arrows-buttons {
-  border: @border-thick-thickness @border-style @buttons1-border;
+  border: @border-thick-thickness @border-style @buttons1-color2;
   border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 6rem;
@@ -911,8 +937,8 @@ body {
 }
 
 .texts-short-infos-container-arrows-buttons:hover {
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
 }
 
 /* Icons on arrows buttons*/
@@ -1912,7 +1938,7 @@ body {
 /* Profile part button (active) */
 .profile-part-button-active {
   display: inline-block;
-  border: @border-thick-thickness @border-style @buttons1-border;
+  border: @border-thick-thickness @border-style @buttons1-color2;
   border-radius: @border-radius-bigger1;
   background: @buttons1-color1;
   width: 15rem;
@@ -1926,15 +1952,15 @@ body {
 
 /* Hovered profile part button (active) */
 .profile-part-button-active:hover {
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
 }
 
 /* Profile part button for current page (inactive) */
 .profile-part-button-current {
   display: inline-block;
-  background: @buttons1-color2;
-  border: @border-thick-thickness @border-style @buttons1-color3;
+  background: @buttons1-color3;
+  border: @border-thick-thickness @border-style @buttons1-color4;
   border-radius: @border-radius-bigger1;
   width: 15rem;
   padding-top: @padding-normal;
@@ -1942,7 +1968,7 @@ body {
   font-size: @font-size-big;
   .mixin-bold-text-base();
   .mixin-centered-text-base();
-  color: @buttons1-color3;
+  color: @buttons1-color4;
 }
 
 /* Creature name in profile main part (show mode)*/
@@ -2416,3 +2442,430 @@ body {
 }
 
 /* Icons stuff ends here */
+
+/* Private messages stuff starts here */
+
+/* Container with private messages icon */
+.private-messages-icon-container {
+  .mixin-horizontally-and-vertically-centered-flex();
+  margin-right: @margin-normal;
+
+  position: relative;
+}
+
+/* Private messages icon */
+.private-messages-icon {
+  vertical-align: middle;
+  width: @private-messages-icon-width;
+}
+
+/* Private messages unread icon */
+.mixin-private-messages-unread-icon {
+  .mixin-centered-text-base();
+
+  display: inline-block;
+
+  border-radius: @private-messages-unread-icon-border-radius;
+
+  background: @alert-color;
+
+  color: @lightest-color1;
+
+  cursor: pointer;
+
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+}
+
+/* Private messages unread count icon - 1 digit size */
+.private-messages-unread-icon-1-digit {
+  .mixin-private-messages-unread-icon();
+
+  width: 1.4rem;
+}
+
+/* Private messages unread count icon - 2 digit size */
+.private-messages-unread-icon-2-digit {
+  .mixin-private-messages-unread-icon();
+
+  width: 2rem;
+}
+
+/* Private messages unread count icon - 3 digit size */
+.private-messages-unread-icon-3-digit {
+  .mixin-private-messages-unread-icon();
+
+  width: 2.5rem;
+}
+
+/* Private messages stuff ends here */
+
+/* Header user info stuff starts here */
+
+/* Header central menu */
+.header-central-menu {
+  .mixin-horizontally-and-vertically-centered-flex();
+}
+
+/* Put header user info here */
+.header-user-info-container {
+  .mixin-horizontally-and-vertically-centered-flex();
+}
+
+/* Header user info stuff ends here */
+
+/* Private messages stuff starts here */
+
+/* Private messages top level container */
+.private-messages-top-level-container {
+  .mixin-flex-row-base();
+  justify-content: space-around;
+  column-gap: @gap-small;
+  row-gap: @gap-bigger;
+  flex-wrap: wrap;
+}
+
+/* Conversations list container */
+.private-messages-conversations-list-container {
+  width: 20rem;
+  max-width: 95vw;
+}
+
+/* Conversation and new message container */
+.private-messages-conversation-and-new-message-container {
+  max-width: 95vw;
+
+  flex: 60%;
+}
+
+/* Conversation container */
+.private-messages-conversation-container {
+  height: 70vh;
+
+  overflow-y: auto;
+}
+
+/* Container with conversation summary */
+.mixin-private-messages-conversation-summary-container {
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+  margin: @margin-smaller1;
+
+  .mixin-flex-row-base();
+
+  cursor: pointer;
+
+  position: relative;
+}
+
+.private-messages-conversation-summary-container {
+  .mixin-private-messages-conversation-summary-container();
+
+  background-color: @private-messages-conversations-list-container-background-color;
+  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color;
+}
+
+.private-messages-conversation-summary-container-selected {
+  .mixin-private-messages-conversation-summary-container();
+
+  background-color: @private-messages-conversations-list-container-background-color-selected;
+  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color-selected;
+  color: @lightest-color1;
+}
+
+/* Private messages title */
+.private-messages-title {
+  .mixin-centered-text-base();
+  font-size: @font-size-bigger2;
+  .mixin-bold-text-base();
+}
+
+/* Conversation summary info part (i.e. not avatar part) */
+.private-messages-conversation-summary-info-part {
+  .mixin-flex-base();
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+
+  margin-left: @margin-smaller1;
+}
+
+/* Creature name in conversation summary */
+.private-messages-conversation-summary-creature-name {
+  .mixin-bold-text-base();
+}
+
+/* Last message time in conversation summary */
+.private-messages-conversation-summary-last-message-time {
+  font-size: @font-size-smaller1;
+  color: @darker-color3;
+}
+
+.private-messages-conversation-summary-last-message-time-selected {
+  font-size: @font-size-smaller1;
+  color: @lighter-color1;
+}
+
+/* Private messages unread icon in conversation summary */
+.mixin-private-messages-conversation-summary-unread-icon {
+  .mixin-centered-text-base();
+
+  display: inline-block;
+
+  border-radius: @private-messages-unread-icon-border-radius;
+
+  background: @alert-color;
+
+  color: @lightest-color1;
+
+  cursor: pointer;
+
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+}
+
+/* Private messages unread count icon in conversation summary - 1 digit size */
+.private-messages-conversation-summary-unread-icon-1-digit {
+  .mixin-private-messages-conversation-summary-unread-icon();
+
+  width: 1.4rem;
+}
+
+/* Private messages unread count icon in conversation summary - 2 digit size */
+.private-messages-conversation-summary-unread-icon-2-digit {
+  .mixin-private-messages-conversation-summary-unread-icon();
+
+  width: 2rem;
+}
+
+/* Private messages unread count icon in conversation summary - 3 digit size */
+.private-messages-conversation-summary-unread-icon-3-digit {
+  .mixin-private-messages-conversation-summary-unread-icon();
+
+  width: 2.5rem;
+}
+
+/* Visibility marker for one message (message not loaded yet) */
+.private-messages-message-visibility-container-not-loaded {
+  height: 10rem;
+}
+
+/* Visibility marker for one message (message loaded) */
+.private-messages-message-visibility-container-loaded {
+}
+
+/* Container with one message (outer) - not our message */
+.private-messages-message-outer-container-not-our-message {
+  background-color: @private-messages-conversation-container-background-color-not-our-message;
+  border: @border-thin-thickness @border-style @private-messages-conversation-container-border-color-not-our-message;
+  border-radius: @border-radius-small;
+
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
+}
+
+/* Container with one message (outer) - our message */
+.private-messages-message-outer-container-our-message {
+  background-color: @private-messages-conversation-container-background-color-our-message;
+  border: @border-thin-thickness @border-style @private-messages-conversation-container-border-color-our-message;
+  border-radius: @border-radius-small;
+
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
+}
+
+.private-messages-message-inner-container {
+  padding: @padding-smaller1;
+
+  .mixin-flex-row-base();
+  gap: @gap-small;
+}
+
+/* Top line with info on sent / read times */
+.private-messages-message-top-line-container {
+  .mixin-flex-base();
+  justify-content: right;
+  align-items: center;
+  gap: @gap-small;
+
+  padding-right: @padding-smaller1;
+
+  font-size: @font-size-smaller1;
+  color: @darker-color3;
+}
+
+/* Sent time icon */
+.private-messages-sent-icon {
+  vertical-align: middle;
+  width: @private-messages-small-icons-width;
+}
+
+/* Read time icon */
+.private-messages-read-icon {
+  vertical-align: middle;
+  width: @private-messages-small-icons-width;
+}
+
+/* Unread icon */
+.private-messages-unread-icon {
+  vertical-align: middle;
+  width: @private-messages-small-icons-width;
+}
+
+/* Container for new private message */
+.private-messages-new-message-container {
+  background-color: @private-messages-new-message-container-background-color;
+  border: @border-thin-thickness @border-style @private-messages-new-message-container-border-color;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+
+  .mixin-flex-row-base();
+  gap: @gap-small;
+}
+
+/* Textarea with new private message text */
+.private-messages-new-message-textarea-container {
+  flex: 99%;
+}
+
+/* New private message send button */
+.private-messages-new-message-send-button-container {
+  flex: 1%;
+  align-self: end;
+}
+
+/* Send private message icon */
+.private-messages-send-icon {
+  width: @private-messages-send-icon-width;
+}
+
+/* New private message textarea */
+.mixin-private-messages-new-message-textarea {
+  border-radius: @border-radius-small;
+
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.private-messages-new-message-textarea {
+  .mixin-private-messages-new-message-textarea();
+}
+
+.private-messages-new-message-textarea-invalid {
+  .mixin-private-messages-new-message-textarea();
+
+  border: @border-thick-thickness @border-style @alert-color;
+}
+
+/* Container message "Select a conversation" */
+.private-messages-select-conversation-container {
+  background-color: @private-messages-conversation-container-background-color-our-message;
+  border: @border-thin-thickness @border-style @private-messages-conversation-container-border-color-our-message;
+  border-radius: @border-radius-small;
+
+  margin-top: @margin-smaller1;
+  margin-bottom: @margin-smaller1;
+
+  padding: @padding-smaller1;
+
+  .mixin-centered-text-base();
+}
+
+/* Conversations summaries container */
+.private-messages-conversations-summaries-container {
+  height: 70vh;
+
+  overflow-y: auto;
+}
+
+/* "Button" for new conversation */
+.private-messages-new-conversation-button {
+  background-color: @private-messages-conversations-list-container-background-color;
+  border: @border-thin-thickness @border-style @private-messages-conversations-list-container-border-color;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+  margin-left: @margin-smaller1;
+  margin-right: @margin-smaller1;
+  margin-top: @margin-smaller1;
+
+  cursor: pointer;
+
+  .mixin-horizontally-and-vertically-centered-flex();
+}
+
+/* Input, where confidant name will be typed when creating new conversation */
+.mixin-private-messages-new-conversation-confidant-name-input()
+{
+  border-radius: @border-radius-normal;
+
+  height: @input-height-big;
+  font-size: @font-size-bigger2;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: @padding-smaller1;
+  margin-bottom: @margin-smaller1;
+}
+
+.private-messages-new-conversation-confidant-name-input {
+  .mixin-private-messages-new-conversation-confidant-name-input();
+}
+
+.private-messages-new-conversation-confidant-name-input-invalid {
+  .mixin-private-messages-new-conversation-confidant-name-input();
+  border: @border-thick-thickness @border-style @alert-color;
+}
+
+/* Container for dynamic confidants list (outer)*/
+.private-messages-new-conversation-confidants-list-container-outer {
+  position: relative;
+}
+
+/* Container for dynamic confidants list */
+.private-messages-new-conversation-confidants-list-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  background: @lightest-color1;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
+
+  max-height: 20rem;
+  overflow-y: scroll;
+
+  z-index: 3000;
+}
+
+/* New conversation popup */
+.private-messages-new-conversation-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Potential confidant (in dropdown) */
+.private-messages-new-conversation-potential-confidant {
+  background: @lightest-color1;
+
+  padding-top: @padding-small2;
+  padding-bottom: @padding-small2;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+
+  cursor: pointer;
+}
+
+.private-messages-new-conversation-potential-confidant:hover {
+  background: @private-messages-new-conversation-hovered-confidant-background-color;
+}
+
+/* Private messages stuff ends here */

@@ -479,18 +479,60 @@ public class UsersController : ControllerBase
 
         return Ok(new PasswordResetResponse(await _accountsService.ResetPasswordAsync(creatureId, request.NewPassword, request.Token)));
     }
+
+    /// <summary>
+    /// Find creatures by display name part (case insensitive)
+    /// </summary>
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("api/Users/Find/ByDisplayNamePart/{displayNamePart}")]
+    public async Task<ActionResult<CreaturesWithProfilesListResponse>> FindCreaturesByDisplayNamePartAsync(string displayNamePart)
+    {
+        if (string.IsNullOrWhiteSpace(displayNamePart) || displayNamePart.Length < GlobalConstants.MinFindCreaturesByDisplayNamePartPartLength)
+        {
+            // No need to query service in this case to avoid putting heavy load on the database
+            return Ok(new CreaturesWithProfilesListResponse(new List<CreatureWithProfileDto>()));
+        }
+
+        return Ok(new CreaturesWithProfilesListResponse((await _accountsService.FindCreaturesByDisplayNamePartAsync(displayNamePart))
+            .Select(cwp => cwp.ToDto())
+            .ToList()));
+    }
+
+    /// <summary>
+    /// Find creature by display name
+    /// </summary>
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("api/Users/Find/ByDisplayName/{displayName}")]
+    public async Task<ActionResult<FindCreatureByNameResponse>> FindCreatureByDisplayNameAsync(string displayName)
+    {
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            return Ok(new FindCreatureByNameResponse(false, null));
+        }
+
+        var creature = await _accountsService.FindCreatureByDisplayNameAsync(displayName);
+
+        if (creature == null)
+        {
+            return Ok(new FindCreatureByNameResponse(false, null));
+        }
+
+        return Ok(new FindCreatureByNameResponse(true, creature.ToDto()));
+    }
     
     /// <summary>
     /// Checks who can access profile data. If current user have no privileges to edit creatureId's profile - throws an exception
     /// </summary>
     private async Task CheckPrivilegesAsync(Guid creatureId)
     {
-        var loggedIdCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
         
         // TODO: Add support for admins
-        if (loggedIdCreature.Id != creatureId)
+        if (loggedInCreature.Id != creatureId)
         {
-            throw new InvalidOperationException($"User with ID = { loggedIdCreature.Id } have no privileges to read/change user's with ID = { creatureId } data!");
+            throw new InvalidOperationException($"User with ID = { loggedInCreature.Id } have no privileges to read/change user's with ID = { creatureId } data!");
         }
     }
 }

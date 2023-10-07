@@ -343,6 +343,42 @@ namespace webapi.Dao.Migrations
                     b.ToTable("Files");
                 });
 
+            modelBuilder.Entity("webapi.Dao.Models.PrivateMessageDbo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeletedOnReceiverSide")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeletedOnSenderSide")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("ReadTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("ReceiverId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SenderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("SentTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("PrivateMessages");
+                });
+
             modelBuilder.Entity("webapi.Dao.Models.RenderedTextDbo", b =>
                 {
                     b.Property<Guid>("Id")
@@ -652,6 +688,21 @@ namespace webapi.Dao.Migrations
                     b.Navigation("CurrentAvatar");
                 });
 
+            modelBuilder.Entity("webapi.Dao.Models.PrivateMessageDbo", b =>
+                {
+                    b.HasOne("webapi.Dao.Models.CreatureDbo", "Receiver")
+                        .WithMany("ReceiverOfThisPrivateMessages")
+                        .HasForeignKey("ReceiverId");
+
+                    b.HasOne("webapi.Dao.Models.CreatureDbo", "Sender")
+                        .WithMany("SenderOfThisPrivateMessages")
+                        .HasForeignKey("SenderId");
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("webapi.Dao.Models.RenderedTextDbo", b =>
                 {
                     b.HasOne("webapi.Dao.Models.FileDbo", "File")
@@ -708,6 +759,13 @@ namespace webapi.Dao.Migrations
                     b.HasOne("webapi.Dao.Models.TextSectionDbo", null)
                         .WithMany("Variants")
                         .HasForeignKey("TextSectionDboId");
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.CreatureDbo", b =>
+                {
+                    b.Navigation("ReceiverOfThisPrivateMessages");
+
+                    b.Navigation("SenderOfThisPrivateMessages");
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.CreatureProfileDbo", b =>

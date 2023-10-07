@@ -6,7 +6,8 @@ import {defineExpose, ref} from "vue";
     import HeaderUserInfo from "@/components/Header/HeaderUserInfo.vue";
 
     defineExpose({
-        ReloadProfile
+        ReloadProfile,
+        OnPrivateMessageMarkedAsRead
     })
 
     const headerUserInfo = ref(null)
@@ -16,11 +17,17 @@ import {defineExpose, ref} from "vue";
     {
         headerUserInfo.value.ReloadProfile()
     }
+
+    // Call it when private message marked as read
+    async function OnPrivateMessageMarkedAsRead(messageId)
+    {
+        headerUserInfo.value.OnPrivateMessageMarkedAsRead(messageId)
+    }
 </script>
 
 <template>
     <header class="header">
-        <div class="horizontal-flex flex-cross-center header-container">
+        <div class="header-container">
             <div>
                 <HeaderSiteInfo />
             </div>
@@ -28,7 +35,7 @@ import {defineExpose, ref} from "vue";
                 <CentralMenu />
             </div>
             <div>
-                <HeaderUserInfo ref="headerUserInfo"/>
+                <HeaderUserInfo ref="headerUserInfo" />
             </div>
         </div>
     </header>

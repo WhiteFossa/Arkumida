@@ -34,7 +34,7 @@
         <LoadingSymbol />
     </div>
     <div v-else>
-        <nav class="horizontal-flex flex-center">
+        <nav class="header-central-menu">
             <div class="inline-block" v-for="menuItem in menuItems" :key="menuItem.url">
                 <a class="central-menu-link" :href="menuItem.url" :title="menuItem.title">{{ menuItem.text }}</a>
             </div>

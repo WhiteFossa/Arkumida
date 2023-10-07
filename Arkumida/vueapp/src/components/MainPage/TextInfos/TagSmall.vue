@@ -2,10 +2,9 @@
 <script setup>
 
     import { ref, defineProps } from 'vue'
-    import { Guid } from 'guid-typescript'
     
     const props = defineProps({
-        id: Guid,
+        id: String,
         furryReadableId: String,
         text: String
     })

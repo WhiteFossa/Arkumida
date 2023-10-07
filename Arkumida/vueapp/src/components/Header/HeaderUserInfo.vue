@@ -1,13 +1,15 @@
 <script setup>
-import {defineExpose, onMounted, ref} from "vue";
+    import {defineExpose, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
     import {AuthIsUserLoggedIn} from "@/js/auth";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
     import {AvatarClass} from "@/js/constants";
+import PrivateMessagesHeaderLink from "@/components/PrivateMessages/PrivateMessagesHeaderLink.vue";
 
     defineExpose({
-        ReloadProfile
+        ReloadProfile,
+        OnPrivateMessageMarkedAsRead
     })
 
     const isLoading = ref(true)
@@ -16,6 +18,8 @@ import {defineExpose, onMounted, ref} from "vue";
 
     const creatureId = ref(null)
     const creatureProfile = ref(null)
+
+    const privateMessagesLink = ref(null)
 
     // OnMounted hook
     onMounted(async () =>
@@ -46,6 +50,12 @@ import {defineExpose, onMounted, ref} from "vue";
     {
         creatureProfile.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Profile")).json()).creatureWithProfile
     }
+
+    // Call it when private message marked as read
+    async function OnPrivateMessageMarkedAsRead(messageId)
+    {
+        privateMessagesLink.value.OnPrivateMessageMarkedAsRead(messageId)
+    }
 </script>
 
 <template>
@@ -63,8 +73,14 @@ import {defineExpose, onMounted, ref} from "vue";
         </div>
 
         <!-- User is logged in -->
-        <div v-if="isUserLoggedIn">
+        <div
+            class="header-user-info-container"
+            v-if="isUserLoggedIn">
 
+            <!-- Private messages -->
+            <PrivateMessagesHeaderLink ref="privateMessagesLink" />
+
+            <!-- Profile link -->
             <a class="darkest-color1-link-without-underline" href="/profile" title="Профиль">
                 <AvatarComponent :avatar="creatureProfile.currentAvatar" :avatarClass="AvatarClass.Small" :key="creatureProfile.currentAvatar"/>
             </a>

@@ -28,6 +28,7 @@
 /* Inputs */
 /* Pagination */
 /* Footer */
+/* Private messages */
 /* Variables end here */
 /* Mixins start here */
 /* Footer column base */
@@ -207,6 +208,8 @@ body {
   flex-wrap: wrap;
   column-gap: 10rem;
   row-gap: 2rem;
+  display: flex;
+  align-items: center;
   justify-content: space-around;
 }
 /* Header stuff end */
@@ -2031,4 +2034,398 @@ body {
   width: 1rem;
 }
 /* Icons stuff ends here */
+/* Private messages stuff starts here */
+/* Container with private messages icon */
+.private-messages-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+  position: relative;
+}
+/* Private messages icon */
+.private-messages-icon {
+  vertical-align: middle;
+  width: 3rem;
+}
+/* Private messages unread icon */
+.mixin-private-messages-unread-icon {
+  text-align: center;
+  display: inline-block;
+  border-radius: 1rem;
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+}
+/* Private messages unread count icon - 1 digit size */
+.private-messages-unread-icon-1-digit {
+  text-align: center;
+  display: inline-block;
+  border-radius: 1rem;
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+  width: 1.4rem;
+}
+/* Private messages unread count icon - 2 digit size */
+.private-messages-unread-icon-2-digit {
+  text-align: center;
+  display: inline-block;
+  border-radius: 1rem;
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+  width: 2rem;
+}
+/* Private messages unread count icon - 3 digit size */
+.private-messages-unread-icon-3-digit {
+  text-align: center;
+  display: inline-block;
+  border-radius: 1rem;
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  position: absolute;
+  top: -0.3rem;
+  right: -0.7rem;
+  width: 2.5rem;
+}
+/* Private messages stuff ends here */
+/* Header user info stuff starts here */
+/* Header central menu */
+.header-central-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Put header user info here */
+.header-user-info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Header user info stuff ends here */
+/* Private messages stuff starts here */
+/* Private messages top level container */
+.private-messages-top-level-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  column-gap: 0.5rem;
+  row-gap: 2rem;
+  flex-wrap: wrap;
+}
+/* Conversations list container */
+.private-messages-conversations-list-container {
+  width: 20rem;
+  max-width: 95vw;
+}
+/* Conversation and new message container */
+.private-messages-conversation-and-new-message-container {
+  max-width: 95vw;
+  flex: 60%;
+}
+/* Conversation container */
+.private-messages-conversation-container {
+  height: 70vh;
+  overflow-y: auto;
+}
+/* Container with conversation summary */
+.mixin-private-messages-conversation-summary-container {
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  position: relative;
+}
+.private-messages-conversation-summary-container {
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  position: relative;
+  background-color: hsl(199, 74%, 79%);
+  border: 0.1rem solid hsl(199, 65%, 54%);
+}
+.private-messages-conversation-summary-container-selected {
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  position: relative;
+  background-color: hsl(199, 74%, 39%);
+  border: 0.1rem solid hsl(199, 65%, 14%);
+  color: hsl(0, 0%, 100%);
+}
+/* Private messages title */
+.private-messages-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+/* Conversation summary info part (i.e. not avatar part) */
+.private-messages-conversation-summary-info-part {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-left: 0.5rem;
+}
+/* Creature name in conversation summary */
+.private-messages-conversation-summary-creature-name {
+  font-weight: bold;
+}
+/* Last message time in conversation summary */
+.private-messages-conversation-summary-last-message-time {
+  font-size: 0.8rem;
+  color: hsl(240, 12%, 27%);
+}
+.private-messages-conversation-summary-last-message-time-selected {
+  font-size: 0.8rem;
+  color: hsl(240, 11%, 98%);
+}
+/* Private messages unread icon in conversation summary */
+.mixin-private-messages-conversation-summary-unread-icon {
+  text-align: center;
+  display: inline-block;
+  border-radius: 1rem;
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+}
+/* Private messages unread count icon in conversation summary - 1 digit size */
+.private-messages-conversation-summary-unread-icon-1-digit {
+  text-align: center;
+  display: inline-block;
+  border-radius: 1rem;
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+  width: 1.4rem;
+}
+/* Private messages unread count icon in conversation summary - 2 digit size */
+.private-messages-conversation-summary-unread-icon-2-digit {
+  text-align: center;
+  display: inline-block;
+  border-radius: 1rem;
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+  width: 2rem;
+}
+/* Private messages unread count icon in conversation summary - 3 digit size */
+.private-messages-conversation-summary-unread-icon-3-digit {
+  text-align: center;
+  display: inline-block;
+  border-radius: 1rem;
+  background: hsl(0, 100%, 56%);
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+  width: 2.5rem;
+}
+/* Visibility marker for one message (message not loaded yet) */
+.private-messages-message-visibility-container-not-loaded {
+  height: 10rem;
+}
+/* Visibility marker for one message (message loaded) */
+/* Container with one message (outer) - not our message */
+.private-messages-message-outer-container-not-our-message {
+  background-color: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+/* Container with one message (outer) - our message */
+.private-messages-message-outer-container-our-message {
+  background-color: hsl(199, 74%, 79%);
+  border: 0.1rem solid hsl(199, 65%, 54%);
+  border-radius: 0.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.private-messages-message-inner-container {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+/* Top line with info on sent / read times */
+.private-messages-message-top-line-container {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+  color: hsl(240, 12%, 27%);
+}
+/* Sent time icon */
+.private-messages-sent-icon {
+  vertical-align: middle;
+  width: 1rem;
+}
+/* Read time icon */
+.private-messages-read-icon {
+  vertical-align: middle;
+  width: 1rem;
+}
+/* Unread icon */
+.private-messages-unread-icon {
+  vertical-align: middle;
+  width: 1rem;
+}
+/* Container for new private message */
+.private-messages-new-message-container {
+  background-color: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+/* Textarea with new private message text */
+.private-messages-new-message-textarea-container {
+  flex: 99%;
+}
+/* New private message send button */
+.private-messages-new-message-send-button-container {
+  flex: 1%;
+  align-self: end;
+}
+/* Send private message icon */
+.private-messages-send-icon {
+  width: 2rem;
+}
+/* New private message textarea */
+.mixin-private-messages-new-message-textarea {
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+.private-messages-new-message-textarea {
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+.private-messages-new-message-textarea-invalid {
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+/* Container message "Select a conversation" */
+.private-messages-select-conversation-container {
+  background-color: hsl(199, 74%, 79%);
+  border: 0.1rem solid hsl(199, 65%, 54%);
+  border-radius: 0.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+/* Conversations summaries container */
+.private-messages-conversations-summaries-container {
+  height: 70vh;
+  overflow-y: auto;
+}
+/* "Button" for new conversation */
+.private-messages-new-conversation-button {
+  background-color: hsl(199, 74%, 79%);
+  border: 0.1rem solid hsl(199, 65%, 54%);
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Input, where confidant name will be typed when creating new conversation */
+.private-messages-new-conversation-confidant-name-input {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.private-messages-new-conversation-confidant-name-input-invalid {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+/* Container for dynamic confidants list (outer)*/
+.private-messages-new-conversation-confidants-list-container-outer {
+  position: relative;
+}
+/* Container for dynamic confidants list */
+.private-messages-new-conversation-confidants-list-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.5rem;
+  max-height: 20rem;
+  overflow-y: scroll;
+  z-index: 3000;
+}
+/* New conversation popup */
+.private-messages-new-conversation-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* Potential confidant (in dropdown) */
+.private-messages-new-conversation-potential-confidant {
+  background: hsl(0, 0%, 100%);
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  cursor: pointer;
+}
+.private-messages-new-conversation-potential-confidant:hover {
+  background: hsl(199, 74%, 79%);
+}
+/* Private messages stuff ends here */
 /*# sourceMappingURL=arkumida.css.map */

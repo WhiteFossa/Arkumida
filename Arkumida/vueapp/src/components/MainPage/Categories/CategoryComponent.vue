@@ -1,17 +1,18 @@
 <script setup>
 
     import {defineProps, onMounted, ref} from "vue";
-    import {Guid} from "guid-typescript";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {CategoryTagType} from "@/js/constants";
 
     const props = defineProps({
-        id: Guid,
+        id: String,
         furryReadableId: String,
         type: Number,
         textsCount: Number,
         tag: String
     })
+
+    const isLoading = ref(true)
 
     const tagLinkHref = ref(null)
 
@@ -48,6 +49,8 @@
             default:
                 throw new Error("Unknown category tag type.")
         }
+
+        isLoading.value = false
     }
 
 </script>

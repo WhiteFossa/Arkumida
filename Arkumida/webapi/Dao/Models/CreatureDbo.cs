@@ -16,4 +16,14 @@ public class CreatureDbo : IdentityUser<Guid>
     /// This creature is translator of the next texts
     /// </summary>
     public IList<TextDbo> TextsTranslator { get; set; }
+    
+    /// <summary>
+    /// The creature is author for the next private messages
+    /// </summary>
+    public IList<PrivateMessageDbo> SenderOfThisPrivateMessages { get; set; }
+    
+    /// <summary>
+    /// The creature is receiver of the next private messages
+    /// </summary>
+    public IList<PrivateMessageDbo> ReceiverOfThisPrivateMessages { get; set; }
 }

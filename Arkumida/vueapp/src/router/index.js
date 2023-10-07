@@ -8,6 +8,7 @@ import ChangeEmailView from "@/views/ChangeEmailView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import InitiatePasswordResetView from "@/views/InitiatePasswordResetView.vue";
 import PasswordResetView from "@/views/PasswordResetView.vue";
+import PrivateMessagesView from "@/views/PrivateMessagesView.vue";
 
 const routes =
 [
@@ -77,7 +78,14 @@ const routes =
         name: 'resetPassword',
         component: PasswordResetView,
         props: true
-    }
+    },
+
+    // Private messages
+    {
+        path: '/privateMessages',
+        name: 'privateMessages',
+        component: PrivateMessagesView
+    },
 ]
 
 const router = createRouter({

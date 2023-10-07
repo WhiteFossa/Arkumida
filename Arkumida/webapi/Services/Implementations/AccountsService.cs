@@ -216,7 +216,7 @@ public class AccountsService : IAccountsService
     {
         if (string.IsNullOrWhiteSpace(newName))
         {
-            throw new ArgumentException("Avatar name must be populated!", nameof(newName));
+            throw new ArgumentException("Avatar displayName must be populated!", nameof(newName));
         }
         
         var profile = await _profilesDao.GetProfileAsync(creatureId);
@@ -298,7 +298,7 @@ public class AccountsService : IAccountsService
     {
         if (string.IsNullOrWhiteSpace(newName))
         {
-            throw new ArgumentException("Creature's new name must not be empty.", nameof(newName));
+            throw new ArgumentException("Creature's new displayName must not be empty.", nameof(newName));
         }
         
         var profile = await _profilesDao.GetProfileAsync(creatureId);
@@ -504,5 +504,33 @@ public class AccountsService : IAccountsService
         var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
 
         return (await _userManager.ResetPasswordAsync(creature, decodedToken, newPassword)).Succeeded;
+    }
+
+    public async Task<IReadOnlyCollection<CreatureWithProfile>> FindCreaturesByDisplayNamePartAsync(string displayNamePart)
+    {
+        var profiles = await _profilesDao.FindCreaturesProfilesByDisplayNamePartAsync(displayNamePart);
+
+        var result = new List<CreatureWithProfile>();
+
+        foreach (var profile in profiles)
+        {
+            var creature = await _userManager.FindByIdAsync(profile.Id.ToString());
+
+            result.Add(_creaturesWithProfilesMapper.Map(creature, profile));
+        }
+
+        return result;
+    }
+
+    public async Task<Creature> FindCreatureByDisplayNameAsync(string displayName)
+    {
+        var profile = await _profilesDao.FindCreatureByDisplayNameAsync(displayName);
+
+        if (profile == null)
+        {
+            return null;
+        }
+
+        return _creaturesMapper.Map(await _userManager.FindByIdAsync(profile.Id.ToString()));
     }
 }
