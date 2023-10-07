@@ -109,7 +109,7 @@
             <div class="popup-content-container">
 
                 <div class="popup-title">
-                    Выберите собеседника:
+                    Выберите собеседника
                 </div>
 
                 <div>

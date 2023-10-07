@@ -18,7 +18,7 @@
 
     const isLoading = ref(true)
 
-    const conversationsSummaries = ref(null)
+    const conversationsCollection = ref([])
     const selectedConfidant = ref(null)
 
     const isPrivateMessagesScrollDownRequested = ref(false)
@@ -106,8 +106,36 @@
 
     async function LoadConversationSummaries()
     {
-        conversationsSummaries.value = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations")).json()).conversationsSummaries
-        OrderConversationsSummariesToDisplay(conversationsSummaries.value)
+        const conversationsFromServer = (await (await WebClientSendGetRequest("/api/PrivateMessages/Conversations")).json()).conversationsSummaries
+
+        conversationsFromServer.forEach(conversationFromServer =>
+        {
+            // Do we have this conversation locally?
+            var isExistsLocally = conversationsCollection.value.some((c) =>
+            {
+                return c.confidant.entityId === conversationFromServer.confidant.entityId
+            })
+
+            if (isExistsLocally)
+            {
+                // Replacing old conversation with received from server ONLY IF IT CHANGED (any replace causes re-render)
+                conversationsCollection.value = conversationsCollection.value.map(localConversation => {
+                    if (localConversation.confidant.entityId === conversationFromServer.confidant.entityId && objectHash.sha1(localConversation) !== objectHash.sha1(conversationFromServer))
+                    {
+                        return conversationFromServer
+                    }
+
+                    return localConversation
+                })
+            }
+            else
+            {
+                // New conversation, inserting
+                conversationsCollection.value.push(conversationFromServer)
+            }
+        })
+
+        OrderConversationsSummariesToDisplay(conversationsCollection.value)
     }
 
     // Order conversations summaries before displaying
@@ -186,7 +214,9 @@
 
     async function CheckForNewMessages()
     {
-        const firstMessageTime = new Date(Math.min(...privateMessagesCollection.value.map(pm => (new Date(pm.sentTime)).getTime())));
+        const firstMessageTime = privateMessagesCollection.value.length > 0
+            ? new Date(Math.min(...privateMessagesCollection.value.map(pm => (new Date(pm.sentTime)).getTime())))
+            : new Date()
 
         const loadMessagesAfterTime = firstMessageTime
         loadMessagesAfterTime.setSeconds(loadMessagesAfterTime.getSeconds() - 1) // To guarantee that first message in collection will be loaded too
@@ -199,7 +229,7 @@
         messagesAfter.forEach(serverMessage =>
         {
             // Do we have this message locally?
-            var isExistsLocally = privateMessagesCollection.value.find((pm) => pm.id === serverMessage.id)
+            var isExistsLocally = privateMessagesCollection.value.some((pm) => pm.id === serverMessage.id)
 
             if (isExistsLocally)
             {
@@ -211,7 +241,7 @@
                     }
 
                     return localMessage
-                });
+                })
             }
             else
             {
@@ -261,7 +291,27 @@
     {
         isNewConversationPopupShown.value = false
 
-        alert("New conversation: " + confidantId)
+        var isExistingConversation = conversationsCollection.value.some((c) => c.confidant.entityId === confidantId)
+
+        if (isExistingConversation)
+        {
+            await OpenConversation(confidantId)
+            return
+        }
+
+        // We need to imitate server-side object with conversation and insert it into collection
+        var newConversationConfidant = (await (await WebClientSendGetRequest("/api/Users/" + confidantId + "/Profile")).json()).creatureWithProfile
+
+        var newConversation =
+        {
+            "confidant": newConversationConfidant,
+            "unreadMessagesCount": 0,
+            "lastMessageSentTime": (new Date()).toISOString()
+        }
+
+        conversationsCollection.value.push(newConversation)
+        OrderConversationsSummariesToDisplay(conversationsCollection.value)
+        await OpenConversation(confidantId)
     }
 </script>
 
@@ -295,7 +345,7 @@
                 <div class="private-messages-conversations-summaries-container">
 
                     <PrivateMessagesConversationSummary
-                        v-for="conversationSummary in conversationsSummaries" :key="conversationSummary"
+                        v-for="conversationSummary in conversationsCollection" :key="conversationSummary"
                         :conversationSummary="conversationSummary"
                         :selectedConfidantId = "selectedConfidant?.entityId"
                         @openConversation="async (cid) => await OpenConversation(cid)"/>

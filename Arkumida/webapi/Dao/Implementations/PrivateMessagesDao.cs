@@ -100,13 +100,23 @@ public class PrivateMessagesDao : IPrivateMessagesDao
 
     public async Task<IReadOnlyCollection<CreatureDbo>> GetConfidantsAsync(Guid creatureId)
     {
-        return await _dbContext
+        return (await _dbContext
             .PrivateMessages
             .Where(pm => pm.Receiver.Id == creatureId)
             .Include(pm => pm.Sender)
             .Select(pm => pm.Sender)
+            .ToListAsync())
+            .Concat
+            (
+                (await _dbContext
+                    .PrivateMessages
+                    .Where(pm => pm.Sender.Id == creatureId)
+                    .Include(pm => pm.Receiver)
+                    .Select(pm => pm.Receiver)
+                    .ToListAsync())
+            )
             .Distinct()
-            .ToListAsync();
+            .ToList();
     }
 
     public async Task<IDictionary<Guid, DateTime>> GetLastPrivateMessageTimeBySendersAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds)
@@ -131,11 +141,19 @@ public class PrivateMessagesDao : IPrivateMessagesDao
 
     public async Task<IDictionary<Guid, int>> GetUnreadMessagesCountByConfidantsAsync(Guid receiverId, IReadOnlyCollection<Guid> sendersIds)
     {
-        return await _dbContext
+        var result = await _dbContext
             .PrivateMessages
             .Where(pm => pm.Receiver.Id == receiverId)
             .Where(pm => sendersIds.Contains(pm.Sender.Id))
             .GroupBy(pm => pm.Sender.Id)
             .ToDictionaryAsync(g => g.Key, g => g.Count(pm => pm.ReadTime == null));
+
+        // In some conversations there are only outgoing messages, adding zeroes for this case
+        foreach (var senderId in sendersIds)
+        {
+            result.TryAdd(senderId, 0);
+        }
+        
+        return result;
     }
 }
