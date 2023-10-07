@@ -29,6 +29,7 @@ public class AccountsService : IAccountsService
     private readonly IEmailSenderService _emailSenderService;
     private readonly IEmailsGeneratorService _emailsGeneratorService;
     private readonly JwtSettings _jwtSettings;
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
     public AccountsService
     (
@@ -41,7 +42,8 @@ public class AccountsService : IAccountsService
         IFilesDao filesDao,
         IEmailSenderService emailSenderService,
         IEmailsGeneratorService emailsGeneratorService,
-        IOptions<JwtSettings> jwtSettings)
+        IOptions<JwtSettings> jwtSettings,
+        RoleManager<IdentityRole<Guid>> roleManager)
     {
         _userManager = userManager;
         _creaturesMapper = creaturesMapper;
@@ -53,6 +55,7 @@ public class AccountsService : IAccountsService
         _emailSenderService = emailSenderService;
         _emailsGeneratorService = emailsGeneratorService;
         _jwtSettings = jwtSettings.Value;
+        _roleManager = roleManager;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData, bool isImporting)
@@ -532,5 +535,19 @@ public class AccountsService : IAccountsService
         }
 
         return _creaturesMapper.Map(await _userManager.FindByIdAsync(profile.Id.ToString()));
+    }
+
+    public async Task<bool> IsRoleExistsAsync(string roleName)
+    {
+        return await _roleManager.RoleExistsAsync(roleName);
+    }
+
+    public async Task CreateRoleAsync(string roleName)
+    {
+        var result = await _roleManager.CreateAsync(new IdentityRole<Guid>(roleName));
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException($"Failed to create a role with Name = { roleName }");
+        }
     }
 }

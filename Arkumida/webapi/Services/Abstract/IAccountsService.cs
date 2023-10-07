@@ -121,4 +121,14 @@ public interface IAccountsService
     /// Find creature by exact display displayName match
     /// </summary>
     Task<Creature> FindCreatureByDisplayNameAsync(string displayName);
+
+    /// <summary>
+    /// Is role exists?
+    /// </summary>
+    Task<bool> IsRoleExistsAsync(string roleName);
+
+    /// <summary>
+    /// Creates a new role (without checks, checks for role existence by hirself, please)
+    /// </summary>
+    Task CreateRoleAsync(string roleName);
 }

@@ -30,6 +30,14 @@ public class BuiltInUsersCreator : IHostedService
             var accountsService = scope.ServiceProvider.GetRequiredService<IAccountsService>();
             var importerUserSettings = scope.ServiceProvider.GetRequiredService<IOptions<ImporterUserSettings>>().Value;
             
+            // Creating roles
+            var rolesToCreate = new [] { RolesConstants.UserRole, RolesConstants.ModeratorRole, RolesConstants.AdministratorRole, RolesConstants.ImporterRole };
+            foreach (var roleToCreate in rolesToCreate)
+            {
+                await CreateRoleIfNotExistAsync(accountsService, roleToCreate);
+            }
+            
+            
             // Creating user for importer
             await CreateUserIfNotExistAsync(accountsService, importerUserSettings.Login, string.Empty, importerUserSettings.Password);
         }
@@ -48,6 +56,16 @@ public class BuiltInUsersCreator : IHostedService
         {
             throw new InvalidOperationException($"Failed to create built-in user with login { login }");
         }
+    }
+
+    private async Task CreateRoleIfNotExistAsync(IAccountsService accountsService, string roleName)
+    {
+        if (await accountsService.IsRoleExistsAsync(roleName))
+        {
+            return;
+        }
+
+        await accountsService.CreateRoleAsync(roleName);
     }
     
     public async Task StopAsync(CancellationToken cancellationToken)
