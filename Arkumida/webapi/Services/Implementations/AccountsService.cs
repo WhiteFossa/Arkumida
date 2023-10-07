@@ -550,4 +550,29 @@ public class AccountsService : IAccountsService
             throw new InvalidOperationException($"Failed to create a role with Name = { roleName }");
         }
     }
+
+    public async Task<bool> IsCreatureInRoleAsync(Guid creatureId, string roleName)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID = { creatureId } is not found!", nameof(creatureId));
+        }
+
+        return await _userManager.IsInRoleAsync(creature, roleName);
+    }
+
+    public async Task AddCreatureToRoleAsync(Guid creatureId, string roleNameToAddTo)
+    {
+        var creature = await _userManager.FindByIdAsync(creatureId.ToString());
+        if (creature == null)
+        {
+            throw new ArgumentException($"Creature with ID = { creatureId } is not found!", nameof(creatureId));
+        }
+        
+        if (!(await _userManager.AddToRoleAsync(creature, roleNameToAddTo)).Succeeded)
+        {
+            throw new InvalidOperationException($"Failed to add creature with ID = { creatureId } to role { roleNameToAddTo }");
+        }
+    }
 }

@@ -37,9 +37,16 @@ public class BuiltInUsersCreator : IHostedService
                 await CreateRoleIfNotExistAsync(accountsService, roleToCreate);
             }
             
-            
             // Creating user for importer
             await CreateUserIfNotExistAsync(accountsService, importerUserSettings.Login, string.Empty, importerUserSettings.Password);
+
+            // Adding importer to importer role
+            var importer = await accountsService.FindUserByLoginAsync(importerUserSettings.Login); // Importer can be created before this code update, so we need to fetch shi
+
+            if (!await accountsService.IsCreatureInRoleAsync(importer.Id, RolesConstants.ImporterRole))
+            {
+                await accountsService.AddCreatureToRoleAsync(importer.Id, RolesConstants.ImporterRole);
+            }
         }
     }
 
