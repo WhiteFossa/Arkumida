@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using webapi.Dao.Abstract;
@@ -574,5 +575,10 @@ public class AccountsService : IAccountsService
         {
             throw new InvalidOperationException($"Failed to add creature with ID = { creatureId } to role { roleNameToAddTo }");
         }
+    }
+
+    public async Task<IReadOnlyCollection<Creature>> GetAllCreaturesAsync()
+    {
+        return _creaturesMapper.Map(await _userManager.Users.ToListAsync());
     }
 }

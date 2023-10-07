@@ -141,4 +141,9 @@ public interface IAccountsService
     /// Adds creature to a role
     /// </summary>
     Task AddCreatureToRoleAsync(Guid creatureId, string roleNameToAddTo);
+
+    /// <summary>
+    /// Lists all registered creatures including service accounts like Importer
+    /// </summary>
+    Task<IReadOnlyCollection<Creature>> GetAllCreaturesAsync();
 }
