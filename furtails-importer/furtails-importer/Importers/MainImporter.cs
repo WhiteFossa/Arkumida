@@ -23,7 +23,7 @@ public class MainImporter
 
     public async Task ImportAsync()
     {
-        await using (var connection = new MySqlConnection(ConnectionString))
+        await using var connection = new MySqlConnection(ConnectionString);
         using (var httpClient = await LoginHelper.LogInAsUserAsync(Login, Password))
         {
             // Importing users
@@ -34,7 +34,7 @@ public class MainImporter
             var tagsImporter = new TagsImporter(connection, httpClient);
             await tagsImporter.Import();
             
-            // Importing texts (unfortunately can't be parallelized, because users can be created during text upload)
+            // Importing texts
             var textsImporter = new TextsImporter(connection, httpClient, usersImporter);
             await textsImporter.Import();
         }
