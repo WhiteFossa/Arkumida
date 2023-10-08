@@ -77,19 +77,24 @@ public class TextsImporter
         }
 
         creaturesFromTexts = creaturesFromTexts
-            .Distinct()
+            .Distinct(StringComparer.InvariantCultureIgnoreCase)
             .ToList();
         
         // Do not parallelize - we have some users, who's logins differs only in case
-        foreach (var creature in creaturesFromTexts)
+        /*foreach (var creature in creaturesFromTexts)
         {
             await RegisterUserIfNotExistAsync(creature);   
-        }
+        }*/
         
         var parallelismDegree = new ParallelOptions()
         {
             MaxDegreeOfParallelism = MainImporter.ParallelismDegree
         };
+        
+        await Parallel.ForEachAsync(creaturesFromTexts, parallelismDegree, async (creature, token) =>
+        {
+            await RegisterUserIfNotExistAsync(creature);
+        });
         
         await Parallel.ForEachAsync(texts, parallelismDegree, async (text, token) =>
         {
