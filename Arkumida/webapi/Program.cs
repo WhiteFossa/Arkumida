@@ -254,6 +254,8 @@ app.UseAuthentication();
 app.UseCors();
 app.UseAuthorization();
 
+app.UseResponseCompression();
+
 app.MapControllers();
 
 app.Run();
