@@ -85,6 +85,10 @@ public class TextUtilsService : ITextUtilsService
                 {
                     rawTextSb.Append(lastVariant.Content);
                 }
+                else
+                {
+                    rawTextSb.Append(section.OriginalText);
+                }
             }
         }
 
