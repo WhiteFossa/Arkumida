@@ -122,18 +122,6 @@ public class TextsRenderingService : ITextsRenderingService
         return FilesHelper.EscapeFilename($"{authors} - {text.Title}");
     }
     
-    public async Task<RenderedText> GetAndRenderIfNotExistAsync(Guid textId, RenderedTextType type)
-    {
-        var renderedText = _renderedTextsMapper.Map(await _renderedTextsDao.GetRenderedTextAsync(textId, type));
-
-        if (renderedText == null)
-        {
-            renderedText = await RenderTextToDbAsync(textId, type);
-        }
-
-        return renderedText;
-    }
-
     private async Task<byte[]> RenderToPlainText(Text textMetadata, IReadOnlyCollection<TextElementDto> textElements)
     {
         var renderedText = await _plainTextRenderer.RenderAsync(textMetadata, textElements);

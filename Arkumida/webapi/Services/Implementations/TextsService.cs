@@ -60,6 +60,9 @@ public class TextsService : ITextsService
 
         await _textsDao.CreateTextAsync(dbText);
 
+        // Rendering text in various formats
+        await _textsRenderingService.RenderTextToDbAsync(dbText.Id, RenderedTextType.PlainText);
+        
         return await _textUtilsService.GetTextMetadataAsync(dbText.Id);
     }
 
@@ -87,7 +90,7 @@ public class TextsService : ITextsService
 
         foreach (var textMetadata in textsMetadatas)
         {
-            var sizeInBytes = (await _textsRenderingService.GetAndRenderIfNotExistAsync(textMetadata.Id, RenderedTextType.PlainText))
+            var sizeInBytes = (await _textsRenderingService.GetRenderedTextAsync(textMetadata.Id, RenderedTextType.PlainText))
                 .File
                 .Content
                 .Length;
@@ -141,7 +144,7 @@ public class TextsService : ITextsService
             .Single()
             .Value;
         
-        var sizeInBytes = (await _textsRenderingService.GetAndRenderIfNotExistAsync(textMetadata.Id, RenderedTextType.PlainText))
+        var sizeInBytes = (await _textsRenderingService.GetRenderedTextAsync(textMetadata.Id, RenderedTextType.PlainText))
             .File
             .Content
             .Length;
@@ -201,7 +204,7 @@ public class TextsService : ITextsService
             .Single()
             .Value;
 
-        var plainTextRenderedFile = (await _textsRenderingService.GetAndRenderIfNotExistAsync(textId, RenderedTextType.PlainText)).File;
+        var plainTextRenderedFile = (await _textsRenderingService.GetRenderedTextAsync(textId, RenderedTextType.PlainText)).File;
         
         return new TextReadDto
         (
