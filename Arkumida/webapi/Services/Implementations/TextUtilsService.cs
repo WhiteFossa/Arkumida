@@ -79,9 +79,12 @@ public class TextUtilsService : ITextUtilsService
             {
                 var lastVariant = section.Variants
                     .OrderByDescending(v => v.CreationTime)
-                    .First();
+                    .FirstOrDefault();
 
-                rawTextSb.Append(lastVariant.Content);
+                if (lastVariant != null) // Section may have no translations yet
+                {
+                    rawTextSb.Append(lastVariant.Content);
+                }
             }
         }
 

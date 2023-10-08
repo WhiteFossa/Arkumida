@@ -66,13 +66,24 @@ public class TextsImporter
             .ToList();
         
         // Importing creatures, who are authors, editors and translators
-        // We have some concurrency bugs (at Arkumida?) so importing those users one by one (because there are a lot of users with same name will be from different stories)
+        var creaturesFromTexts = new List<string>();
+
         foreach (var text in texts)
         {
             if (text.IsDeleted == 0 && text.PublishStatus == 2)
             {
-                await AddTextCreaturesToArkumidaAsync(text);   
+                creaturesFromTexts.AddRange(await GetCreaturesFromTextAsync(text));   
             }
+        }
+
+        creaturesFromTexts = creaturesFromTexts
+            .Distinct()
+            .ToList();
+        
+        // Do not parallelize - we have some users, who's logins differs only in case
+        foreach (var creature in creaturesFromTexts)
+        {
+            await RegisterUserIfNotExistAsync(creature);   
         }
         
         var parallelismDegree = new ParallelOptions()
@@ -86,30 +97,28 @@ public class TextsImporter
         });
     }
 
-    private async Task AddTextCreaturesToArkumidaAsync(FtText text)
+    private async Task<IReadOnlyCollection<string>> GetCreaturesFromTextAsync(FtText text)
     {
+        var result = new List<string>();
+        
         // Publisher - always exist
-        await RegisterUserIfNotExistAsync(text.UploaderUserName.Trim());
+        result.Add(text.UploaderUserName.Trim());
             
         // Authors
         if (!string.IsNullOrWhiteSpace(text.Author))
         {
             var authorsNames = text.Author.Split(',').Select(an => an.Trim()); // Trim helps to remove spaces, which can be after comma
-            foreach (var authorName in authorsNames)
-            {
-                await RegisterUserIfNotExistAsync(authorName);
-            }
+            result.AddRange(authorsNames);
         }
             
         // Translators
         if (!string.IsNullOrWhiteSpace(text.Translator))
         {
             var translatorsNames = text.Translator.Split(',').Select(tn => tn.Trim());
-            foreach (var translatorName in translatorsNames)
-            {
-                await RegisterUserIfNotExistAsync(translatorName);
-            }
+            result.AddRange(translatorsNames);
         }
+
+        return result;
     }
 
     private async Task AddTextToArkumidaAsync(IReadOnlyCollection<FtCategory> categories, FtText text)
