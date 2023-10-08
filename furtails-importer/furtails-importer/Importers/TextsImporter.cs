@@ -29,7 +29,7 @@ public class TextsImporter
 
     public async Task Import()
     {
-        var categories = LoadCategories();
+        var categories = LoadCategories(_connection);
         
         var texts = _connection.Query<FtText>
             (
@@ -64,393 +64,438 @@ public class TextsImporter
                 from ft_objects"
             )
             .ToList();
-
-        var textNumber = 0;
+        
+        // Importing creatures, who are authors, editors and translators
+        // We have some concurrency bugs (at Arkumida?) so importing those users one by one (because there are a lot of users with same name will be from different stories)
         foreach (var text in texts)
         {
-            if (text.IsDeleted != 0)
+            if (text.IsDeleted == 0 && text.PublishStatus == 2)
             {
-                continue; // Deleted text
+                await AddTextCreaturesToArkumidaAsync(text);   
             }
+        }
+        
+        var parallelismDegree = new ParallelOptions()
+        {
+            MaxDegreeOfParallelism = MainImporter.ParallelismDegree
+        };
+        
+        await Parallel.ForEachAsync(texts, parallelismDegree, async (text, token) =>
+        {
+            await AddTextToArkumidaAsync(categories, text);
+        });
+    }
 
-            if (text.PublishStatus != 2)
-            {
-                continue; // Not published yet
-            }
+    private async Task AddTextCreaturesToArkumidaAsync(FtText text)
+    {
+        // Publisher - always exist
+        await RegisterUserIfNotExistAsync(text.UploaderUserName.Trim());
             
-            Console.WriteLine($"Text ID: { text.Id }, Title: { text.Title }");
-            
-            var textModel = new Text();
-
-            // We need files metadata early to process comics
-            var textFilesMetadata = LoadTextFilesByText(text.Id);
-            
-            if (text.Type == 3) // Editing
+        // Authors
+        if (!string.IsNullOrWhiteSpace(text.Author))
+        {
+            var authorsNames = text.Author.Split(',').Select(an => an.Trim()); // Trim helps to remove spaces, which can be after comma
+            foreach (var authorName in authorsNames)
             {
-                var sections = LoadWIPTextSections(text.Id);
-                
-                // One page, many sections, each have one variant
-                textModel.Pages = new List<TextPage>();
-
-                var page = new TextPage()
-                {
-                    Id = Guid.Empty,
-                    Number = 1,
-                    Sections = new List<TextSection>()
-                };
-                
-                textModel.Pages.Add(page);
-                
-                page.Sections = new List<TextSection>();
-                
-                foreach (var section in sections)
-                {
-                    var variantModel = new TextSectionVariant()
-                    {
-                        Content = TextsHelper.FixupText(section.SectionRus),
-                        CreationTime = section.SaveDate
-                    };
-
-                    var sectionModel = new TextSection()
-                    {
-                        OriginalText = TextsHelper.FixupText(section.SectionEng),
-                        Variants = new List<TextSectionVariant>() { variantModel }
-                    };
-                    
-                    page.Sections.Add(sectionModel);
-                }
+                await RegisterUserIfNotExistAsync(authorName);
             }
-            else if (text.Type == 5) // Translation
+        }
+            
+        // Translators
+        if (!string.IsNullOrWhiteSpace(text.Translator))
+        {
+            var translatorsNames = text.Translator.Split(',').Select(tn => tn.Trim());
+            foreach (var translatorName in translatorsNames)
             {
-                textModel.Pages = new List<TextPage>();
-
-                var page = new TextPage()
-                {
-                    Id = Guid.Empty,
-                    Number = 1,
-                    Sections = new List<TextSection>()
-                };
-                
-                textModel.Pages.Add(page);
-                
-                // One page, many sections, each have many variants
-                page.Sections = new List<TextSection>();
-                
-                var parts = LoadTranslationParts(text.Id);
-
-                foreach (var part in parts)
-                {
-                    var sectionModel = new TextSection()
-                    {
-                        OriginalText = TextsHelper.FixupText(part.OriginalText),
-                        Variants = new List<TextSectionVariant>()
-                    };
-                    
-                    // Loading variants for each section
-                    var variants = LoadTranslationVariants(part.Id);
-                    foreach (var variant in variants)
-                    {
-                        sectionModel.Variants.Add(new TextSectionVariant()
-                        {
-                            Content = TextsHelper.FixupText(variant.Text),
-                            CreationTime = variant.CreateTime
-                        });
-                    }
-                    
-                    page.Sections.Add(sectionModel);
-                }
+                await RegisterUserIfNotExistAsync(translatorName);
             }
-            else if (text.Type == 1) // Just a text
-            {
-                textModel.Pages = new List<TextPage>();
+        }
+    }
 
-                var page = new TextPage()
-                {
-                    Id = Guid.Empty,
-                    Number = 1,
-                    Sections = new List<TextSection>()
-                };
-                
-                textModel.Pages.Add(page);
-                
-                // Ordinary text, all-in-one-section-and-variant
+    private async Task AddTextToArkumidaAsync(IReadOnlyCollection<FtCategory> categories, FtText text)
+    {
+        if (text.IsDeleted != 0)
+        {
+            return; // Deleted text
+        }
+
+        if (text.PublishStatus != 2)
+        {
+            return; // Not published yet
+        }
+        
+        Console.WriteLine($"Text ID: { text.Id }, Title: { text.Title }");
+        
+        await using var connection = new MySqlConnection(MainImporter.ConnectionString);
+        
+        var textModel = new Text();
+
+        // We need files metadata early to process comics
+        var textFilesMetadata = LoadTextFilesByText(connection, text.Id);
+        
+        if (text.Type == 3) // Editing
+        {
+            var sections = LoadWIPTextSections(connection, text.Id);
+            
+            // One page, many sections, each have one variant
+            textModel.Pages = new List<TextPage>();
+
+            var page = new TextPage()
+            {
+                Id = Guid.Empty,
+                Number = 1,
+                Sections = new List<TextSection>()
+            };
+            
+            textModel.Pages.Add(page);
+            
+            page.Sections = new List<TextSection>();
+            
+            foreach (var section in sections)
+            {
                 var variantModel = new TextSectionVariant()
                 {
-                    Content = TextsHelper.FixupText(LoadTextById(text.Id)),
-                    CreationTime = DateTime.UtcNow
+                    Content = TextsHelper.FixupText(section.SectionRus),
+                    CreationTime = section.SaveDate
                 };
 
+                var sectionModel = new TextSection()
+                {
+                    OriginalText = TextsHelper.FixupText(section.SectionEng),
+                    Variants = new List<TextSectionVariant>() { variantModel }
+                };
+                
+                page.Sections.Add(sectionModel);
+            }
+        }
+        else if (text.Type == 5) // Translation
+        {
+            textModel.Pages = new List<TextPage>();
+
+            var page = new TextPage()
+            {
+                Id = Guid.Empty,
+                Number = 1,
+                Sections = new List<TextSection>()
+            };
+            
+            textModel.Pages.Add(page);
+            
+            // One page, many sections, each have many variants
+            page.Sections = new List<TextSection>();
+            
+            var parts = LoadTranslationParts(connection, text.Id);
+
+            foreach (var part in parts)
+            {
+                var sectionModel = new TextSection()
+                {
+                    OriginalText = TextsHelper.FixupText(part.OriginalText),
+                    Variants = new List<TextSectionVariant>()
+                };
+                
+                // Loading variants for each section
+                var variants = LoadTranslationVariants(connection, part.Id);
+                foreach (var variant in variants)
+                {
+                    sectionModel.Variants.Add(new TextSectionVariant()
+                    {
+                        Content = TextsHelper.FixupText(variant.Text),
+                        CreationTime = variant.CreateTime
+                    });
+                }
+                
+                page.Sections.Add(sectionModel);
+            }
+        }
+        else if (text.Type == 1) // Just a text
+        {
+            textModel.Pages = new List<TextPage>();
+
+            var page = new TextPage()
+            {
+                Id = Guid.Empty,
+                Number = 1,
+                Sections = new List<TextSection>()
+            };
+            
+            textModel.Pages.Add(page);
+            
+            // Ordinary text, all-in-one-section-and-variant
+            var variantModel = new TextSectionVariant()
+            {
+                Content = TextsHelper.FixupText(LoadTextById(text.Id)),
+                CreationTime = DateTime.UtcNow
+            };
+
+            var sectionModel = new TextSection()
+            {
+                OriginalText = string.Empty, // There is no English original
+                Variants = new List<TextSectionVariant>() { variantModel }
+            };
+
+            page.Sections = new List<TextSection>() { sectionModel };
+        }
+        else if (text.Type == 2) // Links set
+        {
+            textModel.Pages = new List<TextPage>();
+
+            var page = new TextPage()
+            {
+                Id = Guid.Empty,
+                Number = 1,
+                Sections = new List<TextSection>()
+            };
+            
+            textModel.Pages.Add(page);
+            
+            page.Sections = new List<TextSection>();
+            
+            // One link per section
+            var links = LoadLinksByText(connection, text.Id);
+
+            foreach (var link in links)
+            {
+                var variantModel = new TextSectionVariant()
+                {
+                    Content = link.Link,
+                    CreationTime = DateTime.UtcNow
+                };
+                
                 var sectionModel = new TextSection()
                 {
                     OriginalText = string.Empty, // There is no English original
                     Variants = new List<TextSectionVariant>() { variantModel }
                 };
-
-                page.Sections = new List<TextSection>() { sectionModel };
+                
+                page.Sections.Add(sectionModel);
             }
-            else if (text.Type == 2) // Links set
-            {
-                textModel.Pages = new List<TextPage>();
+        }
+        else if (text.Type == 4) // Comics
+        {
+            // Comics - multi pages, each page contains one section, each section contains one variant
+            textModel.Pages = new List<TextPage>();
 
+            int pageNumber = 1;
+            foreach (var textFile in textFilesMetadata)
+            {
+                // One page per file
                 var page = new TextPage()
                 {
-                    Id = Guid.Empty,
-                    Number = 1,
+                    Number = pageNumber,
                     Sections = new List<TextSection>()
                 };
                 
                 textModel.Pages.Add(page);
                 
-                page.Sections = new List<TextSection>();
+                var variantModel = new TextSectionVariant()
+                {
+                    Content = TextsHelper.FixupText($"[cim]{ textFile.Name }[/cim]"), // cim = Comics IMage
+                    CreationTime = DateTime.UtcNow
+                };
                 
-                // One link per section
-                var links = LoadLinksByText(text.Id);
-
-                foreach (var link in links)
+                var sectionModel = new TextSection()
                 {
-                    var variantModel = new TextSectionVariant()
-                    {
-                        Content = link.Link,
-                        CreationTime = DateTime.UtcNow
-                    };
-                    
-                    var sectionModel = new TextSection()
-                    {
-                        OriginalText = string.Empty, // There is no English original
-                        Variants = new List<TextSectionVariant>() { variantModel }
-                    };
-                    
-                    page.Sections.Add(sectionModel);
-                }
-            }
-            else if (text.Type == 4) // Comics
-            {
-                // Comics - multi pages, each page contains one section, each section contains one variant
-                textModel.Pages = new List<TextPage>();
-
-                int pageNumber = 1;
-                foreach (var textFile in textFilesMetadata)
-                {
-                    // One page per file
-                    var page = new TextPage()
-                    {
-                        Number = pageNumber,
-                        Sections = new List<TextSection>()
-                    };
-                    
-                    textModel.Pages.Add(page);
-                    
-                    var variantModel = new TextSectionVariant()
-                    {
-                        Content = TextsHelper.FixupText($"[cim]{ textFile.Name }[/cim]"), // cim = Comics IMage
-                        CreationTime = DateTime.UtcNow
-                    };
-                    
-                    var sectionModel = new TextSection()
-                    {
-                        OriginalText = string.Empty, // There is no English original
-                        Variants = new List<TextSectionVariant>() { variantModel }
-                    };
-                    
-                    page.Sections.Add(sectionModel);
-                    
-                    pageNumber++;
-                }
-            }
-            
-            
-            var arkumidaTagsIds = new List<Guid>();
-            
-            // Adding category tags
-            var textCategory = categories.Single(c => c.Id == text.CategoryId);
-
-            arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync(textCategory.Name)).Id);
-            if (textCategory.Name != "Рассказы" && textCategory.Name != "Повести и Романы" && textCategory.Name != "Стихи" && textCategory.Name != "Комиксы")
-            {
-                // No size category, in this case we need to add size category manually
-                arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Рассказы")).Id); // TODO: In future, we can try to detect correct size category by analyzing text size
-            }
-
-            if (text.Type == 3) // Special category for texts in edit
-            {
-                arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Мастерская Гайки")).Id);
-            }
-
-            if (text.Type == 4) // Special category for comics
-            {
-                arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Комиксы")).Id);
-            }
-
-            // Loading tags
-            var textTagsRelations = LoadTextsToTagsRelations(text.Id);
-            foreach (var tagRelation in textTagsRelations)
-            {
-                var tagName = LoadTagById(tagRelation.TagId).Name;
+                    OriginalText = string.Empty, // There is no English original
+                    Variants = new List<TextSectionVariant>() { variantModel }
+                };
                 
-                // If test have "contest" tag (not to be mistook with "contest" category) we will add text to "contest" category
-                if (tagName == "конкурс")
-                {
-                    var contestCategory = await GetTagFromArkumidaByNameAsync("Конкурсные произведения");
-
-                    if (!arkumidaTagsIds.Contains(contestCategory.Id))
-                    {
-                        arkumidaTagsIds.Add(contestCategory.Id);
-                    }
-                }
-                else
-                {
-                    // Ordinary tag, adding it as is
-                    var tagToAdd = await GetTagFromArkumidaByNameAsync(tagName);
-                    arkumidaTagsIds.Add(tagToAdd.Id);
-                }
+                page.Sections.Add(sectionModel);
+                
+                pageNumber++;
             }
+        }
+        
+        
+        var arkumidaTagsIds = new List<Guid>();
+        
+        // Adding category tags
+        var textCategory = categories.Single(c => c.Id == text.CategoryId);
 
-            // Checking do we have users and creating them if not
+        arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync(textCategory.Name)).Id);
+        if (textCategory.Name != "Рассказы" && textCategory.Name != "Повести и Романы" && textCategory.Name != "Стихи" && textCategory.Name != "Комиксы")
+        {
+            // No size category, in this case we need to add size category manually
+            arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Рассказы")).Id); // TODO: In future, we can try to detect correct size category by analyzing text size
+        }
+
+        if (text.Type == 3) // Special category for texts in edit
+        {
+            arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Мастерская Гайки")).Id);
+        }
+
+        if (text.Type == 4) // Special category for comics
+        {
+            arkumidaTagsIds.Add((await GetTagFromArkumidaByNameAsync("Комиксы")).Id);
+        }
+
+        // Loading tags
+        var textTagsRelations = LoadTextsToTagsRelations(connection, text.Id);
+        foreach (var tagRelation in textTagsRelations)
+        {
+            var tagName = LoadTagById(connection, tagRelation.TagId).Name;
             
-            // Publisher - always exist
-            var publisherCreature = await RegisterUserIfNotExistAsync(text.UploaderUserName.Trim());
-            
-            // Authors
-            var authors = new List<CreatureDto>();
-            if (string.IsNullOrWhiteSpace(text.Author))
+            // If test have "contest" tag (not to be mistook with "contest" category) we will add text to "contest" category
+            if (tagName == "конкурс")
             {
-                // Special case - no information on authors - use publisher instead
-                authors.Add(publisherCreature);
+                var contestCategory = await GetTagFromArkumidaByNameAsync("Конкурсные произведения");
+
+                if (!arkumidaTagsIds.Contains(contestCategory.Id))
+                {
+                    arkumidaTagsIds.Add(contestCategory.Id);
+                }
             }
             else
             {
-                var authorsNames = text.Author.Split(',').Select(an => an.Trim()); // Trim helps to remove spaces, which can be after comma
-                foreach (var authorName in authorsNames)
-                {
-                    authors.Add(await RegisterUserIfNotExistAsync(authorName));
-                }
+                // Ordinary tag, adding it as is
+                var tagToAdd = await GetTagFromArkumidaByNameAsync(tagName);
+                arkumidaTagsIds.Add(tagToAdd.Id);
             }
-            
-            // Translators
-            var translators = new List<CreatureDto>();
-            if (!string.IsNullOrWhiteSpace(text.Translator))
-            {
-                var translatorsNames = text.Translator.Split(',').Select(tn => tn.Trim());
-                foreach (var translatorName in translatorsNames)
-                {
-                    translators.Add(await RegisterUserIfNotExistAsync(translatorName));
-                }
-            }
+        }
 
-            // Now we have text model ready
-            var textToCreate = new TextDto()
+        // Checking do we have users and creating them if not
+        
+        // Publisher - always exist
+        var publisherCreature = await _usersImporter.FindCreatureByLogin(text.UploaderUserName.Trim());
+        
+        // Authors
+        var authors = new List<CreatureDto>();
+        if (string.IsNullOrWhiteSpace(text.Author))
+        {
+            // Special case - no information on authors - use publisher instead
+            authors.Add(publisherCreature);
+        }
+        else
+        {
+            var authorsNames = text.Author.Split(',').Select(an => an.Trim()); // Trim helps to remove spaces, which can be after comma
+            foreach (var authorName in authorsNames)
+            {
+                authors.Add(await _usersImporter.FindCreatureByLogin(authorName));
+            }
+        }
+        
+        // Translators
+        var translators = new List<CreatureDto>();
+        if (!string.IsNullOrWhiteSpace(text.Translator))
+        {
+            var translatorsNames = text.Translator.Split(',').Select(tn => tn.Trim());
+            foreach (var translatorName in translatorsNames)
+            {
+                translators.Add(await _usersImporter.FindCreatureByLogin(translatorName));
+            }
+        }
+
+        // Now we have text model ready
+        var textToCreate = new TextDto()
+        {
+            Id = Guid.Empty,
+            CreateTime = text.CreateTime.ToUniversalTime(),
+            LastUpdateTime = (text.UpdateTime.HasValue ? text.UpdateTime.Value : text.CreateTime).ToUniversalTime(),
+            Title = text.Title,
+            Description = text.Description,
+            Pages = new Collection<TextPageDto>(),
+            ReadsCount = text.ReadsCount,
+            VotesCount = text.VotesCount,
+            VotesPlus = text.VotesPlus,
+            VotesMinus = text.VotesMinus,
+            
+            Tags = arkumidaTagsIds.Select(tid => new TagDto()
+            {
+                Id = tid, // Only ID important right now, because tag already exist
+                FurryReadableId = "Not important",
+                Name = "Not important",
+                Subtype = TagSubtype.Actions,
+                CategoryOrder = 0,
+                IsCategory = false,
+                CategoryTagType = CategoryTagType.Normal
+            }).ToList(),
+            
+            IsIncomplete = text.IsNotFinished,
+            
+            Authors = authors,
+            Translators = translators,
+            Publisher = publisherCreature
+        };
+
+        foreach (var page in textModel.Pages)
+        {
+            var pageToCreate = new TextPageDto()
             {
                 Id = Guid.Empty,
-                CreateTime = text.CreateTime.ToUniversalTime(),
-                LastUpdateTime = (text.UpdateTime.HasValue ? text.UpdateTime.Value : text.CreateTime).ToUniversalTime(),
-                Title = text.Title,
-                Description = text.Description,
-                Pages = new Collection<TextPageDto>(),
-                ReadsCount = text.ReadsCount,
-                VotesCount = text.VotesCount,
-                VotesPlus = text.VotesPlus,
-                VotesMinus = text.VotesMinus,
-                
-                Tags = arkumidaTagsIds.Select(tid => new TagDto()
-                {
-                    Id = tid, // Only ID important right now, because tag already exist
-                    FurryReadableId = "Not important",
-                    Name = "Not important",
-                    Subtype = TagSubtype.Actions,
-                    CategoryOrder = 0,
-                    IsCategory = false,
-                    CategoryTagType = CategoryTagType.Normal
-                }).ToList(),
-                
-                IsIncomplete = text.IsNotFinished,
-                
-                Authors = authors,
-                Translators = translators,
-                Publisher = publisherCreature
+                Number = page.Number,
+                Sections = new Collection<TextSectionDto>()
             };
-
-            foreach (var page in textModel.Pages)
+            
+            var sectionOrder = 0;
+            foreach (var section in page.Sections)
             {
-                var pageToCreate = new TextPageDto()
+                var sectionToCreate = new TextSectionDto()
                 {
                     Id = Guid.Empty,
-                    Number = page.Number,
-                    Sections = new Collection<TextSectionDto>()
+                    OriginalText = section.OriginalText,
+                    Order = sectionOrder,
+                    Variants = new List<TextSectionVariantDto>()
                 };
-                
-                var sectionOrder = 0;
-                foreach (var section in page.Sections)
+            
+                pageToCreate
+                    .Sections
+                    .Add(sectionToCreate);
+            
+                foreach (var variant in section.Variants)
                 {
-                    var sectionToCreate = new TextSectionDto()
+                    var variantToCreate = new TextSectionVariantDto()
                     {
                         Id = Guid.Empty,
-                        OriginalText = section.OriginalText,
-                        Order = sectionOrder,
-                        Variants = new List<TextSectionVariantDto>()
+                        Content = variant.Content,
+                        CreationTime = variant.CreationTime.ToUniversalTime()
                     };
                 
-                    pageToCreate
-                        .Sections
-                        .Add(sectionToCreate);
-                
-                    foreach (var variant in section.Variants)
-                    {
-                        var variantToCreate = new TextSectionVariantDto()
-                        {
-                            Id = Guid.Empty,
-                            Content = variant.Content,
-                            CreationTime = variant.CreationTime.ToUniversalTime()
-                        };
-                    
-                        sectionToCreate.Variants.Add(variantToCreate);
-                    }
-
-                    sectionOrder++;
+                    sectionToCreate.Variants.Add(variantToCreate);
                 }
-                
-                textToCreate
-                    .Pages
-                    .Add(pageToCreate);
-            }
 
-            var arkumidaTextId = await AddTextToArkumidaAsync(textToCreate);
+                sectionOrder++;
+            }
             
-            // Now getting files for this text
-            foreach (var fileMetadata in textFilesMetadata)
+            textToCreate
+                .Pages
+                .Add(pageToCreate);
+        }
+
+        var arkumidaTextId = await AddTextToArkumidaAsync(textToCreate);
+        
+        // Now getting files for this text
+        foreach (var fileMetadata in textFilesMetadata)
+        {
+            if (string.IsNullOrWhiteSpace(fileMetadata.Name))
             {
-                if (string.IsNullOrWhiteSpace(fileMetadata.Name))
-                {
-                    continue; // Buggy file in old FT
-                }
-
-                var path = GenerateTextFilePath(text.Id, fileMetadata.Hash, fileMetadata.SubType);
-                var mimeType = GetMimeTypeByFileSubtype(fileMetadata.SubType);
-
-                if (!File.Exists(path))
-                {
-                    continue; // Buggy database - metadata exists, but file - no
-                }
-                
-                var content = await File.ReadAllBytesAsync(path);
-
-                var uploadedFile = await FilesHelper.UploadFileToArkumidaAsync(_httpClient, fileMetadata.Name, mimeType, content);
-                
-                // Now just attach file to text
-                await AddFileToArkumidaTextAsync(arkumidaTextId, fileMetadata.Name, uploadedFile.FileInfo.Id);
+                continue; // Buggy file in old FT
             }
 
-            textNumber++;
+            var path = GenerateTextFilePath(text.Id, fileMetadata.Hash, fileMetadata.SubType);
+            var mimeType = GetMimeTypeByFileSubtype(fileMetadata.SubType);
+
+            if (!File.Exists(path))
+            {
+                continue; // Buggy database - metadata exists, but file - no
+            }
+            
+            var content = await File.ReadAllBytesAsync(path);
+
+            var uploadedFile = await FilesHelper.UploadFileToArkumidaAsync(_httpClient, fileMetadata.Name, mimeType, content);
+            
+            // Now just attach file to text
+            await AddFileToArkumidaTextAsync(arkumidaTextId, fileMetadata.Name, uploadedFile.FileInfo.Id);
         }
     }
-
+    
     private string LoadTextById(int id)
     {
         return File.ReadAllText($@"{MainImporter.TextsDbRoot}/{id}/TEXT");
     }
 
-    private List<FtRawTextSection> LoadWIPTextSections(int textId)
+    private List<FtRawTextSection> LoadWIPTextSections(MySqlConnection connection, int textId)
     {
-        return _connection.Query<FtRawTextSection>
+        return connection.Query<FtRawTextSection>
             (
                 @"select
                     id as Id,
@@ -470,9 +515,9 @@ public class TextsImporter
             .ToList();
     }
 
-    private List<FtTranslateTextPart> LoadTranslationParts(int textId)
+    private List<FtTranslateTextPart> LoadTranslationParts(MySqlConnection connection, int textId)
     {
-        return _connection.Query<FtTranslateTextPart>
+        return connection.Query<FtTranslateTextPart>
             (
                 @"select
                     id as Id,
@@ -489,9 +534,9 @@ public class TextsImporter
             .ToList();
     }
 
-    private List<FtTranslateTextVariant> LoadTranslationVariants(int partId)
+    private List<FtTranslateTextVariant> LoadTranslationVariants(MySqlConnection connection, int partId)
     {
-        return _connection.Query<FtTranslateTextVariant>
+        return connection.Query<FtTranslateTextVariant>
             (
                 @"select
                     id as Id,
@@ -507,9 +552,9 @@ public class TextsImporter
             .ToList();
     }
 
-    private List<FtTextLink> LoadLinksByText(int textId)
+    private List<FtTextLink> LoadLinksByText(MySqlConnection connection, int textId)
     {
-        return _connection.Query<FtTextLink>
+        return connection.Query<FtTextLink>
             (
                 @"select
                     id as Id,
@@ -525,9 +570,9 @@ public class TextsImporter
             .ToList();
     }
 
-    private List<FtTextTag> LoadTextsToTagsRelations(int textId)
+    private List<FtTextTag> LoadTextsToTagsRelations(MySqlConnection connection, int textId)
     {
-        return _connection.Query<FtTextTag>
+        return connection.Query<FtTextTag>
             (
                 @"select
                     id as Id,
@@ -540,9 +585,9 @@ public class TextsImporter
             .ToList();
     }
 
-    private FtTag LoadTagById(int tagId)
+    private FtTag LoadTagById(MySqlConnection connection, int tagId)
     {
-        return _connection.Query<FtTag>
+        return connection.Query<FtTag>
             (
                 @"select
                     id as Id,
@@ -560,9 +605,9 @@ public class TextsImporter
             .Single();
     }
     
-    private List<FtCategory> LoadCategories()
+    private List<FtCategory> LoadCategories(MySqlConnection connection)
     {
-        var result = _connection.Query<FtCategory>
+        var result = connection.Query<FtCategory>
             (
                 @"select
                     id as Id,
@@ -608,9 +653,9 @@ public class TextsImporter
         return responseData.Tag;
     }
     
-    private List<FtTextFile> LoadTextFilesByText(int textId)
+    private List<FtTextFile> LoadTextFilesByText(MySqlConnection connection, int textId)
     {
-        return _connection.Query<FtTextFile>
+        return connection.Query<FtTextFile>
             (
                 @"select
                     id as Id,
@@ -679,6 +724,8 @@ public class TextsImporter
 
     private async Task<CreatureDto> RegisterUserIfNotExistAsync(string login)
     {
+        Console.WriteLine($"Trying to register a creature with login { login }...");
+        
         var creature = await _usersImporter.FindCreatureByLogin(login);
         if (creature == null)
         {
