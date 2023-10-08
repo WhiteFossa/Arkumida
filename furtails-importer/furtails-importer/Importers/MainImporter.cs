@@ -20,6 +20,7 @@ public class MainImporter
     public const string UsersDbRoot = @"/home/fossa/Projects/Arkumida-private/furtails-site/furtails/public/filedb/users/";
 
     public const int ParallelismDegree = 10;
+    public const int TextsImportParallelismDegree = 10;
 
     public async Task ImportAsync()
     {

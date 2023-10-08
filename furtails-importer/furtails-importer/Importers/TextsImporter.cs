@@ -80,12 +80,6 @@ public class TextsImporter
             .Distinct(StringComparer.InvariantCultureIgnoreCase)
             .ToList();
         
-        // Do not parallelize - we have some users, who's logins differs only in case
-        /*foreach (var creature in creaturesFromTexts)
-        {
-            await RegisterUserIfNotExistAsync(creature);   
-        }*/
-        
         var parallelismDegree = new ParallelOptions()
         {
             MaxDegreeOfParallelism = MainImporter.ParallelismDegree
@@ -96,7 +90,12 @@ public class TextsImporter
             await RegisterUserIfNotExistAsync(creature);
         });
         
-        await Parallel.ForEachAsync(texts, parallelismDegree, async (text, token) =>
+        var textsImportParallelismDegree = new ParallelOptions()
+        {
+            MaxDegreeOfParallelism = MainImporter.TextsImportParallelismDegree
+        };
+        
+        await Parallel.ForEachAsync(texts, textsImportParallelismDegree, async (text, token) =>
         {
             await AddTextToArkumidaAsync(categories, text);
         });
@@ -646,6 +645,9 @@ public class TextsImporter
         var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Texts/Create", new CreateTextRequest() { Text = textDto });
         if (!response.IsSuccessStatusCode)
         {
+            Console.WriteLine($"Failed to import text: { textDto.Title }");
+            Console.WriteLine(response.StatusCode);
+            
             throw new InvalidOperationException();
         }
             

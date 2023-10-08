@@ -44,7 +44,7 @@ Configure reverse proxy in a such way (example for Apache):
     ErrorLog "/webroot/vhosts/api.arkumida.furtails.pw/logs/error.log"
     CustomLog "/webroot/vhosts/api.arkumida.furtails.pw/logs/access.log" combined
 
-    ProxyPass / http://127.0.0.1:5220/
+    ProxyPass / http://127.0.0.1:5220/ connectiontimeout=30 timeout=300
     ProxyPassReverse / http://127.0.0.1:5220/
     ProxyRequests Off
 

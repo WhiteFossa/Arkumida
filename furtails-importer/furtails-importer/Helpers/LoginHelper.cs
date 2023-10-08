@@ -19,6 +19,7 @@ public static class LoginHelper
     public static async Task<HttpClient> LogInAsUserAsync(string login, string password)
     {
         var httpClient = new HttpClient();
+        httpClient.Timeout = TimeSpan.FromMinutes(5);
         
         // Authenticating on Arkumida
         var authResponseRaw = await httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/Login", new LoginRequest() { LoginData = new LoginDto() { Login = login, Password = password }});
