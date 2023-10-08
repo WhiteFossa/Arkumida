@@ -37,6 +37,8 @@ public class TagsImporter
                 from ft_tags"
             )
             .ToList();
+
+        var tagsToAdd = new List<TagDto>();
         
         foreach (var tag in tags)
         {
@@ -61,7 +63,7 @@ public class TagsImporter
                 Meaning = DetectOrdinaryTagMeaning(tag)
             };
 
-            await AddTagToArkumidaAsync(tagDto);
+            tagsToAdd.Add(tagDto);
         }
         
         // Adding special categories tags
@@ -77,7 +79,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.TypeStories
         };
-        await AddTagToArkumidaAsync(stories);
+        tagsToAdd.Add(stories);
 
         
         var novels = new TagDto()
@@ -92,7 +94,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.TypeNovels
         };
-        await AddTagToArkumidaAsync(novels);
+        tagsToAdd.Add(novels);
         
         var poetry = new TagDto()
         {
@@ -106,7 +108,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.TypePoetry
         };
-        await AddTagToArkumidaAsync(poetry);
+        tagsToAdd.Add(poetry);
         
         var snurf = new TagDto()
         {
@@ -120,7 +122,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.SpecTypeSnuff
         };
-        await AddTagToArkumidaAsync(snurf);
+        tagsToAdd.Add(snurf);
         
         var hackwrench = new TagDto()
         {
@@ -134,7 +136,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.Unspecified
         };
-        await AddTagToArkumidaAsync(hackwrench);
+        tagsToAdd.Add(hackwrench);
         
         var metamor = new TagDto()
         {
@@ -148,7 +150,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.Unspecified
         };
-        await AddTagToArkumidaAsync(metamor);
+        tagsToAdd.Add(metamor);
         
         var sandbox = new TagDto()
         {
@@ -162,7 +164,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.SpecTypeSandbox
         };
-        await AddTagToArkumidaAsync(sandbox);
+        tagsToAdd.Add(sandbox);
         
         var comics = new TagDto()
         {
@@ -176,7 +178,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.TypeComics
         };
-        await AddTagToArkumidaAsync(comics);
+        tagsToAdd.Add(comics);
         
         var contest = new TagDto()
         {
@@ -190,7 +192,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.SpecTypeContest
         };
-        await AddTagToArkumidaAsync(contest);
+        tagsToAdd.Add(contest);
         
         var chakona = new TagDto()
         {
@@ -204,7 +206,7 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.Unspecified
         };
-        await AddTagToArkumidaAsync(chakona);
+        tagsToAdd.Add(chakona);
         
         var series = new TagDto()
         {
@@ -218,7 +220,17 @@ public class TagsImporter
             IsHidden = true,
             Meaning = TagMeaning.Unspecified
         };
-        await AddTagToArkumidaAsync(series);
+        tagsToAdd.Add(series);
+        
+        var parallelismDegree = new ParallelOptions()
+        {
+            MaxDegreeOfParallelism = MainImporter.ParallelismDegree
+        };
+        
+        await Parallel.ForEachAsync(tagsToAdd, parallelismDegree, async (tagToAdd, token) =>
+        {
+            await AddTagToArkumidaAsync(tagToAdd);
+        });
     }
 
     private async Task AddTagToArkumidaAsync(TagDto tagDto)

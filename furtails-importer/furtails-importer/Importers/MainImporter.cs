@@ -19,6 +19,8 @@ public class MainImporter
     public const string TextsDbRoot = @"/home/fossa/Projects/Arkumida-private/furtails-site/furtails/public/filedb/texts/";
     public const string UsersDbRoot = @"/home/fossa/Projects/Arkumida-private/furtails-site/furtails/public/filedb/users/";
 
+    public const int ParallelismDegree = 10;
+
     public async Task ImportAsync()
     {
         await using (var connection = new MySqlConnection(ConnectionString))
@@ -32,7 +34,7 @@ public class MainImporter
             var tagsImporter = new TagsImporter(connection, httpClient);
             await tagsImporter.Import();
             
-            // Importing texts
+            // Importing texts (unfortunately can't be parallelized, because users can be created during text upload)
             var textsImporter = new TextsImporter(connection, httpClient, usersImporter);
             await textsImporter.Import();
         }

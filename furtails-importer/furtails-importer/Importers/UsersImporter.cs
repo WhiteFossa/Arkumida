@@ -37,10 +37,21 @@ public class UsersImporter
                 order by registered desc"
             )
             .ToList();
-
-        foreach (var user in users)
+        
+        var parallelismDegree = new ParallelOptions()
         {
-            #region Creature data fixup
+            MaxDegreeOfParallelism = MainImporter.ParallelismDegree
+        };
+        
+        await Parallel.ForEachAsync(users, parallelismDegree, async (userToAdd, token) =>
+        {
+            await AddUserToArkumidaAsync(userToAdd);
+        });
+    }
+
+    private async Task AddUserToArkumidaAsync(FtUser user)
+    {
+        #region Creature data fixup
 
             if (user.About == null)
             {
@@ -127,7 +138,6 @@ public class UsersImporter
             }
 
             Console.WriteLine("Done");
-        }
     }
     
     public string GeneratePassword()
