@@ -69,6 +69,14 @@ Create .htaccess file with the next content in the root vhost directory:
     RewriteRule . /index.html [L]
 </ifModule>
 
+# Content compression
+
+Do not forget to add this to static (arkumida.furtails.pw) virtual hos:
+
+# Static content compression
+AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/javascript application/javascript
+
+But think first about BREACH and CRIME attacks!
 
 # Notes
 After running furtails-importer don't forget to replace [ascii=N] to [ascii=M], where M = N / 6, in text variants
