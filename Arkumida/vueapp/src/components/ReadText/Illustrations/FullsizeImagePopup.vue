@@ -32,7 +32,7 @@
 
         <div class="full-size-image-popup" @click.stop="DoNothing">
             <button class="full-size-image-popup-close-button" @click="ClosePopup">
-                <img class="full-size-image-popup-close-button-image" src="/images/close.svg" alt="Close popup" />
+                <img class="full-size-image-popup-close-button-image" src="/images/close.webp" alt="Close popup" />
             </button>
 
             <img class="full-size-image-popup-image" :src="imageUrl" />

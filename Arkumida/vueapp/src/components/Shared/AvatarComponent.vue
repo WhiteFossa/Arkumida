@@ -36,7 +36,7 @@
 
 <template>
     <!-- Avatar not set -->
-    <img v-if="props.avatar === null" :class="avatarClassName" src="/images/furnonymous.jpg" alt="Аватарка не задана" />
+    <img v-if="props.avatar === null" :class="avatarClassName" src="/images/furnonymous.webp" alt="Аватарка не задана" />
 
     <!-- Avatar set -->
     <img v-if="props.avatar !== null" :class="avatarClassName" :src="avatarUrl" :alt="props.avatar.name" />

@@ -79,7 +79,7 @@
     
     <div class="vertical-flex texts-short-info-blocks-container">
         <div class="centered">
-            <button v-if="skip > 0" class="texts-short-infos-container-arrows-buttons" @click="MoveUp"><img class="texts-short-infos-container-arrows-buttons-images" src="/images/arrow_up.svg" alt="Up arrow" /></button>
+            <button v-if="skip > 0" class="texts-short-infos-container-arrows-buttons" @click="MoveUp"><img class="texts-short-infos-container-arrows-buttons-images" src="/images/arrow_up.webp" alt="Up arrow" /></button>
         </div>
 
         <div v-if="!isLoading">
@@ -87,7 +87,7 @@
         </div>
 
         <div class="centered">
-            <button v-if="remaining > 0" class="texts-short-infos-container-arrows-buttons" @click="MoveDown"><img class="texts-short-infos-container-arrows-buttons-images" src="/images/arrow_down.svg" alt="Down arrow" /></button>
+            <button v-if="remaining > 0" class="texts-short-infos-container-arrows-buttons" @click="MoveDown"><img class="texts-short-infos-container-arrows-buttons-images" src="/images/arrow_down.webp" alt="Down arrow" /></button>
         </div>
     </div>
     

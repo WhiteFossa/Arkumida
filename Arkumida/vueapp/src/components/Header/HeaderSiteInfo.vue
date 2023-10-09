@@ -38,7 +38,7 @@
     <div v-else>
         <!-- Shown after load -->
         <div>
-            <a class="vertical-align-center" :href="siteUrl" :title="siteTitle"><img src="/images/logo.png" :alt="siteTitle" /></a>
+            <a class="vertical-align-center" :href="siteUrl" :title="siteTitle"><img src="/images/logo.webp" :alt="siteTitle" /></a>
         </div>
     </div>
 </template>

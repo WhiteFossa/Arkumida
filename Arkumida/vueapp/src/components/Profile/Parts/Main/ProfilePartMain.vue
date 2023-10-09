@@ -129,7 +129,7 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
                 type="button"
                 title="Изменить имя"
                 @click="async () => await StartToRename()">
-                <img class="small-icon" src="/images/icons/icon_edit.png" alt="Изменить имя" />
+                <img class="small-icon" src="/images/icons/icon_edit.webp" alt="Изменить имя" />
             </button>
         </div>
 
@@ -149,7 +149,7 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
                 title="Подтвердить смену имени"
                 :disabled="renameValidator.$errors.length > 0"
                 @click="async () => await CompleteRename()">
-                <img class="small-icon" src="/images/icons/icon_ok.png" alt="Подтвердить смену имени" />
+                <img class="small-icon" src="/images/icons/icon_ok.webp" alt="Подтвердить смену имени" />
             </button>
 
             <button
@@ -157,7 +157,7 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
                 type="button"
                 title="Не менять имя"
                 @click="async () => await CancelRename()">
-                <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Не менять имя" />
+                <img class="small-icon" src="/images/icons/icon_cancel.webp" alt="Не менять имя" />
             </button>
         </div>
 
@@ -172,7 +172,7 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
                         type="button"
                         title="Редактировать информацию о себе"
                         @click="async () => await StartToEditAbout()">
-                        <img class="small-icon" src="/images/icons/icon_edit.png" alt="Редактировать информацию о себе" />
+                        <img class="small-icon" src="/images/icons/icon_edit.webp" alt="Редактировать информацию о себе" />
                     </button>
 
                     О себе
@@ -218,7 +218,7 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
                         type="button"
                         title="Сохранить изменения"
                         @click="async () => await CompleteAboutEditing()">
-                        <img class="small-icon" src="/images/icons/icon_ok.png" alt="Сохранить изменения" />
+                        <img class="small-icon" src="/images/icons/icon_ok.webp" alt="Сохранить изменения" />
                     </button>
 
                     <button
@@ -226,7 +226,7 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
                         type="button"
                         title="Отменить изменения"
                         @click="async () => await CancelAboutEditing()">
-                        <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отменить изменения" />
+                        <img class="small-icon" src="/images/icons/icon_cancel.webp" alt="Отменить изменения" />
                     </button>
 
                 </div>

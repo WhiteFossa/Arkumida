@@ -346,7 +346,7 @@
                         class="button-with-image"
                         type="button"
                         title="Начать новый диалог">
-                        <img class="small-icon" src="/images/icons/icon_add.png" alt="Начать новый диалог" />
+                        <img class="small-icon" src="/images/icons/icon_add.webp" alt="Начать новый диалог" />
                     </button>
                 </div>
 

@@ -60,16 +60,16 @@
             <div
                 class="private-messages-message-top-line-container">
                 <div>
-                    <img class="private-messages-sent-icon" src="/images/icons/icon_message_sent.png" alt="Отправлено" title="Отправлено" />
+                    <img class="private-messages-sent-icon" src="/images/icons/icon_message_sent.webp" alt="Отправлено" title="Отправлено" />
                     {{ moment(privateMessage.sentTime).format('HH:mm DD.MM.YYYY') }}
                 </div>
 
                 <div>
                     <div v-if="privateMessage.readTime === null">
-                        <img class="private-messages-unread-icon" src="/images/icons/icon_message_unread.png" alt="Не прочитано" title="Не прочитано" />
+                        <img class="private-messages-unread-icon" src="/images/icons/icon_message_unread.webp" alt="Не прочитано" title="Не прочитано" />
                     </div>
                     <div v-else>
-                        <img class="private-messages-read-icon" src="/images/icons/icon_message_read.png" alt="Прочитано" title="Прочитано" />
+                        <img class="private-messages-read-icon" src="/images/icons/icon_message_read.webp" alt="Прочитано" title="Прочитано" />
                         {{ moment(privateMessage.readTime).format('HH:mm DD.MM.YYYY') }}
                     </div>
 
