@@ -109,7 +109,7 @@ import {defineEmits, defineProps, onMounted, reactive, ref} from "vue";
                     title="Отправить сообщение"
                     :disabled="newMessageFormValidator.$errors.length > 0"
                     @click="async() => await SendNewMessage()">
-                    <img class="private-messages-send-icon" src="/images/icons/icon_send.png" alt="Отправить" title="Отправить" />
+                    <img class="private-messages-send-icon" src="/images/icons/icon_send.webp" alt="Отправить" title="Отправить" />
                 </button>
             </div>
         </div>

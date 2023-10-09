@@ -336,7 +336,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
                             title="Изменить пароль"
                             :disabled="passwordChangeValidator.$errors.length > 0"
                             @click="async () => await ConfirmPasswordChange()">
-                            <img class="small-icon" src="/images/icons/icon_ok.png" alt="Изменить пароль" />
+                            <img class="small-icon" src="/images/icons/icon_ok.webp" alt="Изменить пароль" />
                         </button>
 
                         <button
@@ -344,7 +344,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
                             type="button"
                             title="Отказаться от изменения пароля"
                             @click="async () => await CancelPasswordChange()">
-                            <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отказаться от изменения пароля" />
+                            <img class="small-icon" src="/images/icons/icon_cancel.webp" alt="Отказаться от изменения пароля" />
                         </button>
                     </div>
                 </div>
@@ -376,7 +376,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
                         type="button"
                         title="Изменить адрес электронной почты"
                         @click="async () => await BeginEmailChange()">
-                        <img class="small-icon" src="/images/icons/icon_edit.png" alt="Изменить адрес электронной почты" />
+                        <img class="small-icon" src="/images/icons/icon_edit.webp" alt="Изменить адрес электронной почты" />
                     </button>
                 </div>
                 <div v-else>
@@ -391,7 +391,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
 
                     <div class="profile-security-part-email-not-confirmed-warning">
                         <div class="vertical-align-flex">
-                            <img class="small-icon" src="/images/icons/icon_warning.png" alt="Адрес не подтверждён!" />
+                            <img class="small-icon" src="/images/icons/icon_warning.webp" alt="Адрес не подтверждён!" />
                         </div>
 
                         <div>
@@ -428,7 +428,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
                     title="Подтвердить изменение адреса электронной почты"
                     :disabled="emailChangeValidator.$errors.length > 0"
                     @click="async () => await CompleteEmailChange()">
-                    <img class="small-icon" src="/images/icons/icon_ok.png" alt="Подтвердить изменение адреса электронной почты" />
+                    <img class="small-icon" src="/images/icons/icon_ok.webp" alt="Подтвердить изменение адреса электронной почты" />
                 </button>
 
                 <button
@@ -436,7 +436,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
                     type="button"
                     title="Отменить изменение адреса электронной почты"
                     @click="async () => await CancelEmailChange()">
-                    <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отменить изменение адреса электронной почты" />
+                    <img class="small-icon" src="/images/icons/icon_cancel.webp" alt="Отменить изменение адреса электронной почты" />
                 </button>
 
             </div>

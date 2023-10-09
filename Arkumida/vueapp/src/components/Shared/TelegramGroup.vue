@@ -37,7 +37,7 @@
     <div v-else>
         <!-- Shown after load -->
         <div>
-            <a :href="groupUrl" :title="groupTitle"><img class="telegram-group-logo" src="/images/telegram_logo.png" :alt="groupTitle" /></a>
+            <a :href="groupUrl" :title="groupTitle"><img class="telegram-group-logo" src="/images/telegram_logo.webp" :alt="groupTitle" /></a>
         </div>
     </div>
 </template>

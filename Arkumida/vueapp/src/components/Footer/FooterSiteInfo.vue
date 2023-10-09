@@ -42,7 +42,7 @@ async function OnLoad()
     <div v-else>
         <!-- Shown after load -->
         <div>
-            <a :href="siteUrl" :title="siteTitle"><img class="footer-site-logo" src="/images/logo.png" :alt="siteTitle" /></a>
+            <a :href="siteUrl" :title="siteTitle"><img class="footer-site-logo" src="/images/logo.webp" :alt="siteTitle" /></a>
         </div>
         <div>
             Крупнейшая русскоязычная библиотека фурри рассказов. Любая тематика от йиффа до экшена. В базе большое количество текстов.

@@ -95,7 +95,7 @@
             </div>
 
             <a href="/privateMessages" title="Личные сообщения">
-                <img class="private-messages-icon" src="/images/icons/icon_messages.png" alt="Личные сообщения" />
+                <img class="private-messages-icon" src="/images/icons/icon_messages.webp" alt="Личные сообщения" />
             </a>
 
         </div>

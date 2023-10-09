@@ -22,7 +22,7 @@
 
 <template>
     <div class="donate-to-redgerra">
-        <img class="donate-to-redgerra-avatar" src="/images/redgerra_avatar.jpg" alt="Аватарка Redgerrы" />
+        <img class="donate-to-redgerra-avatar" src="/images/redgerra_avatar.webp" alt="Аватарка Redgerra'ы" />
         Помощь создателю сайта "Furtails" Redgerre. Лично.
         <button v-if="!isDonateInfoShown" class="donate-to-redgerra-button" @click="ShowDonateInfo"><strong>Подробнее</strong></button>
 

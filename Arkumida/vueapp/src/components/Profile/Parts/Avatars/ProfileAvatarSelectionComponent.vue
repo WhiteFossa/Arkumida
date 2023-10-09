@@ -90,7 +90,7 @@
                 title="Подтвердить переименование"
                 @click="async () => await CompleteNameEditing()"
                 :disabled="renameAvatarValidator.$errors.length > 0">
-                <img class="small-icon" src="/images/icons/icon_ok.png" alt="Подтвердить переименование" />
+                <img class="small-icon" src="/images/icons/icon_ok.webp" alt="Подтвердить переименование" />
             </button>
 
             <button
@@ -98,7 +98,7 @@
                 type="button"
                 title="Отменить переименование"
                 @click="async () => await CancelNameEditing()">
-                <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Отменить переименование" />
+                <img class="small-icon" src="/images/icons/icon_cancel.webp" alt="Отменить переименование" />
             </button>
 
         </div>
@@ -114,7 +114,7 @@
                 type="button"
                 title="Выбрать как аватарку по-умолчанию"
                 @click="async () => await SetAsCurrentAvatar()">
-                <img class="small-icon" src="/images/icons/icon_ok.png" alt="Выбрать как аватарку по-умолчанию" />
+                <img class="small-icon" src="/images/icons/icon_ok.webp" alt="Выбрать как аватарку по-умолчанию" />
             </button>
 
             <!-- Rename -->
@@ -125,7 +125,7 @@
                 title="Переименовать аватарку"
                 @click="async () => await StartNameEditing()"
                 :disabled="isEditingName">
-                <img class="small-icon" src="/images/icons/icon_edit.png" alt="Переименовать аватарку" />
+                <img class="small-icon" src="/images/icons/icon_edit.webp" alt="Переименовать аватарку" />
             </button>
 
             <!-- Delete -->
@@ -135,7 +135,7 @@
                 type="button"
                 title="Удалить аватарку"
                 @click="async () => await DeleteAvatar()">
-                <img class="small-icon" src="/images/icons/icon_cancel.png" alt="Удалить аватарку" />
+                <img class="small-icon" src="/images/icons/icon_cancel.webp" alt="Удалить аватарку" />
             </button>
 
         </div>

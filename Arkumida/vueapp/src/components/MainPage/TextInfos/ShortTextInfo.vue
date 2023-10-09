@@ -184,18 +184,18 @@
             <!-- Statistics line -->
             <div class="text-short-info-block-statistics-line">
                 {{ addTime }}&nbsp;
-                <img class="text-short-info-block-statistics-line-images" src="/images/glazz.png" alt="Количество просмотров" title="Количество просмотров" />&nbsp;{{ textInfo.textInfo.viewsCount }}&nbsp;
+                <img class="text-short-info-block-statistics-line-images" src="/images/glazz.webp" alt="Количество просмотров" title="Количество просмотров" />&nbsp;{{ textInfo.textInfo.viewsCount }}&nbsp;
                 
                 <span v-if="textInfo.textInfo.commentsCount === 0">
-                    <img class="text-short-info-block-statistics-line-images" src="/images/oblako.png" alt="Количество комментариев" title="Количество комментариев" />&nbsp;0
+                    <img class="text-short-info-block-statistics-line-images" src="/images/oblako.webp" alt="Количество комментариев" title="Количество комментариев" />&nbsp;0
                 </span>
                 <span v-else>
                     <a class="text-short-info-block-comments-link" :href="commentsHref" title="Количество комментариев">
-                        <img class="text-short-info-block-statistics-line-images" src="/images/oblako.png" alt="Количество комментариев" title="Количество комментариев" />&nbsp;{{ textInfo.textInfo.commentsCount }}
+                        <img class="text-short-info-block-statistics-line-images" src="/images/oblako.webp" alt="Количество комментариев" title="Количество комментариев" />&nbsp;{{ textInfo.textInfo.commentsCount }}
                     </a>
                 </span>
 
-                &nbsp;<img class="text-short-info-block-statistics-line-images" src="/images/vote.png" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-short-info-block-votes-for" v-if="textInfo.textInfo.votesFor > 0">+<strong>{{ textInfo.textInfo.votesFor }}</strong></span><span v-else>Нет</span>
+                &nbsp;<img class="text-short-info-block-statistics-line-images" src="/images/vote.webp" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-short-info-block-votes-for" v-if="textInfo.textInfo.votesFor > 0">+<strong>{{ textInfo.textInfo.votesFor }}</strong></span><span v-else>Нет</span>
             </div>
             
             <!-- Type and tags line -->

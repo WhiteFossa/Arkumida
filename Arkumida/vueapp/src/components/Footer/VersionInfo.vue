@@ -46,7 +46,7 @@
     
     <div class="centered">
         <a href="https://www.gnu.org/licenses/agpl-3.0.html" title="Лицензировано под AGPLv3 или более поздней версией">
-            <img src="/images/agplv3-with-text-162x68.png" alt="AGPLv3 logo" />
+            <img src="/images/agplv3-with-text-162x68.webp" alt="AGPLv3 logo" />
         </a>
     </div>
 </template>

@@ -17,43 +17,43 @@
     {
         // Contest
         case TextIconType.Contest:
-            iconUrl.value += "icon_contest.png"
+            iconUrl.value += "icon_contest.webp"
             iconText.value = "Конкурсное произведение"
             break
     
         // Sandbox
         case TextIconType.Sandbox:
-            iconUrl.value += "icon_sandbox.png"
+            iconUrl.value += "icon_sandbox.webp"
             iconText.value = "Песочница"
             break
     
         // Snuff
         case TextIconType.Snuff:
-            iconUrl.value += "icon_snuff.png"
+            iconUrl.value += "icon_snuff.webp"
             iconText.value = "Снафф"
             break
 
         // Have illustrations
         case TextIconType.Illustrations:
-            iconUrl.value += "icon_illustrations.png"
+            iconUrl.value += "icon_illustrations.webp"
             iconText.value = "Есть иллюстрации"
             break
 
         // Incomplete
         case TextIconType.Incomplete:
-            iconUrl.value += "icon_incomplete.png"
+            iconUrl.value += "icon_incomplete.webp"
             iconText.value = "Не закончено"
             break
 
         // MLP
         case TextIconType.Mlp:
-            iconUrl.value += "icon_mlp.png"
+            iconUrl.value += "icon_mlp.webp"
             iconText.value = "MLP"
             break
 
         // Series
         case TextIconType.Series:
-            iconUrl.value += "icon_series.png"
+            iconUrl.value += "icon_series.webp"
             iconText.value = "Часть серии"
             break
     
