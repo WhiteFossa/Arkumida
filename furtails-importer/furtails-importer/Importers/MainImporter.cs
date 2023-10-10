@@ -29,7 +29,7 @@ public class MainImporter
         {
             // Importing users
             var usersImporter = new UsersImporter(connection, httpClient);
-            /*await usersImporter.ImportAsync();
+            await usersImporter.ImportAsync();
 
             // Importing tags
             var tagsImporter = new TagsImporter(connection, httpClient);
@@ -37,7 +37,7 @@ public class MainImporter
             
             // Importing texts
             var textsImporter = new TextsImporter(connection, httpClient, usersImporter);
-            await textsImporter.Import();*/
+            await textsImporter.Import();
             
             // Importing private messages
             var privateMessagesImporter = new PrivateMessagesImporter(connection, httpClient, usersImporter);
