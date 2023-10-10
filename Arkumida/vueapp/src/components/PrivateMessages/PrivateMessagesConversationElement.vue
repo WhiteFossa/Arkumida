@@ -77,8 +77,9 @@
             </div>
 
             <div class="private-messages-message-inner-container">
-                <!-- Avatar -->
-                <AvatarComponent :avatar="senderProfile.currentAvatar" :avatarClass="AvatarClass.Small" />
+                <div>
+                    <AvatarComponent :avatar="senderProfile.currentAvatar" :avatarClass="AvatarClass.Small" />
+                </div>
 
                 <div>
                     {{ privateMessage.content }}

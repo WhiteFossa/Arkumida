@@ -38,6 +38,10 @@ public class MainImporter
             // Importing texts
             var textsImporter = new TextsImporter(connection, httpClient, usersImporter);
             await textsImporter.Import();
+            
+            // Importing private messages
+            var privateMessagesImporter = new PrivateMessagesImporter(connection, httpClient, usersImporter);
+            await privateMessagesImporter.ImportAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using webapi.Constants;
 using webapi.Models.Api.Requests.PrivateMessages;
 using webapi.Models.Api.Responses.PrivateMessages;
 using webapi.Services.Abstract;
@@ -96,6 +97,29 @@ public class PrivateMessagesController : ControllerBase
         return Ok(new SentPrivateMessageResponse(result.Item1, result.Item2));
     }
 
+    /// <summary>
+    /// Import private message
+    /// </summary>
+    [Authorize(Roles = RolesConstants.ImporterRole)]
+    [Route("api/PrivateMessages/Import")]
+    [HttpPost]
+    public async Task<ActionResult> ImportPrivateMessageAsync(ImportPrivateMessageRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        var isSuccessful = await _privateMessagesService.ImportPrivateMessageAsync(request);
+
+        if (!isSuccessful)
+        {
+            throw new InvalidOperationException("Failed to import private message!");
+        }
+
+        return Ok();
+    }
+    
     /// <summary>
     /// Mark private message as read
     /// </summary>
