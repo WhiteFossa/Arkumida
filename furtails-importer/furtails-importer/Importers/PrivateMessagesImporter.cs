@@ -1,6 +1,10 @@
 using System.Collections.Concurrent;
+using System.Net.Http.Json;
+using System.Text.Json;
 using Dapper;
 using furtails_importer.Dbos;
+using furtails_importer.WebClientStuff.Requests;
+using furtails_importer.WebClientStuff.Responses;
 using MySqlConnector;
 
 namespace furtails_importer.Importers;
@@ -66,8 +70,14 @@ public class PrivateMessagesImporter
             
             Console.WriteLine($"{oldCreatureId} -> {arkumidaCreatureId}");
         });
-
-        int a = 10;
+        
+        Console.WriteLine("Importing private messages...");
+        
+        await Parallel.ForEachAsync(privateMessages, parallelismDegree, async (privateMessage, token) =>
+        {
+            Console.WriteLine($"Importing message with ID = { privateMessage.Id }");
+            await AddPirvateMessageToArkumidaAsync(privateMessage, creaturesMapping);
+        });
     }
 
     private async Task<Guid> MapOldFtCreatureAsync(int oldCreatureId)
@@ -90,4 +100,23 @@ public class PrivateMessagesImporter
         return arkumidaCreature.Id;
     }
 
+    private async Task AddPirvateMessageToArkumidaAsync(FtPrivateMessage privateMessage, ConcurrentDictionary<int, Guid> usersMapping)
+    {
+        var importRequest = new ImportPrivateMessageRequest()
+        {
+            Content = privateMessage.Content,
+            SenderId = usersMapping[privateMessage.Sender],
+            ReceiverId = usersMapping[privateMessage.Receiver],
+            SentTime = privateMessage.SendTime.ToUniversalTime(),
+            ReadTime = privateMessage.IsRead ? privateMessage.SendTime.ToUniversalTime() : null,
+            IsDeletedOnSenderSide = privateMessage.IsDeletedAtSender,
+            IsDeletedOnReceiverSide = privateMessage.IsDeletedAtReceiver
+        };
+        
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}PrivateMessages/Import", importRequest);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+    }
 }

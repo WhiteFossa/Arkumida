@@ -1,4 +1,5 @@
 using webapi.Models.Api.DTOs.PrivateMessages;
+using webapi.Models.Api.Requests.PrivateMessages;
 using webapi.Models.Enums;
 using webapi.Models.PrivateMessages;
 
@@ -21,6 +22,12 @@ public interface IPrivateMessagesService
     /// 2 - new message
     /// </summary>
     Task<Tuple<bool, PrivateMessageDto>> SendPrivateMessageAsync(Guid receiverId, Guid senderId, string message);
+
+    /// <summary>
+    /// THIS METHOD IS INTENDED FOR FURTAILS-IMPORTER USE ONLY!
+    /// Import private message (kinda dirty that we are using request instead of request -> DTO, but we are lazy and believe that this is OK for import method)
+    /// </summary>
+    Task<bool> ImportPrivateMessageAsync(ImportPrivateMessageRequest importRequest);
     
     /// <summary>
     /// Get a list of private messages, sent to receiver by sender or vice versa, ordered by send time

@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace webapi.Models.Api.DTOs.PrivateMessages;
 
 /// <summary>
@@ -8,31 +10,37 @@ public class PrivateMessageDto
     /// <summary>
     /// ID
     /// </summary>
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Message content
     /// </summary>
+    [JsonPropertyName("content")]
     public string Content { get; set; }
 
     /// <summary>
     /// Message sender
     /// </summary>
+    [JsonPropertyName("sender")]
     public CreatureDto Sender { get; set; }
     
     /// <summary>
     /// Message receiver
     /// </summary>
+    [JsonPropertyName("receiver")]
     public CreatureDto Receiver { get; set; }
 
     /// <summary>
     /// Message was sent at this time
     /// </summary>
+    [JsonPropertyName("sentTime")]
     public DateTime SentTime { get; set; }
     
     /// <summary>
     /// Message was read (if was) at this time
     /// </summary>
+    [JsonPropertyName("readTime")]
     public DateTime? ReadTime { get; set; }
 
     public PrivateMessageDto

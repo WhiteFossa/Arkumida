@@ -3,6 +3,7 @@ using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Models.Api.DTOs.PrivateMessages;
+using webapi.Models.Api.Requests.PrivateMessages;
 using webapi.Models.Enums;
 using webapi.Models.PrivateMessages;
 using webapi.Services.Abstract;
@@ -76,7 +77,39 @@ public class PrivateMessagesService : IPrivateMessagesService
 
         return new Tuple<bool, PrivateMessageDto>(true, sentPrivateMessage.ToDto());
     }
-    
+
+    public async Task<bool> ImportPrivateMessageAsync(ImportPrivateMessageRequest importRequest)
+    {
+        // Sender
+        var senderCreature = await _userManager.FindByIdAsync(importRequest.SenderId.ToString());
+        if (senderCreature == null)
+        {
+            return false;
+        }
+        
+        // Receiver
+        var receiverCreature = await _userManager.FindByIdAsync(importRequest.ReceiverId.ToString());
+        if (receiverCreature == null)
+        {
+            return false;
+        }
+        
+        var privateMessage = new PrivateMessageDbo()
+        {
+            Content = importRequest.Content,
+            Sender = senderCreature,
+            Receiver = receiverCreature,
+            SentTime = importRequest.SentTime,
+            ReadTime = importRequest.ReadTime,
+            IsDeletedOnReceiverSide = importRequest.IsDeletedOnReceiverSide,
+            IsDeletedOnSenderSide = importRequest.IsDeletedOnSenderSide
+        };
+
+        await _privateMessagesDao.AddPrivateMessageAsync(privateMessage);
+
+        return true;
+    }
+
     public async Task<IReadOnlyCollection<PrivateMessage>> GetConversationAfterTimeWithLimitAsync(Guid receiverId, Guid senderId, DateTime afterTime, int limit)
     {
         return _privateMessagesMapper.Map(await _privateMessagesDao.GetConversationAfterTimeWithLimitAsync(receiverId, senderId, afterTime, limit));
