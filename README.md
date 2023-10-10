@@ -54,6 +54,50 @@ Configure reverse proxy in a such way (example for Apache):
 	SSLCertificateChainFile "/etc/letsencrypt/live/api.arkumida.furtails.pw/fullchain.pem"
 </VirtualHost>
 
+# Configure static content virtual host
+Example for Apache:
+
+##############################################################################
+#                           arkumida.furtails.pw                              #
+##############################################################################
+<VirtualHost *:80>
+    ServerAdmin whitefossa@protonmail.com
+    DocumentRoot "/webroot/vhosts/arkumida.furtails.pw/htdocs"
+    ServerName arkumida.furtails.pw
+    ErrorLog "/webroot/vhosts/arkumida.furtails.pw/logs/error.log"
+    CustomLog "/webroot/vhosts/arkumida.furtails.pw/logs/access.log" combined
+
+    Redirect permanent / https://arkumida.furtails.pw/
+</VirtualHost>
+
+# Secure
+<VirtualHost *:443>
+    ServerAdmin whitefossa@protonmail.com
+    DocumentRoot "/webroot/vhosts/arkumida.furtails.pw/htdocs"
+    ServerName arkumida.furtails.pw
+    ErrorLog "/webroot/vhosts/arkumida.furtails.pw/logs/error.log"
+    CustomLog "/webroot/vhosts/arkumida.furtails.pw/logs/access.log" combined
+
+    # Static content compression
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/javascript application/javascript
+
+	SSLEngine on
+	SSLCertificateFile "/etc/letsencrypt/live/arkumida.furtails.pw/cert.pem"
+	SSLCertificateKeyFile "/etc/letsencrypt/live/arkumida.furtails.pw/privkey.pem"
+	SSLCertificateChainFile "/etc/letsencrypt/live/arkumida.furtails.pw/fullchain.pem"
+
+	<FilesMatch "\.(cgi|shtml|phtml|php)$">
+		SSLOptions +StdEnvVars
+	</FilesMatch>
+
+	<Directory "/webroot/vhosts/arkumida.furtails.pw/htdocs">
+		SSLOptions +StdEnvVars
+		Options SymLinksIfOwnerMatch
+		AllowOverride All
+		Require all granted
+	</Directory>
+</VirtualHost>
+
 # Configure redirecting to index.html (to allow client-side routing work)
 
 (This section is for Apache, information for other servers is there: https://v3.router.vuejs.org/guide/essentials/history-mode.html)
