@@ -15,6 +15,8 @@ using webapi.Mappers.Abstract;
 using webapi.Mappers.Implementations;
 using webapi.Models.Email;
 using webapi.Models.Settings;
+using webapi.OpenSearch.Services.Abstract;
+using webapi.OpenSearch.Services.Implementations;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Email;
 using webapi.Services.Abstract.TextRenderers;
@@ -76,6 +78,8 @@ builder.Services.AddSingleton<IAvatarsMapper, AvatarsMapper>();
 builder.Services.AddSingleton<ICreaturesWithProfilesMapper, CreaturesWithProfilesMapper>();
 builder.Services.AddSingleton<IPrivateMessagesMapper, PrivateMessagesMapper>();
 
+builder.Services.AddSingleton<IArkumidaOpenSearchClient, ArkumidaOpenSearchClient>();
+
 #endregion
 
 #region Hosted
@@ -92,6 +96,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameo
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
 builder.Services.Configure<ImporterUserSettings>(builder.Configuration.GetSection(nameof(ImporterUserSettings)));
 builder.Services.Configure<SiteInfoSettings>(builder.Configuration.GetSection(nameof(SiteInfoSettings)));
+builder.Services.Configure<OpenSearchSettings>(builder.Configuration.GetSection(nameof(OpenSearchSettings)));
 
 #endregion
 

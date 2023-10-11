@@ -25,8 +25,6 @@ public class BuiltInUsersAndRolesCreator : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        IReadOnlyCollection<Creature> creatures;
-        
         using (var scope = _scopeFactory.CreateScope())
         {
             // DI
@@ -47,34 +45,13 @@ public class BuiltInUsersAndRolesCreator : IHostedService
 
             await CreateCreatureIfNotExistAsync(accountsService, importerUserSettings.Login, string.Empty, importerUserSettings.Password);
 
-            // Adding Importer to Importer role
-            var importer = await accountsService.FindUserByLoginAsync(importerUserSettings.Login); // Importer can be created before this code update, so we need to fetch shi
+            // Adding Importer to Importer and User roles
+            var importer = await accountsService.FindUserByLoginAsync(importerUserSettings.Login);
             await AddCreatureToRoleIfNotInRoleAsync(accountsService, importer.Id, RolesConstants.ImporterRole);
+            await AddCreatureToRoleIfNotInRoleAsync(accountsService, importer.Id, RolesConstants.UserRole);
 
             #endregion
-            
-            // To use when we will give creatures an User role
-            creatures = await accountsService.GetAllCreaturesAsync();
         }
-        
-        #region Giving all creatures an User role
-        
-        // Giving users roles outside the scope - because we will create a lot of scopes in parallel operations
-        ParallelOptions userRoleAddingParallelismLevel = new()
-        {
-            MaxDegreeOfParallelism = GlobalConstants.AddingUserRoleToCreaturesParallelismLevel
-        };
-            
-        await Parallel.ForEachAsync(creatures, userRoleAddingParallelismLevel, async (creature, token) =>
-        {
-            using (var scope = _scopeFactory.CreateScope())
-            {
-                var accountsServiceLocal = scope.ServiceProvider.GetRequiredService<IAccountsService>();
-                await AddCreatureToRoleIfNotInRoleAsync(accountsServiceLocal, creature.Id, RolesConstants.UserRole);
-            }
-        });
-        
-        #endregion
     }
 
     private async Task AddCreatureToRoleIfNotInRoleAsync(IAccountsService accountsService, Guid creatureId, string roleName)
