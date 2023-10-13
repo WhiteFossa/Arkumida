@@ -6,7 +6,7 @@ namespace webapi.OpenSearch.Models;
 public interface IIndexableEntity
 {
     /// <summary>
-    /// Get entity's index name
+    /// Entity index name
     /// </summary>
-    public string GetIndexName();
+    static abstract string IndexName { get; }
 }

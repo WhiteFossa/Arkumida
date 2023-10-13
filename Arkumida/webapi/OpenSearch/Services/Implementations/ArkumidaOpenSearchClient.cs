@@ -46,8 +46,13 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         }
         
         var response = await _client
-            .IndexAsync(creatureToIndex, i => i.Index(creatureToIndex.GetIndexName())
-            .Refresh(Refresh.WaitFor));
+            .IndexAsync
+            (
+                creatureToIndex,
+                i => i
+                    .Index(IndexableCreature.IndexName)
+                    .Refresh(Refresh.WaitFor)
+            );
 
         if (!response.IsValid)
         {
@@ -55,5 +60,55 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         }
 
         return response.Id;
+    }
+    
+    public async Task<string> GetCreatureOpenSearchIdAsync(Guid creatureDbId)
+    {
+        return (await GetCreatureHitAsync(creatureDbId)).Id;
+    }
+
+    public async Task<IndexableCreature> GetCreatureByDbIdAsync(Guid creatureDbId)
+    {
+        return (await GetCreatureHitAsync(creatureDbId)).Source;
+    }
+
+    public async Task UpdateCreatureAsync(IndexableCreature creature)
+    {
+        var osId = await GetCreatureOpenSearchIdAsync(creature.DbId);
+        
+        var response = await _client.UpdateAsync<IndexableCreature>
+        (
+            osId,
+            ic => ic
+                .Doc(creature)
+                .Index(IndexableCreature.IndexName)
+                .Refresh(Refresh.WaitFor)
+        );
+
+        if (!response.IsValid)
+        {
+            throw new InvalidOperationException($"Failed to update creature with DB ID = { creature.DbId }");
+        }
+    }
+
+    private async Task<IHit<IndexableCreature>> GetCreatureHitAsync(Guid creatureId)
+    {
+        var result = await _client.SearchAsync<IndexableCreature>
+        (s => s
+            .Index(IndexableCreature.IndexName)
+            .Query(q => q
+                .Match(m => m
+                    .Field(ic => ic.DbId)
+                    .Query(creatureId.ToString())))
+        );
+
+        if (!result.IsValid)
+        {
+            throw new InvalidOperationException($"Unable to get creature hit, creature DbId={ creatureId }");
+        }
+
+        return result
+            .Hits
+            .Single();
     }
 }

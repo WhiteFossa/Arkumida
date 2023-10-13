@@ -112,7 +112,7 @@ public class AccountsService : IAccountsService
         // Adding creature to OpenSearch
         var indexableCreature = new IndexableCreature()
         {
-            Id = creature.Id,
+            DbId = creature.Id,
             DisplayName = creatureProfileDbo.DisplayName
         };
         await _arkumidaOpenSearchClient.IndexCreatureAsync(indexableCreature);
@@ -331,6 +331,14 @@ public class AccountsService : IAccountsService
         profile.DisplayName = newName;
 
         await _profilesDao.UpdateProfileAsync(profile);
+
+        var indexableCreature = new IndexableCreature()
+        {
+            DbId = creatureId,
+            DisplayName = newName
+        };
+
+        await _arkumidaOpenSearchClient.UpdateCreatureAsync(indexableCreature);
     }
 
     public async Task UpdateAboutAsync(Guid creatureId, string newAbout)

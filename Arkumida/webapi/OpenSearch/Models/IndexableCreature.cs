@@ -8,15 +8,12 @@ public class IndexableCreature : IIndexableEntity
     /// <summary>
     /// Creature ID (the same as in DB)
     /// </summary>
-    public Guid Id { get; set; }
+    public Guid DbId { get; set; }
 
     /// <summary>
     /// Display name
     /// </summary>
     public string DisplayName { get; set; }
 
-    public string GetIndexName()
-    {
-        return "creatures";
-    }
+    public static string IndexName => "creatures";
 }

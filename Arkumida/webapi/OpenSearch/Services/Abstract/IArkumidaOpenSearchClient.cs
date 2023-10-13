@@ -12,8 +12,27 @@ public interface IArkumidaOpenSearchClient
     /// </summary>
     void Connect();
 
+    #region Creatures
+    
     /// <summary>
     /// Add creature to OpenSearch. Returns OpenSearch (not creature!) ID
     /// </summary>
     Task<string> IndexCreatureAsync(IndexableCreature creatureToIndex);
+
+    /// <summary>
+    /// Get OpenSearch creature ID by creature DB ID
+    /// </summary>
+    Task<string> GetCreatureOpenSearchIdAsync(Guid creatureDbId);
+
+    /// <summary>
+    /// Get indexable creature by DB ID
+    /// </summary>
+    Task<IndexableCreature> GetCreatureByDbIdAsync(Guid creatureDbId);
+
+    /// <summary>
+    /// Update existing creature
+    /// </summary>
+    Task UpdateCreatureAsync(IndexableCreature creature);
+
+    #endregion
 }
