@@ -15,7 +15,7 @@ public interface IArkumidaOpenSearchClient
     #region Creatures
     
     /// <summary>
-    /// Add creature to OpenSearch. Returns OpenSearch (not creature!) ID
+    /// Add creature to OpenSearch. Returns OpenSearch (not DB) ID
     /// </summary>
     Task<string> IndexCreatureAsync(IndexableCreature creatureToIndex);
 
@@ -33,6 +33,17 @@ public interface IArkumidaOpenSearchClient
     /// Update existing creature
     /// </summary>
     Task UpdateCreatureAsync(IndexableCreature creature);
+
+    #endregion
+    
+    #region Tags
+
+    /// <summary>
+    /// Add tag to OpenSearch. Returns OpenSearch (not DB) ID
+    /// </summary>
+    /// <param name="tagToIndex"></param>
+    /// <returns></returns>
+    Task<string> IndexTagAsync(IndexableTag tagToIndex);
 
     #endregion
 }

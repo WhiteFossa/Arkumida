@@ -5,6 +5,8 @@ namespace webapi.OpenSearch.Models;
 /// </summary>
 public class IndexableCreature : IIndexableEntity
 {
+    public static string IndexName => "creatures";
+    
     /// <summary>
     /// Creature ID (the same as in DB)
     /// </summary>
@@ -14,6 +16,4 @@ public class IndexableCreature : IIndexableEntity
     /// Display name
     /// </summary>
     public string DisplayName { get; set; }
-
-    public static string IndexName => "creatures";
 }

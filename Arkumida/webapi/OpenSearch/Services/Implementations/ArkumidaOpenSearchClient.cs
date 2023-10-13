@@ -91,6 +91,30 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         }
     }
 
+    public async Task<string> IndexTagAsync(IndexableTag tagToIndex)
+    {
+        if (tagToIndex == null)
+        {
+            throw new ArgumentNullException(nameof(tagToIndex), "Attempt to index a null tag!");
+        }
+        
+        var response = await _client
+            .IndexAsync
+            (
+                tagToIndex,
+                i => i
+                    .Index(IndexableTag.IndexName)
+                    .Refresh(Refresh.WaitFor)
+            );
+
+        if (!response.IsValid)
+        {
+            throw new InvalidOperationException($"Can't index a tag! Debug information: { response.DebugInformation }");
+        }
+
+        return response.Id;
+    }
+
     private async Task<IHit<IndexableCreature>> GetCreatureHitAsync(Guid creatureId)
     {
         var result = await _client.SearchAsync<IndexableCreature>
