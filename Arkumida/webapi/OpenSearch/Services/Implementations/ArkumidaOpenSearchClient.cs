@@ -51,7 +51,6 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                 creatureToIndex,
                 i => i
                     .Index(IndexableCreature.IndexName)
-                    .Refresh(Refresh.WaitFor)
             );
 
         if (!response.IsValid)
@@ -82,7 +81,6 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             ic => ic
                 .Doc(creature)
                 .Index(IndexableCreature.IndexName)
-                .Refresh(Refresh.WaitFor)
         );
 
         if (!response.IsValid)
@@ -104,12 +102,34 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                 tagToIndex,
                 i => i
                     .Index(IndexableTag.IndexName)
-                    .Refresh(Refresh.WaitFor)
             );
 
         if (!response.IsValid)
         {
             throw new InvalidOperationException($"Can't index a tag! Debug information: { response.DebugInformation }");
+        }
+
+        return response.Id;
+    }
+
+    public async Task<string> IndexTextAsync(IndexableText textToIndex)
+    {
+        if (textToIndex == null)
+        {
+            throw new ArgumentNullException(nameof(textToIndex), "Attempt to index a null text!");
+        }
+        
+        var response = await _client
+            .IndexAsync
+            (
+                textToIndex,
+                i => i
+                    .Index(IndexableText.IndexName)
+            );
+
+        if (!response.IsValid)
+        {
+            throw new InvalidOperationException($"Can't index a text! Debug information: { response.DebugInformation }");
         }
 
         return response.Id;

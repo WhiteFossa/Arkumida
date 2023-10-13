@@ -46,6 +46,7 @@ builder.Services.AddScoped<IFilesService, FilesService>();
 builder.Services.AddScoped<IAccountsService, AccountsService>();
 
 builder.Services.AddScoped<IPlainTextRenderer, PlainTextRenderer>();
+builder.Services.AddScoped<IRawTextRenderer, RawTextRenderer>();
 
 builder.Services.AddScoped<IRenderedTextsDao, RenderedTextsDao>();
 builder.Services.AddScoped<ITextsRenderingService, TextsRenderingService>();

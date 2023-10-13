@@ -41,9 +41,16 @@ public interface IArkumidaOpenSearchClient
     /// <summary>
     /// Add tag to OpenSearch. Returns OpenSearch (not DB) ID
     /// </summary>
-    /// <param name="tagToIndex"></param>
-    /// <returns></returns>
     Task<string> IndexTagAsync(IndexableTag tagToIndex);
+
+    #endregion
+    
+    #region Texts
+
+    /// <summary>
+    /// Add text to OpenSearch. Returns OpenSearch (not DB) ID
+    /// </summary>
+    Task<string> IndexTextAsync(IndexableText textToIndex);
 
     #endregion
 }

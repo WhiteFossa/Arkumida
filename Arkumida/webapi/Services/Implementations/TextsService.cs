@@ -6,6 +6,8 @@ using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
+using webapi.OpenSearch.Models;
+using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
 
 namespace webapi.Services.Implementations;
@@ -14,39 +16,33 @@ public class TextsService : ITextsService
 {
     private readonly ITextsDao _textsDao;
     private readonly ITextsMapper _textsMapper;
-    private readonly ITagsMapper _tagsMapper;
     private readonly ITagsService _tagsService;
     private readonly ITextsPagesMapper _textsPagesMapper;
     private readonly ITextFilesMapper _textFilesMapper;
-    private readonly ICreaturesMapper _creaturesMapper;
     private readonly ITextsRenderingService _textsRenderingService;
     private readonly ITextUtilsService _textUtilsService;
-    private readonly IAccountsService _accountsService;
+    private readonly IArkumidaOpenSearchClient _arkumidaOpenSearchClient;
 
     public TextsService
     (
         ITextsDao textsDao,
         ITextsMapper textsMapper,
-        ITagsMapper tagsMapper,
         ITagsService tagsService,
         ITextsPagesMapper textsPagesMapper,
         ITextFilesMapper textFilesMapper,
-        ICreaturesMapper creaturesMapper,
         ITextsRenderingService textsRenderingService,
         ITextUtilsService textUtilsService,
-        IAccountsService accountsService
+        IArkumidaOpenSearchClient arkumidaOpenSearchClient
     )
     {
         _textsDao = textsDao;
         _textsMapper = textsMapper;
-        _tagsMapper = tagsMapper;
         _tagsService = tagsService;
         _textsPagesMapper = textsPagesMapper;
         _textFilesMapper = textFilesMapper;
-        _creaturesMapper = creaturesMapper;
         _textsRenderingService = textsRenderingService;
         _textUtilsService = textUtilsService;
-        _accountsService = accountsService;
+        _arkumidaOpenSearchClient = arkumidaOpenSearchClient;
     }
 
     public async Task<Text> CreateTextAsync(Text text)
@@ -62,8 +58,25 @@ public class TextsService : ITextsService
 
         // Rendering text in various formats
         await _textsRenderingService.RenderTextToDbAsync(dbText.Id, RenderedTextType.PlainText);
+
+        var textMetadata = await _textUtilsService.GetTextMetadataAsync(dbText.Id); 
         
-        return await _textUtilsService.GetTextMetadataAsync(dbText.Id);
+        // Indexing text to OpenSearch
+        var textToIndex = new IndexableText()
+        {
+            DbId = textMetadata.Id,
+            Title = textMetadata.Title,
+            Description = textMetadata.Description,
+            Content = await _textsRenderingService.RenderTextContentToString(textMetadata),
+            AuthorsDbIds = textMetadata.Authors.Select(a => a.Id).ToList(),
+            TranslatorsDbIds = textMetadata.Translators.Select(t => t.Id).ToList(),
+            PublisherDbId = textMetadata.Publisher.Id,
+            TagsDbIds = textMetadata.Tags.Select(t => t.Id).ToList()
+        };
+        
+        await _arkumidaOpenSearchClient.IndexTextAsync(textToIndex);
+        
+        return textMetadata;
     }
 
     public async Task<IReadOnlyCollection<TextInfoDto>> GetTextsInfosAsync(TextOrderMode orderMode, int skip, int take)
