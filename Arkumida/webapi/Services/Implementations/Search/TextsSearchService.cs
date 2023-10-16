@@ -20,7 +20,8 @@ public class TextsSearchService : ITextsSearchService
         var descriptionQuery = ExtractTextDescriptionQuery(query);
         var contentQuery = ExtractTextContentQuery(query);
         var authorQuery = ExtractTextAuthorQuery(query);
-        
+        var tagsToIncludeQuery = ExtractTagsToInclude(query);
+        var tagsToExcludeQuery = ExtractTagsToExclude(query);
         
         // TODO: Replace me with good answer
         return new TextsSearchResultsResponse(query, new List<FoundTextDto>());
@@ -108,5 +109,51 @@ public class TextsSearchService : ITextsSearchService
             .Groups["author"]
             .Value
             .Trim();
+    }
+
+    /// <summary>
+    /// Extract tags to include from full query. Will return empty collection if tags for include is not specified
+    /// </summary>
+    private IReadOnlyCollection<string> ExtractTagsToInclude(string fullQuery)
+    {
+        var regexp = new Regex(@"(\+Теги: \[(?<include_tags>.+?)\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        var matches = regexp.Matches(fullQuery);
+
+        if (!matches.Any())
+        {
+            return new List<string>();
+        }
+        
+        return matches
+            .First()
+            .Groups["include_tags"]
+            .Value
+            .Split(",")
+            .Select(tti => tti.Trim())
+            .ToList();
+    }
+    
+    /// <summary>
+    /// Extract tags to exclude from full query. Will return empty collection if tags for exclude is not specified
+    /// </summary>
+    private IReadOnlyCollection<string> ExtractTagsToExclude(string fullQuery)
+    {
+        var regexp = new Regex(@"(\-Теги: \[(?<exclude_tags>.+?)\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        var matches = regexp.Matches(fullQuery);
+
+        if (!matches.Any())
+        {
+            return new List<string>();
+        }
+        
+        return matches
+            .First()
+            .Groups["exclude_tags"]
+            .Value
+            .Split(",")
+            .Select(tti => tti.Trim())
+            .ToList();
     }
 }
