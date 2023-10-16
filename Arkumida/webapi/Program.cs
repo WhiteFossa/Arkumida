@@ -19,10 +19,12 @@ using webapi.OpenSearch.Services.Abstract;
 using webapi.OpenSearch.Services.Implementations;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Email;
+using webapi.Services.Abstract.Search;
 using webapi.Services.Abstract.TextRenderers;
 using webapi.Services.Implementations;
 using webapi.Services.Implementations.Email;
 using webapi.Services.Implementations.Hosted;
+using webapi.Services.Implementations.Search;
 using webapi.Services.Implementations.TextRenderers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,6 +63,7 @@ builder.Services.AddScoped<IEmailsGeneratorService, EmailsGeneratorService>();
 builder.Services.AddScoped<IPrivateMessagesService, PrivateMessagesService>();
 builder.Services.AddScoped<IPrivateMessagesDao, PrivateMessagesDao>();
 
+builder.Services.AddScoped<ITextsSearchService, TextsSearchService>();
 
 #endregion
 
