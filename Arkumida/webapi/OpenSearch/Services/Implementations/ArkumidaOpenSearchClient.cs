@@ -4,6 +4,7 @@ using OpenSearch.Net;
 using webapi.Models.Settings;
 using webapi.OpenSearch.Models;
 using webapi.OpenSearch.Services.Abstract;
+using ConnectionSettings = OpenSearch.Client.ConnectionSettings;
 
 namespace webapi.OpenSearch.Services.Implementations;
 
@@ -40,7 +41,9 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             return;
         }
         
-        _client = new OpenSearchClient(new Uri(_openSearchSettings.Url));
+        var connectionSettings = new ConnectionSettings(new Uri(_openSearchSettings.Url));
+        connectionSettings.EnableDebugMode();
+        _client = new OpenSearchClient(connectionSettings);
     }
 
     public async Task<string> IndexCreatureAsync(IndexableCreature creatureToIndex)
@@ -172,7 +175,13 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                                 q => q.MatchPhrase(m => m.Field(it => it.Description).Query(descriptionQuery ?? string.Empty)),
                                 
                                 // Content
-                                q => q.MatchPhrase(m => m.Field(it => it.Content).Query(contentQuery ?? string.Empty))
+                                q => q.MatchPhrase(m => m.Field(it => it.Content).Query(contentQuery ?? string.Empty)),
+                                
+                                // Author(s)
+                                q => q.MatchPhrase
+                                (m => m.Field(it => it.AuthorsDbIds)
+                                    .Query(string.Join(" ", authors.Select(a => a.DbId.ToString())))
+                                )
                             )
                         )
                 )
