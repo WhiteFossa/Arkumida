@@ -42,7 +42,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         }
         
         var connectionSettings = new ConnectionSettings(new Uri(_openSearchSettings.Url));
-        connectionSettings.EnableDebugMode();
+        connectionSettings.EnableDebugMode(); // TODO: Do not forget to comment-me out
         _client = new OpenSearchClient(connectionSettings);
     }
 
