@@ -1,12 +1,23 @@
 using System.Text.RegularExpressions;
 using webapi.Models.Api.DTOs.Search;
 using webapi.Models.Api.Responses.Search;
+using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract.Search;
 
 namespace webapi.Services.Implementations.Search;
 
 public class TextsSearchService : ITextsSearchService
 {
+    private readonly IArkumidaOpenSearchClient _arkumidaOpenSearchClient;
+
+    public TextsSearchService
+    (
+        IArkumidaOpenSearchClient arkumidaOpenSearchClient
+    )
+    {
+        _arkumidaOpenSearchClient = arkumidaOpenSearchClient;
+    }
+    
     public async Task<TextsSearchResultsResponse> SearchTextsAsync(string query)
     {
         // We can do nothing if creature entered an empty query
@@ -22,6 +33,35 @@ public class TextsSearchService : ITextsSearchService
         var authorQuery = ExtractTextAuthorQuery(query);
         var tagsToIncludeQuery = ExtractTagsToInclude(query);
         var tagsToExcludeQuery = ExtractTagsToExclude(query);
+        
+        // Fallback
+        if
+        (
+            titleQuery == null
+            &&
+            descriptionQuery == null
+            &&
+            contentQuery == null
+            &&
+            authorQuery == null
+            &&
+            !tagsToIncludeQuery.Any()
+            &&
+            !tagsToExcludeQuery.Any()
+        )
+        {
+            titleQuery = query;
+        }
+
+        var openSearchResult = await _arkumidaOpenSearchClient.SearchForTextsAsync
+            (
+                titleQuery,
+                descriptionQuery,
+                contentQuery,
+                authorQuery,
+                tagsToIncludeQuery,
+                tagsToExcludeQuery
+            );
         
         // TODO: Replace me with good answer
         return new TextsSearchResultsResponse(query, new List<FoundTextDto>());

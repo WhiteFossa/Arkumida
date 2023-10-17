@@ -9,6 +9,11 @@ namespace webapi.OpenSearch.Services.Implementations;
 
 public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
 {
+    /// <summary>
+    /// Keep scrolls open for given time
+    /// </summary>
+    private const string KeepScrollOpenTime = "60s";
+    
     private readonly OpenSearchSettings _openSearchSettings;
 
     private OpenSearchClient _client;
@@ -133,6 +138,94 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         }
 
         return response.Id;
+    }
+
+    public async Task<IReadOnlyCollection<IndexableText>> SearchForTextsAsync
+    (
+        string titleQuery,
+        string descriptionQuery,
+        string contentQuery,
+        string authorQuery,
+        IReadOnlyCollection<string> tagsToIncludeQuery,
+        IReadOnlyCollection<string> tagsToExcludeQuery
+    )
+    {
+        var result = new List<IndexableText>();
+        
+        var authors = await SearchForCreaturesAsync(authorQuery);
+        
+        var scrollResult = await _client
+            .SearchAsync<IndexableText>
+            (s => s
+                .Index(IndexableText.IndexName)
+                .Query
+                (
+                    q => q
+                        .Bool
+                        (b => b
+                            .Must
+                            (
+                                // Title
+                                q => q.MatchPhrase(m => m.Field(it => it.Title).Query(titleQuery ?? string.Empty)),
+                                
+                                // Description
+                                q => q.MatchPhrase(m => m.Field(it => it.Description).Query(descriptionQuery ?? string.Empty)),
+                                
+                                // Content
+                                q => q.MatchPhrase(m => m.Field(it => it.Content).Query(contentQuery ?? string.Empty))
+                            )
+                        )
+                )
+                .Scroll(KeepScrollOpenTime)
+            );
+
+        if (!scrollResult.IsValid)
+        {
+            throw new InvalidOperationException($"Text search failed! Debug information: { scrollResult.DebugInformation }");
+        }
+
+        while (scrollResult.Documents.Any()) 
+        {
+            result.AddRange(scrollResult.Documents);
+            
+            scrollResult = _client.Scroll<IndexableText>(KeepScrollOpenTime, scrollResult.ScrollId);
+        }
+
+        return result;
+    }
+
+    public async Task<IReadOnlyCollection<IndexableCreature>> SearchForCreaturesAsync(string displayNameQuery)
+    {
+        var result = new List<IndexableCreature>();
+        
+        var scrollResult = await _client
+            .SearchAsync<IndexableCreature>
+            (s => s
+                .Index(IndexableCreature.IndexName)
+                .Query
+                (q => q
+                    .MatchPhrase
+                    (m => m
+                        .Field(ic => ic.DisplayName)
+                        .Query(displayNameQuery ?? string.Empty)
+                    )
+                )
+                .Scroll(KeepScrollOpenTime)
+            );
+
+        if (!scrollResult.IsValid)
+        {
+            throw new InvalidOperationException($"Creature search failed! Debug information: { scrollResult.DebugInformation }");
+        }
+
+        while (scrollResult.Documents.Any()) 
+        {
+            result.AddRange(scrollResult.Documents);
+            
+            scrollResult = _client.Scroll<IndexableCreature>(KeepScrollOpenTime, scrollResult.ScrollId);
+        }
+
+        return result;
     }
 
     private async Task<IHit<IndexableCreature>> GetCreatureHitAsync(Guid creatureId)

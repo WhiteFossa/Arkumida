@@ -53,4 +53,27 @@ public interface IArkumidaOpenSearchClient
     Task<string> IndexTextAsync(IndexableText textToIndex);
 
     #endregion
+    
+    #region Search
+
+    /// <summary>
+    /// Search for texts. String queries can be null if search by this query is not needed, the same for list queries, but list query
+    /// must be empty in this case
+    /// </summary>
+    Task<IReadOnlyCollection<IndexableText>> SearchForTextsAsync
+    (
+        string titleQuery,
+        string descriptionQuery,
+        string contentQuery,
+        string authorQuery,
+        IReadOnlyCollection<string> tagsToIncludeQuery,
+        IReadOnlyCollection<string> tagsToExcludeQuery
+    );
+
+    /// <summary>
+    /// Search for creatures. Display query may be null, in this case ALL creatures will be returned
+    /// </summary>
+    Task<IReadOnlyCollection<IndexableCreature>> SearchForCreaturesAsync(string displayNameQuery);
+
+    #endregion
 }

@@ -1,3 +1,5 @@
+using OpenSearch.Client;
+
 namespace webapi.OpenSearch.Models;
 
 /// <summary>
