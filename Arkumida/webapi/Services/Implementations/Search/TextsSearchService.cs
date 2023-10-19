@@ -1,7 +1,10 @@
 using System.Text.RegularExpressions;
+using webapi.Dao.Abstract;
 using webapi.Models.Api.DTOs.Search;
 using webapi.Models.Api.Responses.Search;
+using webapi.OpenSearch.Helpers;
 using webapi.OpenSearch.Services.Abstract;
+using webapi.Services.Abstract;
 using webapi.Services.Abstract.Search;
 
 namespace webapi.Services.Implementations.Search;
@@ -9,13 +12,19 @@ namespace webapi.Services.Implementations.Search;
 public class TextsSearchService : ITextsSearchService
 {
     private readonly IArkumidaOpenSearchClient _arkumidaOpenSearchClient;
+    private readonly ITextsDao _textsDao;
+    private readonly ITextUtilsService _textUtilsService;
 
     public TextsSearchService
     (
-        IArkumidaOpenSearchClient arkumidaOpenSearchClient
+        IArkumidaOpenSearchClient arkumidaOpenSearchClient,
+        ITextsDao textsDao,
+        ITextUtilsService textUtilsService
     )
     {
         _arkumidaOpenSearchClient = arkumidaOpenSearchClient;
+        _textsDao = textsDao;
+        _textUtilsService = textUtilsService;
     }
     
     public async Task<TextsSearchResultsResponse> SearchTextsAsync(string query)
@@ -62,9 +71,41 @@ public class TextsSearchService : ITextsSearchService
                 tagsToIncludeQuery,
                 tagsToExcludeQuery
             );
+
+        var textsGuids = openSearchResult
+            .Select(it => OpenSearchGuidHelper.Deserialize(it.DbId))
+            .ToList();
+
+        var textsMetadata = await _textsDao.GetTextsMetadataByIdsAsync(textsGuids);
+
+        var texts = textsMetadata
+            .Select(di => di.Value)
+            .Select(async t => await _textUtilsService.PopulateTextMetadataAsync(t))
+            .Select(t => t.Result);
+
+        var foundTexts = texts
+            .Select
+            (t => new FoundTextDto
+                (
+                    t.Id,
+                    t.CreateTime,
+                    t.LastUpdateTime,
+                    t.Title,
+                    t.Description,
+                    t.ReadsCount,
+                    t.VotesCount,
+                    t.VotesPlus,
+                    t.VotesMinus,
+                    t.Tags.Select(tg => tg.ToTagDto()).ToList(),
+                    t.IsIncomplete,
+                    t.Authors.Select(a => a.ToDto()).ToList(),
+                    t.Translators.Select(tr => tr.ToDto()).ToList(),
+                    t.Publisher.ToDto()
+                )
+            )
+            .ToList();
         
-        // TODO: Replace me with good answer
-        return new TextsSearchResultsResponse(query, new List<FoundTextDto>());
+        return new TextsSearchResultsResponse(query, foundTexts);
     }
 
     /// <summary>

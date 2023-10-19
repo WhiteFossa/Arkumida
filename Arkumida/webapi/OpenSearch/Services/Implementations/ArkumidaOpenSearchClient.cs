@@ -164,6 +164,12 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         {
             tagsToInclude.AddRange(await SearchForTagsAsync(tagToIncludeQueryPart));
         }
+
+        var tagsToExclude = new List<IndexableTag>();
+        foreach (var tagToExcludeQueryPart in tagsToExcludeQuery)
+        {
+            tagsToExclude.AddRange(await SearchForTagsAsync(tagToExcludeQueryPart));
+        }
         
         var scrollResult = await _client
             .SearchAsync<IndexableText>
@@ -187,21 +193,31 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                                 
                                 // Author(s)
                                 q => q
-                                    .Terms
-                                    (
-                                        t => t
-                                            .Field(it => it.AuthorsDbIds)
-                                            .Terms(authors.Any() ? authors.Select(a => a.DbId).ToList() : new List<string>() { "NeverMatchMe" })
-                                    ),
+                                .Terms
+                                (
+                                    t => t
+                                        .Field(it => it.AuthorsDbIds)
+                                        .Terms(authors.Any() ? authors.Select(a => a.DbId).ToList() : new List<string>() { "NeverMatchMe" })
+                                ),
                                 
                                 // Tags to include
                                 q => q
-                                    .Terms
-                                    (
-                                        t => t
-                                            .Field(it => it.TagsDbIds)
-                                            .Terms(tagsToInclude.Any() ? tagsToInclude.Select(tti => tti.DbId).ToList() : new List<string>() { "NeverMatchMe" })
-                                    )
+                                .Terms
+                                (
+                                    t => t
+                                        .Field(it => it.TagsDbIds)
+                                        .Terms(tagsToInclude.Any() ? tagsToInclude.Select(tti => tti.DbId).ToList() : new List<string>() { "" })
+                                )
+                            )
+                            .MustNot
+                            (
+                                q => q
+                                .Terms
+                                (
+                                    t => t
+                                        .Field(it => it.TagsDbIds)
+                                        .Terms(tagsToExclude.Any() ? tagsToExclude.Select(tti => tti.DbId).ToList() : new List<string>() { "NeverMatchMe" })
+                                )
                             )
                         )
                 )

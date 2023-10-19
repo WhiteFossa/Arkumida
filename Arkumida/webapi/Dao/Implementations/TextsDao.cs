@@ -134,6 +134,20 @@ public class TextsDao : ITextsDao
             .ToListAsync();
     }
 
+    public async Task<Dictionary<Guid, TextDbo>> GetTextsMetadataByIdsAsync(IReadOnlyCollection<Guid> textsIds)
+    {
+        return await _dbContext
+            .Texts
+            .Include(t => t.Tags)
+            .Include(t => t.TextFiles)
+            .Include(t => t.Authors)
+            .Include(t => t.Translators)
+            .Include(t => t.Publisher)
+            .Where(t => textsIds.Contains(t.Id))
+            .GroupBy(t => t.Id)
+            .ToDictionaryAsync(g => g.Key, g => g.First());
+    }
+
     public async Task<TextDbo> GetTextMetadataByIdAsync(Guid textId)
     {
         return await _dbContext
