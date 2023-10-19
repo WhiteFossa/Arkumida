@@ -4,6 +4,7 @@ using webapi.Dao.Models.Enums;
 using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Enums;
+using webapi.OpenSearch.Helpers;
 using webapi.OpenSearch.Models;
 using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
@@ -99,7 +100,7 @@ public class TagsService : ITagsService
         // Indexing tag
         var tagToIndex = new IndexableTag()
         {
-            DbId = tag.Id,
+            DbId = OpenSearchGuidHelper.Serialize(tag.Id),
             Name = tag.Name
         };
 

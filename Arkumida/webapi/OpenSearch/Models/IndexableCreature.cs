@@ -10,9 +10,9 @@ public class IndexableCreature : IIndexableEntity
     public static string IndexName => "creatures";
     
     /// <summary>
-    /// Creature ID (the same as in DB)
+    /// Creature ID (the same as in DB, but serialized by OpenSearchGuidHelper)
     /// </summary>
-    public Guid DbId { get; set; }
+    public string DbId { get; set; }
 
     /// <summary>
     /// Display name

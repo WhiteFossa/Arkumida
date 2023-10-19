@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using OpenSearch.Client;
 using OpenSearch.Net;
 using webapi.Models.Settings;
+using webapi.OpenSearch.Helpers;
 using webapi.OpenSearch.Models;
 using webapi.OpenSearch.Services.Abstract;
 using ConnectionSettings = OpenSearch.Client.ConnectionSettings;
@@ -81,7 +82,8 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
 
     public async Task UpdateCreatureAsync(IndexableCreature creature)
     {
-        var osId = await GetCreatureOpenSearchIdAsync(creature.DbId);
+        var creatureDbId = OpenSearchGuidHelper.Deserialize(creature.DbId);
+        var osId = await GetCreatureOpenSearchIdAsync(creatureDbId);
         
         var response = await _client.UpdateAsync<IndexableCreature>
         (
@@ -93,7 +95,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
 
         if (!response.IsValid)
         {
-            throw new InvalidOperationException($"Failed to update creature with DB ID = { creature.DbId }");
+            throw new InvalidOperationException($"Failed to update creature with DB ID = { creatureDbId }");
         }
     }
 
@@ -156,6 +158,12 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         var result = new List<IndexableText>();
         
         var authors = await SearchForCreaturesAsync(authorQuery);
+
+        var tagsToInclude = new List<IndexableTag>();
+        foreach (var tagToIncludeQueryPart in tagsToIncludeQuery)
+        {
+            tagsToInclude.AddRange(await SearchForTagsAsync(tagToIncludeQueryPart));
+        }
         
         var scrollResult = await _client
             .SearchAsync<IndexableText>
@@ -178,10 +186,22 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                                 q => q.MatchPhrase(m => m.Field(it => it.Content).Query(contentQuery ?? string.Empty)),
                                 
                                 // Author(s)
-                                q => q.MatchPhrase
-                                (m => m.Field(it => it.AuthorsDbIds)
-                                    .Query(string.Join(" ", authors.Select(a => a.DbId.ToString())))
-                                )
+                                q => q
+                                    .Terms
+                                    (
+                                        t => t
+                                            .Field(it => it.AuthorsDbIds)
+                                            .Terms(authors.Any() ? authors.Select(a => a.DbId).ToList() : new List<string>() { "NeverMatchMe" })
+                                    ),
+                                
+                                // Tags to include
+                                q => q
+                                    .Terms
+                                    (
+                                        t => t
+                                            .Field(it => it.TagsDbIds)
+                                            .Terms(tagsToInclude.Any() ? tagsToInclude.Select(tti => tti.DbId).ToList() : new List<string>() { "NeverMatchMe" })
+                                    )
                             )
                         )
                 )
@@ -237,6 +257,36 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         return result;
     }
 
+    public async Task<IReadOnlyCollection<IndexableTag>> SearchForTagsAsync(string tagNameQuery)
+    {
+        var result = new List<IndexableTag>();
+        
+        var scrollResult = await _client
+            .SearchAsync<IndexableTag>
+            (s => s
+                .Index(IndexableTag.IndexName)
+                .Query
+                (q => q
+                    .MatchPhrase(m => m.Field(it => it.Name).Query(tagNameQuery ?? string.Empty))
+                )
+                .Scroll(KeepScrollOpenTime)
+            );
+
+        if (!scrollResult.IsValid)
+        {
+            throw new InvalidOperationException($"Tag search failed! Debug information: { scrollResult.DebugInformation }");
+        }
+
+        while (scrollResult.Documents.Any()) 
+        {
+            result.AddRange(scrollResult.Documents);
+            
+            scrollResult = _client.Scroll<IndexableTag>(KeepScrollOpenTime, scrollResult.ScrollId);
+        }
+
+        return result;
+    }
+
     private async Task<IHit<IndexableCreature>> GetCreatureHitAsync(Guid creatureId)
     {
         var result = await _client.SearchAsync<IndexableCreature>
@@ -245,7 +295,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             .Query(q => q
                 .Match(m => m
                     .Field(ic => ic.DbId)
-                    .Query(creatureId.ToString())))
+                    .Query(OpenSearchGuidHelper.Serialize(creatureId))))
         );
 
         if (!result.IsValid)

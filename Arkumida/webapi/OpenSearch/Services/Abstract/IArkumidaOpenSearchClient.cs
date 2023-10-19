@@ -71,9 +71,14 @@ public interface IArkumidaOpenSearchClient
     );
 
     /// <summary>
-    /// Search for creatures. Display query may be null, in this case ALL creatures will be returned
+    /// Search for creatures. Display name query may be null, in this case ALL creatures will be returned
     /// </summary>
     Task<IReadOnlyCollection<IndexableCreature>> SearchForCreaturesAsync(string displayNameQuery);
+
+    /// <summary>
+    /// Search for tags. Tag name query may be null, in this case ALL tags will be returned
+    /// </summary>
+    Task<IReadOnlyCollection<IndexableTag>> SearchForTagsAsync(string tagNameQuery);
 
     #endregion
 }

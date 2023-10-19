@@ -6,6 +6,7 @@ using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
+using webapi.OpenSearch.Helpers;
 using webapi.OpenSearch.Models;
 using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
@@ -64,14 +65,14 @@ public class TextsService : ITextsService
         // Indexing text to OpenSearch
         var textToIndex = new IndexableText()
         {
-            DbId = textMetadata.Id,
+            DbId = OpenSearchGuidHelper.Serialize(textMetadata.Id),
             Title = textMetadata.Title,
             Description = textMetadata.Description,
             Content = await _textsRenderingService.RenderTextContentToString(textMetadata),
-            AuthorsDbIds = textMetadata.Authors.Select(a => a.Id).ToList(),
-            TranslatorsDbIds = textMetadata.Translators.Select(t => t.Id).ToList(),
-            PublisherDbId = textMetadata.Publisher.Id,
-            TagsDbIds = textMetadata.Tags.Select(t => t.Id).ToList()
+            AuthorsDbIds = textMetadata.Authors.Select(a => OpenSearchGuidHelper.Serialize(a.Id)).ToList(),
+            TranslatorsDbIds = textMetadata.Translators.Select(t => OpenSearchGuidHelper.Serialize(t.Id)).ToList(),
+            PublisherDbId = OpenSearchGuidHelper.Serialize(textMetadata.Publisher.Id),
+            TagsDbIds = textMetadata.Tags.Select(t => OpenSearchGuidHelper.Serialize(t.Id)).ToList()
         };
         
         await _arkumidaOpenSearchClient.IndexTextAsync(textToIndex);
