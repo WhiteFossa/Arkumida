@@ -179,47 +179,58 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                 (
                     q => q
                         .Bool
-                        (b => b
-                            .Must
-                            (
-                                // Title
-                                q => q.MatchPhrase(m => m.Field(it => it.Title).Query(titleQuery ?? string.Empty)),
-                                
-                                // Description
-                                q => q.MatchPhrase(m => m.Field(it => it.Description).Query(descriptionQuery ?? string.Empty)),
-                                
-                                // Content
-                                q => q.MatchPhrase(m => m.Field(it => it.Content).Query(contentQuery ?? string.Empty)),
-                                
-                                // Author(s)
-                                q => q
-                                .Terms
-                                (
-                                    t => t
-                                        .Field(it => it.AuthorsDbIds)
-                                        .Terms(authors.Any() ? authors.Select(a => a.DbId).ToList() : new List<string>() { "NeverMatchMe" })
-                                ),
-                                
-                                // Tags to include
-                                q => q
-                                .Terms
-                                (
-                                    t => t
-                                        .Field(it => it.TagsDbIds)
-                                        .Terms(tagsToInclude.Any() ? tagsToInclude.Select(tti => tti.DbId).ToList() : new List<string>() { "" })
-                                )
-                            )
-                            .MustNot
-                            (
-                                q => q
-                                .Terms
-                                (
-                                    t => t
-                                        .Field(it => it.TagsDbIds)
-                                        .Terms(tagsToExclude.Any() ? tagsToExclude.Select(tti => tti.DbId).ToList() : new List<string>() { "NeverMatchMe" })
-                                )
-                            )
-                        )
+                        (b =>
+                        {
+                            b = b
+                                .Must(qm =>
+                                {
+                                    var qcs = new List<QueryContainer>();
+                                    
+                                    // Title
+                                    if (titleQuery != null)
+                                    {
+                                        qcs.Add(qm.MatchPhrase(m => m.Field(it => it.Title).Query(titleQuery)));
+                                    }
+                                    
+                                    // Description
+                                    if (descriptionQuery != null)
+                                    {
+                                        qcs.Add(qm.MatchPhrase(m => m.Field(it => it.Description).Query(descriptionQuery)));
+                                    }
+                                    
+                                    // Content
+                                    if (contentQuery != null)
+                                    {
+                                        qcs.Add(qm.MatchPhrase(m => m.Field(it => it.Content).Query(contentQuery)));
+                                    }
+                                    
+                                    // Author(s)
+                                    if (authors.Any())
+                                    {
+                                        qcs.Add(qm.Terms(t => t.Field(it => it.AuthorsDbIds).Terms(authors.Select(a => a.DbId).ToList())));
+                                    }
+                                    
+                                    // Tags to include
+                                    if (tagsToInclude.Any())
+                                    {
+                                        qcs.Add(qm.Terms(t => t.Field(it => it.TagsDbIds).Terms(tagsToInclude.Select(tti => tti.DbId).ToList())));
+                                    }
+                                    
+                                    return new QueryContainer(new BoolQuery()
+                                    {
+                                        Must = qcs
+                                    });
+                                });
+
+                            // Tags to exclude
+                            if (tagsToExclude.Any())
+                            {
+                                b = b
+                                    .MustNot(qmn => qmn.Terms(t => t.Field(it => it.TagsDbIds).Terms(tagsToExclude.Select(tti => tti.DbId).ToList())));
+                            }
+                            
+                            return b;
+                        })
                 )
                 .Scroll(KeepScrollOpenTime)
             );
