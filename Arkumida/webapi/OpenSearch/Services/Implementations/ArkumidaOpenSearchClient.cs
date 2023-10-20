@@ -43,7 +43,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         }
         
         var connectionSettings = new ConnectionSettings(new Uri(_openSearchSettings.Url));
-        connectionSettings.EnableDebugMode(); // TODO: Do not forget to comment-me out
+        //connectionSettings.EnableDebugMode(); // TODO: Do not forget to comment-me out
         _client = new OpenSearchClient(connectionSettings);
     }
 
@@ -175,6 +175,19 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             .SearchAsync<IndexableText>
             (s => s
                 .Index(IndexableText.IndexName)
+                
+                // Only these fields will be returned
+                .Source
+                (sf => sf
+                    .Includes
+                    (i => i 
+                        .Fields
+                        (
+                            f => f.DbId
+                        )
+                    )
+                )
+                
                 .Query
                 (
                     q => q
