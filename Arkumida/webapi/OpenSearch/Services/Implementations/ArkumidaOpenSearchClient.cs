@@ -301,7 +301,9 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             
             scrollResult = _client.Scroll<IndexableCreature>(KeepScrollOpenTime, scrollResult.ScrollId);
         }
-
+        
+        await _client.ClearScrollAsync(new ClearScrollRequest(scrollResult.ScrollId));
+        
         return result;
     }
 
@@ -331,6 +333,8 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             
             scrollResult = _client.Scroll<IndexableTag>(KeepScrollOpenTime, scrollResult.ScrollId);
         }
+        
+        await _client.ClearScrollAsync(new ClearScrollRequest(scrollResult.ScrollId));
 
         return result;
     }
