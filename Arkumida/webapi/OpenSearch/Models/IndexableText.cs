@@ -15,6 +15,11 @@ public class IndexableText : IIndexableEntity
     public string DbId { get; set; }
 
     /// <summary>
+    /// When text was updated last time
+    /// </summary>
+    public DateTime LastUpdateTime { get; set; }
+    
+    /// <summary>
     /// Title
     /// </summary>
     public string Title { get; set; }

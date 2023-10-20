@@ -66,6 +66,7 @@ public class TextsService : ITextsService
         var textToIndex = new IndexableText()
         {
             DbId = OpenSearchGuidHelper.Serialize(textMetadata.Id),
+            LastUpdateTime = textMetadata.LastUpdateTime,
             Title = textMetadata.Title,
             Description = textMetadata.Description,
             Content = await _textsRenderingService.RenderTextContentToString(textMetadata),

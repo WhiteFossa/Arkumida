@@ -245,6 +245,10 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                             return b;
                         })
                 )
+                
+                // To have reproduceable skip/take and have most recent stories on to
+                .Sort(s => s.Descending(it => it.LastUpdateTime))
+                
                 .Scroll(KeepScrollOpenTime)
             );
 
