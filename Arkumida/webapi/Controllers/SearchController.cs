@@ -36,6 +36,6 @@ public class SearchController : ControllerBase
             return BadRequest();
         }
 
-        return Ok(await _textsSearchService.SearchTextsAsync(request.Query));
+        return Ok(await _textsSearchService.SearchTextsAsync(request.Query, request.Skip, request.Take));
     }
 }

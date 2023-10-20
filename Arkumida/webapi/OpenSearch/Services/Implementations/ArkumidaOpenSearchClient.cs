@@ -152,10 +152,20 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         string contentQuery,
         string authorQuery,
         IReadOnlyCollection<string> tagsToIncludeQuery,
-        IReadOnlyCollection<string> tagsToExcludeQuery
+        IReadOnlyCollection<string> tagsToExcludeQuery,
+        int skip,
+        int take
     )
     {
-        var result = new List<IndexableText>();
+        if (skip < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(skip), "Skip must not be negative.");
+        }
+
+        if (take <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(take), "Take must be positive.");
+        }
         
         var authors = await SearchForCreaturesAsync(authorQuery);
 
@@ -171,7 +181,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             tagsToExclude.AddRange(await SearchForTagsAsync(tagToExcludeQueryPart));
         }
         
-        var scrollResult = await _client
+        var searchResult = await _client
             .SearchAsync<IndexableText>
             (s => s
                 .Index(IndexableText.IndexName)
@@ -249,22 +259,16 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                 // To have reproduceable skip/take and have most recent stories on to
                 .Sort(s => s.Descending(it => it.LastUpdateTime))
                 
-                .Scroll(KeepScrollOpenTime)
+                .From(skip)
+                .Size(take)
             );
 
-        if (!scrollResult.IsValid)
+        if (!searchResult.IsValid)
         {
-            throw new InvalidOperationException($"Text search failed! Debug information: { scrollResult.DebugInformation }");
+            throw new InvalidOperationException($"Text search failed! Debug information: { searchResult.DebugInformation }");
         }
 
-        while (scrollResult.Documents.Any()) 
-        {
-            result.AddRange(scrollResult.Documents);
-            
-            scrollResult = _client.Scroll<IndexableText>(KeepScrollOpenTime, scrollResult.ScrollId);
-        }
-
-        return result;
+        return searchResult.Documents;
     }
 
     public async Task<IReadOnlyCollection<IndexableCreature>> SearchForCreaturesAsync(string displayNameQuery)

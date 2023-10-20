@@ -12,4 +12,16 @@ public class TextsSearchRequest
     /// </summary>
     [JsonPropertyName("query")]
     public string Query { get; set; }
+
+    /// <summary>
+    /// Skip this amount of results
+    /// </summary>
+    [JsonPropertyName("skip")]
+    public int Skip { get; set; }
+
+    /// <summary>
+    /// Take this amount of results
+    /// </summary>
+    [JsonPropertyName("take")]
+    public int Take { get; set; }
 }

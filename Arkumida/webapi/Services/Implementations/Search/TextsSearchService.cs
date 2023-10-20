@@ -27,8 +27,18 @@ public class TextsSearchService : ITextsSearchService
         _textUtilsService = textUtilsService;
     }
     
-    public async Task<TextsSearchResultsResponse> SearchTextsAsync(string query)
+    public async Task<TextsSearchResultsResponse> SearchTextsAsync(string query, int skip, int take)
     {
+        if (skip < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(skip), "Skip must not be negative.");
+        }
+
+        if (take <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(take), "Take must be positive.");
+        }
+        
         // We can do nothing if creature entered an empty query
         if (string.IsNullOrWhiteSpace(query))
         {
@@ -69,7 +79,9 @@ public class TextsSearchService : ITextsSearchService
                 contentQuery,
                 authorQuery,
                 tagsToIncludeQuery,
-                tagsToExcludeQuery
+                tagsToExcludeQuery,
+                skip,
+                take
             );
 
         var textsGuids = openSearchResult
@@ -82,6 +94,11 @@ public class TextsSearchService : ITextsSearchService
             .Select(di => di.Value)
             .Select(async t => await _textUtilsService.PopulateTextMetadataAsync(t))
             .Select(t => t.Result);
+        
+        // Reordering texts as textGuids to keep the same order as in OpenSearch result
+        texts = textsGuids
+            .Select(tg => texts.Single(t => t.Id == tg))
+            .ToList();
 
         var foundTexts = texts
             .Select

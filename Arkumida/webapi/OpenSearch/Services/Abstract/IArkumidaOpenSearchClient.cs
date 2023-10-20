@@ -59,6 +59,7 @@ public interface IArkumidaOpenSearchClient
     /// <summary>
     /// Search for texts. String queries can be null if search by this query is not needed, the same for list queries, but list query
     /// must be empty in this case
+    /// WARNING: We DO NOT use scroll here, hoping that take parameter is reasonably small (less than 10000 to be precise)
     /// </summary>
     Task<IReadOnlyCollection<IndexableText>> SearchForTextsAsync
     (
@@ -67,7 +68,9 @@ public interface IArkumidaOpenSearchClient
         string contentQuery,
         string authorQuery,
         IReadOnlyCollection<string> tagsToIncludeQuery,
-        IReadOnlyCollection<string> tagsToExcludeQuery
+        IReadOnlyCollection<string> tagsToExcludeQuery,
+        int skip,
+        int take
     );
 
     /// <summary>

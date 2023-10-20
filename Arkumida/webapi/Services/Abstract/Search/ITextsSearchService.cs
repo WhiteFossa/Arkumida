@@ -10,5 +10,5 @@ public interface ITextsSearchService
     /// <summary>
     /// Search for texts
     /// </summary>
-    Task<TextsSearchResultsResponse> SearchTextsAsync(string query);
+    Task<TextsSearchResultsResponse> SearchTextsAsync(string query, int skip, int take);
 }
