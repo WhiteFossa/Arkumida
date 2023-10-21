@@ -42,7 +42,7 @@ public class TextsSearchService : ITextsSearchService
         // We can do nothing if creature entered an empty query
         if (string.IsNullOrWhiteSpace(query))
         {
-            return new TextsSearchResultsResponse(query, new List<FoundTextDto>());
+            return new TextsSearchResultsResponse(query, new List<FoundTextDto>(), 0);
         }
         
         // Extracting query parts
@@ -85,6 +85,7 @@ public class TextsSearchService : ITextsSearchService
             );
 
         var textsGuids = openSearchResult
+            .Item1
             .Select(it => OpenSearchGuidHelper.Deserialize(it.DbId))
             .ToList();
 
@@ -92,7 +93,7 @@ public class TextsSearchService : ITextsSearchService
 
         var texts = textsMetadata
             .Select(di => di.Value)
-            .Select(async t => await _textUtilsService.PopulateTextMetadataAsync(t))
+            .Select(async t => await _textUtilsService.PopulateTextMetadataAsync(t)) // TODO: Looking up metadata parts for each text is inoptimal. We can select all authors/translators/publishers and make one query
             .Select(t => t.Result);
         
         // Reordering texts as textGuids to keep the same order as in OpenSearch result
@@ -122,7 +123,7 @@ public class TextsSearchService : ITextsSearchService
             )
             .ToList();
         
-        return new TextsSearchResultsResponse(query, foundTexts);
+        return new TextsSearchResultsResponse(query, foundTexts, openSearchResult.Item2);
     }
 
     /// <summary>

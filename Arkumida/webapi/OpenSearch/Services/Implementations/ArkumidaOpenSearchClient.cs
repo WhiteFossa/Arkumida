@@ -145,7 +145,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         return response.Id;
     }
 
-    public async Task<IReadOnlyCollection<IndexableText>> SearchForTextsAsync
+    public async Task<Tuple<IReadOnlyCollection<IndexableText>, long>> SearchForTextsAsync
     (
         string titleQuery,
         string descriptionQuery,
@@ -268,7 +268,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             throw new InvalidOperationException($"Text search failed! Debug information: { searchResult.DebugInformation }");
         }
 
-        return searchResult.Documents;
+        return new Tuple<IReadOnlyCollection<IndexableText>, long>(searchResult.Documents, searchResult.Total);
     }
 
     public async Task<IReadOnlyCollection<IndexableCreature>> SearchForCreaturesAsync(string displayNameQuery)

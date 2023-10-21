@@ -61,7 +61,8 @@ public interface IArkumidaOpenSearchClient
     /// must be empty in this case
     /// WARNING: We DO NOT use scroll here, hoping that take parameter is reasonably small (less than 10000 to be precise)
     /// </summary>
-    Task<IReadOnlyCollection<IndexableText>> SearchForTextsAsync
+    /// <returns>Tuple, where Item1 is the collection of found texts, Item2 - total amount of texts, matched by query</returns>
+    Task<Tuple<IReadOnlyCollection<IndexableText>, long>> SearchForTextsAsync
     (
         string titleQuery,
         string descriptionQuery,
