@@ -35,7 +35,7 @@
                 Бэкенд: {{ versionInfo.versionString }}
             </div>
             <div>
-                Фронтенд: Коири-Б мод. 3
+                Фронтенд: Коири-В мод. 1
             </div>
         </div>
 
