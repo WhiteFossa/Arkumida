@@ -1,12 +1,31 @@
 <!-- Search component -->
 <script setup>
-import {reactive, ref} from "vue";
+import {defineProps, onMounted, reactive, ref} from "vue";
+import router from "@/router";
+
+    const props = defineProps({
+        queryText: String,
+        isCalledFromMainPage: Boolean
+    })
 
     const searchFormData = reactive({
         searchText: ""
     })
 
     const isSearchHelpExpanded = ref(false)
+
+    onMounted(async () =>
+    {
+        await OnLoad();
+    })
+
+    async function OnLoad()
+    {
+        if (props.queryText !== "")
+        {
+            await SetSeachText(props.queryText)
+        }
+    }
 
     async function ExpandSearchHelp()
     {
@@ -22,6 +41,18 @@ import {reactive, ref} from "vue";
     {
         searchFormData.searchText = searchText
     }
+
+    async function MakeSearchQuery(query)
+    {
+        if (props.isCalledFromMainPage)
+        {
+            // If we are called from main page - we are going to special search page
+            await router.replace({ path: "/search/" + encodeURIComponent(query) })
+            return
+        }
+
+        // Making query
+    }
 </script>
 
 <template>
@@ -33,8 +64,14 @@ import {reactive, ref} from "vue";
                 v-model="searchFormData.searchText"
                 class="search-text-area"
                 name="text"
-                type="text">
-            <button class="search-button" type="submit">Искать!</button>
+                type="text" />
+
+            <button
+                class="search-button"
+                type="submit"
+                @click="async () => await MakeSearchQuery(searchFormData.searchText)">
+                Искать!
+            </button>
         </div>
 
         <div class="search-help-icon-container">

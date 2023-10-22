@@ -9,6 +9,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import InitiatePasswordResetView from "@/views/InitiatePasswordResetView.vue";
 import PasswordResetView from "@/views/PasswordResetView.vue";
 import PrivateMessagesView from "@/views/PrivateMessagesView.vue";
+import SearchView from "@/views/SearchView.vue";
 
 const routes =
 [
@@ -85,6 +86,14 @@ const routes =
         path: '/privateMessages',
         name: 'privateMessages',
         component: PrivateMessagesView
+    },
+
+    // Search
+    {
+        path: '/search/:encodedQuery?',
+        name: 'search',
+        component: SearchView,
+        props: true
     },
 ]
 
