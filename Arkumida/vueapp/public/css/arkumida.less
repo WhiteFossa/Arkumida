@@ -708,43 +708,6 @@ body {
   margin-bottom: @margin-normal;
 }
 
-/* Search stuff starts here */
-
-/* Search as a whole */
-.search {
-  background-color: @search-background-color;
-  border: @border-thin-thickness @border-style @search-border-color;
-  border-radius: @border-radius-small;
-  padding-top: @padding-normal;
-  padding-bottom: @padding-normal;
-  padding-left: @padding-smaller1;
-  padding-right: @padding-smaller1;
-}
-
-/* Search controls live here*/
-.search-container {
-  gap: @gap-small;
-}
-
-/* Search text is being entered here */
-.search-text-area {
-  flex: 99%;
-  font-size: inherit;
-  border: @border-thin-thickness @border-style @search-border-color;
-  border-radius: @border-radius-small;
-}
-
-/* Search button */
-.search-button {
-  flex: 1%;
-  font-size: inherit;
-  border: @border-thin-thickness @border-style @search-border-color;
-  border-radius: @border-radius-small;
-  cursor: pointer;
-}
-
-/* Search stuff ends here */
-
 /* Texts statistics starts here */
 
 /* Statistics as a whole */
@@ -2869,3 +2832,52 @@ body {
 }
 
 /* Private messages stuff ends here */
+
+/* Search stuff starts here */
+
+/* Search as a whole */
+.search {
+  background-color: @search-background-color;
+  border: @border-thin-thickness @border-style @search-border-color;
+  border-radius: @border-radius-small;
+  padding-top: @padding-normal;
+  padding-bottom: @padding-smaller1;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+}
+
+/* Search controls live here*/
+.search-container {
+  gap: @gap-small;
+}
+
+/* Search text is being entered here */
+.search-text-area {
+  flex: 99%;
+  font-size: inherit;
+  border: @border-thin-thickness @border-style @search-border-color;
+  border-radius: @border-radius-small;
+}
+
+/* Search button */
+.search-button {
+  flex: 1%;
+  font-size: inherit;
+  border: @border-thin-thickness @border-style @search-border-color;
+  border-radius: @border-radius-small;
+  cursor: pointer;
+}
+
+/* Search help icon container */
+.search-help-icon-container {
+  .mixin-horizontally-and-vertically-centered-flex();
+
+  margin-top: @margin-smaller1;
+}
+
+/* Search help icon */
+.search-help-icon {
+  width: 1rem;
+}
+
+/* Search stuff ends here */

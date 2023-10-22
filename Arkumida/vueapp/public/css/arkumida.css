@@ -475,37 +475,6 @@ body {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-/* Search stuff starts here */
-/* Search as a whole */
-.search {
-  background-color: hsl(199, 74%, 79%);
-  border: 0.1rem solid hsl(195, 56%, 62%);
-  border-radius: 0.2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-/* Search controls live here*/
-.search-container {
-  gap: 0.5rem;
-}
-/* Search text is being entered here */
-.search-text-area {
-  flex: 99%;
-  font-size: inherit;
-  border: 0.1rem solid hsl(195, 56%, 62%);
-  border-radius: 0.2rem;
-}
-/* Search button */
-.search-button {
-  flex: 1%;
-  font-size: inherit;
-  border: 0.1rem solid hsl(195, 56%, 62%);
-  border-radius: 0.2rem;
-  cursor: pointer;
-}
-/* Search stuff ends here */
 /* Texts statistics starts here */
 /* Statistics as a whole */
 .texts-statistics {
@@ -2428,4 +2397,46 @@ body {
   background: hsl(199, 74%, 79%);
 }
 /* Private messages stuff ends here */
+/* Search stuff starts here */
+/* Search as a whole */
+.search {
+  background-color: hsl(199, 74%, 79%);
+  border: 0.1rem solid hsl(195, 56%, 62%);
+  border-radius: 0.2rem;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+/* Search controls live here*/
+.search-container {
+  gap: 0.5rem;
+}
+/* Search text is being entered here */
+.search-text-area {
+  flex: 99%;
+  font-size: inherit;
+  border: 0.1rem solid hsl(195, 56%, 62%);
+  border-radius: 0.2rem;
+}
+/* Search button */
+.search-button {
+  flex: 1%;
+  font-size: inherit;
+  border: 0.1rem solid hsl(195, 56%, 62%);
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+/* Search help icon container */
+.search-help-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+/* Search help icon */
+.search-help-icon {
+  width: 1rem;
+}
+/* Search stuff ends here */
 /*# sourceMappingURL=arkumida.css.map */
