@@ -41,7 +41,7 @@
         v-if="!isLoading"
         class="body-container">
 
-        <SearchComponent isCalledFromMainPage="false" :queryText="decodedQuery" />
+        <SearchComponent :queryText="decodedQuery" />
     </div>
 
 </template>

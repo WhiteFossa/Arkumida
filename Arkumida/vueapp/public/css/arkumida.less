@@ -1508,110 +1508,6 @@ body {
 
 /* Illustrations container end*/
 
-
-/* Read text pagination begin */
-
-/* Pagination container */
-.read-text-pagination-container {
-  .mixin-flex-row-base();
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: @gap-normal;
-
-  .mixin-centered-text-base();
-  margin-top: @margin-normal;
-  margin-bottom: @margin-normal;
-}
-
-/* Pagination go to page flex container */
-.read-text-pagination-go-to-page-container {
-  .mixin-flex-row-base();
-  justify-content: center;
-  flex-wrap: nowrap;
-}
-
-/* Pagination go to page input field */
-.read-text-pagination-go-to-page-input {
-  width: 3.5rem;
-  .mixin-centered-text-base();
-  border-top-left-radius: @border-radius-normal;
-  border-bottom-left-radius: @border-radius-normal;
-  border: @border-thin-thickness @border-style @light-color1;
-  font-size: @font-size-bigger2;
-  line-height: @pagination-height;
-  vertical-align: middle;
-}
-
-/* Validation error */
-.read-text-pagination-go-to-page-input.read-text-pagination-go-to-page-input-invalid {
-  border: @border-thick-thickness @border-style @alert-color;
-}
-
-/* Pagination go to page button */
-.read-text-pagination-go-to-page-button {
-  .mixin-centered-text-base();
-  border-top-right-radius: @border-radius-normal;
-  border-bottom-right-radius: @border-radius-normal;
-  border: @border-thin-thickness @border-style @light-color1;
-  padding-left: @padding-smaller1;
-  padding-right: @padding-smaller1;
-  line-height: @pagination-height;
-  vertical-align: middle;
-}
-
-/* Pagination pages flex container */
-.read-text-pagination-pages-container {
-  .mixin-flex-row-base();
-  justify-content: center;
-  flex-wrap: nowrap;
-}
-
-/* Base class for pagination pages */
-.read-text-pagination-page-base {
-  min-width: 3.5rem;
-  .mixin-centered-text-base();
-  border: @border-thin-thickness @border-style @light-color1;
-  font-size: @font-size-bigger2;
-  line-height: @pagination-height;
-  vertical-align: middle;
-  cursor: pointer;
-}
-
-/* Base class for active pages */
-.read-text-pagination-page-base.read-text-pagination-page-base-active {
-  background: @pagination-active-background-color;
-  color: @lightest-color1;
-  .mixin-bold-text-base();
-  cursor: unset;
-}
-
-/* First page pseudobutton */
-.read-text-pagination-page-base.read-text-pagination-first-page {
-  border-top-left-radius: @border-radius-normal;
-  border-bottom-left-radius: @border-radius-normal;
-}
-
-/* Page pseudobutton */
-.read-text-pagination-page-base.read-text-pagination-page {
-
-}
-
-/* Last page pseudobutton */
-.read-text-pagination-page-base.read-text-pagination-last-page {
-  border-top-right-radius: @border-radius-normal;
-  border-bottom-right-radius: @border-radius-normal;
-}
-
-/* Interpages gap */
-.read-text-pagination-interpages-gap {
-  background: @darkest-color1;
-  width: 0.2rem;
-  margin-left: @margin-smaller1;
-  margin-right: @margin-smaller1;
-}
-
-/* Read text pagination end */
-
 /* Login-related stuff begins here */
 
 /* Container for login form */
@@ -2881,3 +2777,106 @@ body {
 }
 
 /* Search stuff ends here */
+
+/* Pagination begins */
+
+/* Pagination container */
+.pagination-container {
+  .mixin-flex-row-base();
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: @gap-normal;
+
+  .mixin-centered-text-base();
+  margin-top: @margin-normal;
+  margin-bottom: @margin-normal;
+}
+
+/* Pagination go to page flex container */
+.pagination-go-to-page-container {
+  .mixin-flex-row-base();
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+/* Pagination go to page input field */
+.pagination-go-to-page-input {
+  width: 3.5rem;
+  .mixin-centered-text-base();
+  border-top-left-radius: @border-radius-normal;
+  border-bottom-left-radius: @border-radius-normal;
+  border: @border-thin-thickness @border-style @light-color1;
+  font-size: @font-size-bigger2;
+  line-height: @pagination-height;
+  vertical-align: middle;
+}
+
+/* Validation error */
+.pagination-go-to-page-input.pagination-go-to-page-input-invalid {
+  border: @border-thick-thickness @border-style @alert-color;
+}
+
+/* Pagination go to page button */
+.pagination-go-to-page-button {
+  .mixin-centered-text-base();
+  border-top-right-radius: @border-radius-normal;
+  border-bottom-right-radius: @border-radius-normal;
+  border: @border-thin-thickness @border-style @light-color1;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+  line-height: @pagination-height;
+  vertical-align: middle;
+}
+
+/* Pagination pages flex container */
+.pagination-pages-container {
+  .mixin-flex-row-base();
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+/* Base class for pagination pages */
+.pagination-page-base {
+  min-width: 3.5rem;
+  .mixin-centered-text-base();
+  border: @border-thin-thickness @border-style @light-color1;
+  font-size: @font-size-bigger2;
+  line-height: @pagination-height;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Base class for active pages */
+.pagination-page-base.pagination-page-base-active {
+  background: @pagination-active-background-color;
+  color: @lightest-color1;
+  .mixin-bold-text-base();
+  cursor: unset;
+}
+
+/* First page pseudobutton */
+.pagination-page-base.pagination-first-page {
+  border-top-left-radius: @border-radius-normal;
+  border-bottom-left-radius: @border-radius-normal;
+}
+
+/* Page pseudobutton */
+.pagination-page-base.pagination-page {
+
+}
+
+/* Last page pseudobutton */
+.pagination-page-base.pagination-last-page {
+  border-top-right-radius: @border-radius-normal;
+  border-bottom-right-radius: @border-radius-normal;
+}
+
+/* Interpages gap */
+.pagination-interpages-gap {
+  background: @darkest-color1;
+  width: 0.2rem;
+  margin-left: @margin-smaller1;
+  margin-right: @margin-smaller1;
+}
+
+/* Pagination ends */

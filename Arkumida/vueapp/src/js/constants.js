@@ -271,3 +271,10 @@ export class CommonConstants
     // Do requests for list of creatures by part of name only when part of name longer or equal to this value
     static NamePartMinimalLengthToLookup = 3
 }
+
+// Constants, related to texts search
+export class SearchConstants
+{
+    // Search page size
+    static PageSize = 10
+}

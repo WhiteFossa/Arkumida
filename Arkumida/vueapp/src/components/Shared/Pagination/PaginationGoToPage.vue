@@ -48,14 +48,14 @@
 </script>
 
 <template>
-    <form class="read-text-pagination-go-to-page-container" v-on:submit.prevent="SubmitForm">
+    <form class="pagination-go-to-page-container" v-on:submit.prevent="SubmitForm">
         <input
-            :class="(validator.targetPage.$error)?'read-text-pagination-go-to-page-input read-text-pagination-go-to-page-input-invalid':'read-text-pagination-go-to-page-input'"
+            :class="(validator.targetPage.$error)?'pagination-go-to-page-input pagination-go-to-page-input-invalid':'pagination-go-to-page-input'"
             type="text"
             v-model="formData.targetPage" />
 
         <button
-            class="read-text-pagination-go-to-page-button"
+            class="pagination-go-to-page-button"
             :disabled="validator.targetPage.$error">
             Перейти
         </button>

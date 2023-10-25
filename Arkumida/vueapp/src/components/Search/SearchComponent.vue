@@ -2,10 +2,14 @@
 <script setup>
 import {defineProps, onMounted, reactive, ref} from "vue";
 import router from "@/router";
+import {SearchConstants} from "@/js/constants";
+import {WebClientSendPostRequest} from "@/js/libWebClient";
+import ShortTextInfo from "@/components/MainPage/TextInfos/ShortTextInfo.vue";
+import PaginationComponent from "@/components/Shared/Pagination/PaginationComponent.vue";
+import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const props = defineProps({
-        queryText: String,
-        isCalledFromMainPage: Boolean
+        queryText: String
     })
 
     const searchFormData = reactive({
@@ -13,6 +17,13 @@ import router from "@/router";
     })
 
     const isSearchHelpExpanded = ref(false)
+
+    const searchResult = ref([])
+
+    const currentPageNumber = ref(1)
+    const pagesCount = ref(1)
+
+    const isSearchInProgress = ref(true)
 
     onMounted(async () =>
     {
@@ -24,6 +35,8 @@ import router from "@/router";
         if (props.queryText !== "")
         {
             await SetSeachText(props.queryText)
+
+            await MakeSearchQuery(props.queryText)
         }
     }
 
@@ -44,14 +57,35 @@ import router from "@/router";
 
     async function MakeSearchQuery(query)
     {
-        if (props.isCalledFromMainPage)
-        {
-            // If we are called from main page - we are going to special search page
-            await router.replace({ path: "/search/" + encodeURIComponent(query) })
-            return
-        }
+        await router.replace({ path: "/search/" + encodeURIComponent(query) })
 
-        // Making query
+        await MakePaginatedSearchQuery(query, 0, SearchConstants.PageSize)
+    }
+
+    async function MakePaginatedSearchQuery(query, skip, take)
+    {
+        isSearchInProgress.value = true
+
+        searchResult.value = await (await WebClientSendPostRequest(
+            "/api/Search/Texts",
+            {
+                "query": query,
+                "skip": skip,
+                "take": take
+            })).json()
+
+        pagesCount.value = Math.ceil(searchResult.value.foundTextsTotalCount / SearchConstants.PageSize)
+
+        isSearchInProgress.value = false
+    }
+
+    async function GoToPage(pageNumber)
+    {
+        currentPageNumber.value = pageNumber
+
+        let skip = (currentPageNumber.value - 1) * SearchConstants.PageSize
+
+        await MakePaginatedSearchQuery(searchFormData.searchText, skip, SearchConstants.PageSize)
     }
 </script>
 
@@ -174,5 +208,16 @@ import router from "@/router";
                 Если запрос не отформатирован как описано выше, то поиск выполняется по названию произведений.
             </div>
         </div>
+    </div>
+
+    <!-- Search results -->
+    <LoadingSymbol v-if="isSearchInProgress" />
+
+    <div v-if="!isSearchInProgress">
+        <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
+
+        <ShortTextInfo :id="foundText.id" v-for="foundText in searchResult.foundTexts" :key="foundText.id"/>
+
+        <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
     </div>
 </template>

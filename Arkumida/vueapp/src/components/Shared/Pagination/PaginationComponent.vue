@@ -1,10 +1,10 @@
 <script setup>
 import {defineEmits, defineProps, onMounted, ref} from "vue";
-    import ReadTextGoToPage from "@/components/ReadText/Pagination/ReadTextPaginationGoToPage.vue";
-    import ReadTextPaginationFirstPage from "@/components/ReadText/Pagination/ReadTextPaginationFirstPage.vue";
-    import ReadTextPaginationLastPage from "@/components/ReadText/Pagination/ReadTextPaginationLastPage.vue";
-    import ReadTextPaginationPage from "@/components/ReadText/Pagination/ReadTextPaginationPage.vue";
-import ReadTextPaginationInterpageGap from "@/components/ReadText/Pagination/ReadTextPaginationInterpageGap.vue";
+    import ReadTextGoToPage from "@/components/Shared/Pagination/PaginationGoToPage.vue";
+    import ReadTextPaginationFirstPage from "@/components/Shared/Pagination/PaginationFirstPage.vue";
+    import ReadTextPaginationLastPage from "@/components/Shared/Pagination/PaginationLastPage.vue";
+    import ReadTextPaginationPage from "@/components/Shared/Pagination/PaginationPage.vue";
+import ReadTextPaginationInterpageGap from "@/components/Shared/Pagination/PaginationInterpagesGap.vue";
 
     const props = defineProps({
         currentPage: Number,
@@ -31,6 +31,7 @@ import ReadTextPaginationInterpageGap from "@/components/ReadText/Pagination/Rea
         }
 
         lastOrdinaryPage.value = props.currentPage + 1
+
         if (lastOrdinaryPage.value > props.pagesCount - 1)
         {
             lastOrdinaryPage.value = props.pagesCount - 1
@@ -49,9 +50,9 @@ import ReadTextPaginationInterpageGap from "@/components/ReadText/Pagination/Rea
 </script>
 
 <template>
-    <div class="read-text-pagination-container" v-if="props.pagesCount > 1">
+    <div class="pagination-container" v-if="props.pagesCount > 1">
 
-        <div class="read-text-pagination-pages-container">
+        <div class="pagination-pages-container">
             <ReadTextPaginationFirstPage :currentPage="props.currentPage" @goToPage="async (pn) => await GoToPage(pn)" />
 
             <ReadTextPaginationInterpageGap v-if="ordinaryPages.length > 0" />
