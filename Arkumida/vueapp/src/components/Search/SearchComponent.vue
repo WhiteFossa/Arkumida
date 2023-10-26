@@ -23,6 +23,7 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     const currentPageNumber = ref(1)
     const pagesCount = ref(1)
 
+    const isFirstSearchHappehed = ref(false)
     const isSearchInProgress = ref(true)
 
     onMounted(async () =>
@@ -64,6 +65,11 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     async function MakePaginatedSearchQuery(query, skip, take)
     {
+        if (!isFirstSearchHappehed.value)
+        {
+            isFirstSearchHappehed.value = true
+        }
+
         isSearchInProgress.value = true
 
         searchResult.value = await (await WebClientSendPostRequest(
@@ -211,13 +217,17 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     </div>
 
     <!-- Search results -->
-    <LoadingSymbol v-if="isSearchInProgress" />
+    <div v-if="isFirstSearchHappehed">
 
-    <div v-if="!isSearchInProgress">
-        <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
+        <LoadingSymbol v-if="isSearchInProgress" />
 
-        <ShortTextInfo :id="foundText.id" v-for="foundText in searchResult.foundTexts" :key="foundText.id"/>
+        <div v-if="!isSearchInProgress">
+            <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
 
-        <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
+            <ShortTextInfo :id="foundText.id" v-for="foundText in searchResult.foundTexts" :key="foundText.id"/>
+
+            <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
+        </div>
+
     </div>
 </template>
