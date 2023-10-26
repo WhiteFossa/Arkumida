@@ -248,12 +248,19 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
         <LoadingSymbol v-if="isSearchInProgress" />
 
         <div v-if="!isSearchInProgress">
-            <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
 
-            <ShortTextInfo :id="foundText.id" v-for="foundText in searchResult.foundTexts" :key="foundText.id"/>
+            <div v-if="searchResult.foundTexts.length > 0">
+                <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
 
-            <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
+                <ShortTextInfo :id="foundText.id" v-for="foundText in searchResult.foundTexts" :key="foundText.id"/>
+
+                <PaginationComponent :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="pagesCount" @goToPage="async (pn) => await GoToPage(pn)" />
+            </div>
+
+            <div v-if="searchResult.foundTexts.length === 0">
+                Ничего не найдено...
+            </div>
+
         </div>
-
     </div>
 </template>
