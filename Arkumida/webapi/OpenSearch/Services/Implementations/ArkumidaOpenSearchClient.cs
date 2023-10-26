@@ -236,7 +236,10 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                                     // Tags to include
                                     if (tagsToInclude.Any())
                                     {
-                                        qcs.Add(qm.Terms(t => t.Field(it => it.TagsDbIds).Terms(tagsToInclude.Select(tti => tti.DbId).ToList())));
+                                        foreach (var tagToInclude in tagsToInclude)
+                                        {
+                                            qcs.Add(qm.MatchPhrase(m => m.Field(it => it.TagsDbIds).Query(tagToInclude.DbId)));
+                                        }
                                     }
                                     
                                     return new QueryContainer(new BoolQuery()
