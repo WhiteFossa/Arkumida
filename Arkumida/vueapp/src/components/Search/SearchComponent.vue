@@ -26,6 +26,8 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     const isFirstSearchHappehed = ref(false)
     const isSearchInProgress = ref(true)
 
+    const previousQuery = ref("")
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -82,11 +84,20 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
         pagesCount.value = Math.ceil(searchResult.value.foundTextsTotalCount / SearchConstants.PageSize)
 
+        previousQuery.value = query
+
         isSearchInProgress.value = false
     }
 
     async function GoToPage(pageNumber)
     {
+        // We can have a situation, when creature clicks a page, but this page doesn't exist for a new query.
+        // So in case of query change we are going to the first page
+        if (searchFormData.searchText !== previousQuery.value)
+        {
+            pageNumber = 1
+        }
+
         currentPageNumber.value = pageNumber
 
         let skip = (currentPageNumber.value - 1) * SearchConstants.PageSize
