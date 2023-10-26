@@ -14,6 +14,11 @@ public interface ITextsRenderingService
     Task<byte[]> RenderTextToFileContentAsync(Text metadata, RenderedTextType type);
 
     /// <summary>
+    /// Renders text to a string (only content is rendered, no header, no title and so on). Use it for indexing to OpenSearch
+    /// </summary>
+    Task<string> RenderTextContentToString(Text metadata);
+
+    /// <summary>
     /// Get rendered text. Will return null if rendered text doesn't exist (in this case you probably want to render a text and put it to DB)
     /// </summary>
     Task<RenderedText> GetRenderedTextAsync(Guid textId, RenderedTextType type);

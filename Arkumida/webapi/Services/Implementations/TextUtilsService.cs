@@ -149,7 +149,7 @@ public class TextUtilsService : ITextUtilsService
 
     public async Task<Text> GetTextMetadataAsync(Guid textId)
     {
-        return await PopulateTextMetadata(await _textsDao.GetTextMetadataByIdAsync(textId));
+        return await PopulateTextMetadataAsync(await _textsDao.GetTextMetadataByIdAsync(textId));
     }
 
     public async Task<IReadOnlyCollection<Text>> GetTextsMetadatasAsync(TextOrderMode orderMode, int skip, int take)
@@ -157,7 +157,7 @@ public class TextUtilsService : ITextUtilsService
         var metadatas = await _textsDao.GetTextsMetadataAsync(orderMode, skip, take);
 
         return metadatas
-            .Select(async metadata => await PopulateTextMetadata(metadata))
+            .Select(async metadata => await PopulateTextMetadataAsync(metadata))
             .Select(t => t.Result)
             .ToList();
     }
@@ -165,7 +165,7 @@ public class TextUtilsService : ITextUtilsService
     /// <summary>
     /// Loads missing data into the text
     /// </summary>
-    private async Task<Text> PopulateTextMetadata(TextDbo metadata)
+    public async Task<Text> PopulateTextMetadataAsync(TextDbo metadata)
     {
         var text = _textsMapper.Map(metadata);
 

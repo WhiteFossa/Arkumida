@@ -30,6 +30,12 @@ public interface ITextsDao
     Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take);
 
     /// <summary>
+    /// Get texts metadata for given texts IDs
+    /// Ordering is by LastUpdateTime, descending
+    /// </summary>
+    Task<Dictionary<Guid, TextDbo>> GetTextsMetadataByIdsAsync(IReadOnlyCollection<Guid> textsIds);
+
+    /// <summary>
     /// Get text metadata by text Id. Actual text content is NOT loaded
     /// </summary>
     Task<TextDbo> GetTextMetadataByIdAsync(Guid textId);

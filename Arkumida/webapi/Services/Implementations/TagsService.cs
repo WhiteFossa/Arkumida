@@ -4,6 +4,9 @@ using webapi.Dao.Models.Enums;
 using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Enums;
+using webapi.OpenSearch.Helpers;
+using webapi.OpenSearch.Models;
+using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
 
 namespace webapi.Services.Implementations;
@@ -12,6 +15,7 @@ public class TagsService : ITagsService
 {
     private readonly ITagsDao _tagsDao;
     private readonly ITagsMapper _tagsMapper;
+    private readonly IArkumidaOpenSearchClient _arkumidaOpenSearchClient;
 
     private readonly IList<TagSizeCategory> _tagSizeCategories = new List<TagSizeCategory>()
     {
@@ -34,11 +38,13 @@ public class TagsService : ITagsService
     public TagsService
     (
         ITagsDao tagsDao,
-        ITagsMapper tagsMapper
+        ITagsMapper tagsMapper,
+        IArkumidaOpenSearchClient arkumidaOpenSearchClient
     )
     {
         _tagsDao = tagsDao;
         _tagsMapper = tagsMapper;
+        _arkumidaOpenSearchClient = arkumidaOpenSearchClient;
     }
 
     public async Task<IReadOnlyCollection<Tag>> GetCategoriesTagsAsync()
@@ -90,6 +96,15 @@ public class TagsService : ITagsService
         // New tag is not used yet
         tag.TextsCount = 0;
         tag.SizeCategory = TagSizeCategory.Cat0;
+        
+        // Indexing tag
+        var tagToIndex = new IndexableTag()
+        {
+            DbId = OpenSearchGuidHelper.Serialize(tag.Id),
+            Name = tag.Name
+        };
+
+        await _arkumidaOpenSearchClient.IndexTagAsync(tagToIndex);
     }
 
     public IReadOnlyCollection<Tag> OrderTags(IEnumerable<Tag> tags)

@@ -14,6 +14,9 @@ using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
 using webapi.Models.Settings;
+using webapi.OpenSearch.Helpers;
+using webapi.OpenSearch.Models;
+using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Email;
 
@@ -32,6 +35,7 @@ public class AccountsService : IAccountsService
     private readonly IEmailsGeneratorService _emailsGeneratorService;
     private readonly JwtSettings _jwtSettings;
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+    private readonly IArkumidaOpenSearchClient _arkumidaOpenSearchClient;
 
     public AccountsService
     (
@@ -45,7 +49,8 @@ public class AccountsService : IAccountsService
         IEmailSenderService emailSenderService,
         IEmailsGeneratorService emailsGeneratorService,
         IOptions<JwtSettings> jwtSettings,
-        RoleManager<IdentityRole<Guid>> roleManager)
+        RoleManager<IdentityRole<Guid>> roleManager,
+        IArkumidaOpenSearchClient arkumidaOpenSearchClient)
     {
         _userManager = userManager;
         _creaturesMapper = creaturesMapper;
@@ -58,6 +63,7 @@ public class AccountsService : IAccountsService
         _emailsGeneratorService = emailsGeneratorService;
         _jwtSettings = jwtSettings.Value;
         _roleManager = roleManager;
+        _arkumidaOpenSearchClient = arkumidaOpenSearchClient;
     }
 
     public async Task<RegistrationResultDto> RegisterUserAsync(RegistrationDataDto registrationData, bool isImporting)
@@ -103,6 +109,14 @@ public class AccountsService : IAccountsService
         };
 
         await _profilesDao.CreateProfileAsync(creatureProfileDbo);
+        
+        // Adding creature to OpenSearch
+        var indexableCreature = new IndexableCreature()
+        {
+            DbId = OpenSearchGuidHelper.Serialize(creature.Id),
+            DisplayName = creatureProfileDbo.DisplayName
+        };
+        await _arkumidaOpenSearchClient.IndexCreatureAsync(indexableCreature);
         
         return new RegistrationResultDto(creature.Id, UserRegistrationResult.OK);
     }
@@ -318,6 +332,14 @@ public class AccountsService : IAccountsService
         profile.DisplayName = newName;
 
         await _profilesDao.UpdateProfileAsync(profile);
+
+        var indexableCreature = new IndexableCreature()
+        {
+            DbId = OpenSearchGuidHelper.Serialize(creatureId),
+            DisplayName = newName
+        };
+
+        await _arkumidaOpenSearchClient.UpdateCreatureAsync(indexableCreature);
     }
 
     public async Task UpdateAboutAsync(Guid creatureId, string newAbout)

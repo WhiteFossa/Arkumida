@@ -1,3 +1,4 @@
+using webapi.Dao.Models;
 using webapi.Dao.Models.Enums;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
@@ -30,4 +31,9 @@ public interface ITextUtilsService
     /// Get full text metadata for multiple texts
     /// </summary>
     Task<IReadOnlyCollection<Text>> GetTextsMetadatasAsync(TextOrderMode orderMode, int skip, int take);
+
+    /// <summary>
+    /// Load-in some data into text metadata (like full data on authors/translators/publisher)
+    /// </summary>
+    Task<Text> PopulateTextMetadataAsync(TextDbo metadata);
 }

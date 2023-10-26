@@ -15,10 +15,10 @@
 </script>
 
 <template>
-    <div class="read-text-pagination-page-base read-text-pagination-page-base-active read-text-pagination-page" v-if="props.currentPage === props.targetPage">
+    <div class="pagination-page-base pagination-page-base-active pagination-page" v-if="props.currentPage === props.targetPage">
         {{props.targetPage}}
     </div>
-    <div v-else class="read-text-pagination-page-base read-text-pagination-page" @click="GoToTargetPage()">
+    <div v-else class="pagination-page-base pagination-page" @click="GoToTargetPage()">
         {{props.targetPage}}
     </div>
 </template>

@@ -10,7 +10,7 @@
     import SectionComponent from "@/components/ReadText/SectionComponent.vue";
     import TextIllustrationsContainer from "@/components/ReadText/Illustrations/TextIllustrationsContainer.vue";
     import {TextType} from "@/js/constants";
-    import ReadTextPagination from "@/components/ReadText/Pagination/ReadTextPagination.vue";
+    import ReadTextPagination from "@/components/Shared/Pagination/PaginationComponent.vue";
     import router from "@/router";
     import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
     import ReadTextDownloadComponent from "@/components/ReadText/Download/ReadTextDownloadComponent.vue";

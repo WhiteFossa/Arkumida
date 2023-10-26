@@ -21,6 +21,7 @@ public class TextsRenderingService : ITextsRenderingService
     private readonly IRenderedTextsDao _renderedTextsDao;
     private readonly IRenderedTextsMapper _renderedTextsMapper;
     private readonly IFilesDao _filesDao;
+    private readonly IRawTextRenderer _rawTextRenderer;
 
     public TextsRenderingService
     (
@@ -31,7 +32,8 @@ public class TextsRenderingService : ITextsRenderingService
         ITextUtilsService textUtilsService,
         IRenderedTextsDao renderedTextsDao,
         IRenderedTextsMapper renderedTextsMapper,
-        IFilesDao filesDao
+        IFilesDao filesDao,
+        IRawTextRenderer rawTextRenderer
     )
     {
         _textsDao = textsDao;
@@ -42,6 +44,7 @@ public class TextsRenderingService : ITextsRenderingService
         _renderedTextsDao = renderedTextsDao;
         _renderedTextsMapper = renderedTextsMapper;
         _filesDao = filesDao;
+        _rawTextRenderer = rawTextRenderer;
     }
     
     public async Task<byte[]> RenderTextToFileContentAsync(Text metadata, RenderedTextType type)
@@ -60,6 +63,16 @@ public class TextsRenderingService : ITextsRenderingService
             default:
                 throw new ArgumentException($"Unknown file type: {type}", nameof(type));
         }
+    }
+
+    public async Task<string> RenderTextContentToString(Text metadata)
+    {
+        var rawText = await _textUtilsService.GetRawTextAsync(metadata.Id);
+        var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(metadata.Id));
+        
+        var parsedText = _textUtilsService.ParseTextToElements(rawText, textFiles);
+
+        return await _rawTextRenderer.RenderAsync(metadata, parsedText);
     }
 
     public async Task<RenderedText> GetRenderedTextAsync(Guid textId, RenderedTextType type)

@@ -1,6 +1,6 @@
 <script setup>
     import TopButton from "@/components/MainPage/TopButton.vue";
-    import SearchComponent from "@/components/MainPage/SearchComponent.vue";
+    import SearchComponent from "@/components/Search/SearchComponent.vue";
     import TextsStatisticsComponent from "@/components/MainPage/TextsStatisticsComponent.vue";
     import MainLogo from "@/components/MainPage/MainLogo.vue";
     import ShortTextInfosContainer from "@/components/MainPage/TextInfos/ShortTextInfosContainer.vue";
@@ -53,7 +53,7 @@
         </div>
         
         <!-- Search -->
-        <SearchComponent />
+        <SearchComponent queryText="" :isFromMainPage="true" />
         
         <!-- Texts statistics -->
         <TextsStatisticsComponent />
