@@ -28,6 +28,9 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const previousQuery = ref("")
 
+    const searchTextInput = ref(null)
+    const searchButton = ref(null)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -35,6 +38,15 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     async function OnLoad()
     {
+        // Adding on Enter handler to search text input
+        searchTextInput.value.addEventListener("keypress", function(event) {
+            if (event.key === "Enter")
+            {
+                event.preventDefault();
+                searchButton.value.click();
+            }
+        });
+
         if (props.queryText !== "")
         {
             await SetSeachText(props.queryText)
@@ -115,12 +127,15 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
                 v-model="searchFormData.searchText"
                 class="search-text-area"
                 name="text"
-                type="text" />
+                type="text"
+                placeholder="Введите запрос здесь"
+                ref="searchTextInput" />
 
             <button
                 class="search-button"
                 type="submit"
-                @click="async () => await MakeSearchQuery(searchFormData.searchText)">
+                @click="async () => await MakeSearchQuery(searchFormData.searchText)"
+                ref="searchButton">
                 Искать!
             </button>
         </div>
