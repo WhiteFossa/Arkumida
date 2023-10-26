@@ -53,7 +53,7 @@
         </div>
         
         <!-- Search -->
-        <SearchComponent queryText="" />
+        <SearchComponent queryText="" :isFromMainPage="true" />
         
         <!-- Texts statistics -->
         <TextsStatisticsComponent />

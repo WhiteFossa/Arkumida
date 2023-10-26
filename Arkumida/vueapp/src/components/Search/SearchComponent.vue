@@ -1,15 +1,16 @@
 <!-- Search component -->
 <script setup>
-import {defineProps, onMounted, reactive, ref} from "vue";
-import router from "@/router";
-import {SearchConstants} from "@/js/constants";
-import {WebClientSendPostRequest} from "@/js/libWebClient";
-import ShortTextInfo from "@/components/MainPage/TextInfos/ShortTextInfo.vue";
-import PaginationComponent from "@/components/Shared/Pagination/PaginationComponent.vue";
-import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+    import {defineProps, onMounted, reactive, ref} from "vue";
+    import router from "@/router";
+    import {SearchConstants} from "@/js/constants";
+    import {WebClientSendPostRequest} from "@/js/libWebClient";
+    import ShortTextInfo from "@/components/MainPage/TextInfos/ShortTextInfo.vue";
+    import PaginationComponent from "@/components/Shared/Pagination/PaginationComponent.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const props = defineProps({
-        queryText: String
+        queryText: String,
+        isFromMainPage: Boolean
     })
 
     const searchFormData = reactive({
@@ -47,7 +48,7 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
             }
         });
 
-        if (props.queryText !== "")
+        if (!props.isFromMainPage && props.queryText !== "")
         {
             await SetSeachText(props.queryText)
 
@@ -73,6 +74,11 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     async function MakeSearchQuery(query)
     {
         await router.replace({ path: "/search/" + encodeURIComponent(query) })
+
+        if (props.isFromMainPage)
+        {
+            return
+        }
 
         await MakePaginatedSearchQuery(query, 0, SearchConstants.PageSize)
     }
