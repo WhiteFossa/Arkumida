@@ -166,15 +166,35 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         {
             throw new ArgumentOutOfRangeException(nameof(take), "Take must be positive.");
         }
-        
-        var authors = await SearchForCreaturesAsync(authorQuery);
 
-        var tagsToInclude = new List<IndexableTag>();
-        foreach (var tagToIncludeQueryPart in tagsToIncludeQuery)
+        List<IndexableCreature> authors = new List<IndexableCreature>();
+        if (authorQuery != null)
         {
-            tagsToInclude.AddRange(await SearchForTagsAsync(tagToIncludeQueryPart));
+            authors = (await SearchForCreaturesAsync(authorQuery)).ToList();
+
+            if (!authors.Any())
+            {
+                // No authors found, so we wouldn't have any result
+                return new Tuple<IReadOnlyCollection<IndexableText>, long>(new List<IndexableText>(), 0);
+            }
         }
 
+        var tagsToInclude = new List<IndexableTag>();
+        if (tagsToIncludeQuery.Any())
+        {
+            foreach (var tagToIncludeQueryPart in tagsToIncludeQuery)
+            {
+                var foundTags = await SearchForTagsAsync(tagToIncludeQueryPart);
+                if (!foundTags.Any())
+                {
+                    // Non-existent tag required, we wouldn't have any results
+                    return new Tuple<IReadOnlyCollection<IndexableText>, long>(new List<IndexableText>(), 0);
+                }
+                
+                tagsToInclude.AddRange(foundTags);
+            }
+        }
+        
         var tagsToExclude = new List<IndexableTag>();
         foreach (var tagToExcludeQueryPart in tagsToExcludeQuery)
         {
@@ -228,13 +248,13 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                                     }
                                     
                                     // Author(s)
-                                    if (authors.Any())
+                                    if (authorQuery != null)
                                     {
                                         qcs.Add(qm.Terms(t => t.Field(it => it.AuthorsDbIds).Terms(authors.Select(a => a.DbId).ToList())));
                                     }
                                     
                                     // Tags to include
-                                    if (tagsToInclude.Any())
+                                    if (tagsToIncludeQuery.Any())
                                     {
                                         foreach (var tagToInclude in tagsToInclude)
                                         {
