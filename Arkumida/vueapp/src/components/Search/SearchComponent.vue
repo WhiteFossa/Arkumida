@@ -148,32 +148,34 @@
 
         <div class="search-help-icon-container">
 
-            <!-- More (search help) button -->
-            <button
+            <!-- More (search help) -->
+            <div
                 v-if="!isSearchHelpExpanded"
-                class="button-with-image"
-                type="button"
-                title="Показать помощь по поиску"
+                class="underlined-pseudolink"
                 @click="async () => await ExpandSearchHelp()">
-                <img class="search-help-icon" src="/images/icons/icon_double_arrow_down.webp" alt="Показать помощь по поиску" title="Показать помощь по поиску" />
-            </button>
+                Помощь по поиску
+            </div>
 
-            <!-- Less (search help) button -->
-            <button
+            <!-- Less (search help) -->
+            <div
                 v-if="isSearchHelpExpanded"
-                class="button-with-image"
-                type="button"
-                title="Скрыть помощь по поиску"
+                class="underlined-pseudolink"
                 @click="async () => await CollapseSearchHelp()">
-                <img class="search-help-icon" src="/images/icons/icon_double_arrow_up.webp" alt="Скрыть помощь по поиску" title="Скрыть помощь по поиску" />
-            </button>
+                Скрыть помощь по поиску
+            </div>
         </div>
 
         <!-- Search help -->
         <div v-if="isSearchHelpExpanded">
+            <div>
+                <strong>Подчёркнутые примеры - кликабельны.</strong>
+            </div>
+
+            <br>
+
             <!-- Search by title -->
             <div>
-                Поиск по названию: <em>Название: [текст для поиска]</em>, пример:
+                Поиск по названию:
                 <strong
                     class="underlined-pseudolink"
                     @click="async () => await SetSeachText('Название: [краденый мир]')">
@@ -183,7 +185,7 @@
 
             <!-- Search by description -->
             <div>
-                Поиск по аннотации: <em>Аннотация: [текст для поиска]</em>, пример:
+                Поиск по аннотации:
                 <strong
                     class="underlined-pseudolink"
                     @click="async () => await SetSeachText('Аннотация: [чакат]')">
@@ -193,7 +195,7 @@
 
             <!-- Search by content -->
             <div>
-                Поиск по тексту произведения: <em>Текст: [текст для поиска]</em>, пример:
+                Поиск по тексту произведения:
                 <strong
                     class="underlined-pseudolink"
                     @click="async () => await SetSeachText('Текст: [с хвостами]')">
@@ -203,7 +205,7 @@
 
             <!-- Search by author -->
             <div>
-                Поиск по автору: <em>Автор: [имя автора]</em>, пример:
+                Поиск по автору:
                 <strong
                     class="underlined-pseudolink"
                     @click="async () => await SetSeachText('Автор: [Redgerra]')">
@@ -213,7 +215,7 @@
 
             <!-- Include tags -->
             <div>
-                Произведения, содержащие все указанные теги: <em>+Теги: [тег1, тег2]</em>, пример:
+                Произведения, содержащие <strong>все</strong> указанные теги:
                 <strong
                     class="underlined-pseudolink"
                     @click="async () => await SetSeachText('+Теги: [росомаха, NO YIFF]')">
@@ -223,7 +225,7 @@
 
             <!-- Exclude tags -->
             <div>
-                Исключить произведения, содержащие любой из указанных тегов: <em>-Теги: [тег1, тег2]</em>, пример:
+                Исключить произведения, содержащие <strong>любой</strong> из указанных тегов:
                 <strong
                     class="underlined-pseudolink"
                     @click="async () => await SetSeachText('-Теги: [милитари, война]')">
@@ -233,7 +235,7 @@
 
             <!-- Combined -->
             <div>
-                Запросы можно комбинировать, например
+                Запросы можно комбинировать:
                 <strong
                     class="underlined-pseudolink"
                     @click="async () => await SetSeachText('Название: [зверя] +Теги: [фентези] -Теги: [пес]')">
@@ -242,8 +244,9 @@
             </div>
 
             <!-- Unformatted queries -->
+            <br>
             <div>
-                Если запрос не отформатирован как описано выше, то поиск выполняется по названию произведений.
+                Если запрос не отформатирован как описано выше, то поиск выполняется <strong>по названию</strong> произведений.
             </div>
         </div>
     </div>
