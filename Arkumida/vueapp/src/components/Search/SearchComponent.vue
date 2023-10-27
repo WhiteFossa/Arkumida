@@ -148,29 +148,29 @@
 
         <div class="search-help-icon-container">
 
-            <!-- More (search help) button -->
-            <button
+            <!-- More (search help) -->
+            <div
                 v-if="!isSearchHelpExpanded"
-                class="button-with-image"
-                type="button"
-                title="Показать помощь по поиску"
+                class="underlined-pseudolink"
                 @click="async () => await ExpandSearchHelp()">
-                <img class="search-help-icon" src="/images/icons/icon_double_arrow_down.webp" alt="Показать помощь по поиску" title="Показать помощь по поиску" />
-            </button>
+                Помощь по поиску
+            </div>
 
-            <!-- Less (search help) button -->
-            <button
+            <!-- Less (search help) -->
+            <div
                 v-if="isSearchHelpExpanded"
-                class="button-with-image"
-                type="button"
-                title="Скрыть помощь по поиску"
+                class="underlined-pseudolink"
                 @click="async () => await CollapseSearchHelp()">
-                <img class="search-help-icon" src="/images/icons/icon_double_arrow_up.webp" alt="Скрыть помощь по поиску" title="Скрыть помощь по поиску" />
-            </button>
+                Скрыть помощь по поиску
+            </div>
         </div>
 
         <!-- Search help -->
         <div v-if="isSearchHelpExpanded">
+            <div>
+                <strong>Подчёркнутые примеры - кликабельны.</strong>
+            </div>
+
             <!-- Search by title -->
             <div>
                 Поиск по названию: <em>Название: [текст для поиска]</em>, пример:
