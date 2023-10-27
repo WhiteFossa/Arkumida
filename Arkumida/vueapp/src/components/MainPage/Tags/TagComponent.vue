@@ -2,12 +2,10 @@
 
     import {defineProps, onMounted, ref} from "vue";
     import {TagSizeCategory} from "@/js/constants";
+    import {GenerateOneTagSearchQuery} from "@/js/libArkumida";
 
     const props = defineProps({
-        id: String,
-        furryReadableId: String,
-        sizeCategory: Number,
-        tag: String
+        tag: Object
     })
 
     const tagHref = ref(null)
@@ -21,9 +19,9 @@
 
     async function OnLoad()
     {
-        tagHref.value = "/texts/byTag/" + props.id
+        tagHref.value = GenerateOneTagSearchQuery(props.tag.tag)
 
-        switch (props.sizeCategory)
+        switch (props.tag.sizeCategory)
         {
             case TagSizeCategory.Cat0:
                 tagSizeClass.value = "tag-size-class0";
@@ -89,5 +87,5 @@
 </script>
 
 <template>
-    <a :class="tagSizeClass" :href="tagHref">{{ props.tag }}</a>
+    <a :class="tagSizeClass" :href="tagHref">{{ props.tag.tag }}</a>
 </template>
