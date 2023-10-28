@@ -1,8 +1,6 @@
 using Microsoft.Extensions.Options;
 using OpenSearch.Client;
-using OpenSearch.Net;
 using webapi.Models.Settings;
-using webapi.OpenSearch.Helpers;
 using webapi.OpenSearch.Models;
 using webapi.OpenSearch.Services.Abstract;
 using ConnectionSettings = OpenSearch.Client.ConnectionSettings;
@@ -82,8 +80,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
 
     public async Task UpdateCreatureAsync(IndexableCreature creature)
     {
-        var creatureDbId = OpenSearchGuidHelper.Deserialize(creature.DbId);
-        var osId = await GetCreatureOpenSearchIdAsync(creatureDbId);
+        var osId = await GetCreatureOpenSearchIdAsync(creature.DbId);
         
         var response = await _client.UpdateAsync<IndexableCreature>
         (
@@ -95,7 +92,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
 
         if (!response.IsValid)
         {
-            throw new InvalidOperationException($"Failed to update creature with DB ID = { creatureDbId }");
+            throw new InvalidOperationException($"Failed to update creature with DB ID = { creature.DbId }");
         }
     }
 
@@ -265,7 +262,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                                     {
                                         foreach (var tagToInclude in tagsToInclude)
                                         {
-                                            qcs.Add(qm.MatchPhrase(m => m.Field(it => it.TagsDbIds.Suffix("keyword")).Query(tagToInclude.DbId)));
+                                            qcs.Add(qm.MatchPhrase(m => m.Field(it => it.TagsDbIds.Suffix("keyword")).Query(tagToInclude.DbId.ToString())));
                                         }
                                     }
                                     
@@ -377,7 +374,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             .Query(q => q
                 .Match(m => m
                     .Field(ic => ic.DbId)
-                    .Query(OpenSearchGuidHelper.Serialize(creatureId))))
+                    .Query(creatureId.ToString())))
         );
 
         if (!result.IsValid)

@@ -14,7 +14,6 @@ using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
 using webapi.Models.Settings;
-using webapi.OpenSearch.Helpers;
 using webapi.OpenSearch.Models;
 using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
@@ -113,7 +112,7 @@ public class AccountsService : IAccountsService
         // Adding creature to OpenSearch
         var indexableCreature = new IndexableCreature()
         {
-            DbId = OpenSearchGuidHelper.Serialize(creature.Id),
+            DbId = creature.Id,
             DisplayName = creatureProfileDbo.DisplayName
         };
         await _arkumidaOpenSearchClient.IndexCreatureAsync(indexableCreature);
@@ -335,7 +334,7 @@ public class AccountsService : IAccountsService
 
         var indexableCreature = new IndexableCreature()
         {
-            DbId = OpenSearchGuidHelper.Serialize(creatureId),
+            DbId = creatureId,
             DisplayName = newName
         };
 
