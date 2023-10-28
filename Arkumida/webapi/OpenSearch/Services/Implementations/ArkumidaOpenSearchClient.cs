@@ -105,11 +105,18 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         {
             throw new ArgumentNullException(nameof(tagToIndex), "Attempt to index a null tag!");
         }
+
+        // We use Keyword search, so we have to make Name lowercase to have case-insensitive search
+        var processedIndexableTag = new IndexableTag()
+        {
+            DbId = tagToIndex.DbId,
+            Name = tagToIndex.Name.ToLower()
+        };
         
         var response = await _client
             .IndexAsync
             (
-                tagToIndex,
+                processedIndexableTag,
                 i => i
                     .Index(IndexableTag.IndexName)
             );
@@ -250,7 +257,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                                     // Author(s)
                                     if (authorQuery != null)
                                     {
-                                        qcs.Add(qm.Terms(t => t.Field(it => it.AuthorsDbIds).Terms(authors.Select(a => a.DbId).ToList())));
+                                        qcs.Add(qm.Terms(t => t.Field(it => it.AuthorsDbIds.Suffix("keyword")).Terms(authors.Select(a => a.DbId).ToList())));
                                     }
                                     
                                     // Tags to include
@@ -258,7 +265,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                                     {
                                         foreach (var tagToInclude in tagsToInclude)
                                         {
-                                            qcs.Add(qm.MatchPhrase(m => m.Field(it => it.TagsDbIds).Query(tagToInclude.DbId)));
+                                            qcs.Add(qm.MatchPhrase(m => m.Field(it => it.TagsDbIds.Suffix("keyword")).Query(tagToInclude.DbId)));
                                         }
                                     }
                                     
@@ -272,7 +279,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                             if (tagsToExclude.Any())
                             {
                                 b = b
-                                    .MustNot(qmn => qmn.Terms(t => t.Field(it => it.TagsDbIds).Terms(tagsToExclude.Select(tti => tti.DbId).ToList())));
+                                    .MustNot(qmn => qmn.Terms(t => t.Field(it => it.TagsDbIds.Suffix("keyword")).Terms(tagsToExclude.Select(tti => tti.DbId).ToList())));
                             }
                             
                             return b;
@@ -340,7 +347,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                 .Index(IndexableTag.IndexName)
                 .Query
                 (q => q
-                    .MatchPhrase(m => m.Field(it => it.Name).Query(tagNameQuery ?? string.Empty))
+                    .MatchPhrase(m => m.Field(it => it.Name.Suffix("keyword")).Query(tagNameQuery.ToLower() ?? string.Empty))
                 )
                 .Scroll(KeepScrollOpenTime)
             );
