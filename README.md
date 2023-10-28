@@ -115,7 +115,7 @@ Create .htaccess file with the next content in the root vhost directory:
 
 # Content compression
 
-Do not forget to add this to static (arkumida.furtails.pw) virtual hos:
+Do not forget to add this to static (arkumida.furtails.pw) virtual host:
 
 # Static content compression
 AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/javascript application/javascript
@@ -127,3 +127,4 @@ After running furtails-importer don't forget to replace [ascii=N] to [ascii=M], 
 
 # TODO
 - Add images previews (for now full-sized images are displayed as previews)
+- Fix incorrect search for M and F tags

@@ -363,6 +363,11 @@ async function RedirectToForcePasswordChangeIfNeeded(creatureProfile)
     }
 }
 
+function GenerateOneTagSearchQuery(tag)
+{
+    return "/search/" + encodeURIComponent("+Теги: [" + tag + "]");
+}
+
 export
 {
     AddIconToList,
@@ -378,5 +383,6 @@ export
     GenerateLinkToText,
     PostprocessCreatureProfile,
     UndefinedOrNullToNull,
-    OnPageLoad
+    OnPageLoad,
+    GenerateOneTagSearchQuery
 }

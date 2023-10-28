@@ -3,13 +3,13 @@
     import {defineProps, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {CategoryTagType} from "@/js/constants";
+    import {GenerateOneTagSearchQuery} from "@/js/libArkumida";
 
     const props = defineProps({
-        id: String,
-        furryReadableId: String,
-        type: Number,
+        category: Object
+        /*type: Number,
         textsCount: Number,
-        tag: String
+        tag: String*/
     })
 
     const isLoading = ref(true)
@@ -25,11 +25,11 @@
 
     async function OnLoad()
     {
-        tagLinkHref.value = "/texts/byTag/" + props.id
+        tagLinkHref.value = GenerateOneTagSearchQuery(props.category.tag)
 
         colorMarkerClasses.value = "category-color-marker";
 
-        switch (props.type)
+        switch (props.category.type)
         {
             case CategoryTagType.Normal:
                 break;
@@ -61,11 +61,11 @@
     </div>
     <div v-else>
         <div class="category-block">
-            <a class="category-link" :href="tagLinkHref" :title="props.tag">{{ props.tag }}</a> ({{ props.textsCount }})
+            <a class="category-link" :href="tagLinkHref" :title="props.category.tag">{{ props.category.tag }}</a> ({{ props.category.textsCount }})
 
-            <span v-if="props.type === CategoryTagType.Sandbox" class="sandbox-category-text-description">(рассказы, требующие доработки)</span>
+            <span v-if="props.category.type === CategoryTagType.Sandbox" class="sandbox-category-text-description">(рассказы, требующие доработки)</span>
 
-            <div v-if="props.type !== CategoryTagType.Normal" class="special-category-marker">
+            <div v-if="props.category.type !== CategoryTagType.Normal" class="special-category-marker">
                 <div :class="colorMarkerClasses"></div>
             </div>
         </div>

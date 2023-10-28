@@ -246,7 +246,7 @@
 
                     <!-- Categories -->
                     <span v-for="tag in categoryTags" :key="tag.entityId">
-                        <CategoryTag :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" />
+                        <CategoryTag :tag="tag" />
                         <span v-if="tag.entityId !== categoryTags[categoryTags.length - 1].entityId" class="spacer">,</span>
                     </span>
 
@@ -255,7 +255,7 @@
                         #:
 
                         <span v-for="tag in ordinaryTags" :key="tag.entityId">
-                            <TagSmall :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.tag" />
+                            <TagSmall :tag="tag" />
                             <span v-if="tag.entityId !== ordinaryTags[ordinaryTags.length - 1].entityId" class="spacer">,</span>
                         </span>
                     </span>

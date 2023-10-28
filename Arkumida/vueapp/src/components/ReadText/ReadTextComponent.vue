@@ -118,14 +118,14 @@
         <!-- Categorises -->
         <div class="horizontal-flex flex-center read-text-categories-container">
             <div v-for="tag in categoryTags" :key="tag.entityId">
-                <CategoryTag :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.name" />
+                <CategoryTag :tag="tag" />
             </div>
         </div>
 
         <!-- Tags -->
         <div class="horizontal-flex flex-center read-text-tags-container" v-if="ordinaryTags.length > 0">
             <div v-for="tag in ordinaryTags" :key="tag.entityId">
-                <TagHashed :id="tag.entityId" :furryReadableId="tag.furryReadableId" :text="tag.name" />
+                <TagHashed :tag="tag" />
             </div>
         </div>
 

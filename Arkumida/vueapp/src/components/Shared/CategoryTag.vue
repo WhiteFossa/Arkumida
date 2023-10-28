@@ -1,26 +1,23 @@
 <!-- Category tag -->
 <script setup>
+    import { ref, defineProps } from 'vue'
+    import {GenerateOneTagSearchQuery} from "@/js/libArkumida";
 
-import { ref, defineProps } from 'vue'
+    const props = defineProps({
+        tag: Object
+    })
 
-const props = defineProps({
-    id: String,
-    furryReadableId: String,
-    text: String
-})
+    const tagHref = ref(null)
+    const tagTitle = ref(null)
 
-const tagHref = ref(null)
-const tagTitle = ref(null)
-
-tagHref.value = "/texts/byTag/" + props.id
-tagTitle.value = "Все произведения из категории " + props.text;
-
+    tagHref.value = GenerateOneTagSearchQuery(props.tag.tag)
+    tagTitle.value = "Все произведения из категории " + props.tag.tag;
 </script>
 
 <template>
     <strong>
         <a class="category-tag-link" :href="tagHref" :title="tagTitle">
-            {{ props.text }}
+            {{ props.tag.tag }}
         </a>
     </strong>
 </template>

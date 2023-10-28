@@ -1,23 +1,19 @@
 <!-- Like TagSmall, but with # and different style -->
 <script setup>
+    import { ref, defineProps } from 'vue'
+    import {GenerateOneTagSearchQuery} from "@/js/libArkumida";
 
-import { ref, defineProps } from 'vue'
-import { Guid } from 'guid-typescript'
+    const props = defineProps({
+        tag: Object
+    })
 
-const props = defineProps({
-    id: Guid,
-    furryReadableId: String,
-    text: String
-})
+    const tagHref = ref(null)
+    const tagTitle = ref(null)
 
-const tagHref = ref(null)
-const tagTitle = ref(null)
-
-tagHref.value = "/texts/byTag/" + props.id
-tagTitle.value = "Все произведения с тегом " + props.text;
-
+    tagHref.value = GenerateOneTagSearchQuery(props.tag.name)
+    tagTitle.value = "Все произведения с тегом " + props.tag.name
 </script>
 
 <template>
-    #<a class="hashed-tag-link" :href="tagHref" :title="tagTitle">{{ props.text }}</a>
+    #<a class="hashed-tag-link" :href="tagHref" :title="tagTitle">{{ props.tag.name }}</a>
 </template>
