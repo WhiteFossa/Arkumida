@@ -105,11 +105,18 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
         {
             throw new ArgumentNullException(nameof(tagToIndex), "Attempt to index a null tag!");
         }
+
+        // We use Keyword search, so we have to make Name lowercase to have case-insensitive search
+        var processedIndexableTag = new IndexableTag()
+        {
+            DbId = tagToIndex.DbId,
+            Name = tagToIndex.Name.ToLower()
+        };
         
         var response = await _client
             .IndexAsync
             (
-                tagToIndex,
+                processedIndexableTag,
                 i => i
                     .Index(IndexableTag.IndexName)
             );
@@ -340,7 +347,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
                 .Index(IndexableTag.IndexName)
                 .Query
                 (q => q
-                    .MatchPhrase(m => m.Field(it => it.Name.Suffix("keyword")).Query(tagNameQuery ?? string.Empty))
+                    .MatchPhrase(m => m.Field(it => it.Name.Suffix("keyword")).Query(tagNameQuery.ToLower() ?? string.Empty))
                 )
                 .Scroll(KeepScrollOpenTime)
             );
