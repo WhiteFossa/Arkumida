@@ -10,9 +10,9 @@ public class IndexableTag : IIndexableEntity
     public static string IndexName => "tags";
     
     /// <summary>
-    /// Creature ID (the same as in DB, but serialized by OpenSearchGuidHelper)
+    /// Creature ID
     /// </summary>
-    public string DbId { get; set; }
+    public Guid DbId { get; set; }
 
     /// <summary>
     /// Tag name

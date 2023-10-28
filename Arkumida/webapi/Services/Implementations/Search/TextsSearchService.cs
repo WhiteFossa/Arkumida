@@ -2,7 +2,6 @@ using System.Text.RegularExpressions;
 using webapi.Dao.Abstract;
 using webapi.Models.Api.DTOs.Search;
 using webapi.Models.Api.Responses.Search;
-using webapi.OpenSearch.Helpers;
 using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Search;
@@ -86,7 +85,7 @@ public class TextsSearchService : ITextsSearchService
 
         var textsGuids = openSearchResult
             .Item1
-            .Select(it => OpenSearchGuidHelper.Deserialize(it.DbId))
+            .Select(it => it.DbId)
             .ToList();
 
         var textsMetadata = await _textsDao.GetTextsMetadataByIdsAsync(textsGuids);

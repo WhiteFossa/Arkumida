@@ -10,9 +10,9 @@ public class IndexableText : IIndexableEntity
     public static string IndexName => "texts";
     
     /// <summary>
-    /// Creature ID (the same as in DB, but serialized by OpenSearchGuidHelper)
+    /// Creature ID
     /// </summary>
-    public string DbId { get; set; }
+    public Guid DbId { get; set; }
 
     /// <summary>
     /// When text was updated last time
@@ -37,20 +37,20 @@ public class IndexableText : IIndexableEntity
     /// <summary>
     /// Authors DB IDs
     /// </summary>
-    public List<string> AuthorsDbIds { get; set; }
+    public List<Guid> AuthorsDbIds { get; set; }
 
     /// <summary>
     /// Translators DB IDs (may be empty)
     /// </summary>
-    public List<string> TranslatorsDbIds { get; set; }
+    public List<Guid> TranslatorsDbIds { get; set; }
 
     /// <summary>
     /// Publisher DB ID
     /// </summary>
-    public string PublisherDbId { get; set; }
+    public Guid PublisherDbId { get; set; }
 
     /// <summary>
     /// Tags DB IDs
     /// </summary>
-    public List<string> TagsDbIds { get; set; }
+    public List<Guid> TagsDbIds { get; set; }
 }
