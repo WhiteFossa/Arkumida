@@ -365,7 +365,29 @@ async function RedirectToForcePasswordChangeIfNeeded(creatureProfile)
 
 function GenerateOneTagSearchQuery(tag)
 {
-    return "/search/" + encodeURIComponent("+Теги: [" + tag + "]");
+    return EncodeSearchQuery("+Теги: [" + tag + "]")
+}
+
+function EncodeSearchQuery(query)
+{
+    return "/search/" + UnicodeStringToBase64(query)
+}
+
+function DecodeSearchQuery(encodedQuery)
+{
+    return Base64ToUnicodeString(encodedQuery)
+}
+
+function UnicodeStringToBase64(str)
+{
+    const queryAsArray = new TextEncoder("utf-8").encode(str)
+    return btoa(queryAsArray)
+}
+
+function Base64ToUnicodeString(encodedString)
+{
+    const decodedQueryAsArray = new Uint8Array(atob(encodedString).split(',').map(function(v) {return Number(v)}))
+    return new TextDecoder("utf-8").decode(decodedQueryAsArray)
 }
 
 export
@@ -384,5 +406,9 @@ export
     PostprocessCreatureProfile,
     UndefinedOrNullToNull,
     OnPageLoad,
-    GenerateOneTagSearchQuery
+    GenerateOneTagSearchQuery,
+    EncodeSearchQuery,
+    DecodeSearchQuery,
+    UnicodeStringToBase64,
+    Base64ToUnicodeString
 }

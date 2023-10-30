@@ -3,7 +3,7 @@
     import HeaderComponent from "@/components/Header/HeaderComponent.vue";
     import SearchComponent from "@/components/Search/SearchComponent.vue";
     import {defineProps, onMounted, ref} from "vue";
-    import {OnPageLoad} from "@/js/libArkumida";
+    import {DecodeSearchQuery, OnPageLoad} from "@/js/libArkumida";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const props = defineProps({
@@ -25,7 +25,7 @@
 
         if (props.encodedQuery !== "")
         {
-            decodedQuery.value = decodeURIComponent(props.encodedQuery)
+            decodedQuery.value = DecodeSearchQuery(props.encodedQuery)
         }
 
         isLoading.value = false
