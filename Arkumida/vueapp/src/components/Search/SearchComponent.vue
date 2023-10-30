@@ -7,6 +7,7 @@
     import ShortTextInfo from "@/components/MainPage/TextInfos/ShortTextInfo.vue";
     import PaginationComponent from "@/components/Shared/Pagination/PaginationComponent.vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+    import {EncodeSearchQuery} from "@/js/libArkumida";
 
     const props = defineProps({
         queryText: String,
@@ -73,7 +74,7 @@
 
     async function MakeSearchQuery(query)
     {
-        await router.replace({ path: "/search/" + encodeURIComponent(query) })
+        await router.replace({ path: EncodeSearchQuery(query) })
 
         if (props.isFromMainPage)
         {
