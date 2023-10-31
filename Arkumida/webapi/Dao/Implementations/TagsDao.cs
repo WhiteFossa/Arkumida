@@ -9,15 +9,12 @@ namespace webapi.Dao.Implementations;
 public class TagsDao : ITagsDao
 {
     private readonly MainDbContext _dbContext;
-    private ILogger _logger;
 
     public TagsDao
     (
-        ILogger<TagsDao> logger,
         MainDbContext dbContext
     )
     {
-        _logger = logger;
         _dbContext = dbContext;
     }
     

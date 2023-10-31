@@ -65,6 +65,8 @@ builder.Services.AddScoped<IPrivateMessagesDao, PrivateMessagesDao>();
 
 builder.Services.AddScoped<ITextsSearchService, TextsSearchService>();
 
+builder.Services.AddScoped<ITextsStatisticsDao, TextsStatisticsDao>();
+
 #endregion
 
 #region Singletons
