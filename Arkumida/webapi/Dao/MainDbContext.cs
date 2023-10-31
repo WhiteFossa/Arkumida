@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Models;
+using webapi.Dao.Models.Enums.Statistics;
 using webapi.Models;
 
 namespace webapi.Dao;
@@ -60,6 +61,11 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
     /// Private messages
     /// </summary>
     public DbSet<PrivateMessageDbo> PrivateMessages { get; set; }
+
+    /// <summary>
+    /// Texts statistics events
+    /// </summary>
+    public DbSet<TextsStatisticsEventDbo> TextsStatisticsEvents { get; set; }
 
     public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
     {
@@ -148,5 +154,15 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
             .Entity<PrivateMessageDbo>()
             .HasOne(pm => pm.Receiver)
             .WithMany(cp => cp.ReceiverOfThisPrivateMessages);
+        
+        // Statistics event have one related text
+        modelBuilder
+            .Entity<TextsStatisticsEventDbo>()
+            .HasOne(tse => tse.Text);
+        
+        // Statistics event may have one related creature
+        modelBuilder
+            .Entity<TextsStatisticsEventDbo>()
+            .HasOne(tse => tse.CausedByCreature);
     }
 }
