@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dao.Models.Enums;
 using webapi.Dao.Models.Enums.Statistics;
+using webapi.Helpers;
 using webapi.Models.Api.Requests;
 using webapi.Models.Api.Responses;
 using webapi.Services.Abstract;
@@ -70,8 +71,8 @@ public class TextsController : ControllerBase
             TextsStatisticsEventType.Read,
             id,
             readerCreatureId,
-            "IP not implemented yet",
-            "User agent not implemented yet"
+            HttpContext.Connection.RemoteIpAddress.ToString(),
+            UserAgentHelper.GetUserAgent(HttpContext)
         );
         
         return Ok
