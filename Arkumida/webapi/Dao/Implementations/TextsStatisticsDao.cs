@@ -21,6 +21,9 @@ public class TextsStatisticsDao : ITextsStatisticsDao
     {
         _ = statisticsEvent ?? throw new ArgumentNullException(nameof(statisticsEvent), "Statistics event must not be null!");
 
+        statisticsEvent.Text = await _dbContext.Texts.SingleAsync(t => t.Id == statisticsEvent.Text.Id);
+        statisticsEvent.CausedByCreature = statisticsEvent.CausedByCreature != null ? await _dbContext.Users.SingleAsync(u => u.Id == statisticsEvent.CausedByCreature.Id) : null;
+
         await _dbContext
             .TextsStatisticsEvents
             .AddAsync(statisticsEvent);

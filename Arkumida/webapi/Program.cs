@@ -21,11 +21,13 @@ using webapi.Services.Abstract;
 using webapi.Services.Abstract.Email;
 using webapi.Services.Abstract.Search;
 using webapi.Services.Abstract.TextRenderers;
+using webapi.Services.Abstract.TextsStatistics;
 using webapi.Services.Implementations;
 using webapi.Services.Implementations.Email;
 using webapi.Services.Implementations.Hosted;
 using webapi.Services.Implementations.Search;
 using webapi.Services.Implementations.TextRenderers;
+using webapi.Services.Implementations.TextsStatitstics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +68,7 @@ builder.Services.AddScoped<IPrivateMessagesDao, PrivateMessagesDao>();
 builder.Services.AddScoped<ITextsSearchService, TextsSearchService>();
 
 builder.Services.AddScoped<ITextsStatisticsDao, TextsStatisticsDao>();
+builder.Services.AddScoped<ITextsStatisticsService, TextsStatisticsService>();
 
 #endregion
 

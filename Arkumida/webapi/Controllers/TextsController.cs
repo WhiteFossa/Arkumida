@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dao.Models.Enums;
+using webapi.Dao.Models.Enums.Statistics;
 using webapi.Models.Api.Requests;
 using webapi.Models.Api.Responses;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Controllers;
 
@@ -16,15 +18,21 @@ public class TextsController : ControllerBase
 {
     private readonly ITextsService _textsService;
     private readonly ITextUtilsService _textUtilsService;
+    private readonly ITextsStatisticsService _textsStatisticsService;
+    private readonly IAccountsService _accountsService;
     
     public TextsController
     (
         ITextsService textsService,
-        ITextUtilsService textUtilsService
+        ITextUtilsService textUtilsService,
+        ITextsStatisticsService textsStatisticsService,
+        IAccountsService accountsService
     )
     {
         _textsService = textsService;
         _textUtilsService = textUtilsService;
+        _textsStatisticsService = textsStatisticsService;
+        _accountsService = accountsService;
     }
 
     /// <summary>
@@ -52,11 +60,25 @@ public class TextsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<TextReadResponse>> GetTextAsync(Guid id)
     {
+        var textReadMetadata = await _textsService.GetTextToReadAsync(id);
+        
+        // If text read metadata returned successfully we are going to add "read" event
+        var readerCreatureId = User.Identity.IsAuthenticated ? (Guid?)(await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id : null;
+            
+        await _textsStatisticsService.AddTextStatisticsEventAsync
+        (
+            TextsStatisticsEventType.Read,
+            id,
+            readerCreatureId,
+            "IP not implemented yet",
+            "User agent not implemented yet"
+        );
+        
         return Ok
         (
             new TextReadResponse
             (
-                await _textsService.GetTextToReadAsync(id)
+                textReadMetadata
             )
         );
     }
