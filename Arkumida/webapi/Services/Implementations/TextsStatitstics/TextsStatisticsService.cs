@@ -42,19 +42,13 @@ public class TextsStatisticsService : ITextsStatisticsService
         {
             throw new ArgumentException("User agent must be specified!", nameof(userAgent));
         }
-
-        CreatureDbo causedByCreature = null;
-        if (creatureId.HasValue)
-        {
-            causedByCreature = await _userManager.FindByIdAsync(creatureId.Value.ToString()); 
-        }
         
         var statisticsEvent = new TextsStatisticsEvent()
         {
             Timestamp = DateTime.UtcNow,
             Text = new Text() { Id = textId },
             Type = eventType,
-            CausedByCreature = _creaturesMapper.Map(causedByCreature),
+            CausedByCreature = _creaturesMapper.Map(creatureId.HasValue ? await _userManager.FindByIdAsync(creatureId.Value.ToString()) : null),
             Ip = ip,
             UserAgent = userAgent
         };
