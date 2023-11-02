@@ -83,6 +83,7 @@ builder.Services.AddSingleton<IRenderedTextsMapper, RenderedTextsMapper>();
 builder.Services.AddSingleton<IAvatarsMapper, AvatarsMapper>();
 builder.Services.AddSingleton<ICreaturesWithProfilesMapper, CreaturesWithProfilesMapper>();
 builder.Services.AddSingleton<IPrivateMessagesMapper, PrivateMessagesMapper>();
+builder.Services.AddSingleton<ITextsStatisticsEventsMapper, TextsStatisticsEventsMapper>();
 
 builder.Services.AddSingleton<IArkumidaOpenSearchClient, ArkumidaOpenSearchClient>();
 
