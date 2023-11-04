@@ -39,6 +39,11 @@ public interface ITextsService
     /// Get text metadata, required to display read page (actual text is NOT returned, for text see GetTextPageAsync()) 
     /// </summary>
     Task<TextReadDto> GetTextToReadAsync(Guid textId);
+
+    /// <summary>
+    /// Get text pages count
+    /// </summary>
+    Task<int> GetTextPagesCountAsync(Guid textId);
     
     /// <summary>
     /// Get text page data (actual text returned here)

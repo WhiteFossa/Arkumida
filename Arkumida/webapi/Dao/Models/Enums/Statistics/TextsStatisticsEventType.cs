@@ -6,9 +6,9 @@ namespace webapi.Dao.Models.Enums.Statistics;
 public enum TextsStatisticsEventType
 {
     /// <summary>
-    /// Text was read
+    /// Text page was read
     /// </summary>
-    Read = 0,
+    PageRead = 0,
     
     /// <summary>
     /// Text was liked
@@ -18,5 +18,10 @@ public enum TextsStatisticsEventType
     /// <summary>
     /// Text was disliked
     /// </summary>
-    Dislike = 2
+    Dislike = 2,
+    
+    /// <summary>
+    /// Text was completely read by creature
+    /// </summary>
+    TextReadCompleted = 3
 }

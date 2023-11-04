@@ -116,7 +116,7 @@ builder.Services.AddControllers();
     // Compression
     builder.Services.AddResponseCompression(options =>
     {
-        options.EnableForHttps = true; // SECURITY RISK AHEAD! Read this fist before enabling: https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression?view=aspnetcore-6.0
+        options.EnableForHttps = true; // SECURITY RISK AHEAD! PageRead this fist before enabling: https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression?view=aspnetcore-6.0
         options.Providers.Add<BrotliCompressionProvider>(); // Brotli is widespread
         options.Providers.Add<GzipCompressionProvider>(); // GZIP as fallback
     });

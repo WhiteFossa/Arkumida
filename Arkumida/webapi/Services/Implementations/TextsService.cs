@@ -153,9 +153,7 @@ public class TextsService : ITextsService
     {
         var textMetadata = await _textUtilsService.GetTextMetadataAsync(textId);
         
-        var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
-            .Single()
-            .Value;
+        var sizeInPages = await GetTextPagesCountAsync(textId);
         
         var sizeInBytes = (await _textsRenderingService.GetRenderedTextAsync(textMetadata.Id, RenderedTextType.PlainText))
             .File
@@ -213,9 +211,7 @@ public class TextsService : ITextsService
         
         var textFiles = _textFilesMapper.Map(await _textsDao.GetTextFilesByTextAsync(textId));
         
-        var sizeInPages = (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
-            .Single()
-            .Value;
+        var sizeInPages = await GetTextPagesCountAsync(textId);
 
         var plainTextRenderedFile = (await _textsRenderingService.GetRenderedTextAsync(textId, RenderedTextType.PlainText)).File;
         
@@ -250,6 +246,13 @@ public class TextsService : ITextsService
             sizeInPages,
             new FileInfoDto(plainTextRenderedFile.Id, plainTextRenderedFile.Name)
         );
+    }
+
+    public async Task<int> GetTextPagesCountAsync(Guid textId)
+    {
+        return (await _textsDao.GetPagesCountByTexts(new List<Guid>() { textId }))
+            .Single()
+            .Value;
     }
 
     public async Task<TextPageDto> GetTextPageAsync(Guid textId, int pageNumber)

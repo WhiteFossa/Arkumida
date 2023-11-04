@@ -54,7 +54,7 @@ public class TextsStatisticsDao : ITextsStatisticsDao
     {
         return await _dbContext
             .TextsStatisticsEvents
-            .Where(tse => tse.Type == TextsStatisticsEventType.Read)
+            .Where(tse => tse.Type == TextsStatisticsEventType.PageRead)
             .Where(tse => tse.Timestamp >= startTime)
             .LongCountAsync();
     }

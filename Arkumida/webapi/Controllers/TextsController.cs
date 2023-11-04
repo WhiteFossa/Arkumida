@@ -40,15 +40,15 @@ public class TextsController : ControllerBase
     /// Get text info by ID
     /// </summary>
     [AllowAnonymous]
-    [Route("api/Texts/GetInfo/{id}")]
+    [Route("api/Texts/GetInfo/{textId}")]
     [HttpGet]
-    public async Task<ActionResult<TextInfoResponse>> GetTextInfoAsync(Guid id)
+    public async Task<ActionResult<TextInfoResponse>> GetTextInfoAsync(Guid textId)
     {
         return Ok
         (
             new TextInfoResponse
             (
-                await _textsService.GetTextInfoByIdAsync(id)
+                await _textsService.GetTextInfoByIdAsync(textId)
             )
         );
     }
@@ -57,15 +57,15 @@ public class TextsController : ControllerBase
     /// Get text by ID
     /// </summary>
     [AllowAnonymous]
-    [Route("api/Texts/GetReadData/{id}")]
+    [Route("api/Texts/GetReadData/{textId}")]
     [HttpGet]
-    public async Task<ActionResult<TextReadResponse>> GetTextAsync(Guid id)
+    public async Task<ActionResult<TextReadResponse>> GetTextAsync(Guid textId)
     {
         return Ok
         (
             new TextReadResponse
             (
-                await _textsService.GetTextToReadAsync(id)
+                await _textsService.GetTextToReadAsync(textId)
             )
         );
     }
@@ -74,24 +74,47 @@ public class TextsController : ControllerBase
     /// Get text page
     /// </summary>
     [AllowAnonymous]
-    [Route("api/Texts/GetPage/{id}/Page/{pageNumber}")]
+    [Route("api/Texts/GetPage/{textId}/Page/{pageNumber}")]
     [HttpGet]
-    public async Task<ActionResult<TextPageResponse>> GetTextPageAsync(Guid id, int pageNumber)
+    public async Task<ActionResult<TextPageResponse>> GetTextPageAsync(Guid textId, int pageNumber)
     {
-        var pageData = await _textsService.GetTextPageAsync(id, pageNumber); 
+        var pageData = await _textsService.GetTextPageAsync(textId, pageNumber); 
         
-        // If page data returned successfully we are going to add "read" event
+        #region Page read event
+        
+        // If page data returned successfully we are going to add "page read" event
         var readerCreatureId = User.Identity.IsAuthenticated ? (Guid?)(await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id : null;
             
         await _textsStatisticsService.AddTextStatisticsEventAsync
         (
-            TextsStatisticsEventType.Read,
-            id,
+            TextsStatisticsEventType.PageRead,
+            textId,
             pageNumber,
             readerCreatureId,
             HttpContext.Connection.RemoteIpAddress.ToString(),
             UserAgentHelper.GetUserAgent(HttpContext)
         );
+        
+        #endregion
+        
+        #region Text completely read
+        // If it was a last page of a text - we additionally generate a "text read completed" event
+        var pagesCount = await _textsService.GetTextPagesCountAsync(textId);
+
+        if (pageNumber == pagesCount)
+        {
+            await _textsStatisticsService.AddTextStatisticsEventAsync
+            (
+                TextsStatisticsEventType.TextReadCompleted,
+                textId,
+                pageNumber,
+                readerCreatureId,
+                HttpContext.Connection.RemoteIpAddress.ToString(),
+                UserAgentHelper.GetUserAgent(HttpContext)
+            );
+        }
+        
+        #endregion
         
         return Ok(new TextPageResponse(pageData));
     }
