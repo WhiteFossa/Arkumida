@@ -25,6 +25,11 @@ public class TextsStatisticsEventDbo
     public TextDbo Text { get; set; }
 
     /// <summary>
+    /// Event is related to this text page
+    /// </summary>
+    public int? Page { get; set; }
+
+    /// <summary>
     /// Event type
     /// </summary>
     public TextsStatisticsEventType Type { get; set; }

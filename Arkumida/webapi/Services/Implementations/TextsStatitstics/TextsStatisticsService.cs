@@ -31,7 +31,15 @@ public class TextsStatisticsService : ITextsStatisticsService
         _creaturesMapper = creaturesMapper;
     }
     
-    public async Task<TextsStatisticsEvent> AddTextStatisticsEventAsync(TextsStatisticsEventType eventType, Guid textId, Guid? creatureId, string ip, string userAgent)
+    public async Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
+    (
+        TextsStatisticsEventType eventType,
+        Guid textId,
+        int? textPage,
+        Guid? creatureId,
+        string ip,
+        string userAgent
+    )
     {
         if (string.IsNullOrWhiteSpace(ip))
         {
@@ -47,6 +55,7 @@ public class TextsStatisticsService : ITextsStatisticsService
         {
             Timestamp = DateTime.UtcNow,
             Text = new Text() { Id = textId },
+            Page = textPage,
             Type = eventType,
             CausedByCreature = _creaturesMapper.Map(creatureId.HasValue ? await _userManager.FindByIdAsync(creatureId.Value.ToString()) : null),
             Ip = ip,

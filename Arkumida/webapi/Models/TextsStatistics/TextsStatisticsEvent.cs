@@ -21,6 +21,11 @@ public class TextsStatisticsEvent
     /// Event is related to this text
     /// </summary>
     public Text Text { get; set; }
+    
+    /// <summary>
+    /// Event is related to this text page
+    /// </summary>
+    public int? Page { get; set; }
 
     /// <summary>
     /// Event type

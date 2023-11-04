@@ -61,25 +61,11 @@ public class TextsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<TextReadResponse>> GetTextAsync(Guid id)
     {
-        var textReadMetadata = await _textsService.GetTextToReadAsync(id);
-        
-        // If text read metadata returned successfully we are going to add "read" event
-        var readerCreatureId = User.Identity.IsAuthenticated ? (Guid?)(await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id : null;
-            
-        await _textsStatisticsService.AddTextStatisticsEventAsync
-        (
-            TextsStatisticsEventType.Read,
-            id,
-            readerCreatureId,
-            HttpContext.Connection.RemoteIpAddress.ToString(),
-            UserAgentHelper.GetUserAgent(HttpContext)
-        );
-        
         return Ok
         (
             new TextReadResponse
             (
-                textReadMetadata
+                await _textsService.GetTextToReadAsync(id)
             )
         );
     }
@@ -92,13 +78,22 @@ public class TextsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<TextPageResponse>> GetTextPageAsync(Guid id, int pageNumber)
     {
-        return Ok
+        var pageData = await _textsService.GetTextPageAsync(id, pageNumber); 
+        
+        // If page data returned successfully we are going to add "read" event
+        var readerCreatureId = User.Identity.IsAuthenticated ? (Guid?)(await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id : null;
+            
+        await _textsStatisticsService.AddTextStatisticsEventAsync
         (
-            new TextPageResponse
-            (
-                await _textsService.GetTextPageAsync(id, pageNumber)
-            )
+            TextsStatisticsEventType.Read,
+            id,
+            pageNumber,
+            readerCreatureId,
+            HttpContext.Connection.RemoteIpAddress.ToString(),
+            UserAgentHelper.GetUserAgent(HttpContext)
         );
+        
+        return Ok(new TextPageResponse(pageData));
     }
 
     /// <summary>
