@@ -25,9 +25,9 @@ public interface ITextsStatisticsDao
     Task<IReadOnlyCollection<TextsStatisticsEventDbo>> GetOrderedEventsByTextIdAsync(Guid textId, TextsStatisticsEventType? filterByType = null);
 
     /// <summary>
-    /// Get all texts reads count since (including) given time
+    /// Get all texts reads count since (including) start time, till (excluding) end time
     /// </summary>
-    Task<long> GetAllTextsReadsCountSinceTimeAsync(DateTime startTime);
+    Task<long> GetAllTextsCompleteReadsCountAsync(DateTime startTime, DateTime endTime);
 
     #endregion
 }

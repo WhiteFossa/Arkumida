@@ -50,12 +50,18 @@ public class TextsStatisticsDao : ITextsStatisticsDao
             .ToListAsync();
     }
 
-    public async Task<long> GetAllTextsReadsCountSinceTimeAsync(DateTime startTime)
+    public async Task<long> GetAllTextsCompleteReadsCountAsync(DateTime startTime, DateTime endTime)
     {
+        if (endTime <= startTime)
+        {
+            throw new ArgumentOutOfRangeException(nameof(endTime), "End time must be greater then start time!");
+        }
+        
         return await _dbContext
             .TextsStatisticsEvents
-            .Where(tse => tse.Type == TextsStatisticsEventType.PageRead)
+            .Where(tse => tse.Type == TextsStatisticsEventType.TextReadCompleted)
             .Where(tse => tse.Timestamp >= startTime)
+            .Where(tse => tse.Timestamp < endTime)
             .LongCountAsync();
     }
 }

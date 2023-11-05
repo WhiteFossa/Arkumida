@@ -67,4 +67,17 @@ public class TextsStatisticsService : ITextsStatisticsService
 
         return _textsStatisticsEventsMapper.Map(addedEvent);
     }
+
+    public async Task<long> GetAllTextsCompleteReadsCountAsync(DateTime startTime, DateTime endTime)
+    {
+        return await _textsStatisticsDao.GetAllTextsCompleteReadsCountAsync(startTime, endTime);
+    }
+
+    public async Task<long> GetAllTextsCompleteReadsCountForLast24HoursAsync()
+    {
+        var endTime = DateTime.UtcNow;
+        var startTime = endTime.AddDays(-1);
+
+        return await GetAllTextsCompleteReadsCountAsync(startTime, endTime);
+    }
 }

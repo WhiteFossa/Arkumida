@@ -17,4 +17,14 @@ public interface ITextsStatisticsService
         string ip,
         string userAgent
     );
+
+    /// <summary>
+    /// Get texts complete reads count for given interval (start time included, end time excluded)
+    /// </summary>
+    Task<long> GetAllTextsCompleteReadsCountAsync(DateTime startTime, DateTime endTime);
+
+    /// <summary>
+    /// Get texts complete reads count for 24 hours
+    /// </summary>
+    Task<long> GetAllTextsCompleteReadsCountForLast24HoursAsync();
 }
