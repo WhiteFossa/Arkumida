@@ -373,7 +373,7 @@ public class ArkumidaOpenSearchClient : IArkumidaOpenSearchClient
             .Index(IndexableCreature.IndexName)
             .Query(q => q
                 .Match(m => m
-                    .Field(ic => ic.DbId)
+                    .Field(ic => ic.DbId.Suffix("keyword"))
                     .Query(creatureId.ToString())))
         );
 

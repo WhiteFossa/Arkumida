@@ -15,10 +15,10 @@ public class TextsStatisticsResponse
     public int TotalTexts { get; private set; }
     
     /// <summary>
-    /// Stories read today
+    /// Stories read for last 24 hours
     /// </summary>
-    [JsonPropertyName("readToday")]
-    public int ReadToday { get; private set; }
+    [JsonPropertyName("readDuringLast24Hours")]
+    public long ReadDuringLast24Hours { get; private set; }
 
     /// <summary>
     /// Last story was added this time
@@ -29,7 +29,7 @@ public class TextsStatisticsResponse
     public TextsStatisticsResponse
     (
         int totalTexts,
-        int readToday,
+        long readDuringLast24Hours,
         DateTime lastAddTime
     )
     {
@@ -38,13 +38,13 @@ public class TextsStatisticsResponse
             throw new ArgumentOutOfRangeException(nameof(totalTexts), "Total texts can't be negative.");
         }
         
-        if (readToday < 0)
+        if (readDuringLast24Hours < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(readToday), "Amount of texts read today can't be negative.");
+            throw new ArgumentOutOfRangeException(nameof(readDuringLast24Hours), "Amount of texts read during last 24 hours can't be negative.");
         }
 
         TotalTexts = totalTexts;
-        ReadToday = readToday;
+        ReadDuringLast24Hours = readDuringLast24Hours;
         LastAddTime = lastAddTime;
     }
 }

@@ -21,11 +21,13 @@ using webapi.Services.Abstract;
 using webapi.Services.Abstract.Email;
 using webapi.Services.Abstract.Search;
 using webapi.Services.Abstract.TextRenderers;
+using webapi.Services.Abstract.TextsStatistics;
 using webapi.Services.Implementations;
 using webapi.Services.Implementations.Email;
 using webapi.Services.Implementations.Hosted;
 using webapi.Services.Implementations.Search;
 using webapi.Services.Implementations.TextRenderers;
+using webapi.Services.Implementations.TextsStatitstics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +67,9 @@ builder.Services.AddScoped<IPrivateMessagesDao, PrivateMessagesDao>();
 
 builder.Services.AddScoped<ITextsSearchService, TextsSearchService>();
 
+builder.Services.AddScoped<ITextsStatisticsDao, TextsStatisticsDao>();
+builder.Services.AddScoped<ITextsStatisticsService, TextsStatisticsService>();
+
 #endregion
 
 #region Singletons
@@ -81,6 +86,7 @@ builder.Services.AddSingleton<IRenderedTextsMapper, RenderedTextsMapper>();
 builder.Services.AddSingleton<IAvatarsMapper, AvatarsMapper>();
 builder.Services.AddSingleton<ICreaturesWithProfilesMapper, CreaturesWithProfilesMapper>();
 builder.Services.AddSingleton<IPrivateMessagesMapper, PrivateMessagesMapper>();
+builder.Services.AddSingleton<ITextsStatisticsEventsMapper, TextsStatisticsEventsMapper>();
 
 builder.Services.AddSingleton<IArkumidaOpenSearchClient, ArkumidaOpenSearchClient>();
 
@@ -110,7 +116,7 @@ builder.Services.AddControllers();
     // Compression
     builder.Services.AddResponseCompression(options =>
     {
-        options.EnableForHttps = true; // SECURITY RISK AHEAD! Read this fist before enabling: https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression?view=aspnetcore-6.0
+        options.EnableForHttps = true; // SECURITY RISK AHEAD! PageRead this fist before enabling: https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression?view=aspnetcore-6.0
         options.Providers.Add<BrotliCompressionProvider>(); // Brotli is widespread
         options.Providers.Add<GzipCompressionProvider>(); // GZIP as fallback
     });
