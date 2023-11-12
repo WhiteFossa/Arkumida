@@ -29,5 +29,10 @@ public interface ITextsStatisticsDao
     /// </summary>
     Task<long> GetAllTextsCompleteReadsCountAsync(DateTime startTime, DateTime endTime);
 
+    /// <summary>
+    /// Get the most popular texts IDs
+    /// </summary>
+    Task<IReadOnlyCollection<Guid>> GetMostPopularTextsIDsAsync(int skip, int take);
+
     #endregion
 }

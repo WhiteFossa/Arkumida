@@ -94,7 +94,7 @@ public class TextsDao : ITextsDao
         return textFileDbo;
     }
 
-    public async Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take)
+    public async Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataOrderedByUpdateTimeAsync(int skip, int take)
     {
         if (skip < 0)
         {
@@ -106,32 +106,33 @@ public class TextsDao : ITextsDao
             throw new ArgumentOutOfRangeException(nameof(take), "Take must be positive.");
         }
 
-        IQueryable<TextDbo> orderedSource = _dbContext
+        return await _dbContext
             .Texts
             .Include(t => t.Tags)
             .Include(t => t.TextFiles)
             .Include(t => t.Authors)
             .Include(t => t.Translators)
-            .Include(t => t.Publisher);
-
-        switch (orderMode)
-        {
-            case TextOrderMode.Latest:
-                orderedSource = orderedSource.OrderByDescending(t => t.LastUpdateTime);
-                break;
-            
-            case TextOrderMode.Popular:
-                orderedSource = orderedSource.OrderByDescending(t => t.ReadsCount);
-                break;
-            
-            default:
-                throw new ArgumentException("Unknown ordering mode.", nameof(orderMode));
-        }
-
-        return await orderedSource
-            .Skip(skip)
+            .Include(t => t.Publisher)
+            .OrderByDescending(t => t.LastUpdateTime).Skip(skip)
             .Take(take)
             .ToListAsync();
+    }
+
+    public async Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataExternallyOrderedAsync(IReadOnlyCollection<Guid> orderedIds)
+    {
+        var unorderedResult = await _dbContext
+            .Texts
+            .Include(t => t.Tags)
+            .Include(t => t.TextFiles)
+            .Include(t => t.Authors)
+            .Include(t => t.Translators)
+            .Include(t => t.Publisher)
+            .Where(t => orderedIds.Contains(t.Id))
+            .ToListAsync();
+
+        return orderedIds
+            .Select(oi => unorderedResult.Single(tm => tm.Id == oi))
+            .ToList();
     }
 
     public async Task<Dictionary<Guid, TextDbo>> GetTextsMetadataByIdsAsync(IReadOnlyCollection<Guid> textsIds)

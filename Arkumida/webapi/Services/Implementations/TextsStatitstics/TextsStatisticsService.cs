@@ -80,4 +80,9 @@ public class TextsStatisticsService : ITextsStatisticsService
 
         return await GetAllTextsCompleteReadsCountAsync(startTime, endTime);
     }
+
+    public async Task<IReadOnlyCollection<Guid>> GetMostPopularTextsIDsAsync(int skip, int take)
+    {
+        return await _textsStatisticsDao.GetMostPopularTextsIDsAsync(skip, take);
+    }
 }

@@ -27,4 +27,9 @@ public interface ITextsStatisticsService
     /// Get texts complete reads count for 24 hours
     /// </summary>
     Task<long> GetAllTextsCompleteReadsCountForLast24HoursAsync();
+    
+    /// <summary>
+    /// Get the most popular texts IDs
+    /// </summary>
+    Task<IReadOnlyCollection<Guid>> GetMostPopularTextsIDsAsync(int skip, int take);
 }
