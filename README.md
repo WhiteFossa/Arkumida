@@ -3,6 +3,10 @@ Furtails.pw next generation
 
 # Build and run on Docker
 
+# Create network (to avoid problems with directory prefixes)
+
+docker network create -d bridge arkumida-net
+
 # Infrastructure
 
 Build image: $ docker build -f dockerfile-arkumida-infrastructure -t arkumida-infrastructure-postgres .
