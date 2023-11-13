@@ -5,6 +5,7 @@ using webapi.Models.Api.Responses.Search;
 using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Search;
+using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Services.Implementations.Search;
 
@@ -13,17 +14,20 @@ public class TextsSearchService : ITextsSearchService
     private readonly IArkumidaOpenSearchClient _arkumidaOpenSearchClient;
     private readonly ITextsDao _textsDao;
     private readonly ITextUtilsService _textUtilsService;
+    private readonly ITextsStatisticsService _textsStatisticsService;
 
     public TextsSearchService
     (
         IArkumidaOpenSearchClient arkumidaOpenSearchClient,
         ITextsDao textsDao,
-        ITextUtilsService textUtilsService
+        ITextUtilsService textUtilsService,
+        ITextsStatisticsService textsStatisticsService
     )
     {
         _arkumidaOpenSearchClient = arkumidaOpenSearchClient;
         _textsDao = textsDao;
         _textUtilsService = textUtilsService;
+        _textsStatisticsService = textsStatisticsService;
     }
     
     public async Task<TextsSearchResultsResponse> SearchTextsAsync(string query, int skip, int take)
@@ -83,12 +87,12 @@ public class TextsSearchService : ITextsSearchService
                 take
             );
 
-        var textsGuids = openSearchResult
+        var textsIds = openSearchResult
             .Item1
             .Select(it => it.DbId)
             .ToList();
 
-        var textsMetadata = await _textsDao.GetTextsMetadataByIdsAsync(textsGuids);
+        var textsMetadata = await _textsDao.GetTextsMetadataByIdsAsync(textsIds);
 
         var texts = textsMetadata
             .Select(di => di.Value)
@@ -96,9 +100,11 @@ public class TextsSearchService : ITextsSearchService
             .Select(t => t.Result);
         
         // Reordering texts as textGuids to keep the same order as in OpenSearch result
-        texts = textsGuids
+        texts = textsIds
             .Select(tg => texts.Single(t => t.Id == tg))
             .ToList();
+
+        var readsCounts = await _textsStatisticsService.GetTextsReadsCountsAsync(textsIds);
 
         var foundTexts = texts
             .Select
@@ -109,7 +115,7 @@ public class TextsSearchService : ITextsSearchService
                     t.LastUpdateTime,
                     t.Title,
                     t.Description,
-                    t.ReadsCount,
+                    readsCounts[t.Id],
                     t.VotesCount,
                     t.VotesPlus,
                     t.VotesMinus,

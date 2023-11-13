@@ -44,12 +44,6 @@ public class TextDto
     public IList<TextPageDto> Pages { get; set; }
     
     /// <summary>
-    /// How many times text was read
-    /// </summary>
-    [JsonPropertyName("readsCount")]
-    public long ReadsCount { get; set; }
-    
-    /// <summary>
     /// Votes count for text
     /// </summary>
     [JsonPropertyName("votesCount")]
@@ -110,7 +104,6 @@ public class TextDto
         string title,
         string description,
         IReadOnlyCollection<TextPageDto> pages,
-        long readsCount,
         long votesCount,
         long votesPlus,
         long votesMinus,
@@ -133,12 +126,6 @@ public class TextDto
         
         Description = description; // May be empty
         Pages = (pages ?? throw new ArgumentNullException(nameof(pages), "Pages mustn't be null.")).ToList();
-
-        if (readsCount < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(readsCount), "Reads count must be non-negative.");
-        }
-        ReadsCount = readsCount;
         
         if (votesCount < 0)
         {
@@ -184,7 +171,6 @@ public class TextDto
             Title = Title,
             Description = Description,
             Pages = Pages.Select(p => p.ToTextPage()).ToList(),
-            ReadsCount = ReadsCount,
             VotesCount = VotesCount,
             VotesPlus = VotesPlus,
             VotesMinus = VotesMinus,

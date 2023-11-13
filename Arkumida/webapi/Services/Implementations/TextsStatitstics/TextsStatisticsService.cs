@@ -85,4 +85,9 @@ public class TextsStatisticsService : ITextsStatisticsService
     {
         return await _textsStatisticsDao.GetMostPopularTextsIDsAsync(skip, take);
     }
+
+    public async Task<Dictionary<Guid, long>> GetTextsReadsCountsAsync(IReadOnlyCollection<Guid> textsIds)
+    {
+        return await _textsStatisticsDao.GetTextsReadsCountAsync(textsIds);
+    }
 }

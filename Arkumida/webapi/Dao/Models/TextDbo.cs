@@ -36,11 +36,6 @@ public class TextDbo
     public IList<TextPageDbo> Pages { get; set; }
 
     /// <summary>
-    /// How many times text was read (we can't remove this field because sorting by popular texts). So we will update this field when text is read. Kinda dirty
-    /// </summary>
-    public long ReadsCount { get; set; }
-
-    /// <summary>
     /// Votes count for text
     /// </summary>
     public long VotesCount { get; set; }

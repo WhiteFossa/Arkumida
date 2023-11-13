@@ -81,12 +81,30 @@ public class TextsStatisticsDao : ITextsStatisticsDao
             .TextsStatisticsEvents
             .Where(tse => tse.Type == TextsStatisticsEventType.TextReadCompleted)
             .GroupBy(tse => tse.Text.Id)
-            .ToDictionary(g => g.Key, g => g.Count())
+            .ToDictionary(g => g.Key, g => g.LongCount())
             .OrderByDescending(di => di.Value)
             .Skip(skip)
             .Take(take)
             .Select(di => di.Key)
             .ToList();
             
+    }
+
+    public async Task<Dictionary<Guid, long>> GetTextsReadsCountAsync(IReadOnlyCollection<Guid> textsIds)
+    {
+        var result = await _dbContext
+            .TextsStatisticsEvents
+            .Where(tse => textsIds.Contains(tse.Text.Id))
+            .Where(tse => tse.Type == TextsStatisticsEventType.TextReadCompleted)
+            .GroupBy(tse => tse.Text.Id)
+            .ToDictionaryAsync(g => g.Key, g => g.LongCount());
+        
+        // Injecting zeros
+        foreach (var textId in textsIds)
+        {
+            result.TryAdd(textId, 0);
+        }
+
+        return result;
     }
 }

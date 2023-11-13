@@ -8,6 +8,7 @@ using webapi.Models.Enums;
 using webapi.OpenSearch.Models;
 using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Services.Implementations;
 
@@ -21,6 +22,7 @@ public class TextsService : ITextsService
     private readonly ITextsRenderingService _textsRenderingService;
     private readonly ITextUtilsService _textUtilsService;
     private readonly IArkumidaOpenSearchClient _arkumidaOpenSearchClient;
+    private readonly ITextsStatisticsService _textsStatisticsService;
 
     public TextsService
     (
@@ -31,7 +33,8 @@ public class TextsService : ITextsService
         ITextFilesMapper textFilesMapper,
         ITextsRenderingService textsRenderingService,
         ITextUtilsService textUtilsService,
-        IArkumidaOpenSearchClient arkumidaOpenSearchClient
+        IArkumidaOpenSearchClient arkumidaOpenSearchClient,
+        ITextsStatisticsService textsStatisticsService
     )
     {
         _textsDao = textsDao;
@@ -42,6 +45,7 @@ public class TextsService : ITextsService
         _textsRenderingService = textsRenderingService;
         _textUtilsService = textUtilsService;
         _arkumidaOpenSearchClient = arkumidaOpenSearchClient;
+        _textsStatisticsService = textsStatisticsService;
     }
 
     public async Task<Text> CreateTextAsync(Text text)
@@ -99,6 +103,8 @@ public class TextsService : ITextsService
         
         var sizesInPages = await _textsDao.GetPagesCountByTexts(textsIds);
 
+        var readsCounts = await _textsStatisticsService.GetTextsReadsCountsAsync(textsIds);
+
         var result = new List<TextInfoDto>();
 
         foreach (var textMetadata in textsMetadatas)
@@ -129,7 +135,7 @@ public class TextsService : ITextsService
                     
                     textMetadata.Title,
                     textMetadata.CreateTime,
-                    textMetadata.ReadsCount,
+                    readsCounts[textMetadata.Id],
                     0,
                     textMetadata.VotesPlus,
                     textMetadata.VotesMinus,
@@ -160,6 +166,10 @@ public class TextsService : ITextsService
             .Content
             .Length;
 
+        var readsCount = (await _textsStatisticsService.GetTextsReadsCountsAsync(new List<Guid>() { textId }))
+            .Single(rc => rc.Key == textId)
+            .Value;
+        
         return new TextInfoDto
         (
             textMetadata.Id,
@@ -178,7 +188,7 @@ public class TextsService : ITextsService
             textMetadata.Publisher.ToDto(),
             textMetadata.Title,
             textMetadata.CreateTime,
-            textMetadata.ReadsCount,
+            readsCount,
             0,
             textMetadata.VotesPlus,
             textMetadata.VotesMinus,

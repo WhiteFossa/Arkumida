@@ -34,5 +34,10 @@ public interface ITextsStatisticsDao
     /// </summary>
     Task<IReadOnlyCollection<Guid>> GetMostPopularTextsIDsAsync(int skip, int take);
 
+    /// <summary>
+    /// Get reads count for given texts. If text was never read it will return 0, i.e. item wouldn't be absent
+    /// </summary>
+    Task<Dictionary<Guid, long>> GetTextsReadsCountAsync(IReadOnlyCollection<Guid> textsIds);
+
     #endregion
 }
