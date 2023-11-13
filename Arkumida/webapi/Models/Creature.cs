@@ -21,7 +21,7 @@ public class Creature
     /// User email
     /// </summary>
     public string Email { get; set; }
-
+    
     public Creature
     (
         Guid id,

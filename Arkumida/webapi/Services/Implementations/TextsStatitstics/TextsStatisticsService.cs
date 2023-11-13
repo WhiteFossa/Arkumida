@@ -34,6 +34,7 @@ public class TextsStatisticsService : ITextsStatisticsService
     public async Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
     (
         TextsStatisticsEventType eventType,
+        DateTime eventTime,
         Guid textId,
         int? textPage,
         Guid? creatureId,
@@ -53,7 +54,7 @@ public class TextsStatisticsService : ITextsStatisticsService
         
         var statisticsEvent = new TextsStatisticsEvent()
         {
-            Timestamp = DateTime.UtcNow,
+            Timestamp = eventTime,
             Text = new Text() { Id = textId },
             Page = textPage,
             Type = eventType,

@@ -88,6 +88,7 @@ public class TextsController : ControllerBase
         await _textsStatisticsService.AddTextStatisticsEventAsync
         (
             TextsStatisticsEventType.PageRead,
+            DateTime.UtcNow,
             textId,
             pageNumber,
             readerCreatureId,
@@ -106,6 +107,7 @@ public class TextsController : ControllerBase
             await _textsStatisticsService.AddTextStatisticsEventAsync
             (
                 TextsStatisticsEventType.TextReadCompleted,
+                DateTime.UtcNow, 
                 textId,
                 pageNumber,
                 readerCreatureId,

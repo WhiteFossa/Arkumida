@@ -11,6 +11,7 @@ public interface ITextsStatisticsService
     Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
     (
         TextsStatisticsEventType eventType,
+        DateTime eventTime,
         Guid textId,
         int? textPage,
         Guid? creatureId,
