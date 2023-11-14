@@ -65,6 +65,9 @@ public class TextsImporter
             )
             .ToList();
         
+        // Importer creature
+        var importerCreature = await _usersImporter.FindCreatureByLogin(MainImporter.Login);
+        
         // Importing creatures, who are authors, editors and translators
         var creaturesFromTexts = new List<string>();
 
@@ -97,7 +100,7 @@ public class TextsImporter
         
         await Parallel.ForEachAsync(texts, textsImportParallelismDegree, async (text, token) =>
         {
-            await AddTextToArkumidaAsync(categories, text);
+            await AddTextToArkumidaAsync(categories, text, importerCreature);
         });
     }
 
@@ -125,7 +128,7 @@ public class TextsImporter
         return result;
     }
 
-    private async Task AddTextToArkumidaAsync(IReadOnlyCollection<FtCategory> categories, FtText text)
+    private async Task AddTextToArkumidaAsync(IReadOnlyCollection<FtCategory> categories, FtText text, CreatureDto importerCreature)
     {
         if (text.IsDeleted != 0)
         {
@@ -407,7 +410,6 @@ public class TextsImporter
             Title = text.Title,
             Description = text.Description,
             Pages = new Collection<TextPageDto>(),
-            ReadsCount = text.ReadsCount,
             VotesCount = text.VotesCount,
             VotesPlus = text.VotesPlus,
             VotesMinus = text.VotesMinus,
@@ -498,6 +500,25 @@ public class TextsImporter
             
             // Now just attach file to text
             await AddFileToArkumidaTextAsync(arkumidaTextId, fileMetadata.Name, uploadedFile.FileInfo.Id);
+        }
+        
+        // Adding reads count (via simulated read events)
+        // !!! DO NOT PARALLELIZE ME !!! Database overload !!!
+        for (var readIndex = 0; readIndex < text.ReadsCount; readIndex++)
+        {
+            var readEvent = new TextsStatisticsEventDto()
+            {
+                Id = Guid.Empty,
+                TextId = arkumidaTextId,
+                Type = TextsStatisticsEventType.TextReadCompleted,
+                CreatureId = importerCreature.Id,
+                Timestamp = DateTime.MinValue,
+                Page = textModel.Pages.Count,
+                Ip = "127.0.0.1",
+                UserAgent = importerCreature.Login
+            };
+
+            await AddTextsStatisticsEventToArkumidaAsync(readEvent);
         }
     }
     
@@ -750,5 +771,21 @@ public class TextsImporter
         }
 
         return creature;
+    }
+    
+    private async Task<TextsStatisticsEventDto> AddTextsStatisticsEventToArkumidaAsync(TextsStatisticsEventDto statisticsEvent)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Statistics/ImportEvent", new ImportTextsStatisticsEventRequest() { TextsStatisticsEvent = statisticsEvent});
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine($"Failed to import texts statistics event!");
+            Console.WriteLine(response.StatusCode);
+            
+            throw new InvalidOperationException();
+        }
+            
+        var responseData = JsonSerializer.Deserialize<ImportTextsStatisticsEventResponse>(await response.Content.ReadAsStringAsync());
+
+        return responseData.TextsStatisticsEvent;
     }
 }

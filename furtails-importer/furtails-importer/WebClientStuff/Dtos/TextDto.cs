@@ -41,12 +41,6 @@ public class TextDto
     public IList<TextPageDto> Pages { get; set; }
     
     /// <summary>
-    /// How many times text was read
-    /// </summary>
-    [JsonPropertyName("readsCount")]
-    public long ReadsCount { get; set; }
-    
-    /// <summary>
     /// Votes count for text
     /// </summary>
     [JsonPropertyName("votesCount")]
