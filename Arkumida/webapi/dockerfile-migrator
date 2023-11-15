@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app
 
 # Installing Entity Framework (for migrations)
-RUN dotnet tool install --global dotnet-ef
+RUN dotnet tool install --global dotnet-ef --version 7.0
 ENV PATH="$PATH:/root/.dotnet/tools"
 
 # Copy csproj and restore as distinct layers
