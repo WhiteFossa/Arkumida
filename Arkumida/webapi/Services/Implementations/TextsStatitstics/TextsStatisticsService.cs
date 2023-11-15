@@ -34,6 +34,7 @@ public class TextsStatisticsService : ITextsStatisticsService
     public async Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
     (
         TextsStatisticsEventType eventType,
+        DateTime eventTime,
         Guid textId,
         int? textPage,
         Guid? creatureId,
@@ -53,7 +54,7 @@ public class TextsStatisticsService : ITextsStatisticsService
         
         var statisticsEvent = new TextsStatisticsEvent()
         {
-            Timestamp = DateTime.UtcNow,
+            Timestamp = eventTime,
             Text = new Text() { Id = textId },
             Page = textPage,
             Type = eventType,
@@ -79,5 +80,15 @@ public class TextsStatisticsService : ITextsStatisticsService
         var startTime = endTime.AddDays(-1);
 
         return await GetAllTextsCompleteReadsCountAsync(startTime, endTime);
+    }
+
+    public async Task<IReadOnlyCollection<Guid>> GetMostPopularTextsIDsAsync(int skip, int take)
+    {
+        return await _textsStatisticsDao.GetMostPopularTextsIDsAsync(skip, take);
+    }
+
+    public async Task<Dictionary<Guid, long>> GetTextsReadsCountsAsync(IReadOnlyCollection<Guid> textsIds)
+    {
+        return await _textsStatisticsDao.GetTextsReadsCountAsync(textsIds);
     }
 }

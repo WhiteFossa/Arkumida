@@ -1,68 +1,58 @@
-using webapi.Dao.Models.Enums.Statistics;
-using webapi.Models.Api.DTOs.TextsStatistics;
+using System.Text.Json.Serialization;
+using furtails_importer.WebClientStuff.Enums;
 
-namespace webapi.Models.TextsStatistics;
+namespace furtails_importer.WebClientStuff.Dtos;
 
 /// <summary>
-/// Texts statistics event model
+/// Texts statistics event DTO
 /// </summary>
-public class TextsStatisticsEvent
+public class TextsStatisticsEventDto
 {
     /// <summary>
     /// Event ID
     /// </summary>
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
 
     /// <summary>
     /// When event occured
     /// </summary>
+    [JsonPropertyName("timestamp")]
     public DateTime Timestamp { get; set; }
 
     /// <summary>
     /// Event is related to this text
     /// </summary>
-    public Text Text { get; set; }
+    [JsonPropertyName("textId")]
+    public Guid TextId { get; set; }
     
     /// <summary>
     /// Event is related to this text page
     /// </summary>
+    [JsonPropertyName("page")]
     public int? Page { get; set; }
 
     /// <summary>
     /// Event type
     /// </summary>
+    [JsonPropertyName("type")]
     public TextsStatisticsEventType Type { get; set; }
     
     /// <summary>
     /// If caused by registered creature, then shi will be here, otherwise here will be null
     /// </summary>
-    public Creature CausedByCreature { get; set; }
+    [JsonPropertyName("creatureId")]
+    public Guid? CreatureId { get; set; }
 
     /// <summary>
     /// IPv4 or IPv6 of creature, who caused the event
     /// </summary>
+    [JsonPropertyName("ip")]
     public string Ip { get; set; }
 
     /// <summary>
     /// Useragent of creature, who caused the event
     /// </summary>
+    [JsonPropertyName("userAgent")]
     public string UserAgent { get; set; }
-
-    /// <summary>
-    /// Convert to DTO
-    /// </summary>
-    public TextsStatisticsEventDto ToDto()
-    {
-        return new TextsStatisticsEventDto()
-        {
-            Id = Id,
-            Timestamp = Timestamp,
-            TextId = Text.Id,
-            Page = Page,
-            Type = Type,
-            CreatureId = CausedByCreature?.Id,
-            Ip = Ip,
-            UserAgent = UserAgent
-        };
-    }
 }

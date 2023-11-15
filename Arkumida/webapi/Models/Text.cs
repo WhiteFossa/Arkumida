@@ -40,11 +40,6 @@ public class Text
     public IList<TextPage> Pages { get; set; }
     
     /// <summary>
-    /// How many times text was read
-    /// </summary>
-    public long ReadsCount { get; set; }
-    
-    /// <summary>
     /// Votes count for text
     /// </summary>
     public long VotesCount { get; set; }
@@ -99,7 +94,6 @@ public class Text
             Title,
             Description,
             Pages.Select(p => p.ToDto(this.TextFiles.ToList(), textUtilsService)).ToList(),
-            ReadsCount,
             VotesCount,
             VotesPlus,
             VotesMinus,

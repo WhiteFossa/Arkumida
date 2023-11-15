@@ -25,9 +25,14 @@ public interface ITextsDao
     #region Get
 
     /// <summary>
-    /// Get some texts metadata (i.e. actual content is NOT loaded)
+    /// Get some texts metadata (i.e. actual content is NOT loaded), ordered by last update time
     /// </summary>
-    Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataAsync(TextOrderMode orderMode, int skip, int take);
+    Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataOrderedByUpdateTimeAsync(int skip, int take);
+    
+    /// <summary>
+    /// Text texts metadata (content is NOT loaded), externally ordered
+    /// </summary>
+    Task<IReadOnlyCollection<TextDbo>> GetTextsMetadataExternallyOrderedAsync(IReadOnlyCollection<Guid> orderedIds);
 
     /// <summary>
     /// Get texts metadata for given texts IDs

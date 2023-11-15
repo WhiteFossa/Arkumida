@@ -11,6 +11,7 @@ public interface ITextsStatisticsService
     Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
     (
         TextsStatisticsEventType eventType,
+        DateTime eventTime,
         Guid textId,
         int? textPage,
         Guid? creatureId,
@@ -27,4 +28,14 @@ public interface ITextsStatisticsService
     /// Get texts complete reads count for 24 hours
     /// </summary>
     Task<long> GetAllTextsCompleteReadsCountForLast24HoursAsync();
+    
+    /// <summary>
+    /// Get the most popular texts IDs
+    /// </summary>
+    Task<IReadOnlyCollection<Guid>> GetMostPopularTextsIDsAsync(int skip, int take);
+    
+    /// <summary>
+    /// Get reads count for given texts. If text was never read it will return 0, i.e. item wouldn't be absent
+    /// </summary>
+    Task<Dictionary<Guid, long>> GetTextsReadsCountsAsync(IReadOnlyCollection<Guid> textsIds);
 }

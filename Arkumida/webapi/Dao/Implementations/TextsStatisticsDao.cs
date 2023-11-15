@@ -64,4 +64,47 @@ public class TextsStatisticsDao : ITextsStatisticsDao
             .Where(tse => tse.Timestamp < endTime)
             .LongCountAsync();
     }
+
+    public async Task<IReadOnlyCollection<Guid>> GetMostPopularTextsIDsAsync(int skip, int take)
+    {
+        if (skip < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(skip), "Skip must not be negative.");
+        }
+
+        if (take <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(take), "Take must be positive.");
+        }
+
+        return _dbContext
+            .TextsStatisticsEvents
+            .Where(tse => tse.Type == TextsStatisticsEventType.TextReadCompleted)
+            .GroupBy(tse => tse.Text.Id)
+            .ToDictionary(g => g.Key, g => g.LongCount())
+            .OrderByDescending(di => di.Value)
+            .Skip(skip)
+            .Take(take)
+            .Select(di => di.Key)
+            .ToList();
+            
+    }
+
+    public async Task<Dictionary<Guid, long>> GetTextsReadsCountAsync(IReadOnlyCollection<Guid> textsIds)
+    {
+        var result = await _dbContext
+            .TextsStatisticsEvents
+            .Where(tse => textsIds.Contains(tse.Text.Id))
+            .Where(tse => tse.Type == TextsStatisticsEventType.TextReadCompleted)
+            .GroupBy(tse => tse.Text.Id)
+            .ToDictionaryAsync(g => g.Key, g => g.LongCount());
+        
+        // Injecting zeros
+        foreach (var textId in textsIds)
+        {
+            result.TryAdd(textId, 0);
+        }
+
+        return result;
+    }
 }

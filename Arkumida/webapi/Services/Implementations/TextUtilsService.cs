@@ -8,6 +8,7 @@ using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
 using webapi.Models.ParserTags;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Services.Implementations;
 
@@ -53,17 +54,20 @@ public class TextUtilsService : ITextUtilsService
     private readonly ITextsDao _textsDao;
     private readonly IAccountsService _accountsService;
     private readonly ITextsMapper _textsMapper;
+    private readonly ITextsStatisticsService _textsStatisticsService;
 
     public TextUtilsService
     (
         ITextsDao textsDao,
         IAccountsService accountsService,
-        ITextsMapper textsMapper
+        ITextsMapper textsMapper,
+        ITextsStatisticsService textsStatisticsService
     )
     {
         _textsDao = textsDao;
         _accountsService = accountsService;
         _textsMapper = textsMapper;
+        _textsStatisticsService = textsStatisticsService;
     }
 
     public async Task<string> GetRawTextAsync(Guid textId)
@@ -154,8 +158,23 @@ public class TextUtilsService : ITextUtilsService
 
     public async Task<IReadOnlyCollection<Text>> GetTextsMetadatasAsync(TextOrderMode orderMode, int skip, int take)
     {
-        var metadatas = await _textsDao.GetTextsMetadataAsync(orderMode, skip, take);
+        IReadOnlyCollection<TextDbo> metadatas = null;
 
+        if (orderMode == TextOrderMode.Popular)
+        {
+            var mostPopularTextsIds = await _textsStatisticsService.GetMostPopularTextsIDsAsync(skip, take);
+
+            metadatas = await _textsDao.GetTextsMetadataExternallyOrderedAsync(mostPopularTextsIds);
+        }
+        else if (orderMode == TextOrderMode.Latest)
+        {
+            metadatas = await _textsDao.GetTextsMetadataOrderedByUpdateTimeAsync(skip, take);
+        }
+        else
+        {
+            throw new ArgumentException($"Unknown order mode { orderMode }!", nameof(orderMode));
+        }
+        
         return metadatas
             .Select(async metadata => await PopulateTextMetadataAsync(metadata))
             .Select(t => t.Result)
