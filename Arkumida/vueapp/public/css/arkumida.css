@@ -29,6 +29,7 @@
 /* Pagination */
 /* Footer */
 /* Private messages */
+/* Like/dislike buttons */
 /* Variables end here */
 /* Mixins start here */
 /* Footer column base */
@@ -1031,6 +1032,111 @@ body {
   margin-top: 0.5rem;
   margin-bottom: 0;
   padding-left: 1rem;
+}
+/* Read text footer */
+.read-text-footer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  background: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}
+/* Like/dislike buttons mixin */
+.mixin-read-text-like-dislike-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  background: hsl(0, 0%, 93%);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  width: min-content;
+  cursor: pointer;
+}
+/* Like button (not liked) */
+.read-text-like-button-not-liked {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  background: hsl(0, 0%, 93%);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  width: min-content;
+  cursor: pointer;
+  border: none;
+}
+/* Like button (liked) */
+.read-text-like-button-liked {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  background: hsl(0, 0%, 93%);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  width: min-content;
+  cursor: pointer;
+  border: 0.2rem solid hsl(325, 70%, 60%);
+  background: hsl(325, 100%, 90%);
+}
+/* Dislike button (not disliked) */
+.read-text-dislike-button-not-disliked {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  background: hsl(0, 0%, 93%);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  width: min-content;
+  cursor: pointer;
+  border: none;
+}
+/* Dislike button (disliked) */
+.read-text-dislike-button-disliked {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  background: hsl(0, 0%, 93%);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  width: min-content;
+  cursor: pointer;
+  border: 0.2rem solid hsl(199, 65%, 54%);
+  background: hsl(199, 74%, 79%);
+}
+/* Like/dislike icon */
+.read-text-like-dislike-image {
+  border: 0.1rem solid hsl(0, 0%, 100%);
+  border-radius: 0.2rem;
+  width: 1.3rem;
+  vertical-align: middle;
 }
 /* Read text page stuff ends here */
 /* Creatures info container stuff starts here */

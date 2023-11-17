@@ -15,6 +15,7 @@
     import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
     import ReadTextDownloadComponent from "@/components/ReadText/Download/ReadTextDownloadComponent.vue";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
+    import ReadTextFooterComponent from "@/components/ReadText/Footer/ReadTextFooterComponent.vue";
 
     const props = defineProps({
         id: Guid,
@@ -90,7 +91,7 @@
     <LoadingSymbol v-if="isLoading"/>
     <div v-else class="body-container">
 
-        <!-- Download -->
+        <!-- Download (top) -->
         <div class="read-text-download-container">
             <ReadTextDownloadComponent :plaintextFileId="textData.textData.plainTextFile.id" />
         </div>
@@ -145,5 +146,13 @@
 
         <!-- Pagination (bottom) -->
         <ReadTextPagination :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
+
+        <!-- Download (bottom) -->
+        <div class="read-text-download-container">
+            <ReadTextDownloadComponent :plaintextFileId="textData.textData.plainTextFile.id" />
+        </div>
+
+        <!-- Footer -->
+        <ReadTextFooterComponent />
     </div>
 </template>
