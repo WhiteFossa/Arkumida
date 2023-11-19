@@ -61,6 +61,17 @@ public interface ITextsStatisticsService
         string ip,
         string userAgent
     );
+    
+    /// <summary>
+    /// Unlikes given text. It must be liked - otherwise will throw an exception
+    /// </summary>
+    Task UnlikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    );
 
     #endregion
 }

@@ -70,4 +70,24 @@ public class TextsVotesController : ControllerBase
         
         return Ok();
     }
+    
+    /// <summary>
+    /// Unlike text
+    /// </summary>
+    [Route("api/TextsVotes/Unlike/{textId}")]
+    [HttpPost]
+    public async Task<ActionResult> UnlikeTextAsync(Guid textId)
+    {
+        var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
+
+        await _textsStatisticsService.UnlikeTextAsync
+        (
+            textId,
+            creatureId,
+            HttpContext.Connection.RemoteIpAddress.ToString(),
+            UserAgentHelper.GetUserAgent(HttpContext)
+        );
+        
+        return Ok();
+    }
 }

@@ -171,4 +171,29 @@ public class TextsStatisticsService : ITextsStatisticsService
             userAgent
         );
     }
+
+    public async Task UnlikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    )
+    {
+        if (!await IsTextLikedAsync(textId, creatureId))
+        {
+            throw new InvalidOperationException($"Text with ID={ textId } is not liked by creature with ID={ creatureId }");
+        }
+        
+        await AddTextStatisticsEventAsync
+        (
+            TextsStatisticsEventType.UnLike,
+            DateTime.UtcNow,
+            textId,
+            null,
+            creatureId,
+            ip,
+            userAgent
+        );
+    }
 }
