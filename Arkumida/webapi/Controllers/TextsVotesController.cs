@@ -90,4 +90,44 @@ public class TextsVotesController : ControllerBase
         
         return Ok();
     }
+    
+    /// <summary>
+    /// Dislike text
+    /// </summary>
+    [Route("api/TextsVotes/Dislike/{textId}")]
+    [HttpPost]
+    public async Task<ActionResult> DislikeTextAsync(Guid textId)
+    {
+        var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
+
+        await _textsStatisticsService.DislikeTextAsync
+        (
+            textId,
+            creatureId,
+            HttpContext.Connection.RemoteIpAddress.ToString(),
+            UserAgentHelper.GetUserAgent(HttpContext)
+        );
+        
+        return Ok();
+    }
+    
+    /// <summary>
+    /// Undislike text
+    /// </summary>
+    [Route("api/TextsVotes/Undislike/{textId}")]
+    [HttpPost]
+    public async Task<ActionResult> UndislikeTextAsync(Guid textId)
+    {
+        var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
+
+        await _textsStatisticsService.UndislikeTextAsync
+        (
+            textId,
+            creatureId,
+            HttpContext.Connection.RemoteIpAddress.ToString(),
+            UserAgentHelper.GetUserAgent(HttpContext)
+        );
+        
+        return Ok();
+    }
 }

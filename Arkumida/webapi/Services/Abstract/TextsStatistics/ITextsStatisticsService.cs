@@ -72,6 +72,28 @@ public interface ITextsStatisticsService
         string ip,
         string userAgent
     );
+    
+    /// <summary>
+    /// Dislikes given text. If it's currently liked or disliked by creature - throws exception
+    /// </summary>
+    Task DislikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    );
 
+    /// <summary>
+    /// Undislikes given text. It must be disliked - otherwise will throw an exception
+    /// </summary>
+    Task UndislikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    );
+    
     #endregion
 }

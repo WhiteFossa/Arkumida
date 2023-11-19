@@ -196,4 +196,59 @@ public class TextsStatisticsService : ITextsStatisticsService
             userAgent
         );
     }
+
+    public async Task DislikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    )
+    {
+        if
+        (
+            await IsTextLikedAsync(textId, creatureId)
+            ||
+            await IsTextDislikedAsync(textId, creatureId)
+        )
+        {
+            throw new InvalidOperationException($"Text with ID={ textId } is already liked/disliked by creature with ID={ creatureId }");
+        }
+        
+        await AddTextStatisticsEventAsync
+        (
+            TextsStatisticsEventType.Dislike,
+            DateTime.UtcNow,
+            textId,
+            null,
+            creatureId,
+            ip,
+            userAgent
+        );
+    }
+
+    public async Task UndislikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    )
+    {
+        if (!await IsTextDislikedAsync(textId, creatureId))
+        {
+            throw new InvalidOperationException($"Text with ID={ textId } is not disliked by creature with ID={ creatureId }");
+        }
+        
+        await AddTextStatisticsEventAsync
+        (
+            TextsStatisticsEventType.UnDislike,
+            DateTime.UtcNow,
+            textId,
+            null,
+            creatureId,
+            ip,
+            userAgent
+        );
+    }
 }
