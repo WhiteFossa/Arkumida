@@ -30,7 +30,7 @@ public class TextsStatisticsService : ITextsStatisticsService
         _userManager = userManager;
         _creaturesMapper = creaturesMapper;
     }
-    
+
     public async Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
     (
         TextsStatisticsEventType eventType,
@@ -51,7 +51,7 @@ public class TextsStatisticsService : ITextsStatisticsService
         {
             throw new ArgumentException("User agent must be specified!", nameof(userAgent));
         }
-        
+
         var statisticsEvent = new TextsStatisticsEvent()
         {
             Timestamp = eventTime,
@@ -90,5 +90,85 @@ public class TextsStatisticsService : ITextsStatisticsService
     public async Task<Dictionary<Guid, long>> GetTextsReadsCountsAsync(IReadOnlyCollection<Guid> textsIds)
     {
         return await _textsStatisticsDao.GetTextsReadsCountAsync(textsIds);
+    }
+
+    public async Task<bool> IsTextLikedAsync(Guid textId, Guid creatureId)
+    {
+        var likeClassEvents = await _textsStatisticsDao.GetEventsCountsAsync
+        (
+            textId,
+            creatureId,
+            new[] { TextsStatisticsEventType.Like, TextsStatisticsEventType.UnLike }
+        );
+
+        var likesUnlikesDelta = likeClassEvents[TextsStatisticsEventType.Like] - likeClassEvents[TextsStatisticsEventType.UnLike];
+
+        if (likesUnlikesDelta == 0)
+        {
+            return false;
+        }
+        else if (likesUnlikesDelta == 1)
+        {
+            return true;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Wrong likes-unlikes delta { likesUnlikesDelta } for text with ID={ textId } and creature with ID={ creatureId }");
+        }
+    }
+
+    public async Task<bool> IsTextDislikedAsync(Guid textId, Guid creatureId)
+    {
+        var dislikeClassEvents = await _textsStatisticsDao.GetEventsCountsAsync
+        (
+            textId,
+            creatureId,
+            new[] { TextsStatisticsEventType.Dislike, TextsStatisticsEventType.UnDislike }
+        );
+
+        var dislikesUndislikesDelta = dislikeClassEvents[TextsStatisticsEventType.Dislike] - dislikeClassEvents[TextsStatisticsEventType.UnDislike];
+
+        if (dislikesUndislikesDelta == 0)
+        {
+            return false;
+        }
+        else if (dislikesUndislikesDelta == 1)
+        {
+            return true;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Wrong dislikes-undislikes delta { dislikesUndislikesDelta } for text with ID={ textId } and creature with ID={ creatureId }");
+        }
+    }
+
+    public async Task LikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    )
+    {
+        if
+        (
+            await IsTextLikedAsync(textId, creatureId)
+            ||
+            await IsTextDislikedAsync(textId, creatureId)
+        )
+        {
+            throw new InvalidOperationException($"Text with ID={ textId } is already liked/disliked by creature with ID={ creatureId }");
+        }
+        
+        await AddTextStatisticsEventAsync
+        (
+            TextsStatisticsEventType.Like,
+            DateTime.UtcNow,
+            textId,
+            null,
+            creatureId,
+            ip,
+            userAgent
+        );
     }
 }

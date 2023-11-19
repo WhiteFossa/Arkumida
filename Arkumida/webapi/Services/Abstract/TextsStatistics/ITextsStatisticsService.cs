@@ -38,4 +38,29 @@ public interface ITextsStatisticsService
     /// Get reads count for given texts. If text was never read it will return 0, i.e. item wouldn't be absent
     /// </summary>
     Task<Dictionary<Guid, long>> GetTextsReadsCountsAsync(IReadOnlyCollection<Guid> textsIds);
+
+    #region Likes and dislikes
+    
+    /// <summary>
+    /// Returns true if text liked by given creature (likes - unlikes == 1)
+    /// </summary>
+    Task<bool> IsTextLikedAsync(Guid textId, Guid creatureId);
+
+    /// <summary>
+    /// Returns true if text disliked by given creature (dislikes - undislikes == 1)
+    /// </summary>
+    Task<bool> IsTextDislikedAsync(Guid textId, Guid creatureId);
+
+    /// <summary>
+    /// Likes given text. If it's currently liked or disliked by creature - throws exception
+    /// </summary>
+    Task LikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    );
+
+    #endregion
 }

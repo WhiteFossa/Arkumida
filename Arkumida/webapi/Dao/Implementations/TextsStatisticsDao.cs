@@ -107,4 +107,36 @@ public class TextsStatisticsDao : ITextsStatisticsDao
 
         return result;
     }
+
+    public async Task<Dictionary<TextsStatisticsEventType, long>> GetEventsCountsAsync(Guid textId, Guid? creatureId, IReadOnlyCollection<TextsStatisticsEventType> eventsTypes)
+    {
+        var query = _dbContext
+            .TextsStatisticsEvents
+            .Where(tse => tse.Text.Id == textId);
+
+        if (creatureId.HasValue)
+        {
+            query = query
+                .Where(tse => tse.CausedByCreature.Id == creatureId.Value);
+        }
+        else
+        {
+            query = query
+                .Where(tse => tse.CausedByCreature == null);
+        }
+
+        query = query
+            .Where(tse => eventsTypes.Contains(tse.Type));
+
+        var result = await query
+            .GroupBy(tse => tse.Type)
+            .ToDictionaryAsync(g => g.Key, g => g.LongCount());
+
+        foreach (var eventType in eventsTypes)
+        {
+            result.TryAdd(eventType, 0);
+        }
+
+        return result;
+    }
 }
