@@ -56,11 +56,11 @@ public class TextsVotesController : ControllerBase
     /// </summary>
     [Route("api/TextsVotes/Like/{textId}")]
     [HttpPost]
-    public async Task<ActionResult> LikeTextAsync(Guid textId)
+    public async Task<ActionResult<LikeResponse>> LikeTextAsync(Guid textId)
     {
         var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
 
-        await _textsStatisticsService.LikeTextAsync
+        var isSuccessful = await _textsStatisticsService.LikeTextAsync
         (
             textId,
             creatureId,
@@ -68,7 +68,7 @@ public class TextsVotesController : ControllerBase
             UserAgentHelper.GetUserAgent(HttpContext)
         );
         
-        return Ok();
+        return Ok(new LikeResponse(isSuccessful));
     }
     
     /// <summary>
@@ -76,11 +76,11 @@ public class TextsVotesController : ControllerBase
     /// </summary>
     [Route("api/TextsVotes/Unlike/{textId}")]
     [HttpPost]
-    public async Task<ActionResult> UnlikeTextAsync(Guid textId)
+    public async Task<ActionResult<UnlikeResponse>> UnlikeTextAsync(Guid textId)
     {
         var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
 
-        await _textsStatisticsService.UnlikeTextAsync
+        var isSuccessful = await _textsStatisticsService.UnlikeTextAsync
         (
             textId,
             creatureId,
@@ -88,7 +88,7 @@ public class TextsVotesController : ControllerBase
             UserAgentHelper.GetUserAgent(HttpContext)
         );
         
-        return Ok();
+        return Ok(new UnlikeResponse(isSuccessful));
     }
     
     /// <summary>
@@ -96,11 +96,11 @@ public class TextsVotesController : ControllerBase
     /// </summary>
     [Route("api/TextsVotes/Dislike/{textId}")]
     [HttpPost]
-    public async Task<ActionResult> DislikeTextAsync(Guid textId)
+    public async Task<ActionResult<DislikeResponse>> DislikeTextAsync(Guid textId)
     {
         var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
 
-        await _textsStatisticsService.DislikeTextAsync
+        var isSuccessful = await _textsStatisticsService.DislikeTextAsync
         (
             textId,
             creatureId,
@@ -108,7 +108,7 @@ public class TextsVotesController : ControllerBase
             UserAgentHelper.GetUserAgent(HttpContext)
         );
         
-        return Ok();
+        return Ok(new DislikeResponse(isSuccessful));
     }
     
     /// <summary>
@@ -116,11 +116,11 @@ public class TextsVotesController : ControllerBase
     /// </summary>
     [Route("api/TextsVotes/Undislike/{textId}")]
     [HttpPost]
-    public async Task<ActionResult> UndislikeTextAsync(Guid textId)
+    public async Task<ActionResult<UndislikeResponse>> UndislikeTextAsync(Guid textId)
     {
         var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
 
-        await _textsStatisticsService.UndislikeTextAsync
+        var isSuccessful = await _textsStatisticsService.UndislikeTextAsync
         (
             textId,
             creatureId,
@@ -128,6 +128,6 @@ public class TextsVotesController : ControllerBase
             UserAgentHelper.GetUserAgent(HttpContext)
         );
         
-        return Ok();
+        return Ok(new UndislikeResponse(isSuccessful));
     }
 }

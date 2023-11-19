@@ -52,9 +52,9 @@ public interface ITextsStatisticsService
     Task<bool> IsTextDislikedAsync(Guid textId, Guid creatureId);
 
     /// <summary>
-    /// Likes given text. If it's currently liked or disliked by creature - throws exception
+    /// Likes given text. Returns true in case of success
     /// </summary>
-    Task LikeTextAsync
+    Task<bool> LikeTextAsync
     (
         Guid textId,
         Guid creatureId,
@@ -63,9 +63,9 @@ public interface ITextsStatisticsService
     );
     
     /// <summary>
-    /// Unlikes given text. It must be liked - otherwise will throw an exception
+    /// Unlikes given text. Returns true in case of success
     /// </summary>
-    Task UnlikeTextAsync
+    Task<bool> UnlikeTextAsync
     (
         Guid textId,
         Guid creatureId,
@@ -74,9 +74,9 @@ public interface ITextsStatisticsService
     );
     
     /// <summary>
-    /// Dislikes given text. If it's currently liked or disliked by creature - throws exception
+    /// Dislikes given text. Returns true in case of success
     /// </summary>
-    Task DislikeTextAsync
+    Task<bool> DislikeTextAsync
     (
         Guid textId,
         Guid creatureId,
@@ -85,9 +85,9 @@ public interface ITextsStatisticsService
     );
 
     /// <summary>
-    /// Undislikes given text. It must be disliked - otherwise will throw an exception
+    /// Undislikes given text. Returns true in case of success
     /// </summary>
-    Task UndislikeTextAsync
+    Task<bool> UndislikeTextAsync
     (
         Guid textId,
         Guid creatureId,

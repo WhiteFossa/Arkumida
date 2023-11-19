@@ -142,7 +142,7 @@ public class TextsStatisticsService : ITextsStatisticsService
         }
     }
 
-    public async Task LikeTextAsync
+    public async Task<bool> LikeTextAsync
     (
         Guid textId,
         Guid creatureId,
@@ -157,7 +157,7 @@ public class TextsStatisticsService : ITextsStatisticsService
             await IsTextDislikedAsync(textId, creatureId)
         )
         {
-            throw new InvalidOperationException($"Text with ID={ textId } is already liked/disliked by creature with ID={ creatureId }");
+            return false;
         }
         
         await AddTextStatisticsEventAsync
@@ -170,9 +170,11 @@ public class TextsStatisticsService : ITextsStatisticsService
             ip,
             userAgent
         );
+
+        return true;
     }
 
-    public async Task UnlikeTextAsync
+    public async Task<bool> UnlikeTextAsync
     (
         Guid textId,
         Guid creatureId,
@@ -182,7 +184,7 @@ public class TextsStatisticsService : ITextsStatisticsService
     {
         if (!await IsTextLikedAsync(textId, creatureId))
         {
-            throw new InvalidOperationException($"Text with ID={ textId } is not liked by creature with ID={ creatureId }");
+            return false;
         }
         
         await AddTextStatisticsEventAsync
@@ -195,9 +197,11 @@ public class TextsStatisticsService : ITextsStatisticsService
             ip,
             userAgent
         );
+
+        return true;
     }
 
-    public async Task DislikeTextAsync
+    public async Task<bool> DislikeTextAsync
     (
         Guid textId,
         Guid creatureId,
@@ -212,7 +216,7 @@ public class TextsStatisticsService : ITextsStatisticsService
             await IsTextDislikedAsync(textId, creatureId)
         )
         {
-            throw new InvalidOperationException($"Text with ID={ textId } is already liked/disliked by creature with ID={ creatureId }");
+            return false;
         }
         
         await AddTextStatisticsEventAsync
@@ -225,9 +229,11 @@ public class TextsStatisticsService : ITextsStatisticsService
             ip,
             userAgent
         );
+
+        return true;
     }
 
-    public async Task UndislikeTextAsync
+    public async Task<bool> UndislikeTextAsync
     (
         Guid textId,
         Guid creatureId,
@@ -237,7 +243,7 @@ public class TextsStatisticsService : ITextsStatisticsService
     {
         if (!await IsTextDislikedAsync(textId, creatureId))
         {
-            throw new InvalidOperationException($"Text with ID={ textId } is not disliked by creature with ID={ creatureId }");
+            return false;
         }
         
         await AddTextStatisticsEventAsync
@@ -250,5 +256,7 @@ public class TextsStatisticsService : ITextsStatisticsService
             ip,
             userAgent
         );
+
+        return true;
     }
 }
