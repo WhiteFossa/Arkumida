@@ -1415,15 +1415,24 @@ body {
   padding-bottom: @padding-small2;
 
   width: min-content;
+  white-space: nowrap;
+}
 
+/* Active (clickable) like/dislike buutton */
+.read-text-like-dislike-buttons-active {
   cursor: pointer;
+}
+
+/* Inactive (non-clickable) like/dislike buutton */
+.read-text-like-dislike-buttons-inactive {
+  cursor: default;
 }
 
 /* Like button (not liked) */
 .read-text-like-button-not-liked {
   .mixin-read-text-like-dislike-buttons();
 
-  border: none;
+  border: @border-thick-thickness @border-style @lighter-color2;
 }
 
 /* Like button (liked) */
@@ -1438,7 +1447,7 @@ body {
 .read-text-dislike-button-not-disliked {
   .mixin-read-text-like-dislike-buttons();
 
-  border: none;
+  border: @border-thick-thickness @border-style @lighter-color2;
 }
 
 /* Dislike button (disliked) */

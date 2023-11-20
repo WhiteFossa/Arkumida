@@ -153,6 +153,6 @@
         </div>
 
         <!-- Footer -->
-        <ReadTextFooterComponent />
+        <ReadTextFooterComponent :textId="props.id" />
     </div>
 </template>
