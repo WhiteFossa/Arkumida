@@ -10,7 +10,7 @@ import {
     TextType
 } from "@/js/constants";
 import {WebClientSendGetRequest} from "@/js/libWebClient";
-import {AuthIsUserLoggedIn} from "@/js/auth";
+import {AuthIsCreatureLoggedIn} from "@/js/auth";
 import {ref} from "vue";
 import router from "@/router";
 
@@ -326,7 +326,7 @@ function UndefinedOrNullToNull(value)
 // Call this from each view, this function processes actions, which needed to be made when page is loaded
 async function OnPageLoad()
 {
-    const isUserLoggedIn = ref(await AuthIsUserLoggedIn())
+    const isUserLoggedIn = ref(await AuthIsCreatureLoggedIn())
 
     if (!isUserLoggedIn.value)
     {

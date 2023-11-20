@@ -2,7 +2,7 @@
 import {onMounted, reactive, ref} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
-import {AuthIsUserLoggedIn} from "@/js/auth";
+import {AuthIsCreatureLoggedIn} from "@/js/auth";
 import router from "@/router";
 import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
 import {Messages, PasswordResetInitiationResult} from "@/js/constants";
@@ -33,7 +33,7 @@ import {Messages, PasswordResetInitiationResult} from "@/js/constants";
 
     async function OnLoad()
     {
-        if (await AuthIsUserLoggedIn())
+        if (await AuthIsCreatureLoggedIn())
         {
             // Creature already logged in
             await router.push("/")

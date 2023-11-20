@@ -1,6 +1,6 @@
 <script setup>
     import {onMounted, reactive, ref} from "vue";
-    import {AuthIsUserLoggedIn} from "@/js/auth";
+    import {AuthIsCreatureLoggedIn} from "@/js/auth";
     import router from "@/router";
     import useVuelidate from "@vuelidate/core";
 import {helpers, required} from "@vuelidate/validators";
@@ -44,7 +44,7 @@ import {helpers, required} from "@vuelidate/validators";
 
     async function OnLoad()
     {
-        if (await AuthIsUserLoggedIn())
+        if (await AuthIsCreatureLoggedIn())
         {
             // Creature already logged in
             await router.push("/")
