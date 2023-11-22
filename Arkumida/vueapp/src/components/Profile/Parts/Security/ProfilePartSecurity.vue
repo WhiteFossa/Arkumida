@@ -5,7 +5,7 @@ import {defineProps, onMounted, reactive, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 import {email, required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
-    import {AuthLogUserOutAndReLogIn} from "@/js/auth";
+    import {AuthLogCreatureOutAndReLogIn} from "@/js/auth";
 import {Messages, ProfileConsts} from "@/js/constants";
 
     const props = defineProps({
@@ -126,7 +126,7 @@ import {Messages, ProfileConsts} from "@/js/constants";
 
             alert(Messages.PasswordChangedMessage)
 
-            await AuthLogUserOutAndReLogIn()
+            await AuthLogCreatureOutAndReLogIn()
 
             return
         }

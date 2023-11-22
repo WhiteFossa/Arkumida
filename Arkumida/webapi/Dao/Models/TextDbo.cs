@@ -36,21 +36,6 @@ public class TextDbo
     public IList<TextPageDbo> Pages { get; set; }
 
     /// <summary>
-    /// Votes count for text
-    /// </summary>
-    public long VotesCount { get; set; }
-
-    /// <summary>
-    /// Votes pro
-    /// </summary>
-    public long VotesPlus { get; set; }
-
-    /// <summary>
-    /// Votes contra
-    /// </summary>
-    public long VotesMinus { get; set; }
-
-    /// <summary>
     /// Text's tags
     /// </summary>
     public IList<TagDbo> Tags { get; set; }

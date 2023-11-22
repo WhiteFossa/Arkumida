@@ -12,7 +12,7 @@
         AddIconToList,
         DetectSpecialTextType,
         FilterCategoryTags,
-        FilterOrdinaryTags, GenerateLinkToText, InjectInclompleteIcon, InjectMlpIcon,
+        FilterOrdinaryTags, GenerateLinkToText, GetLikesCountAsync, InjectInclompleteIcon, InjectMlpIcon,
         IsMlpText
     } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType} from "@/js/constants";
@@ -47,6 +47,8 @@
 
     const categoryTags = ref([])
     const ordinaryTags = ref([])
+
+    const likesCount = ref(0)
 
     // OnMounted hook
     onMounted(async () =>
@@ -133,6 +135,8 @@
         AddIconToList(textInfo.value.textInfo.leftIcons, leftIcons)
         AddIconToList(textInfo.value.textInfo.rightIcons, rightIcons)
 
+        likesCount.value = await GetLikesCountAsync(props.id)
+
         isLoading.value = false
     }
 
@@ -195,7 +199,7 @@
                     </a>
                 </span>
 
-                &nbsp;<img class="text-short-info-block-statistics-line-images" src="/images/vote.webp" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-short-info-block-votes-for" v-if="textInfo.textInfo.votesFor > 0">+<strong>{{ textInfo.textInfo.votesFor }}</strong></span><span v-else>Нет</span>
+                &nbsp;<img class="text-short-info-block-statistics-line-images" src="/images/vote.webp" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-short-info-block-votes-for" v-if="likesCount > 0">+<strong>{{ likesCount }}</strong></span><span v-else>Нет</span>
             </div>
             
             <!-- Type and tags line -->

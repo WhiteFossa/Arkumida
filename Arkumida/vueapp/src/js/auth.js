@@ -108,14 +108,14 @@ async function AuthGetToken()
     return useAuthNonPersistentStore().getToken
 }
 
-// Checks if user logged in
-async function AuthIsUserLoggedIn()
+// Checks if creature logged in
+async function AuthIsCreatureLoggedIn()
 {
     await AuthRefreshToken()
 
     const token = await AuthGetToken()
 
-    return token !== null; // If we have token, then believe that user is logged in
+    return token !== null; // If we have token, then believe that creature is logged in
 }
 
 // Store token to selected storage
@@ -138,7 +138,7 @@ async function AuthClearCredentials()
 }
 
 // If there are no stored credentials, then we aren't logged in - returns false
-// If there are stored credentials, but they are incorrect - logs user out and returns false
+// If there are stored credentials, but they are incorrect - logs creature out and returns false
 // If there are stored credentials and token is not going to expire - returns true
 // If there are stored credentials and token is going to expire - refreshes and returns true
 async function AuthRefreshToken()
@@ -157,7 +157,7 @@ async function AuthRefreshToken()
         if (tokenResponse === null)
         {
             // Wrong credentials
-            await AuthLogUserOut()
+            await AuthLogCreatureOut()
             return false
         }
 
@@ -193,13 +193,13 @@ async function GetTokenByCredentials(login, password)
     return { token: loginResponse.token, expiration: loginResponse.expiration };
 }
 
-async function AuthLogUserIn(login, password, isRememberMe)
+async function AuthLogCreatureIn(login, password, isRememberMe)
 {
     const token = await GetTokenByCredentials(login, password)
 
     if (token !== null)
     {
-        // Logging user in
+        // Logging creature in
         await AuthStoreCredentials(login, password, isRememberMe) // Storing in selected storage depening on isRememberMe
         await AuthStoreToken(token.token, token.expiration) // Token always stored in non-persistent storage
 
@@ -209,7 +209,7 @@ async function AuthLogUserIn(login, password, isRememberMe)
     return LoginResult.InvalidCredentials
 }
 
-async function AuthLogUserOut()
+async function AuthLogCreatureOut()
 {
     await AuthClearCredentials()
     await AuthClearToken()
@@ -218,7 +218,7 @@ async function AuthLogUserOut()
     await router.push("/")
 }
 
-async function AuthLogUserOutAndReLogIn()
+async function AuthLogCreatureOutAndReLogIn()
 {
     await AuthClearCredentials()
     await AuthClearToken()
@@ -228,7 +228,7 @@ async function AuthLogUserOutAndReLogIn()
 
 async function AuthRedirectToLoginPageIfNotLoggedIn()
 {
-    if (!await AuthIsUserLoggedIn())
+    if (!await AuthIsCreatureLoggedIn())
     {
         await router.push("/login")
     }
@@ -236,12 +236,12 @@ async function AuthRedirectToLoginPageIfNotLoggedIn()
 
 export
 {
-    AuthLogUserIn,
-    AuthLogUserOut,
+    AuthLogCreatureIn,
+    AuthLogCreatureOut,
     AuthGetCredentials,
     AuthGetToken,
     AuthRefreshToken,
-    AuthIsUserLoggedIn,
+    AuthIsCreatureLoggedIn,
     AuthRedirectToLoginPageIfNotLoggedIn,
-    AuthLogUserOutAndReLogIn
+    AuthLogCreatureOutAndReLogIn
 }

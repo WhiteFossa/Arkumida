@@ -10,7 +10,7 @@ import {
     TextType
 } from "@/js/constants";
 import {WebClientSendGetRequest} from "@/js/libWebClient";
-import {AuthIsUserLoggedIn} from "@/js/auth";
+import {AuthIsCreatureLoggedIn} from "@/js/auth";
 import {ref} from "vue";
 import router from "@/router";
 
@@ -326,7 +326,7 @@ function UndefinedOrNullToNull(value)
 // Call this from each view, this function processes actions, which needed to be made when page is loaded
 async function OnPageLoad()
 {
-    const isUserLoggedIn = ref(await AuthIsUserLoggedIn())
+    const isUserLoggedIn = ref(await AuthIsCreatureLoggedIn())
 
     if (!isUserLoggedIn.value)
     {
@@ -363,31 +363,44 @@ async function RedirectToForcePasswordChangeIfNeeded(creatureProfile)
     }
 }
 
+// Generate search query URL for one tag
 function GenerateOneTagSearchQuery(tag)
 {
     return EncodeSearchQuery("+Теги: [" + tag + "]")
 }
 
+// Encode search query (for URL)
 function EncodeSearchQuery(query)
 {
     return "/search/" + UnicodeStringToBase64(query)
 }
 
+// Decode search query (from URL)
 function DecodeSearchQuery(encodedQuery)
 {
     return Base64ToUnicodeString(encodedQuery)
 }
 
+// Encode unicode (UTF-8) string to Base64
 function UnicodeStringToBase64(str)
 {
     const queryAsArray = new TextEncoder("utf-8").encode(str)
     return btoa(queryAsArray)
 }
 
+// Decode Base64 to unicode (UTF-8) string
 function Base64ToUnicodeString(encodedString)
 {
     const decodedQueryAsArray = new Uint8Array(atob(encodedString).split(',').map(function(v) {return Number(v)}))
     return new TextDecoder("utf-8").decode(decodedQueryAsArray)
+}
+
+// Get likes count for given text
+async function GetLikesCountAsync(textId)
+{
+    return (await (await WebClientSendGetRequest("/api/TextsVotes/LikesCount/" + textId))
+        .json())
+        .likesCount
 }
 
 export
@@ -410,5 +423,6 @@ export
     EncodeSearchQuery,
     DecodeSearchQuery,
     UnicodeStringToBase64,
-    Base64ToUnicodeString
+    Base64ToUnicodeString,
+    GetLikesCountAsync
 }

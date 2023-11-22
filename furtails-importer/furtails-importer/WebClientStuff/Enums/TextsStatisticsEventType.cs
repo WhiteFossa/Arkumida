@@ -23,5 +23,15 @@ public enum TextsStatisticsEventType
     /// <summary>
     /// Text was completely read by creature
     /// </summary>
-    TextReadCompleted = 3
+    TextReadCompleted = 3,
+    
+    /// <summary>
+    /// Text like was removed
+    /// </summary>
+    UnLike = 4,
+    
+    /// <summary>
+    /// Text dislike was removed
+    /// </summary>
+    UnDislike = 5
 }

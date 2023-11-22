@@ -2,7 +2,7 @@
 
     import {ref} from "vue";
     import PopupYesNo from "@/components/Shared/Popups/PopupYesNo.vue";
-    import {AuthLogUserOut} from "@/js/auth";
+    import {AuthLogCreatureOut} from "@/js/auth";
     import {Messages} from "@/js/constants";
 
     const isLogOutPopupShown = ref(false)
@@ -19,7 +19,7 @@
 
     async function LogOutConfirmed()
     {
-        await AuthLogUserOut()
+        await AuthLogCreatureOut()
 
         isLogOutPopupShown.value = false
     }

@@ -30,7 +30,7 @@ public class TextsStatisticsService : ITextsStatisticsService
         _userManager = userManager;
         _creaturesMapper = creaturesMapper;
     }
-    
+
     public async Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
     (
         TextsStatisticsEventType eventType,
@@ -51,7 +51,7 @@ public class TextsStatisticsService : ITextsStatisticsService
         {
             throw new ArgumentException("User agent must be specified!", nameof(userAgent));
         }
-        
+
         var statisticsEvent = new TextsStatisticsEvent()
         {
             Timestamp = eventTime,
@@ -90,5 +90,207 @@ public class TextsStatisticsService : ITextsStatisticsService
     public async Task<Dictionary<Guid, long>> GetTextsReadsCountsAsync(IReadOnlyCollection<Guid> textsIds)
     {
         return await _textsStatisticsDao.GetTextsReadsCountAsync(textsIds);
+    }
+
+    public async Task<bool> IsTextLikedAsync(Guid textId, Guid creatureId)
+    {
+        var likeClassEvents = await _textsStatisticsDao.GetEventsCountsAsync
+        (
+            textId,
+            creatureId,
+            new[] { TextsStatisticsEventType.Like, TextsStatisticsEventType.UnLike }
+        );
+
+        var likesUnlikesDelta = likeClassEvents[TextsStatisticsEventType.Like] - likeClassEvents[TextsStatisticsEventType.UnLike];
+
+        if (likesUnlikesDelta == 0)
+        {
+            return false;
+        }
+        else if (likesUnlikesDelta == 1)
+        {
+            return true;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Wrong likes-unlikes delta { likesUnlikesDelta } for text with ID={ textId } and creature with ID={ creatureId }");
+        }
+    }
+
+    public async Task<bool> IsTextDislikedAsync(Guid textId, Guid creatureId)
+    {
+        var dislikeClassEvents = await _textsStatisticsDao.GetEventsCountsAsync
+        (
+            textId,
+            creatureId,
+            new[] { TextsStatisticsEventType.Dislike, TextsStatisticsEventType.UnDislike }
+        );
+
+        var dislikesUndislikesDelta = dislikeClassEvents[TextsStatisticsEventType.Dislike] - dislikeClassEvents[TextsStatisticsEventType.UnDislike];
+
+        if (dislikesUndislikesDelta == 0)
+        {
+            return false;
+        }
+        else if (dislikesUndislikesDelta == 1)
+        {
+            return true;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Wrong dislikes-undislikes delta { dislikesUndislikesDelta } for text with ID={ textId } and creature with ID={ creatureId }");
+        }
+    }
+
+    public async Task<bool> LikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    )
+    {
+        if
+        (
+            await IsTextLikedAsync(textId, creatureId)
+            ||
+            await IsTextDislikedAsync(textId, creatureId)
+        )
+        {
+            return false;
+        }
+        
+        await AddTextStatisticsEventAsync
+        (
+            TextsStatisticsEventType.Like,
+            DateTime.UtcNow,
+            textId,
+            null,
+            creatureId,
+            ip,
+            userAgent
+        );
+
+        return true;
+    }
+
+    public async Task<bool> UnlikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    )
+    {
+        if (!await IsTextLikedAsync(textId, creatureId))
+        {
+            return false;
+        }
+        
+        await AddTextStatisticsEventAsync
+        (
+            TextsStatisticsEventType.UnLike,
+            DateTime.UtcNow,
+            textId,
+            null,
+            creatureId,
+            ip,
+            userAgent
+        );
+
+        return true;
+    }
+
+    public async Task<bool> DislikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    )
+    {
+        if
+        (
+            await IsTextLikedAsync(textId, creatureId)
+            ||
+            await IsTextDislikedAsync(textId, creatureId)
+        )
+        {
+            return false;
+        }
+        
+        await AddTextStatisticsEventAsync
+        (
+            TextsStatisticsEventType.Dislike,
+            DateTime.UtcNow,
+            textId,
+            null,
+            creatureId,
+            ip,
+            userAgent
+        );
+
+        return true;
+    }
+
+    public async Task<bool> UndislikeTextAsync
+    (
+        Guid textId,
+        Guid creatureId,
+        string ip,
+        string userAgent
+    )
+    {
+        if (!await IsTextDislikedAsync(textId, creatureId))
+        {
+            return false;
+        }
+        
+        await AddTextStatisticsEventAsync
+        (
+            TextsStatisticsEventType.UnDislike,
+            DateTime.UtcNow,
+            textId,
+            null,
+            creatureId,
+            ip,
+            userAgent
+        );
+
+        return true;
+    }
+
+    public async Task<long> GetLikesCountAsync(Guid textId)
+    {
+        var likeUnlikeEvents = await _textsStatisticsDao.GetEventsCountsForAllCreaturesAsync
+        (
+            textId,
+            new[] { TextsStatisticsEventType.Like, TextsStatisticsEventType.UnLike }
+        );
+
+        var result = likeUnlikeEvents[TextsStatisticsEventType.Like] - likeUnlikeEvents[TextsStatisticsEventType.UnLike];
+        if (result < 0)
+        {
+            throw new InvalidOperationException($"We have more unlikes than likes for text with ID={ textId }! Likes: { likeUnlikeEvents[TextsStatisticsEventType.Like] }, unlikes: { likeUnlikeEvents[TextsStatisticsEventType.UnLike] }.");
+        }
+
+        return result;
+    }
+
+    public async Task<long> GetDislikesCountAsync(Guid textId)
+    {
+        var dislikeUndislikeEvents = await _textsStatisticsDao.GetEventsCountsForAllCreaturesAsync
+        (
+            textId,
+            new[] { TextsStatisticsEventType.Dislike, TextsStatisticsEventType.UnDislike }
+        );
+
+        var result = dislikeUndislikeEvents[TextsStatisticsEventType.Dislike] - dislikeUndislikeEvents[TextsStatisticsEventType.UnDislike];
+        if (result < 0)
+        {
+            throw new InvalidOperationException($"We have more undislikes than dislikes for text with ID={ textId }! Dislikes: { dislikeUndislikeEvents[TextsStatisticsEventType.Dislike] }, undislikes: { dislikeUndislikeEvents[TextsStatisticsEventType.UnDislike] }.");
+        }
+
+        return result;
     }
 }

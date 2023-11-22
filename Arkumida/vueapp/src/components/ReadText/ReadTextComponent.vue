@@ -15,6 +15,8 @@
     import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
     import ReadTextDownloadComponent from "@/components/ReadText/Download/ReadTextDownloadComponent.vue";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
+    import ReadTextFooterComponent from "@/components/ReadText/Footer/ReadTextFooterComponent.vue";
+    import {AuthIsCreatureLoggedIn} from "@/js/auth";
 
     const props = defineProps({
         id: Guid,
@@ -33,6 +35,8 @@
     const textPage = ref(null)
     const currentPageNumber = ref(0)
     const isPageLoading = ref(true)
+
+    const isCreatureLoggedIn = ref(false)
 
     onMounted(async () =>
     {
@@ -54,9 +58,11 @@
 
         textType.value = DetectTextType(textData.value.textData.tags)
 
-        // Inital page (from URL)
+        isCreatureLoggedIn.value = await AuthIsCreatureLoggedIn()
+
         isLoading.value = false
 
+        // Inital page (from URL)
         await LoadTextPage(props.page)
     }
 
@@ -90,7 +96,7 @@
     <LoadingSymbol v-if="isLoading"/>
     <div v-else class="body-container">
 
-        <!-- Download -->
+        <!-- Download (top) -->
         <div class="read-text-download-container">
             <ReadTextDownloadComponent :plaintextFileId="textData.textData.plainTextFile.id" />
         </div>
@@ -145,5 +151,15 @@
 
         <!-- Pagination (bottom) -->
         <ReadTextPagination :key="currentPageNumber" :currentPage="currentPageNumber" :pagesCount="textData.textData.pagesCount" @goToPage="async (pn) => await LoadTextPage(pn)" />
+
+        <!-- Download (bottom) -->
+        <div class="read-text-download-container">
+            <ReadTextDownloadComponent :plaintextFileId="textData.textData.plainTextFile.id" />
+        </div>
+
+        <!-- Footer (for now only for logged-in creatures) -->
+        <ReadTextFooterComponent
+            v-if="isCreatureLoggedIn"
+            :textId="props.id" />
     </div>
 </template>

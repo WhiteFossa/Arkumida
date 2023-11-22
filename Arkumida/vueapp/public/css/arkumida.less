@@ -195,6 +195,13 @@
 
 @private-messages-new-conversation-hovered-confidant-background-color: hsl(199, 74%, 79%);
 
+/* Like/dislike buttons */
+@like-liked-border-color: hsl(325, 70%, 60%);
+@like-liked-background-color: hsl(325, 100%, 90%);
+
+@dislike-disliked-border-color: hsl(199, 65%, 54%);
+@dislike-disliked-background-color: hsl(199, 74%, 79%);
+
 /* Variables end here */
 
 /* Mixins start here */
@@ -1376,6 +1383,89 @@ body {
   margin-bottom: 0;
 
   padding-left: @padding-normal;
+}
+
+/* Read text footer */
+.read-text-footer {
+  .mixin-flex-row-base();
+  gap: @gap-small;
+
+  background: @lightest-color1;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+
+  margin-top: @margin-small1;
+  margin-bottom: @margin-small1;
+}
+
+/* Like/dislike buttons mixin */
+.mixin-read-text-like-dislike-buttons {
+  .mixin-horizontally-and-vertically-centered-flex();
+  flex-wrap: nowrap;
+  gap: @gap-smallest;
+
+  background: @lighter-color2;
+  border-radius: @border-radius-small;
+
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+  padding-top: @padding-small2;
+  padding-bottom: @padding-small2;
+
+  width: min-content;
+  white-space: nowrap;
+}
+
+/* Active (clickable) like/dislike buutton */
+.read-text-like-dislike-buttons-active {
+  cursor: pointer;
+}
+
+/* Inactive (non-clickable) like/dislike buutton */
+.read-text-like-dislike-buttons-inactive {
+  cursor: default;
+}
+
+/* Like button (not liked) */
+.read-text-like-button-not-liked {
+  .mixin-read-text-like-dislike-buttons();
+
+  border: @border-thick-thickness @border-style @lighter-color2;
+}
+
+/* Like button (liked) */
+.read-text-like-button-liked {
+  .mixin-read-text-like-dislike-buttons();
+
+  border: @border-thick-thickness @border-style @like-liked-border-color;
+  background: @like-liked-background-color;
+}
+
+/* Dislike button (not disliked) */
+.read-text-dislike-button-not-disliked {
+  .mixin-read-text-like-dislike-buttons();
+
+  border: @border-thick-thickness @border-style @lighter-color2;
+}
+
+/* Dislike button (disliked) */
+.read-text-dislike-button-disliked {
+  .mixin-read-text-like-dislike-buttons();
+
+  border: @border-thick-thickness @border-style @dislike-disliked-border-color;
+  background: @dislike-disliked-background-color;
+}
+
+/* Like/dislike icon */
+.read-text-like-dislike-image {
+  border: @border-thin-thickness @border-style @lightest-color1;
+  border-radius: @border-radius-small;
+
+  width: 1.3rem;
+
+  vertical-align: middle;
 }
 
 /* Read text page stuff ends here */

@@ -2,7 +2,7 @@
 import {defineProps, onMounted, reactive} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
-import {AuthIsUserLoggedIn, AuthLogUserOutAndReLogIn} from "@/js/auth";
+import {AuthIsCreatureLoggedIn, AuthLogCreatureOutAndReLogIn} from "@/js/auth";
     import router from "@/router";
 import {Guid} from "guid-typescript";
 import {WebClientSendPostRequest} from "@/js/libWebClient";
@@ -40,7 +40,7 @@ import {Messages} from "@/js/constants";
 
     async function OnLoad()
     {
-        if (await AuthIsUserLoggedIn())
+        if (await AuthIsCreatureLoggedIn())
         {
             // Creature already logged in
             await router.push("/")
@@ -69,7 +69,7 @@ import {Messages} from "@/js/constants";
         {
             alert(Messages.PasswordResetSuccessful)
 
-            await AuthLogUserOutAndReLogIn()
+            await AuthLogCreatureOutAndReLogIn()
         }
         else
         {

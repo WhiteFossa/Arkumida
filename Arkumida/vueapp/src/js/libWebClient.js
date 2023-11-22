@@ -1,5 +1,5 @@
 // API base URL
-import {AuthGetToken, AuthLogUserOut, AuthRefreshToken} from "@/js/auth";
+import {AuthGetToken, AuthLogCreatureOut, AuthRefreshToken} from "@/js/auth";
 
 const apiBaseUrl = process.env.VUE_APP_API_URL
 
@@ -27,7 +27,7 @@ async function WebClientSendGetRequest
     {
         // Suddenly 401 while we have a valid token (because called AuthRefreshToken()). Looks like credentials are changed
         // on server side
-        await AuthLogUserOut()
+        await AuthLogCreatureOut()
     }
 
     return response;
@@ -60,7 +60,7 @@ async function WebClientSendPostRequest
     {
         // Suddenly 401 while we have a valid token (because called AuthRefreshToken()). Looks like credentials are changed
         // on server side
-        await AuthLogUserOut()
+        await AuthLogCreatureOut()
     }
 
     return response
@@ -93,7 +93,7 @@ async function WebClientPostForm
     {
         // Suddenly 401 while we have a valid token (because called AuthRefreshToken()). Looks like credentials are changed
         // on server side
-        await AuthLogUserOut()
+        await AuthLogCreatureOut()
     }
 
     return response

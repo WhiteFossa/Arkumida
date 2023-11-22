@@ -39,5 +39,15 @@ public interface ITextsStatisticsDao
     /// </summary>
     Task<Dictionary<Guid, long>> GetTextsReadsCountAsync(IReadOnlyCollection<Guid> textsIds);
 
+    /// <summary>
+    /// Returns given events types counts for given creature and text 
+    /// </summary>
+    Task<Dictionary<TextsStatisticsEventType, long>> GetEventsCountsAsync(Guid textId, Guid? creatureId, IReadOnlyCollection<TextsStatisticsEventType> eventsTypes);
+    
+    /// <summary>
+    /// Returns given events types counts for given text
+    /// </summary>
+    Task<Dictionary<TextsStatisticsEventType, long>> GetEventsCountsForAllCreaturesAsync(Guid textId, IReadOnlyCollection<TextsStatisticsEventType> eventsTypes);
+
     #endregion
 }

@@ -2,7 +2,7 @@
     import {defineExpose, onMounted, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
-    import {AuthIsUserLoggedIn} from "@/js/auth";
+    import {AuthIsCreatureLoggedIn} from "@/js/auth";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
     import {AvatarClass} from "@/js/constants";
 import PrivateMessagesHeaderLink from "@/components/PrivateMessages/PrivateMessagesHeaderLink.vue";
@@ -29,7 +29,7 @@ import PrivateMessagesHeaderLink from "@/components/PrivateMessages/PrivateMessa
 
     async function OnLoad()
     {
-        isUserLoggedIn.value = await AuthIsUserLoggedIn()
+        isUserLoggedIn.value = await AuthIsCreatureLoggedIn()
 
         if (isUserLoggedIn.value)
         {

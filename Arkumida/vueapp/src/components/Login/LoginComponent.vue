@@ -3,7 +3,7 @@
 import {onMounted, reactive, ref} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
-    import {AuthLogUserIn} from "@/js/auth";
+    import {AuthLogCreatureIn} from "@/js/auth";
     import router from "@/router";
     import {LoginResult} from "@/js/constants";
 
@@ -42,7 +42,7 @@ import {onMounted, reactive, ref} from "vue";
     {
         isIncorrectCredentialsMessageShown.value = false
 
-        const loginResult = await AuthLogUserIn(logInFormData.login, logInFormData.password, logInFormData.isRememberMe)
+        const loginResult = await AuthLogCreatureIn(logInFormData.login, logInFormData.password, logInFormData.isRememberMe)
 
         // On successfull login redirecting to main page
         if (loginResult === LoginResult.OK)
