@@ -141,4 +141,15 @@ public class TextsVotesController : ControllerBase
     {
         return Ok(new LikesCountResponse(await _textsStatisticsService.GetLikesCountAsync(textId)));
     }
+    
+    /// <summary>
+    /// Dislikes count. Likes are anonymous-accessible, dislikes - not
+    /// TODO: Add finely-grained access control
+    /// </summary>
+    [Route("api/TextsVotes/DislikesCount/{textId}")]
+    [HttpGet]
+    public async Task<ActionResult<LikesCountResponse>> GetDislikesCountAsync(Guid textId)
+    {
+        return Ok(new DislikesCountResponse(await _textsStatisticsService.GetDislikesCountAsync(textId)));
+    }
 }
