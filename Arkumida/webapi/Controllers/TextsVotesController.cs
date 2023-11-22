@@ -130,4 +130,15 @@ public class TextsVotesController : ControllerBase
         
         return Ok(new UndislikeResponse(isSuccessful));
     }
+    
+    /// <summary>
+    /// Likes count. Likes are anonymous-accessible, dislikes - not
+    /// </summary>
+    [AllowAnonymous]
+    [Route("api/TextsVotes/LikesCount/{textId}")]
+    [HttpGet]
+    public async Task<ActionResult<LikesCountResponse>> GetLikesCountAsync(Guid textId)
+    {
+        return Ok(new LikesCountResponse(await _textsStatisticsService.GetLikesCountAsync(textId)));
+    }
 }

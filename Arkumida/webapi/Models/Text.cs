@@ -40,21 +40,6 @@ public class Text
     public IList<TextPage> Pages { get; set; }
     
     /// <summary>
-    /// Votes count for text
-    /// </summary>
-    public long VotesCount { get; set; }
-
-    /// <summary>
-    /// Votes pro
-    /// </summary>
-    public long VotesPlus { get; set; }
-
-    /// <summary>
-    /// Votes contra
-    /// </summary>
-    public long VotesMinus { get; set; }
-    
-    /// <summary>
     /// Tags
     /// </summary>
     public IList<Tag> Tags { get; set; }
@@ -94,9 +79,6 @@ public class Text
             Title,
             Description,
             Pages.Select(p => p.ToDto(this.TextFiles.ToList(), textUtilsService)).ToList(),
-            VotesCount,
-            VotesPlus,
-            VotesMinus,
             Tags.Select(t => t.ToTagDto()).ToList(),
             IsIncomplete,
             Authors.Select(a => a.ToDto()).ToList(),

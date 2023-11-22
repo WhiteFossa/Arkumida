@@ -259,4 +259,38 @@ public class TextsStatisticsService : ITextsStatisticsService
 
         return true;
     }
+
+    public async Task<long> GetLikesCountAsync(Guid textId)
+    {
+        var likeUnlikeEvents = await _textsStatisticsDao.GetEventsCountsForAllCreaturesAsync
+        (
+            textId,
+            new[] { TextsStatisticsEventType.Like, TextsStatisticsEventType.UnLike }
+        );
+
+        var result = likeUnlikeEvents[TextsStatisticsEventType.Like] - likeUnlikeEvents[TextsStatisticsEventType.UnLike];
+        if (result < 0)
+        {
+            throw new InvalidOperationException($"We have more unlikes than likes for text with ID={ textId }! Likes: { likeUnlikeEvents[TextsStatisticsEventType.Like] }, unlikes: { likeUnlikeEvents[TextsStatisticsEventType.UnLike] }.");
+        }
+
+        return result;
+    }
+
+    public async Task<long> GetDislikesCountAsync(Guid textId)
+    {
+        var dislikeUndislikeEvents = await _textsStatisticsDao.GetEventsCountsForAllCreaturesAsync
+        (
+            textId,
+            new[] { TextsStatisticsEventType.Dislike, TextsStatisticsEventType.UnDislike }
+        );
+
+        var result = dislikeUndislikeEvents[TextsStatisticsEventType.Dislike] - dislikeUndislikeEvents[TextsStatisticsEventType.UnDislike];
+        if (result < 0)
+        {
+            throw new InvalidOperationException($"We have more undislikes than dislikes for text with ID={ textId }! Dislikes: { dislikeUndislikeEvents[TextsStatisticsEventType.Dislike] }, undislikes: { dislikeUndislikeEvents[TextsStatisticsEventType.UnDislike] }.");
+        }
+
+        return result;
+    }
 }

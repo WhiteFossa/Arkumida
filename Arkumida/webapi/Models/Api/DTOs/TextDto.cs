@@ -42,24 +42,6 @@ public class TextDto
     /// </summary>
     [JsonPropertyName("pages")]
     public IList<TextPageDto> Pages { get; set; }
-    
-    /// <summary>
-    /// Votes count for text
-    /// </summary>
-    [JsonPropertyName("votesCount")]
-    public long VotesCount { get; set; }
-
-    /// <summary>
-    /// Votes pro
-    /// </summary>
-    [JsonPropertyName("votesPlus")]
-    public long VotesPlus { get; set; }
-
-    /// <summary>
-    /// Votes contra
-    /// </summary>
-    [JsonPropertyName("votesMinus")]
-    public long VotesMinus { get; set; }
 
     /// <summary>
     /// Text tags
@@ -104,9 +86,6 @@ public class TextDto
         string title,
         string description,
         IReadOnlyCollection<TextPageDto> pages,
-        long votesCount,
-        long votesPlus,
-        long votesMinus,
         IReadOnlyCollection<TagDto> tags,
         bool isIncomplete,
         IList<CreatureWithProfileDto> authors,
@@ -126,24 +105,6 @@ public class TextDto
         
         Description = description; // May be empty
         Pages = (pages ?? throw new ArgumentNullException(nameof(pages), "Pages mustn't be null.")).ToList();
-        
-        if (votesCount < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(votesCount), "Votes count must be non-negative.");
-        }
-        VotesCount = votesCount;
-        
-        if (votesPlus < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(votesPlus), "Votes plus must be non-negative.");
-        }
-        VotesPlus = votesPlus;
-        
-        if (votesMinus < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(votesMinus), "Votes minus must be non-negative.");
-        }
-        VotesMinus = votesMinus;
         
         Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
 
@@ -171,9 +132,6 @@ public class TextDto
             Title = Title,
             Description = Description,
             Pages = Pages.Select(p => p.ToTextPage()).ToList(),
-            VotesCount = VotesCount,
-            VotesPlus = VotesPlus,
-            VotesMinus = VotesMinus,
             Tags = Tags.Select(t => t.ToTag()).ToList(),
             IsIncomplete = IsIncomplete,
             Authors = Authors.Select(a => a.ToCreatureWithProfile()).ToList(),

@@ -42,24 +42,6 @@ public class FoundTextDto
     /// </summary>
     [JsonPropertyName("readsCount")]
     public long ReadsCount { get; private set; }
-    
-    /// <summary>
-    /// Votes count for text
-    /// </summary>
-    [JsonPropertyName("votesCount")]
-    public long VotesCount { get; private set; }
-
-    /// <summary>
-    /// Votes pro
-    /// </summary>
-    [JsonPropertyName("votesPlus")]
-    public long VotesPlus { get; private set; }
-
-    /// <summary>
-    /// Votes contra
-    /// </summary>
-    [JsonPropertyName("votesMinus")]
-    public long VotesMinus { get; private set; }
 
     /// <summary>
     /// Text tags
@@ -99,9 +81,6 @@ public class FoundTextDto
         string title,
         string description,
         long readsCount,
-        long votesCount,
-        long votesPlus,
-        long votesMinus,
         IReadOnlyCollection<TagDto> tags,
         bool isIncomplete,
         IList<CreatureWithProfileDto> authors,
@@ -126,24 +105,6 @@ public class FoundTextDto
             throw new ArgumentOutOfRangeException(nameof(readsCount), "Reads count must be non-negative.");
         }
         ReadsCount = readsCount;
-        
-        if (votesCount < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(votesCount), "Votes count must be non-negative.");
-        }
-        VotesCount = votesCount;
-        
-        if (votesPlus < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(votesPlus), "Votes plus must be non-negative.");
-        }
-        VotesPlus = votesPlus;
-        
-        if (votesMinus < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(votesMinus), "Votes minus must be non-negative.");
-        }
-        VotesMinus = votesMinus;
         
         Tags = (tags ?? throw new ArgumentNullException(nameof(tags), "Tags mustn't be null.")).ToList();
 

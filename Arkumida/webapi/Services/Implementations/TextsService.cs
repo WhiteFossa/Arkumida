@@ -137,8 +137,6 @@ public class TextsService : ITextsService
                     textMetadata.CreateTime,
                     readsCounts[textMetadata.Id],
                     0,
-                    textMetadata.VotesPlus,
-                    textMetadata.VotesMinus,
                     _tagsService.OrderTags(textMetadata.Tags)
                         .Select(t => t.ToTextTagDto())
                         .ToList(),
@@ -190,8 +188,6 @@ public class TextsService : ITextsService
             textMetadata.CreateTime,
             readsCount,
             0,
-            textMetadata.VotesPlus,
-            textMetadata.VotesMinus,
             _tagsService
                 .OrderTags(textMetadata.Tags)
                 .Select(t => t.ToTextTagDto())

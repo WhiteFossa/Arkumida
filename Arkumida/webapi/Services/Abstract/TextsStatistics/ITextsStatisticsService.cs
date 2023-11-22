@@ -94,6 +94,18 @@ public interface ITextsStatisticsService
         string ip,
         string userAgent
     );
-    
+
+    /// <summary>
+    /// Get likes count (i.e. likes-unlikes) for given text.
+    /// Do not check likes-unlikes balance by users, because furtails-importer will import many likes from one user (importer-user)
+    /// </summary>
+    Task<long> GetLikesCountAsync(Guid textId);
+
+    /// <summary>
+    /// Get dislikes count (i.e. dislikes-undislikes) for given text.
+    /// Do not check dislikes-undislikes balance by users, because furtails-importer will import many dislikes from one user (importer-user)
+    /// </summary>
+    Task<long> GetDislikesCountAsync(Guid textId);
+
     #endregion
 }

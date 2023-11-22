@@ -139,4 +139,21 @@ public class TextsStatisticsDao : ITextsStatisticsDao
 
         return result;
     }
+
+    public async Task<Dictionary<TextsStatisticsEventType, long>> GetEventsCountsForAllCreaturesAsync(Guid textId, IReadOnlyCollection<TextsStatisticsEventType> eventsTypes)
+    {
+        var result = await _dbContext
+            .TextsStatisticsEvents
+            .Where(tse => tse.Text.Id == textId)
+            .Where(tse => eventsTypes.Contains(tse.Type))
+            .GroupBy(tse => tse.Type)
+            .ToDictionaryAsync(g => g.Key, g => g.LongCount());
+        
+        foreach (var eventType in eventsTypes)
+        {
+            result.TryAdd(eventType, 0);
+        }
+
+        return result;
+    }
 }

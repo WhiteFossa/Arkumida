@@ -46,18 +46,6 @@ public class TextInfoDto : IdedEntityDto
     /// </summary>
     [JsonPropertyName("commentsCount")]
     public int CommentsCount { get; private set; }
-    
-    /// <summary>
-    /// Votes for
-    /// </summary>
-    [JsonPropertyName("votesFor")]
-    public long VotesFor { get; private set; }
-    
-    /// <summary>
-    /// Votes agains
-    /// </summary>
-    [JsonPropertyName("votesAgainst")]
-    public long VotesAgainst { get; private set; }
 
     /// <summary>
     /// Text tags (including category tags)
@@ -112,8 +100,6 @@ public class TextInfoDto : IdedEntityDto
         DateTime addTime,
         long viewsCount,
         int commentsCount,
-        long votesFor,
-        long votesAgainst,
         IReadOnlyCollection<TextTagDto> tags,
         IReadOnlyCollection<TextIconDto> leftIcons,
         IReadOnlyCollection<TextIconDto> rightIcons,
@@ -151,18 +137,6 @@ public class TextInfoDto : IdedEntityDto
             throw new ArgumentOutOfRangeException(nameof(commentsCount), "Comments count must be positive");
         }
         CommentsCount = commentsCount;
-        
-        if (votesFor < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(votesFor), "Votes for must be positive");
-        }
-        VotesFor = votesFor;
-        
-        if (votesAgainst < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(votesAgainst), "Votes against must be positive");
-        }
-        VotesAgainst = votesAgainst;
 
         Tags = tags ?? throw new ArgumentNullException(nameof(tags), "Tags must not be null");
         LeftIcons = leftIcons ?? throw new ArgumentNullException(nameof(leftIcons), "Left icons must not be null");
