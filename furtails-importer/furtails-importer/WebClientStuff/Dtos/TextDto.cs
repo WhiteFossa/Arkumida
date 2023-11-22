@@ -41,24 +41,6 @@ public class TextDto
     public IList<TextPageDto> Pages { get; set; }
     
     /// <summary>
-    /// Votes count for text
-    /// </summary>
-    [JsonPropertyName("votesCount")]
-    public long VotesCount { get; set; }
-
-    /// <summary>
-    /// Votes pro
-    /// </summary>
-    [JsonPropertyName("votesPlus")]
-    public long VotesPlus { get; set; }
-
-    /// <summary>
-    /// Votes contra
-    /// </summary>
-    [JsonPropertyName("votesMinus")]
-    public long VotesMinus { get; set; }
-    
-    /// <summary>
     /// Text tags
     /// </summary>
     [JsonPropertyName("tags")]

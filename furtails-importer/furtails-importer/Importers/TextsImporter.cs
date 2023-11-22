@@ -410,9 +410,6 @@ public class TextsImporter
             Title = text.Title,
             Description = text.Description,
             Pages = new Collection<TextPageDto>(),
-            VotesCount = text.VotesCount,
-            VotesPlus = text.VotesPlus,
-            VotesMinus = text.VotesMinus,
             
             Tags = arkumidaTagsIds.Select(tid => new TagDto()
             {
@@ -514,6 +511,44 @@ public class TextsImporter
                 CreatureId = importerCreature.Id,
                 Timestamp = DateTime.MinValue,
                 Page = textModel.Pages.Count,
+                Ip = "127.0.0.1",
+                UserAgent = importerCreature.Login
+            };
+
+            await AddTextsStatisticsEventToArkumidaAsync(readEvent);
+        }
+        
+        // Adding likes count
+        // !!! DO NOT PARALLELIZE ME !!! Database overload !!!
+        for (var likeIndex = 0; likeIndex < text.VotesPlus; likeIndex++)
+        {
+            var readEvent = new TextsStatisticsEventDto()
+            {
+                Id = Guid.Empty,
+                TextId = arkumidaTextId,
+                Type = TextsStatisticsEventType.Like,
+                CreatureId = importerCreature.Id,
+                Timestamp = DateTime.MinValue,
+                Page = null,
+                Ip = "127.0.0.1",
+                UserAgent = importerCreature.Login
+            };
+
+            await AddTextsStatisticsEventToArkumidaAsync(readEvent);
+        }
+        
+        // Adding dislikes count
+        // !!! DO NOT PARALLELIZE ME !!! Database overload !!!
+        for (var dislikeIndex = 0; dislikeIndex < text.VotesMinus; dislikeIndex++)
+        {
+            var readEvent = new TextsStatisticsEventDto()
+            {
+                Id = Guid.Empty,
+                TextId = arkumidaTextId,
+                Type = TextsStatisticsEventType.Dislike,
+                CreatureId = importerCreature.Id,
+                Timestamp = DateTime.MinValue,
+                Page = null,
                 Ip = "127.0.0.1",
                 UserAgent = importerCreature.Login
             };
