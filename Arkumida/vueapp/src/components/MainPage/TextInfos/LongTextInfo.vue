@@ -11,7 +11,7 @@
         BytesToKilobytesFormatted, DetectSpecialTextType,
         DetectTextType,
         FilterCategoryTags,
-        FilterOrdinaryTags, GenerateLinkToText, InjectInclompleteIcon, InjectMlpIcon, IsMlpText
+        FilterOrdinaryTags, GenerateLinkToText, GetLikesCountAsync, InjectInclompleteIcon, InjectMlpIcon, IsMlpText
     } from "@/js/libArkumida";
     import {Messages, SpecialTextType, TextIconType, TextType} from "@/js/constants";
     import CategoryTag from "@/components/Shared/CategoryTag.vue";
@@ -49,6 +49,8 @@
     const ordinaryTags = ref([])
 
     const textType = ref(null)
+
+    const likesCount = ref(0)
 
     onMounted(async () =>
     {
@@ -147,6 +149,8 @@
         AddIconToList(textInfo.value.textInfo.leftIcons, leftIcons)
         AddIconToList(textInfo.value.textInfo.rightIcons, rightIcons)
 
+        likesCount.value = await GetLikesCountAsync(props.id)
+
         isLoading.value = false
     }
 
@@ -210,7 +214,7 @@
                         </a>
                     </span>
 
-                    &nbsp;<img class="text-long-info-block-statistics-line-images" src="/images/vote.webp" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-long-info-block-votes-for" v-if="textInfo.textInfo.votesFor > 0">+<strong>{{ textInfo.textInfo.votesFor }}</strong></span><span v-else>Нет</span>
+                    &nbsp;<img class="text-long-info-block-statistics-line-images" src="/images/vote.webp" alt="Голоса за рассказ" title="Голоса за рассказ" />&nbsp;<span class="text-long-info-block-votes-for" v-if="likesCount > 0">+<strong>{{ likesCount }}</strong></span><span v-else>Нет</span>
                 </div>
 
                 <!-- Publisher, translator and size -->
