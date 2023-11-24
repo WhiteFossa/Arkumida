@@ -18,11 +18,9 @@
 
 using System.Collections.Concurrent;
 using System.Net.Http.Json;
-using System.Text.Json;
 using Dapper;
 using furtails_importer.Dbos;
 using furtails_importer.WebClientStuff.Requests;
-using furtails_importer.WebClientStuff.Responses;
 using MySqlConnector;
 
 namespace furtails_importer.Importers;
