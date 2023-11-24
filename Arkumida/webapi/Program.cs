@@ -1,3 +1,21 @@
+#region License
+// Arkumida - Furtails.pw next generation backend
+// Copyright (C) 2023  Earlybeasts
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// 
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#endregion
+
 using System.IO.Compression;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -6,14 +24,12 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using webapi.Constants;
 using webapi.Dao;
 using webapi.Dao.Abstract;
 using webapi.Dao.Implementations;
 using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Mappers.Implementations;
-using webapi.Models.Email;
 using webapi.Models.Settings;
 using webapi.OpenSearch.Services.Abstract;
 using webapi.OpenSearch.Services.Implementations;
