@@ -20,8 +20,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Models;
-using webapi.Dao.Models.Enums.Statistics;
-using webapi.Models;
 
 namespace webapi.Dao;
 

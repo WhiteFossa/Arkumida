@@ -17,7 +17,6 @@
 #endregion
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Dao.Models.Enums;

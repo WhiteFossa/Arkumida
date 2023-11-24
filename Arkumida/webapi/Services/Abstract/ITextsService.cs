@@ -19,7 +19,6 @@
 using webapi.Dao.Models.Enums;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
-using webapi.Models.Enums;
 
 namespace webapi.Services.Abstract;
 

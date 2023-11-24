@@ -17,7 +17,6 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Enums;
 
 namespace webapi.Models.Api.DTOs;
 

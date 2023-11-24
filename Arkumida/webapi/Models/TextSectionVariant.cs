@@ -17,7 +17,6 @@
 #endregion
 
 using webapi.Models.Api.DTOs;
-using webapi.Models.Enums;
 using webapi.Services.Abstract;
 
 namespace webapi.Models;

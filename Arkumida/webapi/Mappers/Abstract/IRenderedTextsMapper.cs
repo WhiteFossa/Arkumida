@@ -18,7 +18,6 @@
 
 using webapi.Dao.Models;
 using webapi.Models;
-using File = System.IO.File;
 
 namespace webapi.Mappers.Abstract;
 

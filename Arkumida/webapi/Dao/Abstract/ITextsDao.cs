@@ -17,7 +17,6 @@
 #endregion
 
 using webapi.Dao.Models;
-using webapi.Dao.Models.Enums;
 
 namespace webapi.Dao.Abstract;
 

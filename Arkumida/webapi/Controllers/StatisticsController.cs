@@ -19,7 +19,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Constants;
-using webapi.Models.Api.Requests;
 using webapi.Models.Api.Requests.TextsStatistics;
 using webapi.Models.Api.Responses;
 using webapi.Models.Api.Responses.TextsStatistics;

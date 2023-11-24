@@ -16,8 +16,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using OpenSearch.Client;
-
 namespace webapi.OpenSearch.Models;
 
 /// <summary>

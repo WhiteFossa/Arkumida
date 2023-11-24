@@ -17,7 +17,6 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs;
 using webapi.Models.Api.DTOs.PrivateMessages;
 
 namespace webapi.Models.Api.Responses.PrivateMessages;

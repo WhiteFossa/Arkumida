@@ -17,10 +17,8 @@
 #endregion
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
-using webapi.Models.Api.DTOs;
 using webapi.Models.Api.Responses;
 using webapi.Services.Abstract;
 

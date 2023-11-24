@@ -20,7 +20,6 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using webapi.Models.Email;
 using webapi.Models.Settings;
 using webapi.Services.Abstract.Email;
 

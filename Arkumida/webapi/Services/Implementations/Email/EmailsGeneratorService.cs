@@ -19,10 +19,8 @@
 using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
-using webapi.Constants;
 using webapi.Models;
 using webapi.Models.Settings;
-using webapi.Services.Abstract;
 using webapi.Services.Abstract.Email;
 using File = System.IO.File;
 

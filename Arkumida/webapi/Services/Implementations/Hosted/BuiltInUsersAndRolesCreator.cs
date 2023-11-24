@@ -18,7 +18,6 @@
 
 using Microsoft.Extensions.Options;
 using webapi.Constants;
-using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
 using webapi.Models.Settings;

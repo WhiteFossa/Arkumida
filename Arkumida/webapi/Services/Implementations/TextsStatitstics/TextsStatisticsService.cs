@@ -21,7 +21,6 @@ using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Dao.Models.Enums.Statistics;
 using webapi.Mappers.Abstract;
-using webapi.Mappers.Implementations;
 using webapi.Models;
 using webapi.Models.TextsStatistics;
 using webapi.Services.Abstract.TextsStatistics;

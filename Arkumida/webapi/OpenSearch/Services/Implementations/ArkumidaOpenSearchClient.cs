@@ -21,7 +21,6 @@ using OpenSearch.Client;
 using webapi.Models.Settings;
 using webapi.OpenSearch.Models;
 using webapi.OpenSearch.Services.Abstract;
-using ConnectionSettings = OpenSearch.Client.ConnectionSettings;
 
 namespace webapi.OpenSearch.Services.Implementations;
 

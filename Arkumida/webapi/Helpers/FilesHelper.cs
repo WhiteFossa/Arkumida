@@ -35,6 +35,6 @@ public class FilesHelper
     /// <returns>Filename, where invalid characters are escaped</returns>
     public static string EscapeFilename(string originalFilename)
     {
-        return string.Join(FilesHelper.InvalidFilenameCharacterSubstitution, originalFilename.Split(Path.GetInvalidFileNameChars())); 
+        return string.Join(InvalidFilenameCharacterSubstitution, originalFilename.Split(Path.GetInvalidFileNameChars())); 
     }
 }

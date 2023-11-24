@@ -26,7 +26,6 @@ using webapi.Models.Api.Requests;
 using webapi.Models.Api.Requests.Creature;
 using webapi.Models.Api.Responses;
 using webapi.Models.Api.Responses.Creature;
-using webapi.Models.Enums;
 using webapi.Models.Settings;
 using webapi.Services.Abstract;
 

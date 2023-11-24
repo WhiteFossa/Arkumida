@@ -17,7 +17,6 @@
 #endregion
 
 using webapi.Dao.Models;
-using webapi.Models;
 using webapi.Models.PrivateMessages;
 
 namespace webapi.Mappers.Abstract;
