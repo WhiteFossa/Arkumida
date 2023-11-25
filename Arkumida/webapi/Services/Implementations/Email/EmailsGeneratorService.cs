@@ -20,6 +20,7 @@ using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using webapi.Models;
+using webapi.Models.Creatures;
 using webapi.Models.Settings;
 using webapi.Services.Abstract.Email;
 using File = System.IO.File;

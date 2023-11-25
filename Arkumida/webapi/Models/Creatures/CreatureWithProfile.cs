@@ -18,7 +18,7 @@
 
 using webapi.Models.Api.DTOs;
 
-namespace webapi.Models;
+namespace webapi.Models.Creatures;
 
 /// <summary>
 /// Creature with profile

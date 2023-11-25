@@ -16,18 +16,20 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using webapi.Dao.Models;
-using webapi.Models;
-using webapi.Models.Creatures;
-
-namespace webapi.Mappers.Abstract;
+namespace webapi.Models.Creatures.Critics;
 
 /// <summary>
-/// Mappers for creatures with profiles
+/// Critics settings for creature
 /// </summary>
-public interface ICreaturesWithProfilesMapper
+public class CriticsSettings
 {
-    CreatureWithProfile Map(CreatureDbo creature, CreatureProfileDbo profile);
+    /// <summary>
+    /// Is show dislikes to creature?
+    /// </summary>
+    public bool IsShowDislikes { get; set; }
 
-    Tuple<CreatureDbo, CreatureProfileDbo> Map(CreatureWithProfile creatureWithProfile);
+    /// <summary>
+    /// Is show dislikes authors?
+    /// </summary>
+    public bool IsShowDislikesAuthors { get; set; }
 }

@@ -18,6 +18,7 @@
 
 using System.Text.Json.Serialization;
 using webapi.Dao.Models.Enums.Statistics;
+using webapi.Models.Creatures;
 using webapi.Models.TextsStatistics;
 
 namespace webapi.Models.Api.DTOs.TextsStatistics;

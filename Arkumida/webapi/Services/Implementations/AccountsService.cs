@@ -30,6 +30,8 @@ using webapi.Dao.Models;
 using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
+using webapi.Models.Creatures;
+using webapi.Models.Creatures.Critics;
 using webapi.Models.Enums;
 using webapi.Models.Settings;
 using webapi.OpenSearch.Models;
@@ -623,5 +625,41 @@ public class AccountsService : IAccountsService
     public async Task<IReadOnlyCollection<Creature>> GetAllCreaturesAsync()
     {
         return _creaturesMapper.Map(await _userManager.Users.ToListAsync());
+    }
+
+    public async Task<CriticsSettings> GetCriticsSettingsAsync(Guid creatureId)
+    {
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new ArgumentException($"Creature with ID = { creatureId } is not found!", nameof(creatureId));
+        }
+
+        return new CriticsSettings()
+        {
+            IsShowDislikes = profile.IsShowDislikes,
+            IsShowDislikesAuthors = profile.IsShowDislikesAuthors
+        };
+    }
+
+    public async Task UpdateCriticsSettingsAsync(Guid creatureId, CriticsSettings criticsSettings)
+    {
+        _ = criticsSettings ?? throw new ArgumentNullException(nameof(criticsSettings), "Critics settings mustn't be null!");
+
+        if (criticsSettings.IsShowDislikesAuthors && !criticsSettings.IsShowDislikes)
+        {
+            throw new ArgumentException("Show dislikes authors must be false if show dislikes is false!", nameof(criticsSettings));
+        }
+        
+        var profile = await _profilesDao.GetProfileAsync(creatureId);
+        if (profile == null)
+        {
+            throw new ArgumentException($"Creature with ID = { creatureId } is not found!", nameof(creatureId));
+        }
+
+        profile.IsShowDislikes = criticsSettings.IsShowDislikes;
+        profile.IsShowDislikesAuthors = criticsSettings.IsShowDislikesAuthors;
+
+        await _profilesDao.UpdateProfileAsync(profile);
     }
 }

@@ -18,6 +18,7 @@
 
 using webapi.Dao.Models.Enums.Statistics;
 using webapi.Models.Api.DTOs.TextsStatistics;
+using webapi.Models.Creatures;
 
 namespace webapi.Models.TextsStatistics;
 
