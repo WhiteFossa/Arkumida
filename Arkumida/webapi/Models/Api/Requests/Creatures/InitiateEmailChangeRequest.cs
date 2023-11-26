@@ -18,16 +18,16 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Set current avatar for current user
+/// Request to initiate creature's email change
 /// </summary>
-public class SetCurrentAvatarRequest
+public class InitiateEmailChangeRequest
 {
     /// <summary>
-    /// Avatar ID (may be null if user choosing not to not have an avatar at all)
+    /// New email
     /// </summary>
-    [JsonPropertyName("avatarId")]
-    public Guid? AvatarId { get; set; }
+    [JsonPropertyName("newEmail")]
+    public string NewEmail { get; set; }
 }

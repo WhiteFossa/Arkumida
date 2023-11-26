@@ -19,7 +19,7 @@
 using System.Text.Json.Serialization;
 using webapi.Models.Enums;
 
-namespace webapi.Models.Api.Responses;
+namespace webapi.Models.Api.Responses.Creatures;
 
 /// <summary>
 /// Password reset initiation response

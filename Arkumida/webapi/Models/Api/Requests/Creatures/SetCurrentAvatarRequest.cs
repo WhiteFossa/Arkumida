@@ -18,24 +18,16 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Responses.Creatures;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Response with email confirmation result
+/// Set current avatar for current user
 /// </summary>
-public class ConfirmEmailResponse
+public class SetCurrentAvatarRequest
 {
     /// <summary>
-    /// Is confirmation successful?
+    /// Avatar ID (may be null if user choosing not to not have an avatar at all)
     /// </summary>
-    [JsonPropertyName("isSuccessful")]
-    public bool IsSuccessful { get; private set; }
-
-    public ConfirmEmailResponse
-    (
-        bool isSuccessful
-    )
-    {
-        IsSuccessful = isSuccessful;
-    }
+    [JsonPropertyName("avatarId")]
+    public Guid? AvatarId { get; set; }
 }

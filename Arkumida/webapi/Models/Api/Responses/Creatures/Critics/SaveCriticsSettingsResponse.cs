@@ -19,24 +19,24 @@
 using System.Text.Json.Serialization;
 using webapi.Models.Api.DTOs.Creatures.Critics;
 
-namespace webapi.Models.Api.Responses;
+namespace webapi.Models.Api.Responses.Creatures.Critics;
 
 /// <summary>
-/// Response with critics settings
+/// Save critics settings response
 /// </summary>
-public class CriticsSettingsResponse
+public class SaveCriticsSettingsResponse
 {
     /// <summary>
-    /// Critics settings
+    /// Updated critics settings
     /// </summary>
-    [JsonPropertyName("criticsSettings")]
-    public CriticsSettingsDto CriticsSettings { get; private set; }
-
-    public CriticsSettingsResponse
+    [JsonPropertyName("updatedCriticsSettings")]
+    public CriticsSettingsDto UpdatedCriticsSettings { get; private set; }
+    
+    public SaveCriticsSettingsResponse
     (
-        CriticsSettingsDto criticsSettings
+        CriticsSettingsDto updatedCriticsSettings
     )
     {
-        CriticsSettings = criticsSettings ?? throw new ArgumentNullException(nameof(criticsSettings), "Critics settings mustn't be null!");
+        UpdatedCriticsSettings = updatedCriticsSettings ?? throw new ArgumentNullException(nameof(updatedCriticsSettings), "Updated critics settings mustn't be null!");
     }
 }

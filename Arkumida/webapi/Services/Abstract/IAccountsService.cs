@@ -174,8 +174,5 @@ public interface IAccountsService
     /// <summary>
     /// Update critics settings for given creature
     /// </summary>
-    /// <param name="creatureId"></param>
-    /// <param name="criticsSettings"></param>
-    /// <returns></returns>
-    Task UpdateCriticsSettingsAsync(Guid creatureId, CriticsSettings criticsSettings);
+    Task<CriticsSettings> UpdateCriticsSettingsAsync(Guid creatureId, CriticsSettings criticsSettings);
 }

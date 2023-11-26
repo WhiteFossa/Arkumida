@@ -24,8 +24,11 @@ using webapi.Models;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Api.DTOs.Creatures;
 using webapi.Models.Api.Requests;
-using webapi.Models.Api.Requests.Creature;
+using webapi.Models.Api.Requests.Creatures;
+using webapi.Models.Api.Requests.Creatures.Critics;
 using webapi.Models.Api.Responses;
+using webapi.Models.Api.Responses.Creatures;
+using webapi.Models.Api.Responses.Creatures.Critics;
 using webapi.Models.Settings;
 using webapi.Services.Abstract;
 
@@ -544,13 +547,28 @@ public class UsersController : ControllerBase
     /// </summary>
     [HttpGet]
     [Route("api/Users/{creatureId}/Critics/GetSettings")]
-    public async Task<ActionResult<CriticsSettingsResponse>> GetCriticsSettingsAsync(Guid creatureId)
+    public async Task<ActionResult<GetCriticsSettingsResponse>> GetCriticsSettingsAsync(Guid creatureId)
     {
         await CheckPrivilegesAsync(creatureId);
 
-        var criticsSettings = await _accountsService.GetCriticsSettingsAsync(creatureId);
+        return Ok(new GetCriticsSettingsResponse((await _accountsService.GetCriticsSettingsAsync(creatureId)).ToDto()));
+    }
+    
+    /// <summary>
+    /// Save critics settings
+    /// </summary>
+    [HttpPost]
+    [Route("api/Users/{creatureId}/Critics/SaveSettings")]
+    public async Task<ActionResult<SaveCriticsSettingsResponse>> SaveCriticsSettingsAsync(Guid creatureId, SaveCriticsSettingsRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+        
+        await CheckPrivilegesAsync(creatureId);
 
-        return Ok(new CriticsSettingsResponse(criticsSettings.ToDto()));
+        return Ok(new SaveCriticsSettingsResponse((await _accountsService.UpdateCriticsSettingsAsync(creatureId, request.NewCriticsSettings.ToModel())).ToDto()));
     }
     
     /// <summary>

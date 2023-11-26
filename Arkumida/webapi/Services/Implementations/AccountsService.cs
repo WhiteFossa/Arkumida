@@ -642,7 +642,7 @@ public class AccountsService : IAccountsService
         };
     }
 
-    public async Task UpdateCriticsSettingsAsync(Guid creatureId, CriticsSettings criticsSettings)
+    public async Task<CriticsSettings> UpdateCriticsSettingsAsync(Guid creatureId, CriticsSettings criticsSettings)
     {
         _ = criticsSettings ?? throw new ArgumentNullException(nameof(criticsSettings), "Critics settings mustn't be null!");
 
@@ -661,5 +661,7 @@ public class AccountsService : IAccountsService
         profile.IsShowDislikesAuthors = criticsSettings.IsShowDislikesAuthors;
 
         await _profilesDao.UpdateProfileAsync(profile);
+
+        return criticsSettings;
     }
 }

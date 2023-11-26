@@ -18,22 +18,16 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Request to rename user's avatar
+/// Request to change creature's about information
 /// </summary>
-public class RenameAvatarRequest
+public class UpdateAboutInfoRequest
 {
     /// <summary>
-    /// Avatar ID
+    /// New about info
     /// </summary>
-    [JsonPropertyName("avatarId")]
-    public Guid AvatarId { get; set; }
-    
-    /// <summary>
-    /// Avatar new name
-    /// </summary>
-    [JsonPropertyName("newName")]
-    public string NewName { get; set; }
+    [JsonPropertyName("newAbout")]
+    public string NewAbout { get; set; }
 }

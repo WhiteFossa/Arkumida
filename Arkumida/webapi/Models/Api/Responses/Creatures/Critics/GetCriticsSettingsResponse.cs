@@ -17,23 +17,26 @@
 #endregion
 
 using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs.Creatures.Critics;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Responses.Creatures.Critics;
 
 /// <summary>
-/// Request to reset password
+/// Response with critics settings
 /// </summary>
-public class PasswordResetRequest
+public class GetCriticsSettingsResponse
 {
     /// <summary>
-    /// New password
+    /// Critics settings
     /// </summary>
-    [JsonPropertyName("newPassword")]
-    public string NewPassword { get; set; }
-    
-    /// <summary>
-    /// Reset token
-    /// </summary>
-    [JsonPropertyName("token")]
-    public string Token { get; set; }
+    [JsonPropertyName("criticsSettings")]
+    public CriticsSettingsDto CriticsSettings { get; private set; }
+
+    public GetCriticsSettingsResponse
+    (
+        CriticsSettingsDto criticsSettings
+    )
+    {
+        CriticsSettings = criticsSettings ?? throw new ArgumentNullException(nameof(criticsSettings), "Critics settings mustn't be null!");
+    }
 }

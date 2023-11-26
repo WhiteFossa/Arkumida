@@ -18,16 +18,22 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Request to initiate password reset process
+/// Request to rename user's avatar
 /// </summary>
-public class InitiatePasswordResetRequest
+public class RenameAvatarRequest
 {
     /// <summary>
-    /// We will reset password for this creature
+    /// Avatar ID
     /// </summary>
-    [JsonPropertyName("login")]
-    public string Login { get; set; }
+    [JsonPropertyName("avatarId")]
+    public Guid AvatarId { get; set; }
+    
+    /// <summary>
+    /// Avatar new name
+    /// </summary>
+    [JsonPropertyName("newName")]
+    public string NewName { get; set; }
 }

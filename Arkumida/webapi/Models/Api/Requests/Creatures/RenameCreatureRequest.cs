@@ -18,22 +18,16 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Request to change email (aka "confirm change")
+/// Request to rename creature
 /// </summary>
-public class ChangeEmailRequest
+public class RenameCreatureRequest
 {
     /// <summary>
-    /// Email (as BASE64)
+    /// New name
     /// </summary>
-    [JsonPropertyName("email")]
-    public string Email { get; set; }
-    
-    /// <summary>
-    /// Change token
-    /// </summary>
-    [JsonPropertyName("token")]
-    public string Token { get; set; }
+    [JsonPropertyName("newName")]
+    public string NewName { get; set; }
 }

@@ -17,18 +17,23 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Request to create user's avatar
+/// Request to change email (aka "confirm change")
 /// </summary>
-public class CreateAvatarRequest
+public class ChangeEmailRequest
 {
     /// <summary>
-    /// Avatar to create
+    /// Email (as BASE64)
     /// </summary>
-    [JsonPropertyName("avatar")]
-    public AvatarDto Avatar { get; set; }
+    [JsonPropertyName("email")]
+    public string Email { get; set; }
+    
+    /// <summary>
+    /// Change token
+    /// </summary>
+    [JsonPropertyName("token")]
+    public string Token { get; set; }
 }

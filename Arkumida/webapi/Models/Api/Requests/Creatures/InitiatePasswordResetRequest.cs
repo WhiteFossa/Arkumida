@@ -18,16 +18,16 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Request to change creature's about information
+/// Request to initiate password reset process
 /// </summary>
-public class UpdateAboutInfoRequest
+public class InitiatePasswordResetRequest
 {
     /// <summary>
-    /// New about info
+    /// We will reset password for this creature
     /// </summary>
-    [JsonPropertyName("newAbout")]
-    public string NewAbout { get; set; }
+    [JsonPropertyName("login")]
+    public string Login { get; set; }
 }

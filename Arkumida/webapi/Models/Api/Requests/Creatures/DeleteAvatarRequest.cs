@@ -18,16 +18,16 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Email address confirmation request
+/// Request to delete avatar
 /// </summary>
-public class ConfirmEmailRequest
+public class DeleteAvatarRequest
 {
     /// <summary>
-    /// Confirmation token
+    /// Avatar ID
     /// </summary>
-    [JsonPropertyName("token")]
-    public string Token { get; set; }
+    [JsonPropertyName("avatarId")]
+    public Guid AvatarId { get; set; }
 }

@@ -18,7 +18,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Responses;
+namespace webapi.Models.Api.Responses.Creatures;
 
 /// <summary>
 /// Response for email confirmation initiation

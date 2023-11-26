@@ -17,17 +17,18 @@
 #endregion
 
 using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Request to delete avatar
+/// Request to create user's avatar
 /// </summary>
-public class DeleteAvatarRequest
+public class CreateAvatarRequest
 {
     /// <summary>
-    /// Avatar ID
+    /// Avatar to create
     /// </summary>
-    [JsonPropertyName("avatarId")]
-    public Guid AvatarId { get; set; }
+    [JsonPropertyName("avatar")]
+    public AvatarDto Avatar { get; set; }
 }

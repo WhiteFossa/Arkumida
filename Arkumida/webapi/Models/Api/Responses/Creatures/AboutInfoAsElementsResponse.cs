@@ -19,7 +19,7 @@
 using System.Text.Json.Serialization;
 using webapi.Models.Api.DTOs;
 
-namespace webapi.Models.Api.Responses;
+namespace webapi.Models.Api.Responses.Creatures;
 
 /// <summary>
 /// Response with creature's about information (splitted to elements)

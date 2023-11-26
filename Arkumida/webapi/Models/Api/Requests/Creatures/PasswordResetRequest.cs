@@ -18,24 +18,22 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Responses.Creatures;
+namespace webapi.Models.Api.Requests.Creatures;
 
 /// <summary>
-/// Response with email confirmation result
+/// Request to reset password
 /// </summary>
-public class ConfirmEmailResponse
+public class PasswordResetRequest
 {
     /// <summary>
-    /// Is confirmation successful?
+    /// New password
     /// </summary>
-    [JsonPropertyName("isSuccessful")]
-    public bool IsSuccessful { get; private set; }
-
-    public ConfirmEmailResponse
-    (
-        bool isSuccessful
-    )
-    {
-        IsSuccessful = isSuccessful;
-    }
+    [JsonPropertyName("newPassword")]
+    public string NewPassword { get; set; }
+    
+    /// <summary>
+    /// Reset token
+    /// </summary>
+    [JsonPropertyName("token")]
+    public string Token { get; set; }
 }

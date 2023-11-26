@@ -17,17 +17,18 @@
 #endregion
 
 using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs.Creatures.Critics;
 
-namespace webapi.Models.Api.Requests.Creature;
+namespace webapi.Models.Api.Requests.Creatures.Critics;
 
 /// <summary>
-/// Request to rename creature
+/// Save critics settings request
 /// </summary>
-public class RenameCreatureRequest
+public class SaveCriticsSettingsRequest
 {
     /// <summary>
-    /// New name
+    /// New critics settings
     /// </summary>
-    [JsonPropertyName("newName")]
-    public string NewName { get; set; }
+    [JsonPropertyName("newCriticsSettings")]
+    public CriticsSettingsDto NewCriticsSettings { get; set; }
 }
