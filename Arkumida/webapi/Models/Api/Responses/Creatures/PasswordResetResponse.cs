@@ -17,35 +17,25 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs;
-using webapi.Models.Api.DTOs.Creatures;
 
 namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Response for "find creature by name" request
+/// Password reset confirmation response
 /// </summary>
-public class FindCreatureByNameResponse
+public class PasswordResetResponse
 {
     /// <summary>
-    /// Is creature found?
+    /// Is reset successful?
     /// </summary>
-    [JsonPropertyName("isFound")]
-    public bool IsFound { get; private set; }
+    [JsonPropertyName("isSuccessful")]
+    public bool IsSuccessful { get; private set; }
 
-    /// <summary>
-    /// Creature (if found)
-    /// </summary>
-    [JsonPropertyName("creature")]
-    public CreatureDto Creature { get; private set; }
-
-    public FindCreatureByNameResponse
+    public PasswordResetResponse
     (
-        bool isFound,
-        CreatureDto creature
+        bool isSuccessful
     )
     {
-        IsFound = isFound;
-        Creature = creature; // May be null if not found
+        IsSuccessful = isSuccessful;
     }
 }

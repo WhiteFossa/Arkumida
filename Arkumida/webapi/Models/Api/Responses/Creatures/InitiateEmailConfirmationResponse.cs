@@ -18,20 +18,20 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Response with email confirmation result
+/// Response for email confirmation initiation
 /// </summary>
-public class ConfirmEmailResponse
+public class InitiateEmailConfirmationResponse
 {
     /// <summary>
-    /// Is confirmation successful?
+    /// Is confirmation initiated successfully?
     /// </summary>
     [JsonPropertyName("isSuccessful")]
     public bool IsSuccessful { get; private set; }
 
-    public ConfirmEmailResponse
+    public InitiateEmailConfirmationResponse
     (
         bool isSuccessful
     )

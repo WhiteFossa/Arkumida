@@ -17,25 +17,26 @@
 #endregion
 
 using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs.Creatures;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Password reset confirmation response
+/// Response for creature with profile
 /// </summary>
-public class PasswordResetResponse
+public class CreatureWithProfileResponse
 {
     /// <summary>
-    /// Is reset successful?
+    /// Creature's profile
     /// </summary>
-    [JsonPropertyName("isSuccessful")]
-    public bool IsSuccessful { get; private set; }
+    [JsonPropertyName("creatureWithProfile")]
+    public CreatureWithProfileDto CreatureWithProfile { get; private set; }
 
-    public PasswordResetResponse
+    public CreatureWithProfileResponse
     (
-        bool isSuccessful
+        CreatureWithProfileDto creatureWithProfile
     )
     {
-        IsSuccessful = isSuccessful;
+        CreatureWithProfile = creatureWithProfile ?? throw new ArgumentNullException(nameof(creatureWithProfile), "Profile must be provided!");
     }
 }

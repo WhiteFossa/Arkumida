@@ -19,7 +19,7 @@
 using System.Text.Json.Serialization;
 using webapi.Models.Creatures;
 
-namespace webapi.Models.Api.DTOs;
+namespace webapi.Models.Api.DTOs.Creatures;
 
 /// <summary>
 /// User

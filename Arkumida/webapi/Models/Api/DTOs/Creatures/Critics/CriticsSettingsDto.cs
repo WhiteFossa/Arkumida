@@ -17,25 +17,36 @@
 #endregion
 
 using System.Text.Json.Serialization;
+using webapi.Models.Creatures.Critics;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.DTOs.Creatures.Critics;
 
 /// <summary>
-/// Information about is email confirmed or not
+/// Critics settings DTO
 /// </summary>
-public class IsEmailConfirmedResponse
+public class CriticsSettingsDto
 {
     /// <summary>
-    /// Is email confirmed?
+    /// Is show dislikes to creature?
     /// </summary>
-    [JsonPropertyName("isConfirmed")]
-    public bool IsConfirmed { get; private set; }
+    [JsonPropertyName("isShowDislikes")]
+    public bool IsShowDislikes { get; set; }
 
-    public IsEmailConfirmedResponse
-    (
-        bool isConfirmed
-    )
+    /// <summary>
+    /// Is show dislikes authors?
+    /// </summary>
+    [JsonPropertyName("isShowDislikesAuthors")]
+    public bool IsShowDislikesAuthors { get; set; }
+
+    /// <summary>
+    /// Convert DTO to model
+    /// </summary>
+    public CriticsSettings ToModel()
     {
-        IsConfirmed = isConfirmed;
+        return new CriticsSettings()
+        {
+            IsShowDislikes = IsShowDislikes,
+            IsShowDislikesAuthors = IsShowDislikesAuthors
+        };
     }
 }

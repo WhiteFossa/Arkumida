@@ -17,6 +17,7 @@
 #endregion
 
 using webapi.Models.Api.DTOs;
+using webapi.Models.Api.DTOs.Creatures;
 
 namespace webapi.Models.Creatures;
 

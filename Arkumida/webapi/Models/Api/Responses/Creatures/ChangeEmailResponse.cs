@@ -17,23 +17,25 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Current (logged in) user
+/// Email change response
 /// </summary>
-public class LoggedInCreatureResponse
+public class ChangeEmailResponse
 {
     /// <summary>
-    /// Current user
+    /// Is change successful?
     /// </summary>
-    [JsonPropertyName("creature")]
-    public CreatureDto Creature { get; private set; }
-    
-    public LoggedInCreatureResponse(CreatureDto creature)
+    [JsonPropertyName("isSuccessful")]
+    public bool IsSuccessful { get; private set; }
+
+    public ChangeEmailResponse
+    (
+        bool isSuccessful
+    )
     {
-        Creature = creature ?? throw new ArgumentNullException(nameof(creature), "Creature must not be null!");
+        IsSuccessful = isSuccessful;
     }
 }

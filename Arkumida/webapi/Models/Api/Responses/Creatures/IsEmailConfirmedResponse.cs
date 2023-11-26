@@ -18,32 +18,24 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Result of email change initiation
+/// Information about is email confirmed or not
 /// </summary>
-public class InitiateEmailChangeResponse
+public class IsEmailConfirmedResponse
 {
     /// <summary>
-    /// Is confirmation initiated successfully?
+    /// Is email confirmed?
     /// </summary>
-    [JsonPropertyName("isSuccessful")]
-    public bool IsSuccessful { get; private set; }
+    [JsonPropertyName("isConfirmed")]
+    public bool IsConfirmed { get; private set; }
 
-    /// <summary>
-    /// Is confirmation email sent (we wouldn't sent it in case of change to an empty email)?
-    /// </summary>
-    [JsonPropertyName("isEmailSent")]
-    public bool IsEmailSent { get; private set; }
-
-    public InitiateEmailChangeResponse
+    public IsEmailConfirmedResponse
     (
-        bool isSuccessful,
-        bool isEmailSent
+        bool isConfirmed
     )
     {
-        IsSuccessful = isSuccessful;
-        IsEmailSent = isEmailSent;
+        IsConfirmed = isConfirmed;
     }
 }

@@ -18,20 +18,20 @@
 
 using System.Text.Json.Serialization;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Email change response
+/// Response with information about changed password
 /// </summary>
-public class ChangeEmailResponse
+public class ChangePasswordResponse
 {
     /// <summary>
-    /// Is change successful?
+    /// Did password changed successfully?
     /// </summary>
     [JsonPropertyName("isSuccessful")]
     public bool IsSuccessful { get; private set; }
 
-    public ChangeEmailResponse
+    public ChangePasswordResponse
     (
         bool isSuccessful
     )

@@ -17,25 +17,26 @@
 #endregion
 
 using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs.Creatures.Critics;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Response for email confirmation initiation
+/// Response with critics settings
 /// </summary>
-public class InitiateEmailConfirmationResponse
+public class CriticsSettingsResponse
 {
     /// <summary>
-    /// Is confirmation initiated successfully?
+    /// Critics settings
     /// </summary>
-    [JsonPropertyName("isSuccessful")]
-    public bool IsSuccessful { get; private set; }
+    [JsonPropertyName("criticsSettings")]
+    public CriticsSettingsDto CriticsSettings { get; private set; }
 
-    public InitiateEmailConfirmationResponse
+    public CriticsSettingsResponse
     (
-        bool isSuccessful
+        CriticsSettingsDto criticsSettings
     )
     {
-        IsSuccessful = isSuccessful;
+        CriticsSettings = criticsSettings ?? throw new ArgumentNullException(nameof(criticsSettings), "Critics settings mustn't be null!");
     }
 }

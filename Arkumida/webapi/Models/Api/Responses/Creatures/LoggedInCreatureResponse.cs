@@ -17,25 +17,23 @@
 #endregion
 
 using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs.Creatures;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Response with information about changed password
+/// Current (logged in) user
 /// </summary>
-public class ChangePasswordResponse
+public class LoggedInCreatureResponse
 {
     /// <summary>
-    /// Did password changed successfully?
+    /// Current user
     /// </summary>
-    [JsonPropertyName("isSuccessful")]
-    public bool IsSuccessful { get; private set; }
-
-    public ChangePasswordResponse
-    (
-        bool isSuccessful
-    )
+    [JsonPropertyName("creature")]
+    public CreatureDto Creature { get; private set; }
+    
+    public LoggedInCreatureResponse(CreatureDto creature)
     {
-        IsSuccessful = isSuccessful;
+        Creature = creature ?? throw new ArgumentNullException(nameof(creature), "Creature must not be null!");
     }
 }

@@ -17,26 +17,25 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Response for creature with profile
+/// Response with email confirmation result
 /// </summary>
-public class CreatureWithProfileResponse
+public class ConfirmEmailResponse
 {
     /// <summary>
-    /// Creature's profile
+    /// Is confirmation successful?
     /// </summary>
-    [JsonPropertyName("creatureWithProfile")]
-    public CreatureWithProfileDto CreatureWithProfile { get; private set; }
+    [JsonPropertyName("isSuccessful")]
+    public bool IsSuccessful { get; private set; }
 
-    public CreatureWithProfileResponse
+    public ConfirmEmailResponse
     (
-        CreatureWithProfileDto creatureWithProfile
+        bool isSuccessful
     )
     {
-        CreatureWithProfile = creatureWithProfile ?? throw new ArgumentNullException(nameof(creatureWithProfile), "Profile must be provided!");
+        IsSuccessful = isSuccessful;
     }
 }

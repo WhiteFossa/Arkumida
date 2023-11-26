@@ -16,6 +16,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
+using webapi.Models.Api.DTOs.Creatures.Critics;
+
 namespace webapi.Models.Creatures.Critics;
 
 /// <summary>
@@ -32,4 +34,16 @@ public class CriticsSettings
     /// Is show dislikes authors?
     /// </summary>
     public bool IsShowDislikesAuthors { get; set; }
+
+    /// <summary>
+    /// Convert to DTO
+    /// </summary>
+    public CriticsSettingsDto ToDto()
+    {
+        return new CriticsSettingsDto()
+        {
+            IsShowDislikes = IsShowDislikes,
+            IsShowDislikesAuthors = IsShowDislikesAuthors
+        };
+    }
 }

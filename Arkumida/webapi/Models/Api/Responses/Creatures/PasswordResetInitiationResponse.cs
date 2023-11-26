@@ -17,26 +17,26 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs;
+using webapi.Models.Enums;
 
-namespace webapi.Models.Api.Responses.Creature;
+namespace webapi.Models.Api.Responses;
 
 /// <summary>
-/// Response with creature's about information (splitted to elements)
+/// Password reset initiation response
 /// </summary>
-public class AboutInfoAsElementsResponse
+public class PasswordResetInitiationResponse
 {
     /// <summary>
-    /// Elements
+    /// Password reset initiation result
     /// </summary>
-    [JsonPropertyName("elements")]
-    public IReadOnlyCollection<TextElementDto> Elements { get; set; }
+    [JsonPropertyName("result")]
+    public PasswordResetInitiationResult Result { get; private set; }
 
-    public AboutInfoAsElementsResponse
+    public PasswordResetInitiationResponse
     (
-        IReadOnlyCollection<TextElementDto> elements
+        PasswordResetInitiationResult result
     )
     {
-        Elements = elements ?? throw new ArgumentNullException(nameof(elements), "About info elements must not be null");
+        Result = result;
     }
 }

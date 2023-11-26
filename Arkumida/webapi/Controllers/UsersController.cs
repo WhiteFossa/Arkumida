@@ -22,10 +22,10 @@ using Microsoft.Extensions.Options;
 using webapi.Constants;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
+using webapi.Models.Api.DTOs.Creatures;
 using webapi.Models.Api.Requests;
 using webapi.Models.Api.Requests.Creature;
 using webapi.Models.Api.Responses;
-using webapi.Models.Api.Responses.Creature;
 using webapi.Models.Settings;
 using webapi.Services.Abstract;
 
@@ -537,6 +537,20 @@ public class UsersController : ControllerBase
         }
 
         return Ok(new FindCreatureByNameResponse(true, creature.ToDto()));
+    }
+    
+    /// <summary>
+    /// Get critics settings
+    /// </summary>
+    [HttpGet]
+    [Route("api/Users/{creatureId}/Critics/GetSettings")]
+    public async Task<ActionResult<CriticsSettingsResponse>> GetCriticsSettingsAsync(Guid creatureId)
+    {
+        await CheckPrivilegesAsync(creatureId);
+
+        var criticsSettings = await _accountsService.GetCriticsSettingsAsync(creatureId);
+
+        return Ok(new CriticsSettingsResponse(criticsSettings.ToDto()));
     }
     
     /// <summary>
