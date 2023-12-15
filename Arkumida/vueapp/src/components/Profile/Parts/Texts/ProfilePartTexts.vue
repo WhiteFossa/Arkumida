@@ -9,6 +9,8 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     const isCriticsEditing = ref(false)
 
+    const criticsSettings = ref(null)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -17,6 +19,8 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     async function OnLoad()
     {
         creatureId.value = (await (await WebClientSendGetRequest("/api/Users/Current")).json()).creature.entityId
+
+        criticsSettings.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/Critics/GetSettings")).json()).criticsSettings
 
         isLoading.value = false
     }
@@ -60,7 +64,14 @@ async function CompleteCriticsEditing()
                     Критика
                 </div>
 
-                Настройки критики будут тут
+                <div v-if="!isCriticsEditing">
+                    <div>Отображать дизлайки: <strong><span v-if="criticsSettings.isShowDislikes">Да</span><span v-else>Нет</span></strong></div>
+                    <div>Отображать пользователей, оставивших дизлайки: <strong><span v-if="criticsSettings.isShowDislikesAuthors">Да</span><span v-else>Нет</span></strong></div>
+                </div>
+
+                <div v-if="isCriticsEditing">
+                    Редактируемые настройки критики
+                </div>
 
             </div>
 
