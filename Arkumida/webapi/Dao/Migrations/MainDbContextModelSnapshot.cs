@@ -307,6 +307,12 @@ namespace webapi.Dao.Migrations
                     b.Property<bool>("IsPasswordChangeRequired")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsShowDislikes")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsShowDislikesAuthors")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("OneTimePlaintextPassword")
                         .HasColumnType("text");
 
@@ -461,15 +467,6 @@ namespace webapi.Dao.Migrations
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
-
-                    b.Property<long>("VotesCount")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("VotesMinus")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("VotesPlus")
-                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 

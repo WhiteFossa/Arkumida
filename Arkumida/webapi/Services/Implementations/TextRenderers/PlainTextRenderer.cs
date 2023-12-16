@@ -20,6 +20,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using webapi.Models;
 using webapi.Models.Api.DTOs;
+using webapi.Models.Creatures;
 using webapi.Models.Enums;
 using webapi.Models.Settings;
 using webapi.Services.Abstract.TextRenderers;

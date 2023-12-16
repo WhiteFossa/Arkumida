@@ -2307,6 +2307,48 @@ body {
   .mixin-bold-text-base();
 }
 
+/* Profile texts part critics container (outer, paddingless) */
+.profile-texts-part-critics-outer-container {
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
+
+  overflow: hidden;
+}
+
+/* Profile texts part critics container (inner, with padding) */
+.profile-texts-part-critics-inner-container {
+  padding-top: @padding-smaller1;
+  padding-bottom: @padding-smaller1;
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+}
+
+/* Small text "Critics" and edit button inside */
+.profile-texts-part-critics-caption {
+  font-size: @font-size-smaller1;
+  color: @darker-color1;
+
+  text-align: right;
+  width: 100%;
+
+  .mixin-flex-row-base();
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: @gap-small;
+
+  padding-bottom: @padding-small2;
+}
+
+/* OK and Cancel buttons container (outer) for critics editing */
+.profile-texts-part-critics-edit-buttons-outer-container {
+  .mixin-group-buttons-outer-container();
+}
+
+/* OK and Cancel buttons for critics editing live here */
+.profile-texts-part-critics-edit-buttons-bordered-inner-container {
+  .mixin-group-buttons-inner-container();
+}
+
 /* Profile stuff ends here */
 
 /* Popups stuff starts here */

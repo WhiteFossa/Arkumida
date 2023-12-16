@@ -18,6 +18,7 @@
 
 using webapi.Dao.Models;
 using webapi.Models;
+using webapi.Models.Creatures;
 
 namespace webapi.Mappers.Abstract;
 

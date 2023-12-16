@@ -8,6 +8,7 @@
     import ProfilePartSecurity from "@/components/Profile/Parts/Security/ProfilePartSecurity.vue";
     import ProfilePartLogout from "@/components/Profile/Parts/ProfilePartLogout.vue";
     import { AuthRedirectToLoginPageIfNotLoggedIn} from "@/js/auth";
+    import ProfilePartTexts from "@/components/Profile/Parts/Texts/ProfilePartTexts.vue";
 
     const props = defineProps({
         part: String,
@@ -22,6 +23,7 @@
         static Avatars = 1
         static Security = 2
         static Logout = 3
+        static Texts = 4
     }
 
     // Profile parts
@@ -32,6 +34,13 @@
             "id": ProfilePartsIds.Main,
             "part": "main",
             "name": "Главное"
+        },
+
+        // Texts
+        {
+            "id": ProfilePartsIds.Texts,
+            "part": "texts",
+            "name": "Тексты"
         },
 
         // Avatars
@@ -120,6 +129,9 @@
                 <ProfilePartMain
                     v-if="currentPart.id === ProfilePartsIds.Main"
                     @reloadProfile="async () => await EmitReloadProfile()" />
+
+                <ProfilePartTexts
+                    v-if="currentPart.id === ProfilePartsIds.Texts" />
 
                 <ProfilePartAvatars
                     v-if="currentPart.id === ProfilePartsIds.Avatars"

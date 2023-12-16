@@ -18,6 +18,8 @@
 
 using webapi.Models;
 using webapi.Models.Api.DTOs;
+using webapi.Models.Creatures;
+using webapi.Models.Creatures.Critics;
 using webapi.Models.Enums;
 
 namespace webapi.Services.Abstract;
@@ -163,4 +165,14 @@ public interface IAccountsService
     /// Lists all registered creatures including service accounts like Importer
     /// </summary>
     Task<IReadOnlyCollection<Creature>> GetAllCreaturesAsync();
+
+    /// <summary>
+    /// Get critics settings for given creature
+    /// </summary>
+    Task<CriticsSettings> GetCriticsSettingsAsync(Guid creatureId);
+
+    /// <summary>
+    /// Update critics settings for given creature
+    /// </summary>
+    Task<CriticsSettings> UpdateCriticsSettingsAsync(Guid creatureId, CriticsSettings criticsSettings);
 }

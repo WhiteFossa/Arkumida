@@ -17,6 +17,7 @@
 #endregion
 
 using webapi.Models;
+using webapi.Models.Creatures;
 
 namespace webapi.Services.Abstract.Email;
 

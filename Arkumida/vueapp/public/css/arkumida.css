@@ -1957,6 +1957,55 @@ body {
   color: hsl(0, 100%, 56%);
   font-weight: bold;
 }
+/* Profile texts part critics container (outer, paddingless) */
+.profile-texts-part-critics-outer-container {
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+/* Profile texts part critics container (inner, with padding) */
+.profile-texts-part-critics-inner-container {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+/* Small text "Critics" and edit button inside */
+.profile-texts-part-critics-caption {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+  text-align: right;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  padding-bottom: 0.3rem;
+}
+/* OK and Cancel buttons container (outer) for critics editing */
+.profile-texts-part-critics-edit-buttons-outer-container {
+  text-align: right;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+/* OK and Cancel buttons for critics editing live here */
+.profile-texts-part-critics-edit-buttons-bordered-inner-container {
+  border-top: 0.1rem solid hsl(225, 5%, 85%);
+  border-left: 0.1rem solid hsl(225, 5%, 85%);
+  border-top-left-radius: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
 /* Profile stuff ends here */
 /* Popups stuff starts here */
 /* Popup lower layer */

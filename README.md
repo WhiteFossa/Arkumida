@@ -131,4 +131,4 @@ After running furtails-importer don't forget to replace [ascii=N] to [ascii=M], 
 
 # TODO
 - Add images previews (for now full-sized images are displayed as previews)
-- Fix incorrect search for M and F tags
+- Add targeted links for authors/publishers/translators in texts

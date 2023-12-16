@@ -61,4 +61,14 @@ public class CreatureProfileDbo
     /// Information about creature (in the format, processable by ITextUtilsService.ParseTextToElements())
     /// </summary>
     public string About { get; set; }
+
+    /// <summary>
+    /// Is show dislikes to creature in event log? (for texts uploaded by shi)
+    /// </summary>
+    public bool IsShowDislikes { get; set; }
+
+    /// <summary>
+    /// Is show dislikes authors in event log? (for texts uploaded by shi)
+    /// </summary>
+    public bool IsShowDislikesAuthors { get; set; }
 }

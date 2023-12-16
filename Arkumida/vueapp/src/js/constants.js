@@ -59,6 +59,8 @@ export class Messages
     static PrivateMessagesFailedToSend = "Не удалось отправить личное сообщение, повторите попытку позже или свяжитесь с администраторами."
 
     static UserNotFoundByName = "Пользователь с таким именем не найден."
+
+    static CriticsSettingsFailedToUpdate = "Не удалось обновить настройки критики. Обновите страницу."
 }
 
 export class ProfileConsts

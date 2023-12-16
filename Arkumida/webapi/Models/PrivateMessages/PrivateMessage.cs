@@ -17,6 +17,7 @@
 #endregion
 
 using webapi.Models.Api.DTOs.PrivateMessages;
+using webapi.Models.Creatures;
 
 namespace webapi.Models.PrivateMessages;
 
