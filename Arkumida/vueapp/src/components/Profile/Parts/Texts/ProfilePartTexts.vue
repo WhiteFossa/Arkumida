@@ -103,13 +103,13 @@ async function CompleteCriticsEditing()
                 </div>
 
                 <div v-if="!isCriticsEditing">
-                    <div>Отображать дизлайки: <strong><span v-if="criticsSettings.isShowDislikes">Да</span><span v-else>Нет</span></strong></div>
-                    <div>Отображать пользователей, оставивших дизлайки: <strong><span v-if="criticsSettings.isShowDislikesAuthors">Да</span><span v-else>Нет</span></strong></div>
+                    <div>Отображать дизлайки? <strong><span v-if="criticsSettings.isShowDislikes">Да</span><span v-else>Нет</span></strong></div>
+                    <div>Отображать пользователей, оставивших дизлайки? <strong><span v-if="criticsSettings.isShowDislikesAuthors">Да</span><span v-else>Нет</span></strong></div>
                 </div>
 
                 <div v-if="isCriticsEditing">
                     <div>
-                        Отображать дизлайки:
+                        Отображать дизлайки?
                         <input
                             type="checkbox"
                             v-model="criticsSettingsFormData.isShowDislikes"
@@ -117,7 +117,7 @@ async function CompleteCriticsEditing()
                     </div>
 
                     <div>
-                        Отображать пользователей, оставивших дизлайки:
+                        Отображать пользователей, оставивших дизлайки?
                         <input
                             type="checkbox"
                             :disabled="!criticsSettingsFormData.isShowDislikes"
