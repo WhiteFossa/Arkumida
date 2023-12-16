@@ -1,7 +1,8 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {WebClientSendGetRequest} from "@/js/libWebClient";
+import {onMounted, reactive, ref} from "vue";
+import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
 import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+import {Messages} from "@/js/constants";
 
     const isLoading = ref(true)
 
@@ -10,6 +11,11 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     const isCriticsEditing = ref(false)
 
     const criticsSettings = ref(null)
+
+    const criticsSettingsFormData = reactive({
+        isShowDislikes: false,
+        isShowDislikesAuthors: false
+    })
 
     onMounted(async () =>
     {
@@ -27,6 +33,9 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
 
     async function StartToEditCritics()
     {
+        criticsSettingsFormData.isShowDislikes = criticsSettings.value.isShowDislikes
+        criticsSettingsFormData.isShowDislikesAuthors = criticsSettings.value.isShowDislikesAuthors
+
         isCriticsEditing.value = true
     }
 
@@ -35,11 +44,40 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
         isCriticsEditing.value = false
     }
 
+    async function IsShowDislikesChanged()
+    {
+        if (!criticsSettingsFormData.isShowDislikes)
+        {
+            criticsSettingsFormData.isShowDislikesAuthors = false
+        }
+    }
+
 async function CompleteCriticsEditing()
 {
-    isCriticsEditing.value = false
+    const newCriticsSettingsResponse = await WebClientSendPostRequest(
+        "/api/Users/" + creatureId.value + "/Critics/SaveSettings",
+        {
+            "newCriticsSettings":
+            {
+                "isShowDislikes": criticsSettingsFormData.isShowDislikes,
+                "isShowDislikesAuthors": criticsSettingsFormData.isShowDislikesAuthors
+            }
+        }
+    )
 
-    // TODO: Send changes to server
+    if (newCriticsSettingsResponse.status !== 200)
+    {
+        alert(Messages.CriticsSettingsFailedToUpdate)
+        isCriticsEditing.value = false
+        return
+    }
+
+    const newCriticsSettings = (await newCriticsSettingsResponse.json()).updatedCriticsSettings
+
+    criticsSettings.value.isShowDislikes = newCriticsSettings.isShowDislikes
+    criticsSettings.value.isShowDislikesAuthors = newCriticsSettings.isShowDislikesAuthors
+
+    isCriticsEditing.value = false
 }
 </script>
 
@@ -70,7 +108,21 @@ async function CompleteCriticsEditing()
                 </div>
 
                 <div v-if="isCriticsEditing">
-                    Редактируемые настройки критики
+                    <div>
+                        Отображать дизлайки:
+                        <input
+                            type="checkbox"
+                            v-model="criticsSettingsFormData.isShowDislikes"
+                            @change="async () => await IsShowDislikesChanged()" />
+                    </div>
+
+                    <div>
+                        Отображать пользователей, оставивших дизлайки:
+                        <input
+                            type="checkbox"
+                            :disabled="!criticsSettingsFormData.isShowDislikes"
+                            v-model="criticsSettingsFormData.isShowDislikesAuthors" />
+                    </div>
                 </div>
 
             </div>
