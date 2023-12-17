@@ -1,8 +1,10 @@
 <script setup>
     import ReadTextLikeComponent from "@/components/ReadText/Footer/Votes/ReadTextLikeComponent.vue";
     import ReadTextDislikeComponent from "@/components/ReadText/Footer/Votes/ReadTextDislikeComponent.vue";
-    import {defineProps, ref} from "vue";
+    import {defineProps, onMounted, ref} from "vue";
     import ReadTextVotesHistoryComponent from "@/components/ReadText/Footer/Votes/ReadTextVotesHistoryComponent.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+    import {WebClientSendGetRequest} from "@/js/libWebClient";
 
     const props = defineProps({
         textId: String
@@ -10,6 +12,23 @@
 
     const likeComponent = ref(null);
     const dislikeComponent = ref(null);
+
+    const isLoading = ref(true)
+
+    const isVotesHistoryVisible = ref(false)
+
+    onMounted(async () =>
+    {
+        await OnLoad();
+    })
+
+    async function OnLoad()
+    {
+        isVotesHistoryVisible.value = (await (await WebClientSendGetRequest("/api/TextsVotes/IsHistoryVisible/" + props.textId)).json()).isVotesHistoryVisible
+
+        isLoading.value = false
+    }
+
 
     async function UpdateDislikeStateAsync()
     {
@@ -23,7 +42,11 @@
 </script>
 
 <template>
-    <div class="read-text-footer">
+    <LoadingSymbol v-if="isLoading" />
+
+    <div
+        v-if="!isLoading"
+        class="read-text-footer">
 
         <div class="read-text-votes-container">
 
@@ -42,7 +65,8 @@
                 @dislikeStateChanged="async() => await UpdateLikeStateAsync()"/>
 
             <!-- Votes history -->
-            <ReadTextVotesHistoryComponent />
+            <ReadTextVotesHistoryComponent
+                v-if="isVotesHistoryVisible" />
 
         </div>
     </div>
