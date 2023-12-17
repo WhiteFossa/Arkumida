@@ -124,6 +124,11 @@ public interface ITextsStatisticsService
     /// Do not check dislikes-undislikes balance by users, because furtails-importer will import many dislikes from one user (importer-user)
     /// </summary>
     Task<long> GetDislikesCountAsync(Guid textId);
+    
+    /// <summary>
+    /// Is likes/dislikes history visible to creature?
+    /// </summary>
+    Task<bool> IsVotesHistoryVisibleAsync(Guid textId, Guid? creatureId);
 
     #endregion
 }

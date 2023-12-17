@@ -10,6 +10,7 @@ import InitiatePasswordResetView from "@/views/InitiatePasswordResetView.vue";
 import PasswordResetView from "@/views/PasswordResetView.vue";
 import PrivateMessagesView from "@/views/PrivateMessagesView.vue";
 import SearchView from "@/views/SearchView.vue";
+import VotesHistoryView from "@/views/VotesHistoryView.vue";
 
 const routes =
 [
@@ -93,6 +94,14 @@ const routes =
         path: '/search/:encodedQuery?',
         name: 'search',
         component: SearchView,
+        props: true
+    },
+
+    // Likes/dislkies history
+    {
+        path: '/votesHistory/:id',
+        name: 'votesHistory',
+        component: VotesHistoryView,
         props: true
     },
 ]

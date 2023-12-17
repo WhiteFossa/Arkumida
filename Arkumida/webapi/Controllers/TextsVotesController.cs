@@ -170,4 +170,17 @@ public class TextsVotesController : ControllerBase
     {
         return Ok(new DislikesCountResponse(await _textsStatisticsService.GetDislikesCountAsync(textId)));
     }
+    
+    /// <summary>
+    /// Is votes history visible?
+    /// </summary>
+    [AllowAnonymous]
+    [Route("api/TextsVotes/IsHistoryVisible/{textId}")]
+    [HttpGet]
+    public async Task<ActionResult<VotesHistoryVisibilityResponse>> IsVotesHistoryVisibleAsync(Guid textId)
+    {
+        var creatureId = User.Identity.IsAuthenticated ? (Guid?)(await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id : null;
+        
+        return Ok(new VotesHistoryVisibilityResponse(await _textsStatisticsService.IsVotesHistoryVisibleAsync(textId, creatureId)));
+    }
 }

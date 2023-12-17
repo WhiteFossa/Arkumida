@@ -1468,6 +1468,48 @@ body {
   vertical-align: middle;
 }
 
+/* Votes history button */
+.read-text-votes-history-button {
+  .mixin-horizontally-and-vertically-centered-flex();
+  flex-wrap: nowrap;
+  gap: @gap-smallest;
+
+  background: @lighter-color2;
+  border-radius: @border-radius-small;
+  border: @border-thick-thickness @border-style @lighter-color2;
+
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+  padding-top: @padding-small2;
+  padding-bottom: @padding-small2;
+
+  width: min-content;
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+/* Votes history icon */
+.read-text-like-votes-history-image {
+  border: @border-thin-thickness @border-style @lightest-color1;
+  border-radius: @border-radius-small;
+
+  width: 1.3rem;
+
+  vertical-align: middle;
+}
+
+/* Container for votes buttons */
+.read-text-votes-container {
+  .mixin-flex-row-base();
+  gap: @gap-small;
+
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+}
+
 /* Read text page stuff ends here */
 
 /* Creatures info container stuff starts here */

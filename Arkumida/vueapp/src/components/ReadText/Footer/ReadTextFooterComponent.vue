@@ -2,6 +2,7 @@
     import ReadTextLikeComponent from "@/components/ReadText/Footer/Votes/ReadTextLikeComponent.vue";
     import ReadTextDislikeComponent from "@/components/ReadText/Footer/Votes/ReadTextDislikeComponent.vue";
     import {defineProps, ref} from "vue";
+    import ReadTextVotesHistoryComponent from "@/components/ReadText/Footer/Votes/ReadTextVotesHistoryComponent.vue";
 
     const props = defineProps({
         textId: String
@@ -24,18 +25,25 @@
 <template>
     <div class="read-text-footer">
 
-        <!-- Like -->
-        <ReadTextLikeComponent
-            ref="likeComponent"
-            :textId="props.textId"
-            @likeStateAboutToChange="async() => await UpdateDislikeStateAsync()"
-            @likeStateChanged="async() => await UpdateDislikeStateAsync()"/>
+        <div class="read-text-votes-container">
 
-        <!-- Dislike -->
-        <ReadTextDislikeComponent
-            ref="dislikeComponent"
-            :textId="props.textId"
-            @dislikeStateAboutToChange="async() => await UpdateLikeStateAsync()"
-            @dislikeStateChanged="async() => await UpdateLikeStateAsync()"/>
+            <!-- Like -->
+            <ReadTextLikeComponent
+                ref="likeComponent"
+                :textId="props.textId"
+                @likeStateAboutToChange="async() => await UpdateDislikeStateAsync()"
+                @likeStateChanged="async() => await UpdateDislikeStateAsync()"/>
+
+            <!-- Dislike -->
+            <ReadTextDislikeComponent
+                ref="dislikeComponent"
+                :textId="props.textId"
+                @dislikeStateAboutToChange="async() => await UpdateLikeStateAsync()"
+                @dislikeStateChanged="async() => await UpdateLikeStateAsync()"/>
+
+            <!-- Votes history -->
+            <ReadTextVotesHistoryComponent />
+
+        </div>
     </div>
 </template>

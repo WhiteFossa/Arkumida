@@ -92,11 +92,11 @@ import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
         @click="async() => await ToggleDislikeAsync()">
 
         <div>
-            Не нравится
+            <img class="read-text-like-dislike-image" src="/images/icons/icon_dislike.webp" alt="Произведение не нравится" />
         </div>
 
         <div>
-            <img class="read-text-like-dislike-image" src="/images/icons/icon_dislike.webp" alt="Произведение не нравится" />
+            Не нравится
         </div>
     </div>
 </template>

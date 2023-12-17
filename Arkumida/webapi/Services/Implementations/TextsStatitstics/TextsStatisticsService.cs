@@ -23,6 +23,7 @@ using webapi.Dao.Models.Enums.Statistics;
 using webapi.Mappers.Abstract;
 using webapi.Models;
 using webapi.Models.TextsStatistics;
+using webapi.Services.Abstract;
 using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Services.Implementations.TextsStatitstics;
@@ -33,19 +34,22 @@ public class TextsStatisticsService : ITextsStatisticsService
     private readonly ITextsStatisticsEventsMapper _textsStatisticsEventsMapper;
     private readonly UserManager<CreatureDbo> _userManager;
     private readonly ICreaturesMapper _creaturesMapper;
+    private readonly ITextsDao _textsDao;
 
     public TextsStatisticsService
     (
         ITextsStatisticsDao textsStatisticsDao,
         ITextsStatisticsEventsMapper textsStatisticsEventsMapper,
         UserManager<CreatureDbo> userManager,
-        ICreaturesMapper creaturesMapper
+        ICreaturesMapper creaturesMapper,
+        ITextsDao textsDao
     )
     {
         _textsStatisticsDao = textsStatisticsDao;
         _textsStatisticsEventsMapper = textsStatisticsEventsMapper;
         _userManager = userManager;
         _creaturesMapper = creaturesMapper;
+        _textsDao = textsDao;
     }
 
     public async Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
@@ -309,5 +313,33 @@ public class TextsStatisticsService : ITextsStatisticsService
         }
 
         return result;
+    }
+
+    public async Task<bool> IsVotesHistoryVisibleAsync(Guid textId, Guid? creatureId)
+    {
+        // Uploader, translators and authors will see history, others - not
+        if (!creatureId.HasValue)
+        {
+            return false;
+        }
+
+        var textMetadata = await _textsDao.GetTextMetadataByIdAsync(textId);
+
+        if (creatureId.Value == textMetadata.Publisher.Id)
+        {
+            return true;
+        }
+
+        if (textMetadata.Authors.Select(a => a.Id).Contains(creatureId.Value))
+        {
+            return true;
+        }
+
+        if (textMetadata.Translators.Select(t => t.Id).Contains(creatureId.Value))
+        {
+            return true;
+        }
+
+        return false;
     }
 }
