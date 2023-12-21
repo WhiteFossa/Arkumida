@@ -2636,4 +2636,12 @@ body {
   margin-right: 0.5rem;
 }
 /* Pagination ends */
+/* Votes history begin */
+/* Votes history title */
+.votes-history-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+}
+/* Votes history end */
 /*# sourceMappingURL=arkumida.css.map */

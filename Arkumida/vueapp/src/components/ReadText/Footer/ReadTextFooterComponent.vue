@@ -66,7 +66,8 @@
 
             <!-- Votes history -->
             <ReadTextVotesHistoryComponent
-                v-if="isVotesHistoryVisible" />
+                v-if="isVotesHistoryVisible"
+                :textId="props.textId" />
 
         </div>
     </div>

@@ -183,4 +183,21 @@ public class TextsVotesController : ControllerBase
         
         return Ok(new VotesHistoryVisibilityResponse(await _textsStatisticsService.IsVotesHistoryVisibleAsync(textId, creatureId)));
     }
+
+    /// <summary>
+    /// Get votes list for given text
+    /// </summary>
+    [Route("api/TextsVotes/VotesList/{textId}")]
+    [HttpGet]
+    public async Task<ActionResult<TextVotesResponse>> GetTextVotesAsync(Guid textId)
+    {
+        var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
+
+        if (!await _textsStatisticsService.IsVotesHistoryVisibleAsync(textId, creatureId))
+        {
+            return Unauthorized();
+        }
+
+        return Ok(new TextVotesResponse(await _textsStatisticsService.GetVotesEventsAsync(textId, creatureId)));
+    }
 }

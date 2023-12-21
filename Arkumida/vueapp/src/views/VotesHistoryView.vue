@@ -1,6 +1,7 @@
 <script setup>
     import {defineProps} from "vue";
     import {Guid} from "guid-typescript";
+    import VotesHistoryComponent from "@/components/VotesHistory/VotesHistoryComponent.vue";
 
     const props = defineProps({
         id: Guid
@@ -9,5 +10,5 @@
 </script>
 
 <template>
-    Лайки и дизлайки для {{ props.id }}
+    <VotesHistoryComponent :textId="props.id" />
 </template>

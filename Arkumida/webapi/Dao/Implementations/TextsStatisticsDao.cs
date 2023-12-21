@@ -51,16 +51,17 @@ public class TextsStatisticsDao : ITextsStatisticsDao
         return statisticsEvent;
     }
 
-    public async Task<IReadOnlyCollection<TextsStatisticsEventDbo>> GetOrderedEventsByTextIdAsync(Guid textId, TextsStatisticsEventType? filterByType = null)
+    public async Task<IReadOnlyCollection<TextsStatisticsEventDbo>> GetOrderedEventsByTextIdAsync(Guid textId, IReadOnlyCollection<TextsStatisticsEventType> filterByTypes = null)
     {
         var eventsQuery = _dbContext
             .TextsStatisticsEvents
+            .Include(tse => tse.CausedByCreature)
             .Where(tse => tse.Text.Id == textId);
 
-        if (filterByType.HasValue)
+        if (filterByTypes != null)
         {
             eventsQuery = eventsQuery
-                .Where(tse => tse.Type == filterByType.Value);
+                .Where(tse => filterByTypes.Contains(tse.Type));
         }
 
         return await eventsQuery

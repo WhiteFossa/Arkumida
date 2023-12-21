@@ -17,6 +17,7 @@
 #endregion
 
 using webapi.Dao.Models.Enums.Statistics;
+using webapi.Models.Api.DTOs.TextsStatistics;
 using webapi.Models.TextsStatistics;
 
 namespace webapi.Services.Abstract.TextsStatistics;
@@ -129,6 +130,11 @@ public interface ITextsStatisticsService
     /// Is likes/dislikes history visible to creature?
     /// </summary>
     Task<bool> IsVotesHistoryVisibleAsync(Guid textId, Guid? creatureId);
+
+    /// <summary>
+    /// Get votes history for given text and creature
+    /// </summary>
+    Task<IReadOnlyCollection<TextVoteEventDto>> GetVotesEventsAsync(Guid textId, Guid creatureId);
 
     #endregion
 }

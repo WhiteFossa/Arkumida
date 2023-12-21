@@ -79,6 +79,11 @@ public interface IAccountsService
     /// Get creature profile by ID
     /// </summary>
     Task<CreatureWithProfile> GetProfileByCreatureIdAsync(Guid creatureId);
+    
+    /// <summary>
+    /// Mass get creatures by guids list. If creature with given ID is not found, then resulting pair will have null in value.
+    /// </summary>
+    Task<IDictionary<Guid, CreatureWithProfile>> MassGetProfilesByCreaturesIdsAsync(IReadOnlyCollection<Guid> creaturesIds);
 
     /// <summary>
     /// Change creature's display displayName

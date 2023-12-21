@@ -1,8 +1,15 @@
 <script setup>
 
+    import {defineProps} from "vue";
+
+    const props = defineProps({
+        textId: String
+    })
+
     async function OpenVotesHistory()
     {
-        alert("Opening votes history")
+        const windowFeatures = "left=100,top=100,width=400,height=600"
+        window.open("/votesHistory/" + props.textId, "votesHistory", windowFeatures)
     }
 
 </script>

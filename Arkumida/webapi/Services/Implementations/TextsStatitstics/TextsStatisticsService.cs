@@ -22,6 +22,7 @@ using webapi.Dao.Models;
 using webapi.Dao.Models.Enums.Statistics;
 using webapi.Mappers.Abstract;
 using webapi.Models;
+using webapi.Models.Api.DTOs.TextsStatistics;
 using webapi.Models.TextsStatistics;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.TextsStatistics;
@@ -35,6 +36,7 @@ public class TextsStatisticsService : ITextsStatisticsService
     private readonly UserManager<CreatureDbo> _userManager;
     private readonly ICreaturesMapper _creaturesMapper;
     private readonly ITextsDao _textsDao;
+    private readonly IAccountsService _accountsService;
 
     public TextsStatisticsService
     (
@@ -42,7 +44,8 @@ public class TextsStatisticsService : ITextsStatisticsService
         ITextsStatisticsEventsMapper textsStatisticsEventsMapper,
         UserManager<CreatureDbo> userManager,
         ICreaturesMapper creaturesMapper,
-        ITextsDao textsDao
+        ITextsDao textsDao,
+        IAccountsService accountsService
     )
     {
         _textsStatisticsDao = textsStatisticsDao;
@@ -50,6 +53,7 @@ public class TextsStatisticsService : ITextsStatisticsService
         _userManager = userManager;
         _creaturesMapper = creaturesMapper;
         _textsDao = textsDao;
+        _accountsService = accountsService;
     }
 
     public async Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
@@ -341,5 +345,46 @@ public class TextsStatisticsService : ITextsStatisticsService
         }
 
         return false;
+    }
+
+    public async Task<IReadOnlyCollection<TextVoteEventDto>> GetVotesEventsAsync(Guid textId, Guid creatureId)
+    {
+        if (!await IsVotesHistoryVisibleAsync(textId, creatureId))
+        {
+            throw new InvalidOperationException($"Votes history of text { textId } is unavailable for creature { creatureId }");
+        }
+
+        var criticsSettings = await _accountsService.GetCriticsSettingsAsync(creatureId);
+
+        var eventsToGet = new List<TextsStatisticsEventType>() { TextsStatisticsEventType.Like, TextsStatisticsEventType.UnLike };
+
+        if (criticsSettings.IsShowDislikes)
+        {
+            eventsToGet.Add(TextsStatisticsEventType.Dislike);
+            eventsToGet.Add(TextsStatisticsEventType.UnDislike);
+        }
+
+        var events = await _textsStatisticsDao.GetOrderedEventsByTextIdAsync(textId, eventsToGet);
+
+        var votersIds = events
+            .Select(e => e.CausedByCreature.Id)
+            .Distinct()
+            .ToList();
+
+        var voters = await _accountsService.MassGetProfilesByCreaturesIdsAsync(votersIds);
+
+        return events
+            .Select
+            (
+                e => new TextVoteEventDto
+                (
+                    e.Id,
+                    e.Timestamp,
+                    e.Type,
+                    !criticsSettings.IsShowDislikesAuthors && (e.Type == TextsStatisticsEventType.Dislike || e.Type == TextsStatisticsEventType.UnDislike),
+                    voters[e.CausedByCreature.Id].ToDto()
+                )
+            )
+            .ToList();
     }
 }
