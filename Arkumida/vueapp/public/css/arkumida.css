@@ -2643,5 +2643,10 @@ body {
   font-weight: bold;
   font-size: 2rem;
 }
+/* One vote container */
+.votes-history-item-container {
+  display: flex;
+  flex-direction: row;
+}
 /* Votes history end */
 /*# sourceMappingURL=arkumida.css.map */

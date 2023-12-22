@@ -364,7 +364,8 @@ public class TextsStatisticsService : ITextsStatisticsService
             eventsToGet.Add(TextsStatisticsEventType.UnDislike);
         }
 
-        var events = await _textsStatisticsDao.GetOrderedEventsByTextIdAsync(textId, eventsToGet);
+        var events = (await _textsStatisticsDao.GetOrderedEventsByTextIdAsync(textId, eventsToGet))
+            .OrderByDescending(e => e.Timestamp);
 
         var votersIds = events
             .Select(e => e.CausedByCreature.Id)
