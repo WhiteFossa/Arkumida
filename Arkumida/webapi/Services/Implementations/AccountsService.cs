@@ -335,6 +335,24 @@ public class AccountsService : IAccountsService
         return _creaturesWithProfilesMapper.Map(creature, profile);
     }
 
+    public async Task<IDictionary<Guid, CreatureWithProfile>> MassGetProfilesByCreaturesIdsAsync(IReadOnlyCollection<Guid> creaturesIds)
+    {
+        var distinctCreaturesIds = creaturesIds
+            .Distinct()
+            .ToList();
+
+        var creatures = await Task.WhenAll(distinctCreaturesIds
+            .Select(async dci => await _userManager.FindByIdAsync(dci.ToString())));
+        
+        var profiles = await _profilesDao.MassGetProfilesAsync(distinctCreaturesIds);
+
+        var creaturesWithProfiles = creatures
+            .Select(c => _creaturesWithProfilesMapper.Map(c, profiles.Single(p => p.Id == c.Id)));
+
+        return distinctCreaturesIds
+            .ToDictionary(c => c, c => creaturesWithProfiles.SingleOrDefault(cwp => cwp.Id == c));
+    }
+
     public async Task RenameCreatureAsync(Guid creatureId, string newName)
     {
         if (string.IsNullOrWhiteSpace(newName))

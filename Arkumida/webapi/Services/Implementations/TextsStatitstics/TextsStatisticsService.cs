@@ -22,7 +22,9 @@ using webapi.Dao.Models;
 using webapi.Dao.Models.Enums.Statistics;
 using webapi.Mappers.Abstract;
 using webapi.Models;
+using webapi.Models.Api.DTOs.TextsStatistics;
 using webapi.Models.TextsStatistics;
+using webapi.Services.Abstract;
 using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Services.Implementations.TextsStatitstics;
@@ -33,19 +35,25 @@ public class TextsStatisticsService : ITextsStatisticsService
     private readonly ITextsStatisticsEventsMapper _textsStatisticsEventsMapper;
     private readonly UserManager<CreatureDbo> _userManager;
     private readonly ICreaturesMapper _creaturesMapper;
+    private readonly ITextsDao _textsDao;
+    private readonly IAccountsService _accountsService;
 
     public TextsStatisticsService
     (
         ITextsStatisticsDao textsStatisticsDao,
         ITextsStatisticsEventsMapper textsStatisticsEventsMapper,
         UserManager<CreatureDbo> userManager,
-        ICreaturesMapper creaturesMapper
+        ICreaturesMapper creaturesMapper,
+        ITextsDao textsDao,
+        IAccountsService accountsService
     )
     {
         _textsStatisticsDao = textsStatisticsDao;
         _textsStatisticsEventsMapper = textsStatisticsEventsMapper;
         _userManager = userManager;
         _creaturesMapper = creaturesMapper;
+        _textsDao = textsDao;
+        _accountsService = accountsService;
     }
 
     public async Task<TextsStatisticsEvent> AddTextStatisticsEventAsync
@@ -309,5 +317,75 @@ public class TextsStatisticsService : ITextsStatisticsService
         }
 
         return result;
+    }
+
+    public async Task<bool> IsVotesHistoryVisibleAsync(Guid textId, Guid? creatureId)
+    {
+        // Uploader, translators and authors will see history, others - not
+        if (!creatureId.HasValue)
+        {
+            return false;
+        }
+
+        var textMetadata = await _textsDao.GetTextMetadataByIdAsync(textId);
+
+        if (creatureId.Value == textMetadata.Publisher.Id)
+        {
+            return true;
+        }
+
+        if (textMetadata.Authors.Select(a => a.Id).Contains(creatureId.Value))
+        {
+            return true;
+        }
+
+        if (textMetadata.Translators.Select(t => t.Id).Contains(creatureId.Value))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public async Task<IReadOnlyCollection<TextVoteEventDto>> GetVotesEventsAsync(Guid textId, Guid creatureId)
+    {
+        if (!await IsVotesHistoryVisibleAsync(textId, creatureId))
+        {
+            throw new InvalidOperationException($"Votes history of text { textId } is unavailable for creature { creatureId }");
+        }
+
+        var criticsSettings = await _accountsService.GetCriticsSettingsAsync(creatureId);
+
+        var eventsToGet = new List<TextsStatisticsEventType>() { TextsStatisticsEventType.Like, TextsStatisticsEventType.UnLike };
+
+        if (criticsSettings.IsShowDislikes)
+        {
+            eventsToGet.Add(TextsStatisticsEventType.Dislike);
+            eventsToGet.Add(TextsStatisticsEventType.UnDislike);
+        }
+
+        var events = (await _textsStatisticsDao.GetOrderedEventsByTextIdAsync(textId, eventsToGet))
+            .OrderByDescending(e => e.Timestamp);
+
+        var votersIds = events
+            .Select(e => e.CausedByCreature.Id)
+            .Distinct()
+            .ToList();
+
+        var voters = await _accountsService.MassGetProfilesByCreaturesIdsAsync(votersIds);
+
+        return events
+            .Select
+            (
+                e => new TextVoteEventDto
+                (
+                    e.Id,
+                    e.Timestamp,
+                    e.Type,
+                    !criticsSettings.IsShowDislikesAuthors && (e.Type == TextsStatisticsEventType.Dislike || e.Type == TextsStatisticsEventType.UnDislike),
+                    voters[e.CausedByCreature.Id].ToDto()
+                )
+            )
+            .ToList();
     }
 }

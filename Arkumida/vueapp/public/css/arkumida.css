@@ -43,6 +43,10 @@
   color: hsl(0, 0%, 0%);
   text-decoration: none;
 }
+/* Parent for dark text */
+.mixin-darkest-color1-base {
+  color: hsl(0, 0%, 0%);
+}
 /* Underlined text */
 .mixin-underlined {
   text-decoration: underline;
@@ -401,6 +405,10 @@ body {
 }
 .darkest-color1-link-without-underline:hover {
   text-decoration: underline;
+}
+/* Darkest color 1 link */
+.darkest-color1-link {
+  color: hsl(0, 0%, 0%);
 }
 /* Menu stuff starts here */
 /* Central menu item */
@@ -1145,6 +1153,42 @@ body {
   border-radius: 0.2rem;
   width: 1.3rem;
   vertical-align: middle;
+}
+/* Votes history button */
+.read-text-votes-history-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  background: hsl(0, 0%, 93%);
+  border-radius: 0.2rem;
+  border: 0.2rem solid hsl(0, 0%, 93%);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  width: min-content;
+  white-space: nowrap;
+  cursor: pointer;
+}
+/* Votes history icon */
+.read-text-like-votes-history-image {
+  border: 0.1rem solid hsl(0, 0%, 100%);
+  border-radius: 0.2rem;
+  width: 1.3rem;
+  vertical-align: middle;
+}
+/* Container for votes buttons */
+.read-text-votes-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  padding: 0.5rem;
 }
 /* Read text page stuff ends here */
 /* Creatures info container stuff starts here */
@@ -2602,4 +2646,36 @@ body {
   margin-right: 0.5rem;
 }
 /* Pagination ends */
+/* Votes history begin */
+/* Votes history title */
+.votes-history-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+}
+/* Warning about votes history display mode */
+.votes-history-warning {
+  text-align: center;
+  padding-bottom: 0.5rem;
+}
+/* One vote container */
+.votes-history-item-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+.votes-history-item-container:nth-child(odd) {
+  background-color: hsl(0, 0%, 100%);
+}
+/* Timestamp in votes history item */
+.votes-history-item-timestamp {
+  min-width: 11rem;
+}
+/* Creature info in votes history item */
+.votes-history-item-creature {
+  min-width: 15rem;
+}
+/* Votes history end */
 /*# sourceMappingURL=arkumida.css.map */

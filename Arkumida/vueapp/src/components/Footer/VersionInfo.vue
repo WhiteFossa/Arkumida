@@ -8,18 +8,18 @@
     const isLoading = ref(true)
 
     const versionInfo = ref(null)
-    
+
     // OnMounted hook
     onMounted(async () =>
     {
         await OnLoad();
     })
-    
+
     // Called when page is loaded
     async function OnLoad()
     {
         versionInfo.value = await (await WebClientSendGetRequest("/api/SiteInfo/Version")).json()
-        
+
         isLoading.value = false
     }
 
@@ -35,7 +35,7 @@
                 Бэкенд: {{ versionInfo.versionString }}
             </div>
             <div>
-                Фронтенд: Коири-В мод. 10
+                Фронтенд: Коири-В мод. 11
             </div>
         </div>
 
@@ -43,7 +43,7 @@
             <a :href="versionInfo.sourcesUrl" title="Исходные коды">Исходные коды</a>
         </div>
     </div>
-    
+
     <div class="centered">
         <a href="https://www.gnu.org/licenses/agpl-3.0.html" title="Лицензировано под AGPLv3 или более поздней версией">
             <img src="/images/agplv3-with-text-162x68.webp" alt="AGPLv3 logo" />

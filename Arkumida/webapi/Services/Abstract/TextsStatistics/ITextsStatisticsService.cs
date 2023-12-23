@@ -17,6 +17,7 @@
 #endregion
 
 using webapi.Dao.Models.Enums.Statistics;
+using webapi.Models.Api.DTOs.TextsStatistics;
 using webapi.Models.TextsStatistics;
 
 namespace webapi.Services.Abstract.TextsStatistics;
@@ -124,6 +125,16 @@ public interface ITextsStatisticsService
     /// Do not check dislikes-undislikes balance by users, because furtails-importer will import many dislikes from one user (importer-user)
     /// </summary>
     Task<long> GetDislikesCountAsync(Guid textId);
+    
+    /// <summary>
+    /// Is likes/dislikes history visible to creature?
+    /// </summary>
+    Task<bool> IsVotesHistoryVisibleAsync(Guid textId, Guid? creatureId);
+
+    /// <summary>
+    /// Get votes history for given text and creature. New events first!
+    /// </summary>
+    Task<IReadOnlyCollection<TextVoteEventDto>> GetVotesEventsAsync(Guid textId, Guid creatureId);
 
     #endregion
 }

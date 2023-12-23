@@ -219,6 +219,11 @@
   text-decoration: none;
 }
 
+/* Parent for dark text */
+.mixin-darkest-color1-base {
+  color: @darkest-color1;
+}
+
 /* Underlined text */
 .mixin-underlined {
   text-decoration: underline;
@@ -629,6 +634,11 @@ body {
 .darkest-color1-link-without-underline:hover
 {
   .mixin-underlined();
+}
+
+/* Darkest color 1 link */
+.darkest-color1-link {
+  .mixin-darkest-color1-base();
 }
 
 /* Menu stuff starts here */
@@ -1466,6 +1476,50 @@ body {
   width: 1.3rem;
 
   vertical-align: middle;
+}
+
+/* Votes history button */
+.read-text-votes-history-button {
+  .mixin-horizontally-and-vertically-centered-flex();
+  flex-wrap: nowrap;
+  gap: @gap-smallest;
+
+  background: @lighter-color2;
+  border-radius: @border-radius-small;
+  border: @border-thick-thickness @border-style @lighter-color2;
+
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+  padding-top: @padding-small2;
+  padding-bottom: @padding-small2;
+
+  width: min-content;
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+/* Votes history icon */
+.read-text-like-votes-history-image {
+  border: @border-thin-thickness @border-style @lightest-color1;
+  border-radius: @border-radius-small;
+
+  width: 1.3rem;
+
+  vertical-align: middle;
+}
+
+/* Container for votes buttons */
+.read-text-votes-container {
+  .mixin-flex-row-base();
+  gap: @gap-small;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
 }
 
 /* Read text page stuff ends here */
@@ -3014,3 +3068,46 @@ body {
 }
 
 /* Pagination ends */
+
+/* Votes history begin */
+
+/* Votes history title */
+.votes-history-title {
+  .mixin-centered-text-base();
+  .mixin-bold-text-base();
+
+  font-size: @font-size-big;
+}
+
+/* Warning about votes history display mode */
+.votes-history-warning {
+  .mixin-centered-text-base();
+  padding-bottom: @padding-smaller1;
+}
+
+/* One vote container */
+.votes-history-item-container {
+  .mixin-flex-row-base();
+  align-items: baseline;
+
+  border-radius: @border-radius-normal;
+
+  padding: @padding-smaller1;
+}
+
+.votes-history-item-container:nth-child(odd)
+{
+  background-color: @lightest-color1;
+}
+
+/* Timestamp in votes history item */
+.votes-history-item-timestamp {
+  min-width: 11rem;
+}
+
+/* Creature info in votes history item */
+.votes-history-item-creature {
+  min-width: 15rem;
+}
+
+/* Votes history end */

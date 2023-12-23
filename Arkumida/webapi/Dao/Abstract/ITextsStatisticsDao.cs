@@ -40,7 +40,7 @@ public interface ITextsStatisticsDao
     /// <summary>
     /// Get all events for given text, ordered by timestamp (earlier first) 
     /// </summary>
-    Task<IReadOnlyCollection<TextsStatisticsEventDbo>> GetOrderedEventsByTextIdAsync(Guid textId, TextsStatisticsEventType? filterByType = null);
+    Task<IReadOnlyCollection<TextsStatisticsEventDbo>> GetOrderedEventsByTextIdAsync(Guid textId, IReadOnlyCollection<TextsStatisticsEventType> filterByTypes = null);
 
     /// <summary>
     /// Get all texts reads count since (including) start time, till (excluding) end time

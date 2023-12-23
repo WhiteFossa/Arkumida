@@ -86,7 +86,9 @@ async function CompleteCriticsEditing()
     <div v-else>
 
         <!-- Critics settings -->
-        <div class="profile-texts-part-critics-outer-container">
+        <div
+            id="critics"
+            class="profile-texts-part-critics-outer-container">
             <div class="profile-texts-part-critics-inner-container">
 
                 <div class="profile-texts-part-critics-caption">
