@@ -8,7 +8,7 @@
 
     async function OpenVotesHistory()
     {
-        const windowFeatures = "left=100,top=100,width=700,height=600"
+        const windowFeatures = "left=100,top=100,width=750,height=600"
         window.open("/votesHistory/" + props.textId, "votesHistory", windowFeatures)
     }
 

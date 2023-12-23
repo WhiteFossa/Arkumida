@@ -219,6 +219,11 @@
   text-decoration: none;
 }
 
+/* Parent for dark text */
+.mixin-darkest-color1-base {
+  color: @darkest-color1;
+}
+
 /* Underlined text */
 .mixin-underlined {
   text-decoration: underline;
@@ -629,6 +634,11 @@ body {
 .darkest-color1-link-without-underline:hover
 {
   .mixin-underlined();
+}
+
+/* Darkest color 1 link */
+.darkest-color1-link {
+  .mixin-darkest-color1-base();
 }
 
 /* Menu stuff starts here */
@@ -1503,6 +1513,8 @@ body {
 .read-text-votes-container {
   .mixin-flex-row-base();
   gap: @gap-small;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 
   border: @border-thin-thickness @border-style @light-color1;
   border-radius: @border-radius-small;
@@ -3067,18 +3079,30 @@ body {
   font-size: @font-size-big;
 }
 
+/* Warning about votes history display mode */
+.votes-history-warning {
+  .mixin-centered-text-base();
+  padding-bottom: @padding-smaller1;
+}
+
 /* One vote container */
 .votes-history-item-container {
   .mixin-flex-row-base();
   align-items: baseline;
 
-  padding-top: @padding-smaller1;
-  padding-bottom: @padding-smaller1;
+  border-radius: @border-radius-normal;
+
+  padding: @padding-smaller1;
+}
+
+.votes-history-item-container:nth-child(odd)
+{
+  background-color: @lightest-color1;
 }
 
 /* Timestamp in votes history item */
 .votes-history-item-timestamp {
-  min-width: 10rem;
+  min-width: 11rem;
 }
 
 /* Creature info in votes history item */

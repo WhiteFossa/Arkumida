@@ -12,7 +12,7 @@
 <template>
     <div class="votes-history-item-container">
 
-        <div class="votes-history-item-timestamp">{{ moment(props.vote.timestamp).format('HH:mm DD.MM.YYYY') }}</div>
+        <div class="votes-history-item-timestamp">{{ moment(props.vote.timestamp).format('HH:mm:ss DD.MM.YYYY') }}</div>
 
         <!-- Creature -->
         <div class="votes-history-item-creature">

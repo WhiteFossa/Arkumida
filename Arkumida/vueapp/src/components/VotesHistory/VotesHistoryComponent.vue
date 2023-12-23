@@ -43,14 +43,14 @@ import VotesHistoryItemComponent from "@/components/VotesHistory/VotesHistoryIte
 
         <div
             v-if="!criticsSettings.isShowDislikes"
-            class="centered">
-            <strong>Дизлайки скрыты</strong> (<a class="darkest-color1-link-without-underline" href="/profile/texts#critics" target="_blank">настройки</a>)
+            class="votes-history-warning">
+            <strong>Дизлайки скрыты</strong> (<a class="darkest-color1-link" href="/profile/texts#critics" target="_blank">настройки</a>)
         </div>
 
         <div
             v-if="criticsSettings.isShowDislikes && !criticsSettings.isShowDislikesAuthors"
-            class="centered">
-            <strong>Авторы дизлайков скрыты</strong> (<a class="darkest-color1-link-without-underline" href="/profile/texts#critics" target="_blank">настройки</a>)
+            class="votes-history-warning">
+            <strong>Авторы дизлайков скрыты</strong> (<a class="darkest-color1-link" href="/profile/texts#critics" target="_blank">настройки</a>)
         </div>
 
         <!-- Votes -->

@@ -43,6 +43,10 @@
   color: hsl(0, 0%, 0%);
   text-decoration: none;
 }
+/* Parent for dark text */
+.mixin-darkest-color1-base {
+  color: hsl(0, 0%, 0%);
+}
 /* Underlined text */
 .mixin-underlined {
   text-decoration: underline;
@@ -401,6 +405,10 @@ body {
 }
 .darkest-color1-link-without-underline:hover {
   text-decoration: underline;
+}
+/* Darkest color 1 link */
+.darkest-color1-link {
+  color: hsl(0, 0%, 0%);
 }
 /* Menu stuff starts here */
 /* Central menu item */
@@ -1176,6 +1184,8 @@ body {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   border: 0.1rem solid hsl(225, 5%, 85%);
   border-radius: 0.2rem;
   padding: 0.5rem;
@@ -2643,17 +2653,25 @@ body {
   font-weight: bold;
   font-size: 2rem;
 }
+/* Warning about votes history display mode */
+.votes-history-warning {
+  text-align: center;
+  padding-bottom: 0.5rem;
+}
 /* One vote container */
 .votes-history-item-container {
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+.votes-history-item-container:nth-child(odd) {
+  background-color: hsl(0, 0%, 100%);
 }
 /* Timestamp in votes history item */
 .votes-history-item-timestamp {
-  min-width: 10rem;
+  min-width: 11rem;
 }
 /* Creature info in votes history item */
 .votes-history-item-creature {
