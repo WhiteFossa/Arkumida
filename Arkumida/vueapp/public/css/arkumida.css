@@ -2647,6 +2647,17 @@ body {
 .votes-history-item-container {
   display: flex;
   flex-direction: row;
+  align-items: baseline;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+/* Timestamp in votes history item */
+.votes-history-item-timestamp {
+  min-width: 10rem;
+}
+/* Creature info in votes history item */
+.votes-history-item-creature {
+  min-width: 15rem;
 }
 /* Votes history end */
 /*# sourceMappingURL=arkumida.css.map */

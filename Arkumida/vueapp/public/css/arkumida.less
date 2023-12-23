@@ -3070,6 +3070,20 @@ body {
 /* One vote container */
 .votes-history-item-container {
   .mixin-flex-row-base();
+  align-items: baseline;
+
+  padding-top: @padding-smaller1;
+  padding-bottom: @padding-smaller1;
+}
+
+/* Timestamp in votes history item */
+.votes-history-item-timestamp {
+  min-width: 10rem;
+}
+
+/* Creature info in votes history item */
+.votes-history-item-creature {
+  min-width: 15rem;
 }
 
 /* Votes history end */
