@@ -81,7 +81,7 @@ public class PrivateMessagesImporter
             
         await Parallel.ForEachAsync(oldFtCreaturesIds, parallelismDegree, async (oldCreatureId, token) =>
         {
-            var arkumidaCreatureId = await MapOldFtCreatureAsync(oldCreatureId);
+            var arkumidaCreatureId = await _usersImporter.MapOldFtCreatureAsync(oldCreatureId);
             creaturesMapping.TryAdd(oldCreatureId, arkumidaCreatureId);
             
             Console.WriteLine($"{oldCreatureId} -> {arkumidaCreatureId}");
@@ -94,26 +94,6 @@ public class PrivateMessagesImporter
             Console.WriteLine($"Importing message with ID = { privateMessage.Id }");
             await AddPirvateMessageToArkumidaAsync(privateMessage, creaturesMapping);
         });
-    }
-
-    private async Task<Guid> MapOldFtCreatureAsync(int oldCreatureId)
-    {
-        await using var connection = new MySqlConnection(MainImporter.ConnectionString);
-        
-        var login = connection.Query<FtUser>
-            (
-                @"select
-                    username as Username
-                from ft_users
-                where id = @id",
-                new { id = oldCreatureId }
-            )
-            .Single()
-            .Username;
-
-        var arkumidaCreature = await _usersImporter.FindCreatureByLogin(login);
-        
-        return arkumidaCreature.Id;
     }
 
     private async Task AddPirvateMessageToArkumidaAsync(FtPrivateMessage privateMessage, ConcurrentDictionary<int, Guid> usersMapping)

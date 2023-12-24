@@ -313,4 +313,24 @@ public class UsersImporter
 
         return responseData.CreatureWithProfile;
     }
+    
+    public async Task<Guid> MapOldFtCreatureAsync(int oldCreatureId)
+    {
+        await using var connection = new MySqlConnection(MainImporter.ConnectionString);
+        
+        var login = connection.Query<FtUser>
+            (
+                @"select
+                    username as Username
+                from ft_users
+                where id = @id",
+                new { id = oldCreatureId }
+            )
+            .Single()
+            .Username;
+
+        var arkumidaCreature = await FindCreatureByLogin(login);
+        
+        return arkumidaCreature.Id;
+    }
 }
