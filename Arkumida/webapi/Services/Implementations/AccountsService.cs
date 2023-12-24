@@ -341,8 +341,11 @@ public class AccountsService : IAccountsService
             .Distinct()
             .ToList();
 
-        var creatures = await Task.WhenAll(distinctCreaturesIds
-            .Select(async dci => await _userManager.FindByIdAsync(dci.ToString())));
+        var creatures = new List<CreatureDbo>();
+        foreach (var distinctCreatureId in distinctCreaturesIds)
+        {
+            creatures.Add(await _userManager.FindByIdAsync(distinctCreatureId.ToString()));
+        }
         
         var profiles = await _profilesDao.MassGetProfilesAsync(distinctCreaturesIds);
 

@@ -534,37 +534,21 @@ public class TextsImporter
 
             await AddTextsStatisticsEventToArkumidaAsync(readEvent);
         }
-        
-        // Adding likes count
-        // !!! DO NOT PARALLELIZE ME !!! Database overload !!!
-        for (var likeIndex = 0; likeIndex < text.VotesPlus; likeIndex++)
-        {
-            var readEvent = new TextsStatisticsEventDto()
-            {
-                Id = Guid.Empty,
-                TextId = arkumidaTextId,
-                Type = TextsStatisticsEventType.Like,
-                CreatureId = importerCreature.Id,
-                Timestamp = DateTime.MinValue,
-                Page = null,
-                Ip = "127.0.0.1",
-                UserAgent = importerCreature.Login
-            };
 
-            await AddTextsStatisticsEventToArkumidaAsync(readEvent);
-        }
-        
-        // Adding dislikes count
-        // !!! DO NOT PARALLELIZE ME !!! Database overload !!!
-        for (var dislikeIndex = 0; dislikeIndex < text.VotesMinus; dislikeIndex++)
+        // Importing votes
+        var ftVotes = LoadFtVotes(connection, text.Id);
+
+        foreach (var ftVote in ftVotes)
         {
+            var arkumidaVoterId = await _usersImporter.MapOldFtCreatureAsync(ftVote.UserId);
+            
             var readEvent = new TextsStatisticsEventDto()
             {
                 Id = Guid.Empty,
                 TextId = arkumidaTextId,
-                Type = TextsStatisticsEventType.Dislike,
-                CreatureId = importerCreature.Id,
-                Timestamp = DateTime.MinValue,
+                Type = ftVote.Vote > 0 ? TextsStatisticsEventType.Like : TextsStatisticsEventType.Dislike,
+                CreatureId = arkumidaVoterId,
+                Timestamp = ftVote.VoteTimestamp.ToUniversalTime(),
                 Page = null,
                 Ip = "127.0.0.1",
                 UserAgent = importerCreature.Login
@@ -839,5 +823,22 @@ public class TextsImporter
         var responseData = JsonSerializer.Deserialize<ImportTextsStatisticsEventResponse>(await response.Content.ReadAsStringAsync());
 
         return responseData.TextsStatisticsEvent;
+    }
+    
+    private List<FtVote> LoadFtVotes(MySqlConnection connection, int textId)
+    {
+        return connection.Query<FtVote>
+            (
+                @"select
+                    id as Id,
+                    dateVote as VoteTimestamp,
+                    userId as UserId,
+                    textId as TextId,
+                    vote as Vote
+                from ft_vote
+                where textId = @textId",
+                new { textId = textId }
+            )
+            .ToList();
     }
 }
