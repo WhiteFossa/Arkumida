@@ -65,4 +65,15 @@ public class TextsAccessService : ITextsAccessService
 
         return await IsCreatureRelatedToTextAsync(textId, creatureId.Value);
     }
+
+    public async Task<bool> IsCanVoteForTextAsync(Guid textId, Guid? creatureId)
+    {
+        // Anonymous creatures can't vote
+        if (!creatureId.HasValue)
+        {
+            return false;
+        }
+
+        return !await IsCreatureRelatedToTextAsync(textId, creatureId.Value);
+    }
 }

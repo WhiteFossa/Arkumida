@@ -56,4 +56,17 @@ public class AccessController : ControllerBase
         
         return Ok(new AccessResponse(await _textsAccessService.IsVotesHistoryVisibleAsync(textId, creatureId)));
     }
+    
+    /// <summary>
+    /// Can creature vote for text?
+    /// </summary>
+    [AllowAnonymous]
+    [Route("api/Access/Texts/{textId}/Votes/IsCanVote")]
+    [HttpGet]
+    public async Task<ActionResult<AccessResponse>> IsCanVoteForTextAsync(Guid textId)
+    {
+        var creatureId = User.Identity.IsAuthenticated ? (Guid?)(await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id : null;
+        
+        return Ok(new AccessResponse(await _textsAccessService.IsCanVoteForTextAsync(textId, creatureId)));
+    }
 }

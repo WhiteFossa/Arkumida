@@ -17,6 +17,8 @@
 
     const isVotesHistoryVisible = ref(false)
 
+    const isCanVote = ref(false)
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -25,6 +27,7 @@
     async function OnLoad()
     {
         isVotesHistoryVisible.value = (await (await WebClientSendGetRequest("/api/Access/Texts/" + props.textId + "/Votes/IsHistoryVisible")).json()).isAccessGranted
+        isCanVote.value = (await (await WebClientSendGetRequest("/api/Access/Texts/" + props.textId + "/Votes/IsCanVote")).json()).isAccessGranted
 
         isLoading.value = false
     }
@@ -52,6 +55,7 @@
 
             <!-- Like -->
             <ReadTextLikeComponent
+                v-if="isCanVote"
                 ref="likeComponent"
                 :textId="props.textId"
                 @likeStateAboutToChange="async() => await UpdateDislikeStateAsync()"
@@ -59,6 +63,7 @@
 
             <!-- Dislike -->
             <ReadTextDislikeComponent
+                v-if="isCanVote"
                 ref="dislikeComponent"
                 :textId="props.textId"
                 @dislikeStateAboutToChange="async() => await UpdateLikeStateAsync()"

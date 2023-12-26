@@ -82,6 +82,11 @@ public class TextsVotesController : ControllerBase
     {
         var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
 
+        if (await _textsAccessService.IsCreatureRelatedToTextAsync(textId, creatureId))
+        {
+            return Unauthorized();
+        }
+        
         var isSuccessful = await _textsStatisticsService.LikeTextAsync
         (
             textId,
@@ -102,6 +107,11 @@ public class TextsVotesController : ControllerBase
     {
         var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
 
+        if (await _textsAccessService.IsCreatureRelatedToTextAsync(textId, creatureId))
+        {
+            return Unauthorized();
+        }
+        
         var isSuccessful = await _textsStatisticsService.UnlikeTextAsync
         (
             textId,
@@ -122,6 +132,11 @@ public class TextsVotesController : ControllerBase
     {
         var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
 
+        if (await _textsAccessService.IsCreatureRelatedToTextAsync(textId, creatureId))
+        {
+            return Unauthorized();
+        }
+        
         var isSuccessful = await _textsStatisticsService.DislikeTextAsync
         (
             textId,
@@ -142,6 +157,11 @@ public class TextsVotesController : ControllerBase
     {
         var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
 
+        if (await _textsAccessService.IsCreatureRelatedToTextAsync(textId, creatureId))
+        {
+            return Unauthorized();
+        }
+        
         var isSuccessful = await _textsStatisticsService.UndislikeTextAsync
         (
             textId,

@@ -36,4 +36,9 @@ public interface ITextsAccessService
     /// Is likes/dislikes history visible to creature?
     /// </summary>
     Task<bool> IsVotesHistoryVisibleAsync(Guid textId, Guid? creatureId);
+
+    /// <summary>
+    /// Is creature can vote for text?
+    /// </summary>
+    Task<bool> IsCanVoteForTextAsync(Guid textId, Guid? creatureId);
 }

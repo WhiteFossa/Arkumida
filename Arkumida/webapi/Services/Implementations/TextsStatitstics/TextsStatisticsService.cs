@@ -176,6 +176,11 @@ public class TextsStatisticsService : ITextsStatisticsService
         string userAgent
     )
     {
+        if (await _textsAccessService.IsCreatureRelatedToTextAsync(textId, creatureId))
+        {
+            throw new InvalidOperationException("Self-like is not allowed.");
+        }
+        
         if
         (
             await IsTextLikedAsync(textId, creatureId)
@@ -208,6 +213,11 @@ public class TextsStatisticsService : ITextsStatisticsService
         string userAgent
     )
     {
+        if (await _textsAccessService.IsCreatureRelatedToTextAsync(textId, creatureId))
+        {
+            throw new InvalidOperationException("Self-unlike is not allowed.");
+        }
+        
         if (!await IsTextLikedAsync(textId, creatureId))
         {
             return false;
@@ -235,6 +245,11 @@ public class TextsStatisticsService : ITextsStatisticsService
         string userAgent
     )
     {
+        if (await _textsAccessService.IsCreatureRelatedToTextAsync(textId, creatureId))
+        {
+            throw new InvalidOperationException("Self-dislike is not allowed.");
+        }
+        
         if
         (
             await IsTextLikedAsync(textId, creatureId)
@@ -267,6 +282,11 @@ public class TextsStatisticsService : ITextsStatisticsService
         string userAgent
     )
     {
+        if (await _textsAccessService.IsCreatureRelatedToTextAsync(textId, creatureId))
+        {
+            throw new InvalidOperationException("Self-undislike is not allowed.");
+        }
+        
         if (!await IsTextDislikedAsync(textId, creatureId))
         {
             return false;
