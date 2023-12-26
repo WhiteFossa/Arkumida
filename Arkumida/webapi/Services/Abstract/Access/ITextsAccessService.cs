@@ -16,26 +16,24 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using System.Text.Json.Serialization;
-
-namespace webapi.Models.Api.Responses.TextsStatistics;
+namespace webapi.Services.Abstract.Access;
 
 /// <summary>
-/// Votes history visibility response
+/// Methods to check access to texts and related stuff
 /// </summary>
-public class VotesHistoryVisibilityResponse
+public interface ITextsAccessService
 {
     /// <summary>
-    /// Is votes history visible?
+    /// Is creature related to text?
+    /// By "related" we mean:
+    /// - Publisher
+    /// - Authors
+    /// - Translators
     /// </summary>
-    [JsonPropertyName("isVotesHistoryVisible")]
-    public bool IsVotesHistoryVisible { get; private set; }
-
-    public VotesHistoryVisibilityResponse
-    (
-        bool isVotesHistoryVisible
-    )
-    {
-        IsVotesHistoryVisible = isVotesHistoryVisible;
-    }
+    Task<bool> IsCreatureRelatedToTextAsync(Guid textId, Guid creatureId);
+    
+    /// <summary>
+    /// Is likes/dislikes history visible to creature?
+    /// </summary>
+    Task<bool> IsVotesHistoryVisibleAsync(Guid textId, Guid? creatureId);
 }

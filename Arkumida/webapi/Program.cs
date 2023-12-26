@@ -34,11 +34,13 @@ using webapi.Models.Settings;
 using webapi.OpenSearch.Services.Abstract;
 using webapi.OpenSearch.Services.Implementations;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.Access;
 using webapi.Services.Abstract.Email;
 using webapi.Services.Abstract.Search;
 using webapi.Services.Abstract.TextRenderers;
 using webapi.Services.Abstract.TextsStatistics;
 using webapi.Services.Implementations;
+using webapi.Services.Implementations.Access;
 using webapi.Services.Implementations.Email;
 using webapi.Services.Implementations.Hosted;
 using webapi.Services.Implementations.Search;
@@ -85,6 +87,8 @@ builder.Services.AddScoped<ITextsSearchService, TextsSearchService>();
 
 builder.Services.AddScoped<ITextsStatisticsDao, TextsStatisticsDao>();
 builder.Services.AddScoped<ITextsStatisticsService, TextsStatisticsService>();
+
+builder.Services.AddScoped<ITextsAccessService, TextsAccessService>();
 
 #endregion
 

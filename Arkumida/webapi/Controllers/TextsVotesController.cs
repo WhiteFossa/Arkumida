@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc;
 using webapi.Helpers;
 using webapi.Models.Api.Responses.TextsStatistics;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.Access;
 using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Controllers;
@@ -34,15 +35,18 @@ public class TextsVotesController : ControllerBase
 {
     private readonly ITextsStatisticsService _textsStatisticsService;
     private readonly IAccountsService _accountsService;
+    private readonly ITextsAccessService _textsAccessService;
 
     public TextsVotesController
     (
         ITextsStatisticsService textsStatisticsService,
-        IAccountsService accountsService
+        IAccountsService accountsService,
+        ITextsAccessService textsAccessService
     )
     {
         _textsStatisticsService = textsStatisticsService;
         _accountsService = accountsService;
+        _textsAccessService = textsAccessService;
     }
 
     /// <summary>
@@ -170,19 +174,6 @@ public class TextsVotesController : ControllerBase
     {
         return Ok(new DislikesCountResponse(await _textsStatisticsService.GetDislikesCountAsync(textId)));
     }
-    
-    /// <summary>
-    /// Is votes history visible?
-    /// </summary>
-    [AllowAnonymous]
-    [Route("api/TextsVotes/IsHistoryVisible/{textId}")]
-    [HttpGet]
-    public async Task<ActionResult<VotesHistoryVisibilityResponse>> IsVotesHistoryVisibleAsync(Guid textId)
-    {
-        var creatureId = User.Identity.IsAuthenticated ? (Guid?)(await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id : null;
-        
-        return Ok(new VotesHistoryVisibilityResponse(await _textsStatisticsService.IsVotesHistoryVisibleAsync(textId, creatureId)));
-    }
 
     /// <summary>
     /// Get votes list for given text
@@ -193,7 +184,7 @@ public class TextsVotesController : ControllerBase
     {
         var creatureId = (await _accountsService.FindUserByLoginAsync(User.Identity.Name)).Id;
 
-        if (!await _textsStatisticsService.IsVotesHistoryVisibleAsync(textId, creatureId))
+        if (!await _textsAccessService.IsVotesHistoryVisibleAsync(textId, creatureId))
         {
             return Unauthorized();
         }

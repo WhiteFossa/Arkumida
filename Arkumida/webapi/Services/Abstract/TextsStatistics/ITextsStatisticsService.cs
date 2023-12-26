@@ -127,11 +127,6 @@ public interface ITextsStatisticsService
     Task<long> GetDislikesCountAsync(Guid textId);
     
     /// <summary>
-    /// Is likes/dislikes history visible to creature?
-    /// </summary>
-    Task<bool> IsVotesHistoryVisibleAsync(Guid textId, Guid? creatureId);
-
-    /// <summary>
     /// Get votes history for given text and creature. New events first!
     /// </summary>
     Task<IReadOnlyCollection<TextVoteEventDto>> GetVotesEventsAsync(Guid textId, Guid creatureId);

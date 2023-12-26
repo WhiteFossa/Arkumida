@@ -24,7 +24,7 @@
 
     async function OnLoad()
     {
-        isVotesHistoryVisible.value = (await (await WebClientSendGetRequest("/api/TextsVotes/IsHistoryVisible/" + props.textId)).json()).isVotesHistoryVisible
+        isVotesHistoryVisible.value = (await (await WebClientSendGetRequest("/api/Access/Texts/" + props.textId + "/Votes/IsHistoryVisible")).json()).isAccessGranted
 
         isLoading.value = false
     }
