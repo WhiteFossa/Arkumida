@@ -164,7 +164,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("TextsId");
 
-                    b.ToTable("TagDboTextDbo");
+                    b.ToTable("TagDboTextDbo", (string)null);
                 });
 
             modelBuilder.Entity("TextsAuthors", b =>
@@ -179,7 +179,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("TextId");
 
-                    b.ToTable("TextsAuthors");
+                    b.ToTable("TextsAuthors", (string)null);
                 });
 
             modelBuilder.Entity("TextsTranslators", b =>
@@ -194,7 +194,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("TextId");
 
-                    b.ToTable("TextsTranslators");
+                    b.ToTable("TextsTranslators", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.AvatarDbo", b =>
@@ -221,7 +221,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("FileId");
 
-                    b.ToTable("Avatars");
+                    b.ToTable("Avatars", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.CreatureDbo", b =>
@@ -320,7 +320,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("CurrentAvatarId");
 
-                    b.ToTable("Profiles");
+                    b.ToTable("Profiles", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.FileDbo", b =>
@@ -346,7 +346,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files");
+                    b.ToTable("Files", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.PrivateMessageDbo", b =>
@@ -382,7 +382,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("PrivateMessages");
+                    b.ToTable("PrivateMessages", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.RenderedTextDbo", b =>
@@ -406,7 +406,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("TextId");
 
-                    b.ToTable("RenderedTexts");
+                    b.ToTable("RenderedTexts", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TagDbo", b =>
@@ -441,7 +441,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TextDbo", b =>
@@ -472,7 +472,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Texts");
+                    b.ToTable("Texts", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TextFileDbo", b =>
@@ -496,7 +496,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("TextDboId");
 
-                    b.ToTable("TextFileDbo");
+                    b.ToTable("TextFileDbo", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TextPageDbo", b =>
@@ -515,7 +515,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("TextDboId");
 
-                    b.ToTable("TextPages");
+                    b.ToTable("TextPages", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TextSectionDbo", b =>
@@ -537,7 +537,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("TextPageDboId");
 
-                    b.ToTable("TextsSections");
+                    b.ToTable("TextsSections", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TextSectionVariantDbo", b =>
@@ -559,7 +559,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("TextSectionDboId");
 
-                    b.ToTable("TextsSectionsVariants");
+                    b.ToTable("TextsSectionsVariants", (string)null);
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TextsStatisticsEventDbo", b =>
@@ -595,7 +595,7 @@ namespace webapi.Dao.Migrations
 
                     b.HasIndex("TextId");
 
-                    b.ToTable("TextsStatisticsEvents");
+                    b.ToTable("TextsStatisticsEvents", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
