@@ -89,17 +89,17 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
     /// <summary>
     /// Forum sections
     /// </summary>
-    public DbSet<ForumSection> ForumSections { get; set; }
+    public DbSet<ForumSectionDbo> ForumSections { get; set; }
 
     /// <summary>
     /// Forum topics
     /// </summary>
-    public DbSet<ForumTopic> ForumTopics { get; set; }
+    public DbSet<ForumTopicDbo> ForumTopics { get; set; }
 
     /// <summary>
     /// Forum messages
     /// </summary>
-    public DbSet<ForumMessage> ForumMessages { get; set; }
+    public DbSet<ForumMessageDbo> ForumMessages { get; set; }
 
     #endregion
     
@@ -205,37 +205,37 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
 
         // Forum message have one author
         modelBuilder
-            .Entity<ForumMessage>()
+            .Entity<ForumMessageDbo>()
             .HasOne(fm => fm.Author);
 
         // Forum message may be a reply to other forum message
         modelBuilder
-            .Entity<ForumMessage>()
+            .Entity<ForumMessageDbo>()
             .HasOne(fm => fm.ReplyTo);
 
         // Forum topic may be a comments topic for a text
         modelBuilder
-            .Entity<ForumTopic>()
+            .Entity<ForumTopicDbo>()
             .HasOne(ft => ft.CommentsForText);
 
         // Forum topic have many messages
         modelBuilder
-            .Entity<ForumTopic>()
+            .Entity<ForumTopicDbo>()
             .HasMany(ft => ft.Messages);
 
         // Forum section have one author
         modelBuilder
-            .Entity<ForumSection>()
+            .Entity<ForumSectionDbo>()
             .HasOne(fs => fs.Author);
 
         // Forum section may have many subsections
         modelBuilder
-            .Entity<ForumSection>()
+            .Entity<ForumSectionDbo>()
             .HasMany(fs => fs.Subsections);
 
         // Forum section may have many topics
         modelBuilder
-            .Entity<ForumSection>()
+            .Entity<ForumSectionDbo>()
             .HasMany(fs => fs.Topics);
 
         #endregion

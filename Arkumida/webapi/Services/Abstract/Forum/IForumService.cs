@@ -16,38 +16,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-
-namespace webapi.Dao.Models.Forum;
+namespace webapi.Services.Abstract.Forum;
 
 /// <summary>
-/// Forum topic
+/// Service to work with forum
 /// </summary>
-public class ForumTopic
+public class IForumService
 {
-    /// <summary>
-    /// Topic ID
-    /// </summary>
-    [Key]
-    public Guid Id { get; set; }
-
-    /// <summary>
-    /// Topic name
-    /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// Topic description
-    /// </summary>
-    public string Description { get; set; }
     
-    /// <summary>
-    /// Forum messages
-    /// </summary>
-    public IList<ForumMessage> Messages { get; set; }
-
-    /// <summary>
-    /// If this field is not null, then this topic is comments topic for given text
-    /// </summary>
-    public TextDbo CommentsForText { get; set; }
 }

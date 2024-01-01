@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using webapi.Dao;
 
 #nullable disable
 
-namespace webapi.Dao.Migrations
+namespace webapi.Migrations.SecurityDb
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231227174214_AddForum")]
+    partial class AddForum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -349,7 +352,7 @@ namespace webapi.Dao.Migrations
                     b.ToTable("Files");
                 });
 
-            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumMessageDbo", b =>
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -384,7 +387,7 @@ namespace webapi.Dao.Migrations
                     b.ToTable("ForumMessages");
                 });
 
-            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumSectionDbo", b =>
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumSection", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -414,7 +417,7 @@ namespace webapi.Dao.Migrations
                     b.ToTable("ForumSections");
                 });
 
-            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumTopicDbo", b =>
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumTopic", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -810,17 +813,17 @@ namespace webapi.Dao.Migrations
                     b.Navigation("CurrentAvatar");
                 });
 
-            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumMessageDbo", b =>
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumMessage", b =>
                 {
                     b.HasOne("webapi.Dao.Models.CreatureDbo", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("webapi.Dao.Models.Forum.ForumTopicDbo", null)
+                    b.HasOne("webapi.Dao.Models.Forum.ForumTopic", null)
                         .WithMany("Messages")
                         .HasForeignKey("ForumTopicId");
 
-                    b.HasOne("webapi.Dao.Models.Forum.ForumMessageDbo", "ReplyTo")
+                    b.HasOne("webapi.Dao.Models.Forum.ForumMessage", "ReplyTo")
                         .WithMany()
                         .HasForeignKey("ReplyToId");
 
@@ -829,26 +832,26 @@ namespace webapi.Dao.Migrations
                     b.Navigation("ReplyTo");
                 });
 
-            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumSectionDbo", b =>
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumSection", b =>
                 {
                     b.HasOne("webapi.Dao.Models.CreatureDbo", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("webapi.Dao.Models.Forum.ForumSectionDbo", null)
+                    b.HasOne("webapi.Dao.Models.Forum.ForumSection", null)
                         .WithMany("Subsections")
                         .HasForeignKey("ForumSectionId");
 
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumTopicDbo", b =>
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumTopic", b =>
                 {
                     b.HasOne("webapi.Dao.Models.TextDbo", "CommentsForText")
                         .WithMany()
                         .HasForeignKey("CommentsForTextId");
 
-                    b.HasOne("webapi.Dao.Models.Forum.ForumSectionDbo", null)
+                    b.HasOne("webapi.Dao.Models.Forum.ForumSection", null)
                         .WithMany("Topics")
                         .HasForeignKey("ForumSectionId");
 
@@ -955,14 +958,14 @@ namespace webapi.Dao.Migrations
                     b.Navigation("Avatars");
                 });
 
-            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumSectionDbo", b =>
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumSection", b =>
                 {
                     b.Navigation("Subsections");
 
                     b.Navigation("Topics");
                 });
 
-            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumTopicDbo", b =>
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumTopic", b =>
                 {
                     b.Navigation("Messages");
                 });

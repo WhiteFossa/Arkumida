@@ -16,43 +16,35 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-
-namespace webapi.Dao.Models.Forum;
+namespace webapi.Models.Forum;
 
 /// <summary>
-/// Forum message
+/// Forum topic
 /// </summary>
-public class ForumMessage
+public class ForumTopic
 {
     /// <summary>
-    /// Message ID
+    /// Topic ID
     /// </summary>
-    [Key]
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Message author
+    /// Topic name
     /// </summary>
-    public CreatureDbo Author { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
-    /// This message is reply to given message. May be null
+    /// Topic description
     /// </summary>
-    public ForumMessage ReplyTo { get; set; }
+    public string Description { get; set; }
+    
+    /// <summary>
+    /// Forum messages
+    /// </summary>
+    public IList<ForumMessage> Messages { get; set; }
 
     /// <summary>
-    /// When the message was initially posted
+    /// If this field is not null, then this topic is comments topic for given text
     /// </summary>
-    public DateTime PostTime { get; set; }
-
-    /// <summary>
-    /// When the message was updated last time (initially equal to PostTime)
-    /// </summary>
-    public DateTime LastUpdateTime { get; set; }
-
-    /// <summary>
-    /// The message itself
-    /// </summary>
-    public string Message { get; set; }
+    public Text CommentsForText { get; set; }
 }

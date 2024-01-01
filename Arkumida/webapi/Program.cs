@@ -36,12 +36,14 @@ using webapi.OpenSearch.Services.Implementations;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Access;
 using webapi.Services.Abstract.Email;
+using webapi.Services.Abstract.Forum;
 using webapi.Services.Abstract.Search;
 using webapi.Services.Abstract.TextRenderers;
 using webapi.Services.Abstract.TextsStatistics;
 using webapi.Services.Implementations;
 using webapi.Services.Implementations.Access;
 using webapi.Services.Implementations.Email;
+using webapi.Services.Implementations.Forum;
 using webapi.Services.Implementations.Hosted;
 using webapi.Services.Implementations.Search;
 using webapi.Services.Implementations.TextRenderers;
@@ -89,6 +91,10 @@ builder.Services.AddScoped<ITextsStatisticsDao, TextsStatisticsDao>();
 builder.Services.AddScoped<ITextsStatisticsService, TextsStatisticsService>();
 
 builder.Services.AddScoped<ITextsAccessService, TextsAccessService>();
+
+builder.Services.AddScoped<IForumDao, ForumDao>();
+builder.Services.AddScoped<IForumService, ForumService>();
+builder.Services.AddScoped<IForumMapper, ForumMapper>();
 
 #endregion
 

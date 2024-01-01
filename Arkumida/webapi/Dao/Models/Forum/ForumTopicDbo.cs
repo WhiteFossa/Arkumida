@@ -21,43 +21,33 @@ using System.ComponentModel.DataAnnotations;
 namespace webapi.Dao.Models.Forum;
 
 /// <summary>
-/// Forum section (they are recursive)
+/// Forum topic
 /// </summary>
-public class ForumSection
+public class ForumTopicDbo
 {
     /// <summary>
     /// Topic ID
     /// </summary>
     [Key]
     public Guid Id { get; set; }
-    
+
     /// <summary>
-    /// Section name
+    /// Topic name
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Section description
+    /// Topic description
     /// </summary>
     public string Description { get; set; }
+    
+    /// <summary>
+    /// Forum messages
+    /// </summary>
+    public IList<ForumMessageDbo> Messages { get; set; }
 
     /// <summary>
-    /// Section creation time
+    /// If this field is not null, then this topic is comments topic for given text
     /// </summary>
-    public DateTime CreationTime { get; set; }
-
-    /// <summary>
-    /// Section author
-    /// </summary>
-    public CreatureDbo Author { get; set; }
-
-    /// <summary>
-    /// Subsections of this section
-    /// </summary>
-    public IList<ForumSection> Subsections { get; set; }
-
-    /// <summary>
-    /// Topics in this section
-    /// </summary>
-    public IList<ForumTopic> Topics { get; set; }
+    public TextDbo CommentsForText { get; set; }
 }
