@@ -56,4 +56,11 @@ public class ForumDao : IForumDao
 
         return sectionDbo;
     }
+
+    public async Task<ForumSectionDbo> GetSectionByNameAsync(string name)
+    {
+        return await _dbContext
+            .ForumSections
+            .SingleOrDefaultAsync(fs => fs.Name == name);
+    }
 }

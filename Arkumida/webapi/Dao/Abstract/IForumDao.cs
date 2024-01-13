@@ -33,4 +33,13 @@ public interface IForumDao
     Task<ForumSectionDbo> CreateSectionAsync(ForumSectionDbo sectionDbo);
 
     #endregion
+    
+    #region Get
+
+    /// <summary>
+    /// Returns section by its name (case-sensitive). If there is no section with given name, will return null
+    /// </summary>
+    Task<ForumSectionDbo> GetSectionByNameAsync(string name);
+
+    #endregion
 }
