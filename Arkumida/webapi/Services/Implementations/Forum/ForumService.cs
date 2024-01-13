@@ -62,8 +62,8 @@ public class ForumService : IForumService
             throw new ArgumentException($"The section with name { name } already exist!", nameof(name));
         }
 
-        var creatureDbo = await _userManager.FindByIdAsync(authorId.ToString());
-        if (creatureDbo == null)
+        var authorDbo = await _userManager.FindByIdAsync(authorId.ToString());
+        if (authorDbo == null)
         {
             throw new ArgumentException($"Author creature with ID={authorId} not found!", nameof(authorId));
         }
@@ -74,7 +74,7 @@ public class ForumService : IForumService
             Name = name,
             Description = description,
             CreationTime = DateTime.UtcNow,
-            Author = null, // TODO: Fill me,
+            Author = authorDbo,
             Subsections = new List<ForumSectionDbo>(),
             Topics = new List<ForumTopicDbo>()
         };
