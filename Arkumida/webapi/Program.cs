@@ -121,6 +121,7 @@ builder.Services.AddSingleton<IArkumidaOpenSearchClient, ArkumidaOpenSearchClien
 #region Hosted
 
 builder.Services.AddHostedService<BuiltInUsersAndRolesCreator>();
+builder.Services.AddHostedService<ForumSeeder>();
 
 #endregion
 
@@ -133,6 +134,7 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(
 builder.Services.Configure<ImporterUserSettings>(builder.Configuration.GetSection(nameof(ImporterUserSettings)));
 builder.Services.Configure<SiteInfoSettings>(builder.Configuration.GetSection(nameof(SiteInfoSettings)));
 builder.Services.Configure<OpenSearchSettings>(builder.Configuration.GetSection(nameof(OpenSearchSettings)));
+builder.Services.Configure<ForumSettings>(builder.Configuration.GetSection(nameof(ForumSettings)));
 
 #endregion
 

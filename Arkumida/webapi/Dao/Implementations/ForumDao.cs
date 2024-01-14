@@ -54,6 +54,8 @@ public class ForumDao : IForumDao
             .ForumSections
             .AddAsync(sectionDbo);
 
+        await _dbContext.SaveChangesAsync();
+
         return sectionDbo;
     }
 
@@ -61,6 +63,9 @@ public class ForumDao : IForumDao
     {
         return await _dbContext
             .ForumSections
+            .Include(fs => fs.Author)
+            .Include(fs => fs.Subsections)
+            .Include(fs => fs.Topics)
             .SingleOrDefaultAsync(fs => fs.Name == name);
     }
 }

@@ -46,14 +46,10 @@ public class ForumService : IForumService
     
     public async Task<ForumSection> CreateSectionAsync(string name, string description, Guid authorId, Guid? id = null)
     {
+        // Title must be filled, description may be empty
         if (string.IsNullOrWhiteSpace(name))
         {
             throw new ArgumentException("Name mustn't be empty!", nameof(name));
-        }
-
-        if (string.IsNullOrWhiteSpace(description))
-        {
-            throw new ArgumentException("Description mustn't be empty!", nameof(description));
         }
         
         // Sections names have to be unique
@@ -80,5 +76,15 @@ public class ForumService : IForumService
         };
 
         return await _forumMapper.MapAsync(await _forumDao.CreateSectionAsync(sectionDbo));
+    }
+
+    public async Task<ForumSection> GetSectionByNameAsync(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("Name mustn't be empty!", nameof(name));
+        }
+
+        return await _forumMapper.MapAsync(await _forumDao.GetSectionByNameAsync(name));
     }
 }

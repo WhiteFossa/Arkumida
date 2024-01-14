@@ -16,33 +16,25 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using webapi.Dao.Models.Forum;
-using webapi.Models.Forum;
-
-namespace webapi.Services.Abstract.Forum;
+namespace webapi.Models.Settings;
 
 /// <summary>
-/// Service to work with forum
+/// Forum settings (read from appsettings.json)
 /// </summary>
-public interface IForumService
+public class ForumSettings
 {
-    #region Sections
-
     /// <summary>
-    /// Create empty forum section. If ID is provided, then section will have given ID (however, ID check will be performed in this case)
+    /// Text comments section ID
     /// </summary>
-    Task<ForumSection> CreateSectionAsync
-    (
-        string name,
-        string description,
-        Guid authorId,
-        Guid? id = null
-    );
-
+    public Guid TextsCommentsSectionId { get; set; }
+    
     /// <summary>
-    /// Get forum section by it's name (case-sensitive).
+    /// Texts comments section name
     /// </summary>
-    Task<ForumSection> GetSectionByNameAsync(string name);
-
-    #endregion
+    public string TextsCommentsSectionName { get; set; }
+    
+    /// <summary>
+    /// Texts comments section title
+    /// </summary>
+    public string TextsCommentsSectionTitle { get; set; }
 }
