@@ -40,9 +40,49 @@ public interface IForumService
     );
 
     /// <summary>
-    /// Get forum section by it's name (case-sensitive).
+    /// Get forum section by its ID
+    /// </summary>
+    Task<ForumSection> GetSectionByIdAsync(Guid id);
+    
+    /// <summary>
+    /// Get forum section by its name (case-sensitive).
     /// </summary>
     Task<ForumSection> GetSectionByNameAsync(string name);
+
+    #endregion
+
+    #region Topics
+    
+    /// <summary>
+    /// Get topic by its ID
+    /// </summary>
+    Task<ForumTopic> GetTopicByIdAsync(Guid id);
+
+    /// <summary>
+    /// Get special (text comments) topic by text ID
+    /// </summary>
+    Task<ForumTopic> GetTextCommentsTopicByTextId(Guid textId);
+
+    /// <summary>
+    /// Create empty forum topic.
+    /// If textId have value, then this topic will be related to specified text (only one topic can be specified to text)
+    /// </summary>
+    Task<ForumTopic> CreateTopicAsync
+    (
+        string name,
+        string description,
+        Guid sectionId,
+        Guid? textId = null
+    );
+
+    #endregion
+    
+    #region Texts comments (special messages)
+
+    /// <summary>
+    /// Add comment to text. Creates special topic if there is no topic for text comments
+    /// </summary>
+    Task<ForumMessage> AddTextCommentAsync(Guid textId, ForumMessage messageToAdd);
 
     #endregion
 }

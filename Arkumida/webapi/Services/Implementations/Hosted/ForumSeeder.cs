@@ -51,14 +51,14 @@ public class ForumSeeder : IHostedService
 
             #region Creating texts comments section
 
-            if (await forumService.GetSectionByNameAsync(forumSettings.TextsCommentsSectionName) == null)
+            if (await forumService.GetSectionByIdAsync(forumSettings.TextsCommentsSectionId) == null)
             {
                 var importerCreature = await accountsService.FindUserByLoginAsync(importerUserSettings.Login);
             
                 await forumService.CreateSectionAsync
                 (
                     forumSettings.TextsCommentsSectionName,
-                    forumSettings.TextsCommentsSectionTitle,
+                    forumSettings.TextsCommentsSectionDescription,
                     importerCreature.Id,
                     forumSettings.TextsCommentsSectionId
                 );    

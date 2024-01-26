@@ -16,56 +16,55 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using webapi.Models.Api.DTOs.TextsComments;
+using System.Text.Json.Serialization;
+using OpenSearch.Client;
+using webapi.Models.Api.DTOs.Creatures;
 using webapi.Models.Creatures;
+using webapi.Models.Forum;
 
-namespace webapi.Models.Forum;
+namespace webapi.Models.Api.DTOs.TextsComments;
 
 /// <summary>
-/// Forum message
+/// Simplified DTO for adding text comment
 /// </summary>
-public class ForumMessage
+public class AddTextCommentDto
 {
     /// <summary>
-    /// Message ID
+    /// Message author ID
     /// </summary>
-    public Guid Id { get; set; }
-
-    /// <summary>
-    /// Message author
-    /// </summary>
-    public CreatureWithProfile Author { get; set; }
+    [JsonPropertyName("authorId")]
+    public Guid AuthorId { get; set; }
 
     /// <summary>
     /// This message is reply to given message. May be null
     /// </summary>
-    public ForumMessage ReplyTo { get; set; }
+    [JsonPropertyName("replyTo")]
+    public Guid? ReplyTo { get; set; }
 
     /// <summary>
     /// When the message was initially posted
     /// </summary>
+    [JsonPropertyName("postTime")]
     public DateTime PostTime { get; set; }
 
     /// <summary>
     /// When the message was updated last time (initially equal to PostTime)
     /// </summary>
+    [JsonPropertyName("lastUpdateTime")]
     public DateTime LastUpdateTime { get; set; }
 
     /// <summary>
     /// The message itself
     /// </summary>
+    [JsonPropertyName("message")]
     public string Message { get; set; }
-
-    /// <summary>
-    /// Convert to text comment DTO
-    /// </summary>
-    public TextCommentDto ToTextCommentDto()
+    
+    public ForumMessage ToForumMessage()
     {
-        return new TextCommentDto()
+        return new ForumMessage()
         {
-            Id = Id,
-            Author = Author.ToDto(),
-            ReplyTo = ReplyTo?.ToTextCommentDto(),
+            Author = new CreatureWithProfile(AuthorId, string.Empty, string.Empty, false, string.Empty, string.Empty, new List<Avatar>(), null, string.Empty),
+            ReplyTo = ReplyTo.HasValue? new ForumMessage() { Id = ReplyTo.Value } : null,
             PostTime = PostTime,
             LastUpdateTime = LastUpdateTime,
             Message = Message

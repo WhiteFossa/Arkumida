@@ -16,25 +16,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-namespace webapi.Models.Settings;
+using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs.TextsComments;
+
+namespace webapi.Models.Api.Responses.TextsComments;
 
 /// <summary>
-/// Forum settings (read from appsettings.json)
+/// Response with added (or imported) text comment
 /// </summary>
-public class ForumSettings
+public class TextCommentAddedResponse
 {
     /// <summary>
-    /// Text comments section ID
+    /// Comment
     /// </summary>
-    public Guid TextsCommentsSectionId { get; set; }
-    
-    /// <summary>
-    /// Texts comments section name
-    /// </summary>
-    public string TextsCommentsSectionName { get; set; }
-    
-    /// <summary>
-    /// Texts comments section description
-    /// </summary>
-    public string TextsCommentsSectionDescription { get; set; }
+    [JsonPropertyName("comment")]
+    public TextCommentDto Comment { get; }
+
+    public TextCommentAddedResponse
+    (
+        TextCommentDto comment
+    )
+    {
+        Comment = comment ?? throw new ArgumentNullException("Comment must not be null!", nameof(comment));
+    }
 }

@@ -135,7 +135,7 @@ public class ForumMapper : IForumMapper
             Id = topic.Id,
             Name = topic.Name,
             Description = topic.Description,
-            Messages = (await MapAsync(topic.Messages)).ToList(),
+            Messages = topic.Messages != null ? (await MapAsync(topic.Messages)).ToList() : null,
             CommentsForText = _textsMapper.Map(topic.CommentsForText) // TODO: Think about mapping authors etc
         };
     }
@@ -152,7 +152,7 @@ public class ForumMapper : IForumMapper
             Id = topic.Id,
             Name = topic.Name,
             Description = topic.Description,
-            Messages = Map(topic.Messages).ToList(),
+            Messages = topic.Messages!= null ? Map(topic.Messages).ToList() : null,
             CommentsForText = _textsMapper.Map(topic.CommentsForText)
         };
     }

@@ -22,8 +22,11 @@ using webapi.Dao.Models.Enums;
 using webapi.Dao.Models.Enums.Statistics;
 using webapi.Helpers;
 using webapi.Models.Api.Requests;
+using webapi.Models.Api.Requests.TextsComments;
 using webapi.Models.Api.Responses;
+using webapi.Models.Api.Responses.TextsComments;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.Forum;
 using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Controllers;
@@ -39,19 +42,22 @@ public class TextsController : ControllerBase
     private readonly ITextUtilsService _textUtilsService;
     private readonly ITextsStatisticsService _textsStatisticsService;
     private readonly IAccountsService _accountsService;
+    private readonly IForumService _forumService;
     
     public TextsController
     (
         ITextsService textsService,
         ITextUtilsService textUtilsService,
         ITextsStatisticsService textsStatisticsService,
-        IAccountsService accountsService
+        IAccountsService accountsService,
+        IForumService forumService
     )
     {
         _textsService = textsService;
         _textUtilsService = textUtilsService;
         _textsStatisticsService = textsStatisticsService;
         _accountsService = accountsService;
+        _forumService = forumService;
     }
 
     /// <summary>
@@ -233,5 +239,20 @@ public class TextsController : ControllerBase
         await _textsService.AddFileToTextAsync(request.TextId, request.Name, request.FileId);
 
         return Ok();
+    }
+
+    /// <summary>
+    /// Import text comment. It's similar to AddComment(), but allows to set Author and times.
+    /// </summary>
+    [Route("api/Texts/{textId}/ImportComment")]
+    [HttpPost]
+    public async Task<ActionResult<TextCommentAddedResponse>> ImportCommentAsync(Guid textId, [FromBody] ImportTextCommentRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        return Ok(new TextCommentAddedResponse((await _forumService.AddTextCommentAsync(textId, request.Comment.ToForumMessage())).ToTextCommentDto()));
     }
 }

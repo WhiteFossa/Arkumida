@@ -32,14 +32,44 @@ public interface IForumDao
     /// </summary>
     Task<ForumSectionDbo> CreateSectionAsync(ForumSectionDbo sectionDbo);
 
+    /// <summary>
+    /// Update forum section
+    /// </summary>
+    Task UpdateSectionAsync(ForumSectionDbo newSection);
+    
+    /// <summary>
+    /// Create forum topic and attach it to given section
+    /// </summary>
+    Task<ForumTopicDbo> CreateTopicAsync(ForumTopicDbo topicDbo, Guid sectionId);
+    
     #endregion
     
     #region Get
-
+    
+    /// <summary>
+    /// Returns forum section by its ID. If there is no section with such ID will return null
+    /// </summary>
+    Task<ForumSectionDbo> GetSectionByIdAsync(Guid id);
+    
     /// <summary>
     /// Returns section by its name (case-sensitive). If there is no section with given name, will return null
     /// </summary>
     Task<ForumSectionDbo> GetSectionByNameAsync(string name);
+
+    /// <summary>
+    /// Returns topic by its ID. If there is no topic with given ID will return null
+    /// </summary>
+    Task<ForumTopicDbo> GetTopicByIdAsync(Guid id);
+
+    /// <summary>
+    /// Get text comments topic by text id. If it doesn't exist - will return null
+    /// </summary>
+    Task<ForumTopicDbo> GetTextCommentsTopicByTextId(Guid textId);
+
+    /// <summary>
+    /// Is topic with given name exist in section?
+    /// </summary>
+    Task<bool> IsTopicExistInSectionAsync(Guid sectionId, string topicName);
 
     #endregion
 }

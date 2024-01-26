@@ -17,11 +17,14 @@
 #endregion
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Dao.Models.Forum;
 using webapi.Mappers.Abstract;
 using webapi.Models.Forum;
+using webapi.Models.Settings;
+using webapi.Services.Abstract;
 using webapi.Services.Abstract.Forum;
 
 namespace webapi.Services.Implementations.Forum;
@@ -31,17 +34,26 @@ public class ForumService : IForumService
     private readonly IForumDao _forumDao;
     private readonly UserManager<CreatureDbo> _userManager;
     private readonly IForumMapper _forumMapper;
+    private readonly ITextUtilsService _textUtilsService;
+    private readonly ITextsDao _textsDao;
+    private readonly ForumSettings _forumSettings;
 
     public ForumService
     (
         IForumDao forumDao,
         UserManager<CreatureDbo> userManager,
-        IForumMapper forumMapper
+        IForumMapper forumMapper,
+        ITextUtilsService textUtilsService,
+        ITextsDao textsDao,
+        IOptions<ForumSettings> forumSettings
     )
     {
         _forumDao = forumDao;
         _userManager = userManager;
         _forumMapper = forumMapper;
+        _textUtilsService = textUtilsService;
+        _textsDao = textsDao;
+        _forumSettings = forumSettings.Value;
     }
     
     public async Task<ForumSection> CreateSectionAsync(string name, string description, Guid authorId, Guid? id = null)
@@ -78,6 +90,11 @@ public class ForumService : IForumService
         return await _forumMapper.MapAsync(await _forumDao.CreateSectionAsync(sectionDbo));
     }
 
+    public async Task<ForumSection> GetSectionByIdAsync(Guid id)
+    {
+        return await _forumMapper.MapAsync(await _forumDao.GetSectionByIdAsync(id));
+    }
+
     public async Task<ForumSection> GetSectionByNameAsync(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -86,5 +103,76 @@ public class ForumService : IForumService
         }
 
         return await _forumMapper.MapAsync(await _forumDao.GetSectionByNameAsync(name));
+    }
+
+    public async Task<ForumTopic> GetTopicByIdAsync(Guid id)
+    {
+        return await _forumMapper.MapAsync(await _forumDao.GetTopicByIdAsync(id));
+    }
+
+    public async Task<ForumTopic> GetTextCommentsTopicByTextId(Guid textId)
+    {
+        return await _forumMapper.MapAsync(await _forumDao.GetTextCommentsTopicByTextId(textId));
+    }
+
+    public async Task<ForumTopic> CreateTopicAsync
+    (
+        string name,
+        string description,
+        Guid sectionId,
+        Guid? textId = null
+    )
+    {
+        // Name must be filled, description may be empty
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("Name mustn't be empty!", nameof(name));
+        }
+        
+        // Topic name must be unique within section
+        if (await _forumDao.IsTopicExistInSectionAsync(sectionId, name))
+        {
+            throw new ArgumentException("Topic name must be unique within section!", nameof(name));
+        }
+        
+        var textDbo = textId.HasValue ? await _textsDao.GetTextMetadataByIdAsync(textId.Value): null;
+        if (textId.HasValue && textDbo == null)
+        {
+            throw new ArgumentException($"Text-related topic is being created, however TextId={textId} is incorrect!", nameof(textId));
+        }
+
+        var topicDbo = new ForumTopicDbo()
+        {
+            Name = name,
+            Description = description,
+            Messages = new List<ForumMessageDbo>(),
+            CommentsForText = textDbo
+        };
+
+        return await _forumMapper.MapAsync(await _forumDao.CreateTopicAsync(topicDbo, sectionId));
+    }
+
+    public async Task<ForumMessage> AddTextCommentAsync(Guid textId, ForumMessage messageToAdd)
+    {
+        var textMetadata = await _textUtilsService.GetTextMetadataAsync(textId);
+        if (textMetadata == null)
+        {
+            throw new ArgumentException($"Text with ID={textId} is not found!", nameof(textId));
+        }
+
+        var textCommentsTopic = await GetTextCommentsTopicByTextId(textId);
+        if (textCommentsTopic == null)
+        {
+            // Topic not found, creating it
+            textCommentsTopic = await CreateTopicAsync
+            (
+                $"Комментарии к произведению { textMetadata.Title }",
+                $"Комментарии к произведению { textMetadata.Title }",
+                _forumSettings.TextsCommentsSectionId,
+                textId
+            );
+        }
+
+        return new ForumMessage();
     }
 }

@@ -16,25 +16,19 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-namespace webapi.Models.Settings;
+using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs.TextsComments;
+
+namespace webapi.Models.Api.Requests.TextsComments;
 
 /// <summary>
-/// Forum settings (read from appsettings.json)
+/// Request to import text comment
 /// </summary>
-public class ForumSettings
+public class ImportTextCommentRequest
 {
     /// <summary>
-    /// Text comments section ID
+    /// Comment to import
     /// </summary>
-    public Guid TextsCommentsSectionId { get; set; }
-    
-    /// <summary>
-    /// Texts comments section name
-    /// </summary>
-    public string TextsCommentsSectionName { get; set; }
-    
-    /// <summary>
-    /// Texts comments section description
-    /// </summary>
-    public string TextsCommentsSectionDescription { get; set; }
+    [JsonPropertyName("comment")]
+    public AddTextCommentDto Comment { get; set; }
 }

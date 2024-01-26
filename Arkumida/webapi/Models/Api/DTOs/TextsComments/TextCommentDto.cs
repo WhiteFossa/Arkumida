@@ -16,56 +16,60 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using webapi.Models.Api.DTOs.TextsComments;
-using webapi.Models.Creatures;
+using System.Text.Json.Serialization;
+using webapi.Models.Api.DTOs.Creatures;
+using webapi.Models.Forum;
 
-namespace webapi.Models.Forum;
+namespace webapi.Models.Api.DTOs.TextsComments;
 
 /// <summary>
-/// Forum message
+/// Text comment DTO
 /// </summary>
-public class ForumMessage
+public class TextCommentDto
 {
     /// <summary>
     /// Message ID
     /// </summary>
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Message author
     /// </summary>
-    public CreatureWithProfile Author { get; set; }
+    [JsonPropertyName("author")]
+    public CreatureWithProfileDto Author { get; set; }
 
     /// <summary>
     /// This message is reply to given message. May be null
     /// </summary>
-    public ForumMessage ReplyTo { get; set; }
+    [JsonPropertyName("replyTo")]
+    public TextCommentDto ReplyTo { get; set; }
 
     /// <summary>
     /// When the message was initially posted
     /// </summary>
+    [JsonPropertyName("postTime")]
     public DateTime PostTime { get; set; }
 
     /// <summary>
     /// When the message was updated last time (initially equal to PostTime)
     /// </summary>
+    [JsonPropertyName("lastUpdateTime")]
     public DateTime LastUpdateTime { get; set; }
 
     /// <summary>
     /// The message itself
     /// </summary>
+    [JsonPropertyName("message")]
     public string Message { get; set; }
 
-    /// <summary>
-    /// Convert to text comment DTO
-    /// </summary>
-    public TextCommentDto ToTextCommentDto()
+    public ForumMessage ToForumMessage()
     {
-        return new TextCommentDto()
+        return new ForumMessage()
         {
             Id = Id,
-            Author = Author.ToDto(),
-            ReplyTo = ReplyTo?.ToTextCommentDto(),
+            Author = Author.ToCreatureWithProfile(),
+            ReplyTo = ReplyTo?.ToForumMessage(),
             PostTime = PostTime,
             LastUpdateTime = LastUpdateTime,
             Message = Message
