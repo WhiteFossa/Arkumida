@@ -37,4 +37,14 @@ public class ForumSettings
     /// Texts comments section description
     /// </summary>
     public string TextsCommentsSectionDescription { get; set; }
+
+    /// <summary>
+    /// Text comments topic name template
+    /// </summary>
+    public string TextCommentsTopicNameTemplate { get; set; }
+
+    /// <summary>
+    /// Text comments topic description template
+    /// </summary>
+    public string TextCommentsTopicDescriptionTemplate { get; set; }
 }

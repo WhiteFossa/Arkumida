@@ -166,8 +166,8 @@ public class ForumService : IForumService
             // Topic not found, creating it
             textCommentsTopic = await CreateTopicAsync
             (
-                $"Комментарии к произведению { textMetadata.Title }",
-                $"Комментарии к произведению { textMetadata.Title }",
+                string.Format(_forumSettings.TextCommentsTopicNameTemplate, textMetadata.Title),
+                string.Format(_forumSettings.TextCommentsTopicDescriptionTemplate, textMetadata.Title),
                 _forumSettings.TextsCommentsSectionId,
                 textId
             );
