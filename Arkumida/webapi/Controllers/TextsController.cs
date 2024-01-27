@@ -18,6 +18,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using webapi.Constants;
 using webapi.Dao.Models.Enums;
 using webapi.Dao.Models.Enums.Statistics;
 using webapi.Helpers;
@@ -244,6 +245,7 @@ public class TextsController : ControllerBase
     /// <summary>
     /// Import text comment. It's similar to AddComment(), but allows to set Author and times.
     /// </summary>
+    [Authorize(Roles = RolesConstants.ImporterRole)]
     [Route("api/Texts/{textId}/ImportComment")]
     [HttpPost]
     public async Task<ActionResult<TextCommentAddedResponse>> ImportCommentAsync(Guid textId, [FromBody] ImportTextCommentRequest request)
