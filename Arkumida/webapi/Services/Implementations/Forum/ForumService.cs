@@ -173,6 +173,6 @@ public class ForumService : IForumService
             );
         }
 
-        return new ForumMessage();
+        return await _forumMapper.MapAsync(await _forumDao.CreateMessageAsync(_forumMapper.Map(messageToAdd), textCommentsTopic.Id));
     }
 }

@@ -60,18 +60,18 @@ public class ForumDao : IForumDao
         return sectionDbo;
     }
 
-    public async Task UpdateSectionAsync(ForumSectionDbo newSection)
+    public async Task UpdateSectionAsync(ForumSectionDbo topicToUpdate)
     {
-        _ = newSection ?? throw new ArgumentNullException(nameof(newSection), "Section mustn't be null!");
+        _ = topicToUpdate ?? throw new ArgumentNullException(nameof(topicToUpdate), "Section mustn't be null!");
 
-        var section = await GetSectionByIdAsync(newSection.Id);
+        var section = await GetSectionByIdAsync(topicToUpdate.Id);
 
-        section.Name = newSection.Name;
-        section.Description = newSection.Description;
-        section.CreationTime = newSection.CreationTime;
-        section.Author = await _dbContext.Users.SingleAsync(c => c.Id == newSection.Author.Id);
+        section.Name = topicToUpdate.Name;
+        section.Description = topicToUpdate.Description;
+        section.CreationTime = topicToUpdate.CreationTime;
+        section.Author = await _dbContext.Users.SingleAsync(c => c.Id == topicToUpdate.Author.Id);
 
-        var newSubsectionsIds = newSection
+        var newSubsectionsIds = topicToUpdate
             .Subsections
             .Select(fs => fs.Id);
         
@@ -81,7 +81,7 @@ public class ForumDao : IForumDao
             section.Subsections.Add(await _dbContext.ForumSections.SingleAsync(fs => fs.Id == subsectionId));
         }
 
-        var newTopicIds = newSection
+        var newTopicIds = topicToUpdate
             .Topics
             .Select(ft => ft.Id);
         
@@ -121,6 +121,60 @@ public class ForumDao : IForumDao
         await UpdateSectionAsync(section);
         
         return topicDbo;
+    }
+
+    public async Task UpdateTopicAsync(ForumTopicDbo topicToUpdate)
+    {
+        _ = topicToUpdate ?? throw new ArgumentNullException(nameof(topicToUpdate), "Topic to update mustn't be null!");
+
+        var topic = await GetTopicByIdAsync(topicToUpdate.Id);
+        if (topic == null)
+        {
+            throw new ArgumentException($"Topic with ID={ topicToUpdate.Id } is not exist!", nameof(topicToUpdate));
+        }
+
+        topic.Name = topicToUpdate.Name;
+        topic.Description = topicToUpdate.Description;
+
+        var newMessagesIds = topicToUpdate
+            .Messages
+            .Select(m => m.Id);
+
+        topic.Messages = new List<ForumMessageDbo>();
+        foreach (var newMessageId in newMessagesIds)
+        {
+            topic.Messages.Add(await _dbContext.ForumMessages.SingleAsync(fm => fm.Id == newMessageId));
+        }
+        
+        topic.CommentsForText = topicToUpdate.CommentsForText != null ? await _dbContext.Texts.SingleAsync(t => t.Id == topicToUpdate.CommentsForText.Id) : null;
+
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<ForumMessageDbo> CreateMessageAsync(ForumMessageDbo messageDbo, Guid topicId)
+    {
+        _ = messageDbo ?? throw new ArgumentNullException(nameof(messageDbo), "Forum message mustn't be null!");
+
+        var topic = await GetTopicByIdAsync(topicId);
+        if (topic == null)
+        {
+            throw new ArgumentException($"Topic with ID = { topicId } is not found!", nameof(topicId));
+        }
+
+        messageDbo.Author = await _dbContext.Users.SingleAsync(c => c.Id == messageDbo.Author.Id);
+        
+        messageDbo.ReplyTo = messageDbo.ReplyTo != null ? await _dbContext.ForumMessages.SingleAsync(m => m.Id == messageDbo.ReplyTo.Id) : null;
+
+        await _dbContext
+            .ForumMessages
+            .AddAsync(messageDbo);
+
+        await _dbContext.SaveChangesAsync();
+        
+        topic.Messages.Add(messageDbo);
+        await UpdateTopicAsync(topic);
+
+        return messageDbo;
     }
 
     public async Task<ForumSectionDbo> GetSectionByIdAsync(Guid id)

@@ -35,12 +35,22 @@ public interface IForumDao
     /// <summary>
     /// Update forum section
     /// </summary>
-    Task UpdateSectionAsync(ForumSectionDbo newSection);
+    Task UpdateSectionAsync(ForumSectionDbo topicToUpdate);
     
     /// <summary>
     /// Create forum topic and attach it to given section
     /// </summary>
     Task<ForumTopicDbo> CreateTopicAsync(ForumTopicDbo topicDbo, Guid sectionId);
+
+    /// <summary>
+    /// Update forum topic
+    /// </summary>
+    Task UpdateTopicAsync(ForumTopicDbo topicToUpdate);
+    
+    /// <summary>
+    /// Create new forum messageDbo and attach it to given topic
+    /// </summary>
+    Task<ForumMessageDbo> CreateMessageAsync(ForumMessageDbo messageDbo, Guid topicId);
     
     #endregion
     
