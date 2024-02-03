@@ -61,7 +61,7 @@ public interface IForumService
     /// <summary>
     /// Get special (text comments) topic by text ID
     /// </summary>
-    Task<ForumTopic> GetTextCommentsTopicByTextId(Guid textId);
+    Task<ForumTopic> GetTextCommentsTopicByTextIdAsync(Guid textId);
 
     /// <summary>
     /// Create empty forum topic.
@@ -77,12 +77,36 @@ public interface IForumService
 
     #endregion
     
+    #region Messages
+
+    /// <summary>
+    /// Get last messages in topic, ordered by original post date
+    /// </summary>
+    Task<IReadOnlyCollection<ForumMessage>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take);
+
+    /// <summary>
+    /// Get messages count in topic
+    /// </summary>
+    Task<int> GetTopicMessagesCountAsync(Guid topicId);
+    
+    #endregion
+    
     #region Texts comments (special messages)
 
     /// <summary>
     /// Add comment to text. Creates special topic if there is no topic for text comments
     /// </summary>
     Task<ForumMessage> AddTextCommentAsync(Guid textId, ForumMessage messageToAdd);
+
+    /// <summary>
+    /// Get last (by original posting date) comments for given text
+    /// </summary>
+    Task<IReadOnlyCollection<ForumMessage>> GetLastCommentsByTextAsync(Guid textId, int skip, int take);
+
+    /// <summary>
+    /// Get total comments count for given text
+    /// </summary>
+    Task<int> GetTextCommentsCountAsync(Guid textId);
 
     #endregion
 }

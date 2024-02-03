@@ -1,5 +1,5 @@
 #region License
-// Arkumida - Furtails.pw next generation backend
+// Furtails Importer - Importer from furtails.pw database to Arkumida
 // Copyright (C) 2023  Earlybeasts
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -16,27 +16,35 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs.Forum;
+namespace furtails_importer.Dbos;
 
-namespace webapi.Models.Api.Responses.TextsComments;
-
-/// <summary>
-/// Response with added or imported text comment
-/// </summary>
-public class TextCommentAddedResponse
+public class FtTopic
 {
-    /// <summary>
-    /// Comment
-    /// </summary>
-    [JsonPropertyName("comment")]
-    public ForumMessageDto Comment { get; }
+    public int Id { get; set; }
 
-    public TextCommentAddedResponse
-    (
-        ForumMessageDto comment
-    )
-    {
-        Comment = comment ?? throw new ArgumentNullException("Comment must not be null!", nameof(comment));
-    }
+    public string Poster { get; set; }
+
+    public string Subject { get; set; }
+
+    public long PostedTimestamp { get; set; }
+
+    public int FirstPostId { get; set; }
+
+    public long LastPostTimestamp { get; set; }
+
+    public int LastPostId { get; set; }
+
+    public string LastPoster { get; set; }
+
+    public int ViewsCount { get; set; }
+
+    public int RepliesCount { get; set; }
+
+    public bool IsClosed { get; set; }
+
+    public bool IsSticky { get; set; }
+
+    public int MovedTo { get; set; }
+
+    public int ForumId { get; set; }
 }

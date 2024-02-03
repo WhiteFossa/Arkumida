@@ -110,7 +110,7 @@ public class ForumService : IForumService
         return await _forumMapper.MapAsync(await _forumDao.GetTopicByIdAsync(id));
     }
 
-    public async Task<ForumTopic> GetTextCommentsTopicByTextId(Guid textId)
+    public async Task<ForumTopic> GetTextCommentsTopicByTextIdAsync(Guid textId)
     {
         return await _forumMapper.MapAsync(await _forumDao.GetTextCommentsTopicByTextId(textId));
     }
@@ -129,11 +129,12 @@ public class ForumService : IForumService
             throw new ArgumentException("Name mustn't be empty!", nameof(name));
         }
         
-        // Topic name must be unique within section
+        // TODO: Maybe we will uncomment it in future. For now we have some texts with the same name
+        /*// Topic name must be unique within section
         if (await _forumDao.IsTopicExistInSectionAsync(sectionId, name))
         {
             throw new ArgumentException("Topic name must be unique within section!", nameof(name));
-        }
+        }*/
         
         var textDbo = textId.HasValue ? await _textsDao.GetTextMetadataByIdAsync(textId.Value): null;
         if (textId.HasValue && textDbo == null)
@@ -152,6 +153,16 @@ public class ForumService : IForumService
         return await _forumMapper.MapAsync(await _forumDao.CreateTopicAsync(topicDbo, sectionId));
     }
 
+    public async Task<IReadOnlyCollection<ForumMessage>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take)
+    {
+        return await _forumMapper.MapAsync(await _forumDao.GetLastMessagesInTopicAsync(topicId, skip, take));
+    }
+
+    public async Task<int> GetTopicMessagesCountAsync(Guid topicId)
+    {
+        return await _forumDao.GetTopicMessagesCountAsync(topicId);
+    }
+
     public async Task<ForumMessage> AddTextCommentAsync(Guid textId, ForumMessage messageToAdd)
     {
         var textMetadata = await _textUtilsService.GetTextMetadataAsync(textId);
@@ -160,7 +171,7 @@ public class ForumService : IForumService
             throw new ArgumentException($"Text with ID={textId} is not found!", nameof(textId));
         }
 
-        var textCommentsTopic = await GetTextCommentsTopicByTextId(textId);
+        var textCommentsTopic = await GetTextCommentsTopicByTextIdAsync(textId);
         if (textCommentsTopic == null)
         {
             // Topic not found, creating it
@@ -174,5 +185,28 @@ public class ForumService : IForumService
         }
 
         return await _forumMapper.MapAsync(await _forumDao.CreateMessageAsync(_forumMapper.Map(messageToAdd), textCommentsTopic.Id));
+    }
+
+    public async Task<IReadOnlyCollection<ForumMessage>> GetLastCommentsByTextAsync(Guid textId, int skip, int take)
+    {
+        var textCommentsTopic = await GetTextCommentsTopicByTextIdAsync(textId);
+        if (textCommentsTopic == null)
+        {
+            // No topic - no comments
+            return new List<ForumMessage>();
+        }
+
+        return await GetLastMessagesInTopicAsync(textCommentsTopic.Id, skip, take);
+    }
+
+    public async Task<int> GetTextCommentsCountAsync(Guid textId)
+    {
+        var textCommentsTopic = await GetTextCommentsTopicByTextIdAsync(textId);
+        if (textCommentsTopic == null)
+        {
+            return 0;
+        }
+        
+        return await GetTopicMessagesCountAsync(textCommentsTopic.Id);
     }
 }

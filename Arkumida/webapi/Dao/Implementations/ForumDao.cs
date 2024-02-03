@@ -230,9 +230,31 @@ public class ForumDao : IForumDao
             .Where(fs => fs.Id == sectionId)
             .Where(fs => fs.Topics.Select(ft => ft.Name).Contains(topicName))
             .AnyAsync();
+    }
 
+    public async Task<IReadOnlyCollection<ForumMessageDbo>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take)
+    {
+        return await _dbContext
+            .ForumMessages
+            .Include(fm => fm.Author)
+            .Include(fm => fm.ReplyTo)
+            .ThenInclude(rm => rm.Author)
 
+            .OrderBy(fm => fm.PostTime)
 
+            .Skip(skip)
+            .Take(take)
+            
+            .ToListAsync();
+    }
 
+    public async Task<int> GetTopicMessagesCountAsync(Guid topicId)
+    {
+        return await _dbContext
+            .ForumTopics
+            .Where(ft => ft.Id == topicId)
+            .Include(ft => ft.Messages)
+            .Select(ft => ft.Messages)
+            .CountAsync();
     }
 }

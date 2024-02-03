@@ -1,5 +1,5 @@
 #region License
-// Arkumida - Furtails.pw next generation backend
+// Furtails Importer - Importer from furtails.pw database to Arkumida
 // Copyright (C) 2023  Earlybeasts
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -16,59 +16,39 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using webapi.Models.Api.DTOs.Forum;
-using webapi.Models.Creatures;
+using System.Text.Json.Serialization;
 
-namespace webapi.Models.Forum;
+namespace furtails_importer.WebClientStuff.Dtos;
 
-/// <summary>
-/// Forum message
-/// </summary>
-public class ForumMessage
+public class AddTextCommentDto
 {
     /// <summary>
-    /// Message ID
+    /// Message author ID
     /// </summary>
-    public Guid Id { get; set; }
-
-    /// <summary>
-    /// Message author
-    /// </summary>
-    public CreatureWithProfile Author { get; set; }
+    [JsonPropertyName("authorId")]
+    public Guid AuthorId { get; set; }
 
     /// <summary>
     /// This message is reply to given message. May be null
     /// </summary>
-    public ForumMessage ReplyTo { get; set; }
+    [JsonPropertyName("replyTo")]
+    public Guid? ReplyTo { get; set; }
 
     /// <summary>
     /// When the message was initially posted
     /// </summary>
+    [JsonPropertyName("postTime")]
     public DateTime PostTime { get; set; }
 
     /// <summary>
     /// When the message was updated last time (initially equal to PostTime)
     /// </summary>
+    [JsonPropertyName("lastUpdateTime")]
     public DateTime LastUpdateTime { get; set; }
 
     /// <summary>
     /// The message itself
     /// </summary>
+    [JsonPropertyName("message")]
     public string Message { get; set; }
-
-    /// <summary>
-    /// Convert to text comment DTO
-    /// </summary>
-    public ForumMessageDto ToTextCommentDto()
-    {
-        return new ForumMessageDto()
-        {
-            Id = Id,
-            Author = Author.ToDto(),
-            ReplyTo = ReplyTo?.ToTextCommentDto(),
-            PostTime = PostTime,
-            LastUpdateTime = LastUpdateTime,
-            Message = Message
-        };
-    }
 }

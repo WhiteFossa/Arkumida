@@ -1,5 +1,5 @@
 #region License
-// Arkumida - Furtails.pw next generation backend
+// Furtails Importer - Importer from furtails.pw database to Arkumida
 // Copyright (C) 2023  Earlybeasts
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -17,13 +17,10 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs.Forum;
+using furtails_importer.WebClientStuff.Dtos;
 
-namespace webapi.Models.Api.Responses.TextsComments;
+namespace furtails_importer.WebClientStuff.Responses;
 
-/// <summary>
-/// Response with added or imported text comment
-/// </summary>
 public class TextCommentAddedResponse
 {
     /// <summary>

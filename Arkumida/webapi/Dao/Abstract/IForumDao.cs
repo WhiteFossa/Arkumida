@@ -81,5 +81,15 @@ public interface IForumDao
     /// </summary>
     Task<bool> IsTopicExistInSectionAsync(Guid sectionId, string topicName);
 
+    /// <summary>
+    /// Get last messages (by original posting time) from given topic
+    /// </summary>
+    Task<IReadOnlyCollection<ForumMessageDbo>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take);
+
+    /// <summary>
+    /// Get topic's messages count
+    /// </summary>
+    Task<int> GetTopicMessagesCountAsync(Guid topicId);
+
     #endregion
 }

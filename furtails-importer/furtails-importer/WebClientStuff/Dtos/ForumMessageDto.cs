@@ -1,5 +1,5 @@
 #region License
-// Arkumida - Furtails.pw next generation backend
+// Furtails Importer - Importer from furtails.pw database to Arkumida
 // Copyright (C) 2023  Earlybeasts
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -17,15 +17,10 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs.Creatures;
-using webapi.Models.Forum;
 
-namespace webapi.Models.Api.DTOs.TextsComments;
+namespace furtails_importer.WebClientStuff.Dtos;
 
-/// <summary>
-/// Text comment DTO
-/// </summary>
-public class TextCommentDto
+public class ForumMessageDto
 {
     /// <summary>
     /// Message ID
@@ -40,10 +35,10 @@ public class TextCommentDto
     public CreatureWithProfileDto Author { get; set; }
 
     /// <summary>
-    /// This message is reply to given message. May be null
+    /// This message is a reply to the given message. May be null
     /// </summary>
     [JsonPropertyName("replyTo")]
-    public TextCommentDto ReplyTo { get; set; }
+    public ForumMessageDto ReplyTo { get; set; }
 
     /// <summary>
     /// When the message was initially posted
@@ -62,17 +57,4 @@ public class TextCommentDto
     /// </summary>
     [JsonPropertyName("message")]
     public string Message { get; set; }
-
-    public ForumMessage ToForumMessage()
-    {
-        return new ForumMessage()
-        {
-            Id = Id,
-            Author = Author.ToCreatureWithProfile(),
-            ReplyTo = ReplyTo?.ToForumMessage(),
-            PostTime = PostTime,
-            LastUpdateTime = LastUpdateTime,
-            Message = Message
-        };
-    }
 }

@@ -1,5 +1,5 @@
 #region License
-// Arkumida - Furtails.pw next generation backend
+// Furtails Importer - Importer from furtails.pw database to Arkumida
 // Copyright (C) 2023  Earlybeasts
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -17,26 +17,18 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs.Forum;
+using furtails_importer.WebClientStuff.Dtos;
 
-namespace webapi.Models.Api.Responses.TextsComments;
+namespace furtails_importer.WebClientStuff.Requests;
 
 /// <summary>
-/// Response with added or imported text comment
+/// Request to import text comment
 /// </summary>
-public class TextCommentAddedResponse
+public class ImportTextCommentRequest
 {
     /// <summary>
-    /// Comment
+    /// Comment to import
     /// </summary>
     [JsonPropertyName("comment")]
-    public ForumMessageDto Comment { get; }
-
-    public TextCommentAddedResponse
-    (
-        ForumMessageDto comment
-    )
-    {
-        Comment = comment ?? throw new ArgumentNullException("Comment must not be null!", nameof(comment));
-    }
+    public AddTextCommentDto Comment { get; set; }
 }
