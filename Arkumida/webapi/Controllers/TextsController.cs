@@ -255,6 +255,20 @@ public class TextsController : ControllerBase
             return BadRequest("Request must be provided.");
         }
 
-        return Ok(new TextCommentAddedResponse((await _forumService.AddTextCommentAsync(textId, request.Comment.ToForumMessage())).ToTextCommentDto()));
+        return Ok(new TextCommentAddedResponse((await _forumService.AddTextCommentAsync(textId, request.Comment.ToForumMessage())).ToDto()));
+    }
+
+    
+    /// <summary>
+    /// Get text comments topic
+    /// </summary>
+    [AllowAnonymous]
+    [Route("api/Texts/{textId}/GetCommentsTopic")]
+    [HttpGet]
+    public async Task<ActionResult<GetTextCommentsTopicResponse>> GetTextCommentsTopicAsync(Guid textId)
+    {
+        var commentsTopic = await _forumService.GetTextCommentsTopicByTextIdAsync(textId);
+
+        return Ok(new GetTextCommentsTopicResponse(commentsTopic?.Id));
     }
 }

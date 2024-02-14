@@ -55,4 +55,14 @@ public class ForumMessageDbo
     /// The message itself
     /// </summary>
     public string Message { get; set; }
+
+    /// <summary>
+    /// Foreign key to Forum Topic
+    /// </summary>
+    public Guid ForumTopicId { get; set; }
+
+    /// <summary>
+    /// Parent topic
+    /// </summary>
+    public ForumTopicDbo ForumTopic { get; set; }
 }

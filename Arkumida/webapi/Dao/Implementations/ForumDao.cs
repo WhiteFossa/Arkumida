@@ -111,6 +111,8 @@ public class ForumDao : IForumDao
 
         topicDbo.CommentsForText = topicDbo.CommentsForText != null ?  await _dbContext.Texts.SingleAsync(t => t.Id == topicDbo.CommentsForText.Id) : null;
         
+        topicDbo.ForumSection = section;
+        
         await _dbContext
             .ForumTopics
             .AddAsync(topicDbo);
@@ -165,6 +167,8 @@ public class ForumDao : IForumDao
         
         messageDbo.ReplyTo = messageDbo.ReplyTo != null ? await _dbContext.ForumMessages.SingleAsync(m => m.Id == messageDbo.ReplyTo.Id) : null;
 
+        messageDbo.ForumTopic = topic;
+        
         await _dbContext
             .ForumMessages
             .AddAsync(messageDbo);
@@ -236,10 +240,13 @@ public class ForumDao : IForumDao
     {
         return await _dbContext
             .ForumMessages
+                
+            .Where(fm => fm.ForumTopicId == topicId)
+                
             .Include(fm => fm.Author)
             .Include(fm => fm.ReplyTo)
             .ThenInclude(rm => rm.Author)
-
+            
             .OrderBy(fm => fm.PostTime)
 
             .Skip(skip)
@@ -256,5 +263,47 @@ public class ForumDao : IForumDao
             .Include(ft => ft.Messages)
             .Select(ft => ft.Messages)
             .CountAsync();
+    }
+
+    public async Task<ForumTopicDbo> GetTopicWithoutMessagesByIdAsync(Guid id)
+    {
+        return await _dbContext
+            .ForumTopics
+            
+            .Include(ft => ft.CommentsForText)
+            
+            .SingleOrDefaultAsync(ft => ft.Id == id);
+    }
+    
+    public async Task<ForumMessageDbo> GetFirstMessageInTopicAsync(Guid topicId)
+    {
+        return await _dbContext
+            .ForumMessages
+
+            .Where(fm => fm.ForumTopicId == topicId)
+
+            .Include(fm => fm.Author)
+            .Include(fm => fm.ReplyTo)
+            .ThenInclude(rm => rm.Author)
+
+            .OrderBy(fm => fm.PostTime)
+
+            .FirstAsync();
+    }
+
+    public async Task<ForumMessageDbo> GetLastMessageInTopicAsync(Guid topicId)
+    {
+        return await _dbContext
+            .ForumMessages
+
+            .Where(fm => fm.ForumTopicId == topicId)
+
+            .Include(fm => fm.Author)
+            .Include(fm => fm.ReplyTo)
+            .ThenInclude(rm => rm.Author)
+
+            .OrderBy(fm => fm.PostTime)
+
+            .LastAsync();
     }
 }

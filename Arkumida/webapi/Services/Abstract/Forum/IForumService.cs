@@ -18,6 +18,7 @@
 
 using webapi.Dao.Models.Forum;
 using webapi.Models.Forum;
+using webapi.Models.Forum.Infos;
 
 namespace webapi.Services.Abstract.Forum;
 
@@ -75,6 +76,11 @@ public interface IForumService
         Guid? textId = null
     );
 
+    /// <summary>
+    /// Get topic metadata. Will return null if topic with given ID doesn't exist
+    /// </summary>
+    Task<ForumTopicInfo> GetTopicInfoAsync(Guid topicId);
+    
     #endregion
     
     #region Messages

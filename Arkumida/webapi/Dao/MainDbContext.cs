@@ -221,7 +221,9 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
         // Forum topic have many messages
         modelBuilder
             .Entity<ForumTopicDbo>()
-            .HasMany(ft => ft.Messages);
+            .HasMany(ft => ft.Messages)
+            .WithOne(fm => fm.ForumTopic)
+            .HasForeignKey(fm => fm.ForumTopicId);
 
         // Forum section have one author
         modelBuilder
@@ -236,7 +238,9 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
         // Forum section may have many topics
         modelBuilder
             .Entity<ForumSectionDbo>()
-            .HasMany(fs => fs.Topics);
+            .HasMany(fs => fs.Topics)
+            .WithOne(ft => ft.ForumSection)
+            .HasForeignKey(ft => ft.ForumSectionId);
 
         #endregion
     }

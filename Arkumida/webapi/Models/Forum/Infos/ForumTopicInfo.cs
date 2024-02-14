@@ -16,59 +16,66 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using webapi.Models.Api.DTOs.Forum;
+using webapi.Models.Api.DTOs.Forum.Infos;
 using webapi.Models.Creatures;
+using webapi.Services.Abstract;
 
-namespace webapi.Models.Forum;
+namespace webapi.Models.Forum.Infos;
 
 /// <summary>
-/// Forum message
+/// Metadata about forum topic
 /// </summary>
-public class ForumMessage
+public class ForumTopicInfo
 {
     /// <summary>
-    /// Message ID
+    /// Topic ID
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Message author
+    /// Topic name
     /// </summary>
-    public CreatureWithProfile Author { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
-    /// This message is reply to given message. May be null
+    /// Topic description
     /// </summary>
-    public ForumMessage ReplyTo { get; set; }
+    public string Description { get; set; }
 
     /// <summary>
-    /// When the message was initially posted
+    /// Messages count
     /// </summary>
-    public DateTime PostTime { get; set; }
+    public int MessagesCount { get; set; }
 
     /// <summary>
-    /// When the message was updated last time (initially equal to PostTime)
+    /// First message in topic
     /// </summary>
-    public DateTime LastUpdateTime { get; set; }
+    public ForumMessage FirstMessage { get; set; }
 
     /// <summary>
-    /// The message itself
+    /// Last message in topic
     /// </summary>
-    public string Message { get; set; }
+    public ForumMessage LastMessage { get; set; }
 
     /// <summary>
-    /// Convert to text comment DTO
+    /// If this field is not null, then this topic is comments topic for given text
     /// </summary>
-    public ForumMessageDto ToDto()
+    public Text CommentsForText { get; set; }
+
+    /// <summary>
+    /// To DTO
+    /// </summary>
+    public ForumTopicInfoDto ToDto(ITextUtilsService textUtilsService)
     {
-        return new ForumMessageDto()
-        {
-            Id = Id,
-            Author = Author.ToDto(),
-            ReplyTo = ReplyTo?.ToDto(),
-            PostTime = PostTime,
-            LastUpdateTime = LastUpdateTime,
-            Message = Message
-        };
+        return new ForumTopicInfoDto
+        (
+            Id,
+            Name,
+            Description,
+            MessagesCount,
+            FirstMessage.ToDto(),
+            LastMessage.ToDto(),
+            CommentsForText.ToDto(textUtilsService)
+        );
     }
 }

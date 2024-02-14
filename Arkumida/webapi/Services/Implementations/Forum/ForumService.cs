@@ -23,6 +23,7 @@ using webapi.Dao.Models;
 using webapi.Dao.Models.Forum;
 using webapi.Mappers.Abstract;
 using webapi.Models.Forum;
+using webapi.Models.Forum.Infos;
 using webapi.Models.Settings;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Forum;
@@ -37,6 +38,7 @@ public class ForumService : IForumService
     private readonly ITextUtilsService _textUtilsService;
     private readonly ITextsDao _textsDao;
     private readonly ForumSettings _forumSettings;
+    private readonly ITextsMapper _textsMapper;
 
     public ForumService
     (
@@ -45,7 +47,8 @@ public class ForumService : IForumService
         IForumMapper forumMapper,
         ITextUtilsService textUtilsService,
         ITextsDao textsDao,
-        IOptions<ForumSettings> forumSettings
+        IOptions<ForumSettings> forumSettings,
+        ITextsMapper textsMapper
     )
     {
         _forumDao = forumDao;
@@ -54,6 +57,7 @@ public class ForumService : IForumService
         _textUtilsService = textUtilsService;
         _textsDao = textsDao;
         _forumSettings = forumSettings.Value;
+        _textsMapper = textsMapper;
     }
     
     public async Task<ForumSection> CreateSectionAsync(string name, string description, Guid authorId, Guid? id = null)
@@ -151,6 +155,27 @@ public class ForumService : IForumService
         };
 
         return await _forumMapper.MapAsync(await _forumDao.CreateTopicAsync(topicDbo, sectionId));
+    }
+
+    public async Task<ForumTopicInfo> GetTopicInfoAsync(Guid topicId)
+    {
+        var topic = await _forumDao.GetTopicWithoutMessagesByIdAsync(topicId);
+
+        if (topic == null)
+        {
+            return null;
+        }
+
+        return new ForumTopicInfo()
+        {
+            Id = topic.Id,
+            Name = topic.Name,
+            Description = topic.Description,
+            MessagesCount = await _forumDao.GetTopicMessagesCountAsync(topicId),
+            FirstMessage = await _forumMapper.MapAsync(await _forumDao.GetFirstMessageInTopicAsync(topicId)),
+            LastMessage = await _forumMapper.MapAsync(await _forumDao.GetLastMessageInTopicAsync(topicId)),
+            CommentsForText = _textsMapper.Map(topic.CommentsForText)
+        };
     }
 
     public async Task<IReadOnlyCollection<ForumMessage>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take)

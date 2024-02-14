@@ -50,4 +50,14 @@ public class ForumTopicDbo
     /// If this field is not null, then this topic is comments topic for given text
     /// </summary>
     public TextDbo CommentsForText { get; set; }
+
+    /// <summary>
+    /// Forum section ID
+    /// </summary>
+    public Guid ForumSectionId { get; set; }
+
+    /// <summary>
+    /// Parent section
+    /// </summary>
+    public ForumSectionDbo ForumSection { get; set; }
 }

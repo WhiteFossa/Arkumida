@@ -91,5 +91,20 @@ public interface IForumDao
     /// </summary>
     Task<int> GetTopicMessagesCountAsync(Guid topicId);
 
+    /// <summary>
+    /// Like GetTopicByIdAsync(), but messages wouldn't be loaded
+    /// </summary>
+    Task<ForumTopicDbo> GetTopicWithoutMessagesByIdAsync(Guid id);
+
+    /// <summary>
+    /// Get first message in topic. Will throw an exception if topic doesn't exist
+    /// </summary>
+    Task<ForumMessageDbo> GetFirstMessageInTopicAsync(Guid topicId);
+
+    /// <summary>
+    /// Get last message in topic. Will throw an exception if topic doesn't exist
+    /// </summary>
+    Task<ForumMessageDbo> GetLastMessageInTopicAsync(Guid topicId);
+
     #endregion
 }
