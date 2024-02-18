@@ -62,10 +62,10 @@ public class ForumTopicInfoDto
     public ForumMessageDto LastMessage { get; private set; }
 
     /// <summary>
-    /// If this field is not null, then this topic is comments topic for given text
+    /// If this field is not null, then this topic is comments topic for given text (text ID is returned)
     /// </summary>
     [JsonPropertyName("commentsForText")]
-    public TextDto CommentsForText { get; private set; }
+    public Guid? CommentsForText { get; private set; }
 
     public ForumTopicInfoDto
     (
@@ -75,7 +75,7 @@ public class ForumTopicInfoDto
         int messagesCount,
         ForumMessageDto firstMessage,
         ForumMessageDto lastMessage,
-        TextDto commentsForText
+        Guid? commentsForText
     )
     {
         Id = id;

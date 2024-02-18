@@ -32,16 +32,13 @@ namespace webapi.Controllers;
 public class ForumController : ControllerBase
 {
     private readonly IForumService _forumService;
-    private readonly ITextUtilsService _textUtilsService;
 
     public ForumController
     (
-        IForumService forumService,
-        ITextUtilsService textUtilsService
+        IForumService forumService
     )
     {
         _forumService = forumService;
-        _textUtilsService = textUtilsService;
     }
     
     /// <summary>
@@ -58,6 +55,6 @@ public class ForumController : ControllerBase
             return NotFound();
         }
         
-        return Ok(new ForumTopicInfoResponse(topicInfo.ToDto(_textUtilsService)));
+        return Ok(new ForumTopicInfoResponse(topicInfo.ToDto()));
     }
 }

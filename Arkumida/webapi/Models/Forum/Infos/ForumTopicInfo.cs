@@ -58,14 +58,14 @@ public class ForumTopicInfo
     public ForumMessage LastMessage { get; set; }
 
     /// <summary>
-    /// If this field is not null, then this topic is comments topic for given text
+    /// If this field is not null, then this topic is comments topic for given text (text ID is returned)
     /// </summary>
-    public Text CommentsForText { get; set; }
+    public Guid? CommentsForText { get; set; }
 
     /// <summary>
     /// To DTO
     /// </summary>
-    public ForumTopicInfoDto ToDto(ITextUtilsService textUtilsService)
+    public ForumTopicInfoDto ToDto()
     {
         return new ForumTopicInfoDto
         (
@@ -75,7 +75,7 @@ public class ForumTopicInfo
             MessagesCount,
             FirstMessage.ToDto(),
             LastMessage.ToDto(),
-            CommentsForText.ToDto(textUtilsService)
+            CommentsForText
         );
     }
 }

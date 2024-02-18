@@ -174,7 +174,7 @@ public class ForumService : IForumService
             MessagesCount = await _forumDao.GetTopicMessagesCountAsync(topicId),
             FirstMessage = await _forumMapper.MapAsync(await _forumDao.GetFirstMessageInTopicAsync(topicId)),
             LastMessage = await _forumMapper.MapAsync(await _forumDao.GetLastMessageInTopicAsync(topicId)),
-            CommentsForText = _textsMapper.Map(topic.CommentsForText)
+            CommentsForText = topic.CommentsForText?.Id
         };
     }
 
