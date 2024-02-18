@@ -104,15 +104,5 @@ public interface IForumService
     /// </summary>
     Task<ForumMessage> AddTextCommentAsync(Guid textId, ForumMessage messageToAdd);
 
-    /// <summary>
-    /// Get last (by original posting date) comments for given text
-    /// </summary>
-    Task<IReadOnlyCollection<ForumMessage>> GetLastCommentsByTextAsync(Guid textId, int skip, int take);
-
-    /// <summary>
-    /// Get total comments count for given text
-    /// </summary>
-    Task<int> GetTextCommentsCountAsync(Guid textId);
-
     #endregion
 }

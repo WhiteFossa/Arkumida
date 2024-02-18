@@ -18,6 +18,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using webapi.Models.Api.DTOs.Forum;
 using webapi.Models.Api.Responses.Forum;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Forum;
@@ -56,5 +57,27 @@ public class ForumController : ControllerBase
         }
         
         return Ok(new ForumTopicInfoResponse(topicInfo.ToDto()));
+    }
+
+    /// <summary>
+    /// Get forum topic messages
+    /// </summary>
+    [AllowAnonymous]
+    [Route("api/Forum/Topics/{topicId}/Messages")]
+    [HttpGet]
+    public async Task<ActionResult<ForumTopicMessagesResponse>> GetTopicMessagesAsync(Guid topicId, int skip, int take)
+    {
+        var messages = await _forumService.GetLastMessagesInTopicAsync(topicId, skip, take);
+        
+        return Ok
+        (
+            new ForumTopicMessagesResponse
+            (
+                topicId,
+                skip,
+                take,
+                messages.Select(m => m.ToDto()).ToList()
+            )
+        );
     }
 }

@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Api\Requests\Forum\" />
     <Folder Include="OpenSearch\Services\" />
   </ItemGroup>
   

@@ -211,27 +211,4 @@ public class ForumService : IForumService
 
         return await _forumMapper.MapAsync(await _forumDao.CreateMessageAsync(_forumMapper.Map(messageToAdd), textCommentsTopic.Id));
     }
-
-    public async Task<IReadOnlyCollection<ForumMessage>> GetLastCommentsByTextAsync(Guid textId, int skip, int take)
-    {
-        var textCommentsTopic = await GetTextCommentsTopicByTextIdAsync(textId);
-        if (textCommentsTopic == null)
-        {
-            // No topic - no comments
-            return new List<ForumMessage>();
-        }
-
-        return await GetLastMessagesInTopicAsync(textCommentsTopic.Id, skip, take);
-    }
-
-    public async Task<int> GetTextCommentsCountAsync(Guid textId)
-    {
-        var textCommentsTopic = await GetTextCommentsTopicByTextIdAsync(textId);
-        if (textCommentsTopic == null)
-        {
-            return 0;
-        }
-        
-        return await GetTopicMessagesCountAsync(textCommentsTopic.Id);
-    }
 }
