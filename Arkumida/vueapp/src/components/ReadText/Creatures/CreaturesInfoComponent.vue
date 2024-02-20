@@ -32,12 +32,12 @@
             let creatureProfile = (await (await WebClientSendGetRequest("/api/Users/" + creatureId + "/Profile")).json()).creatureWithProfile
 
             let creature =
-                {
-                    id: creatureId,
-                    profile: creatureProfile,
-                    href: "/users/" + creatureId,
-                    title: Messages.CreatureUser + creatureProfile.name
-                }
+            {
+                id: creatureId,
+                profile: creatureProfile,
+                href: "/users/" + creatureId,
+                title: Messages.CreatureUser + creatureProfile.name
+            }
 
             creatures.value.push(creature)
         });

@@ -280,3 +280,10 @@ export class SearchConstants
     // Search page size
     static PageSize = 10
 }
+
+// Constants, related to texts comments
+export class TextsCommentsConstants
+{
+    // Load no more than this amount of last comments for text
+    static CommentsCountToLoad = 10
+}

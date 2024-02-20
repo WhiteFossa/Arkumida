@@ -30,6 +30,7 @@
 /* Footer */
 /* Private messages */
 /* Like/dislike buttons */
+/* Texts comments */
 /* Variables end here */
 /* Mixins start here */
 /* Footer column base */
@@ -50,6 +51,10 @@
 /* Underlined text */
 .mixin-underlined {
   text-decoration: underline;
+}
+/* Remove text decorations */
+.mixin-no-text-decorations {
+  text-decoration: none;
 }
 /* Small links at bottom of login / registration forms */
 .mixin-login-registration-forms-small-bottom-link-base {
@@ -409,6 +414,12 @@ body {
 /* Darkest color 1 link */
 .darkest-color1-link {
   color: hsl(0, 0%, 0%);
+}
+/* Gaped (normal) rows container */
+.gaped-normal-rows-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 /* Menu stuff starts here */
 /* Central menu item */
@@ -1041,8 +1052,8 @@ body {
   margin-bottom: 0;
   padding-left: 1rem;
 }
-/* Read text footer */
-.read-text-footer {
+/* Read text votes */
+.read-text-votes {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
@@ -2678,4 +2689,55 @@ body {
   min-width: 15rem;
 }
 /* Votes history end */
+/* Texts comments starts here */
+/* No comments yet message */
+.read-text-comments-no-comments-yet-message {
+  text-align: center;
+  background: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+}
+/* Container for all text comments */
+.read-text-comments-comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+/* Text comment container */
+.read-text-comments-comment-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  background: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+}
+/* Text comment author / post / edit times are here */
+.read-text-comments-info-line {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+/* Comment author name */
+.read-text-comments-comment-author-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Comment post / edit date */
+.read-text-comments-comment-dates {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+}
+/* Comment author link */
+.read-text-comments-comment-author-link {
+  text-decoration: none;
+  color: hsl(219, 83%, 59%);
+}
+/* Text comments ends here */
 /*# sourceMappingURL=arkumida.css.map */

@@ -202,6 +202,9 @@
 @dislike-disliked-border-color: hsl(199, 65%, 54%);
 @dislike-disliked-background-color: hsl(199, 74%, 79%);
 
+/* Texts comments */
+@texts-comments-author-link-color: hsl(219, 83%, 59%);
+
 /* Variables end here */
 
 /* Mixins start here */
@@ -227,6 +230,11 @@
 /* Underlined text */
 .mixin-underlined {
   text-decoration: underline;
+}
+
+/* Remove text decorations */
+.mixin-no-text-decorations {
+  text-decoration: none;
 }
 
 /* Small links at bottom of login / registration forms */
@@ -639,6 +647,13 @@ body {
 /* Darkest color 1 link */
 .darkest-color1-link {
   .mixin-darkest-color1-base();
+}
+
+/* Gaped (normal) rows container */
+.gaped-normal-rows-container {
+  .mixin-flex-column-base();
+
+  gap: @gap-normal;
 }
 
 /* Menu stuff starts here */
@@ -1395,8 +1410,8 @@ body {
   padding-left: @padding-normal;
 }
 
-/* Read text footer */
-.read-text-footer {
+/* Read text votes */
+.read-text-votes {
   .mixin-flex-row-base();
   gap: @gap-small;
 
@@ -3111,3 +3126,64 @@ body {
 }
 
 /* Votes history end */
+
+/* Texts comments starts here */
+
+/* No comments yet message */
+.read-text-comments-no-comments-yet-message {
+  .mixin-centered-text-base();
+
+  background: @lightest-color1;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+}
+
+/* Container for all text comments */
+.read-text-comments-comments-list {
+  .mixin-flex-column-base();
+  gap: @gap-smallest;
+}
+
+/* Text comment container */
+.read-text-comments-comment-container {
+  .mixin-flex-row-base();
+  gap: @gap-small;
+
+  background: @lightest-color1;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+}
+
+/* Text comment author / post / edit times are here */
+.read-text-comments-info-line {
+  .mixin-flex-row-base();
+
+  gap: @gap-normal;
+}
+
+/* Comment author name */
+.read-text-comments-comment-author-name {
+  .vertical-align-flex();
+}
+
+/* Comment post / edit date */
+.read-text-comments-comment-dates {
+  .vertical-align-flex();
+
+  font-size: @font-size-smaller1;
+  color: @darker-color1;
+}
+
+/* Comment author link */
+.read-text-comments-comment-author-link {
+  .mixin-no-text-decorations();
+
+  color: @texts-comments-author-link-color;
+}
+
+/* Text comments ends here */
+
