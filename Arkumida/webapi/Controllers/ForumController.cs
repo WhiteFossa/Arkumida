@@ -33,13 +33,16 @@ namespace webapi.Controllers;
 public class ForumController : ControllerBase
 {
     private readonly IForumService _forumService;
+    private readonly ITextUtilsService _textUtilsService;
 
     public ForumController
     (
-        IForumService forumService
+        IForumService forumService,
+        ITextUtilsService textUtilsService
     )
     {
         _forumService = forumService;
+        _textUtilsService = textUtilsService;
     }
     
     /// <summary>
@@ -56,7 +59,7 @@ public class ForumController : ControllerBase
             return NotFound();
         }
         
-        return Ok(new ForumTopicInfoResponse(topicInfo.ToDto()));
+        return Ok(new ForumTopicInfoResponse(topicInfo.ToDto(_textUtilsService)));
     }
 
     /// <summary>
@@ -76,7 +79,7 @@ public class ForumController : ControllerBase
                 topicId,
                 skip,
                 take,
-                messages.Select(m => m.ToDto()).ToList()
+                messages.Select(m => m.ToDto(_textUtilsService)).ToList()
             )
         );
     }

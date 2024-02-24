@@ -65,7 +65,7 @@ public class ForumTopicInfo
     /// <summary>
     /// To DTO
     /// </summary>
-    public ForumTopicInfoDto ToDto()
+    public ForumTopicInfoDto ToDto(ITextUtilsService textUtilsService)
     {
         return new ForumTopicInfoDto
         (
@@ -73,8 +73,8 @@ public class ForumTopicInfo
             Name,
             Description,
             MessagesCount,
-            FirstMessage.ToDto(),
-            LastMessage.ToDto(),
+            FirstMessage.ToDto(textUtilsService),
+            LastMessage.ToDto(textUtilsService),
             CommentsForText
         );
     }

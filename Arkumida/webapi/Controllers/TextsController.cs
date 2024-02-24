@@ -255,7 +255,7 @@ public class TextsController : ControllerBase
             return BadRequest("Request must be provided.");
         }
 
-        return Ok(new TextCommentAddedResponse((await _forumService.AddTextCommentAsync(textId, request.Comment.ToForumMessage())).ToDto()));
+        return Ok(new TextCommentAddedResponse((await _forumService.AddTextCommentAsync(textId, request.Comment.ToForumMessage())).ToDto(_textUtilsService)));
     }
 
     

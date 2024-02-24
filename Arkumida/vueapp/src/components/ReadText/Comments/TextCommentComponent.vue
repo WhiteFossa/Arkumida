@@ -1,8 +1,12 @@
 <script setup>
-    import {defineProps} from "vue";
+    import {defineProps, onMounted, ref} from "vue";
     import moment from "moment";
     import {AvatarClass, Messages} from "@/js/constants";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
+    import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
+    import {RenderTextElement} from "@/js/libArkumida";
+
+    const isLoading = ref(true)
 
     const props = defineProps({
         comment: Object
@@ -14,10 +18,31 @@
         name: props.comment.author.name,
         title: Messages.CreatureUser + props.comment.author.name
     }
+
+    const renderedComment = ref("")
+
+    onMounted(async () =>
+    {
+        await OnLoad();
+    })
+
+    async function OnLoad()
+    {
+        renderedComment.value = ""
+        props.comment.messageParsed.forEach(e => renderedComment.value += RenderTextElement(e))
+
+        console.log(renderedComment)
+
+        isLoading.value = false
+    }
 </script>
 
 <template>
-    <div class="read-text-comments-comment-container">
+    <LoadingSymbol v-if="isLoading" />
+
+    <div
+        v-if="!isLoading"
+        class="read-text-comments-comment-container">
 
         <!-- Author's avatar -->
         <div>
@@ -49,8 +74,7 @@
             </div>
 
             <!-- Message itself -->
-            <div>
-                {{ props.comment.message }}
+            <div v-html="renderedComment">
             </div>
 
         </div>

@@ -18,6 +18,7 @@
 
 using webapi.Models.Api.DTOs.Forum;
 using webapi.Models.Creatures;
+using webapi.Services.Abstract;
 
 namespace webapi.Models.Forum;
 
@@ -57,18 +58,19 @@ public class ForumMessage
     public string Message { get; set; }
 
     /// <summary>
-    /// Convert to text comment DTO
+    /// Convert to forum message DTO
     /// </summary>
-    public ForumMessageDto ToDto()
+    public ForumMessageDto ToDto(ITextUtilsService textUtilsService)
     {
         return new ForumMessageDto()
         {
             Id = Id,
             Author = Author.ToDto(),
-            ReplyTo = ReplyTo?.ToDto(),
+            ReplyTo = ReplyTo?.ToDto(textUtilsService),
             PostTime = PostTime,
             LastUpdateTime = LastUpdateTime,
-            Message = Message
+            PlaintextMessage = Message,
+            ParsedMessage = textUtilsService.ParseTextToElements(Message, new List<TextFile>()) // For now we act like forum messages have no attached files
         };
     }
 }

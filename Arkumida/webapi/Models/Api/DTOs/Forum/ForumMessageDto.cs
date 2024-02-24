@@ -59,10 +59,16 @@ public class ForumMessageDto
     public DateTime LastUpdateTime { get; set; }
 
     /// <summary>
-    /// The message itself
+    /// The message itself (plaintext)
     /// </summary>
-    [JsonPropertyName("message")]
-    public string Message { get; set; }
+    [JsonPropertyName("messagePlaintext")]
+    public string PlaintextMessage { get; set; }
+    
+    /// <summary>
+    /// Parsed messaged (as text elements set)
+    /// </summary>
+    [JsonPropertyName("messageParsed")]
+    public IReadOnlyCollection<TextElementDto> ParsedMessage { get; set; }
 
     public ForumMessage ToForumMessage()
     {
@@ -73,7 +79,7 @@ public class ForumMessageDto
             ReplyTo = ReplyTo?.ToForumMessage(),
             PostTime = PostTime,
             LastUpdateTime = LastUpdateTime,
-            Message = Message
+            Message = PlaintextMessage
         };
     }
 }
