@@ -52,7 +52,7 @@
             </a>
         </div>
 
-        <div class="vertical-flex">
+        <div class="read-text-comment-comment-area">
 
             <!-- Author and post / edit times -->
             <div class="read-text-comments-info-line">

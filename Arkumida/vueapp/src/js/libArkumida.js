@@ -313,12 +313,22 @@ function RenderTextElement(element, mode)
 
     if (element.type === TextElementType.CreatureQuoteBegin)
     {
-        return "<div class='creature-quote'><div><strong>" + element.parameters[0] + " пишет:</strong></div>";
+        return "<div class='creature-quote'>" +
+            "<div>" +
+            "<strong>" + element.parameters[0] + " пишет:</strong>" +
+            "</div>";
     }
 
     if (element.type === TextElementType.CreatureQuoteEnd)
     {
         return "</div>";
+    }
+
+    if (element.type === TextElementType.ExternalImage)
+    {
+        return "<div class='centered'>" +
+            "<img class='external-image-preview' src='" + element.parameters[0] + "'/>" +
+            "</div>";
     }
 
     throw new Error("Unknown element type!");

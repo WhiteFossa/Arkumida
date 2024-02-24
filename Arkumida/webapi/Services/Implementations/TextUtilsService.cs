@@ -67,7 +67,8 @@ public class TextUtilsService : ITextUtilsService
         new ParserSizedAsciiArt(),
         new ParserEmbeddedImage(),
         new ParserComicsImage(),
-        new ParserCreatureQuote()
+        new ParserCreatureQuote(),
+        new ParserExternalImage()
     };
 
     private readonly ITextsDao _textsDao;

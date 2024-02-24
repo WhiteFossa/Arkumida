@@ -95,5 +95,7 @@ public enum TextElementType
     
     CreatureQuoteBegin = 35, // Creature's quote (for forum and comments)
     
-    CreatureQuoteEnd = 36
+    CreatureQuoteEnd = 36,
+    
+    ExternalImage = 37 // External (hotlinked) image
 }

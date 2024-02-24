@@ -191,6 +191,7 @@ export class TextElementType
     static ComicsImage = 34
     static CreatureQuoteBegin = 35 // Creature's quote (for forum and comments)
     static CreatureQuoteEnd = 36
+    static ExternalImage = 37 // External (hotlinked) image
 }
 
 // Prefix for IDs of fullsize images

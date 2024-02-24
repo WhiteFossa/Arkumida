@@ -1324,6 +1324,8 @@ body {
 .text-paragraph-no-indent {
   margin-top: 0;
   margin-bottom: @margin-smaller1;
+
+  width: 100%;
 }
 
 /* Text, justified by width */
@@ -1384,6 +1386,13 @@ body {
 
   text-indent: 0;
   padding: @padding-smaller1;
+}
+
+/* Preview of external image */
+.external-image-preview {
+  max-width: 10rem;
+  max-height: 10rem;
+  border-radius: @border-radius-normal;
 }
 
 /* Container for rendered text files download component (right-aligned) */
@@ -3179,6 +3188,14 @@ body {
   .mixin-flex-row-base();
 
   gap: @gap-normal;
+}
+
+/* Text comment comment area (currently right side) */
+.read-text-comment-comment-area {
+  .mixin-flex-base();
+  flex-direction: column;
+
+  width: 100%;
 }
 
 /* Comment author name */
