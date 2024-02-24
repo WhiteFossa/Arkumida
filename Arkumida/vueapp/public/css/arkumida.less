@@ -1320,6 +1320,12 @@ body {
   margin-bottom: @margin-smaller1;
 }
 
+/* Like an usual text paragraph, but without indentation (to use in forum messages, for example) */
+.text-paragraph-no-indent {
+  margin-top: 0;
+  margin-bottom: @margin-smaller1;
+}
+
 /* Text, justified by width */
 .text-justify-width {
   text-align: justify;
@@ -1369,6 +1375,16 @@ body {
   cursor: pointer;
 }
 
+/* Creature quote */
+.creature-quote {
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
+
+  background-color: @lighter-color1;
+
+  text-indent: 0;
+  padding: @padding-smaller1;
+}
 
 /* Container for rendered text files download component (right-aligned) */
 .read-text-download-container {

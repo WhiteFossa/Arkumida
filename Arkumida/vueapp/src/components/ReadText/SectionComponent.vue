@@ -2,7 +2,7 @@
 <script setup>
 import {defineEmits, defineProps, ref} from "vue";
 import {RenderTextElement} from "@/js/libArkumida";
-import {ComicsImageIdPrefix, FullsizeImageIdPrefix} from "@/js/constants";
+import {ComicsImageIdPrefix, FullsizeImageIdPrefix, TextRendererOperationModes} from "@/js/constants";
 import FullsizeImagePopup from "@/components/ReadText/Illustrations/FullsizeImagePopup.vue";
 
     const props = defineProps({
@@ -27,7 +27,7 @@ import FullsizeImagePopup from "@/components/ReadText/Illustrations/FullsizeImag
 
     // Rendering text
     const renderedText = ref("")
-    orderedVariants.value[0].elements.forEach(e => renderedText.value += RenderTextElement(e))
+    orderedVariants.value[0].elements.forEach(e => renderedText.value += RenderTextElement(e, TextRendererOperationModes.Text))
 
     async function HandleClick(e)
     {

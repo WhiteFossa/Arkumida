@@ -6,7 +6,7 @@ import {
     SpecialTextType,
     TagMeaning,
     TextElementType,
-    TextIconType,
+    TextIconType, TextRendererOperationModes,
     TextType
 } from "@/js/constants";
 import {WebClientSendGetRequest} from "@/js/libWebClient";
@@ -119,17 +119,31 @@ function InjectInclompleteIcon(icons)
     icons.value.push({ "type": TextIconType.Incomplete, "url": "" });
 }
 
-function RenderTextElement(element)
+function RenderTextElement(element, mode)
 {
-    if (element.type === TextElementType.ParagraphBegin) {
-        return "<div class='text-paragraph'>";
+    if (element.type === TextElementType.ParagraphBegin)
+    {
+        if (mode === TextRendererOperationModes.Text)
+        {
+            return "<div class='text-paragraph'>";
+        }
+        else if (mode === TextRendererOperationModes.NonText)
+        {
+            return "<div class='text-paragraph-no-indent'>";
+        }
+        else
+        {
+            throw new Error("Unknown text rendering mode for Text element!");
+        }
     }
 
-    if (element.type === TextElementType.PlainText) {
+    if (element.type === TextElementType.PlainText)
+    {
         return element.content;
     }
 
-    if (element.type === TextElementType.ParagraphEnd) {
+    if (element.type === TextElementType.ParagraphEnd)
+    {
         return "</div>";
     }
 
@@ -295,6 +309,16 @@ function RenderTextElement(element)
         return "<div class='comics-image-container'>" +
             "<img id='" + ComicsImageIdPrefix + element.parameters[0] + "' class='comics-image' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "'/>" +
             "</div>";
+    }
+
+    if (element.type === TextElementType.CreatureQuoteBegin)
+    {
+        return "<div class='creature-quote'><div><strong>" + element.parameters[0] + " пишет:</strong></div>";
+    }
+
+    if (element.type === TextElementType.CreatureQuoteEnd)
+    {
+        return "</div>";
     }
 
     throw new Error("Unknown element type!");

@@ -975,6 +975,11 @@ body {
   margin-top: 0;
   margin-bottom: 0.5rem;
 }
+/* Like an usual text paragraph, but without indentation (to use in forum messages, for example) */
+.text-paragraph-no-indent {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
 /* Text, justified by width */
 .text-justify-width {
   text-align: justify;
@@ -1015,6 +1020,14 @@ body {
   border-radius: 0.5rem;
   max-width: 95vw;
   cursor: pointer;
+}
+/* Creature quote */
+.creature-quote {
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  background-color: hsl(240, 11%, 98%);
+  text-indent: 0;
+  padding: 0.5rem;
 }
 /* Container for rendered text files download component (right-aligned) */
 .read-text-download-container {

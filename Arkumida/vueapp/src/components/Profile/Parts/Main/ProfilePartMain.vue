@@ -4,7 +4,7 @@
 import {WebClientSendGetRequest, WebClientSendPostRequest} from "@/js/libWebClient";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
-    import {AvatarClass} from "@/js/constants";
+    import {AvatarClass, TextRendererOperationModes} from "@/js/constants";
 import {required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
@@ -65,7 +65,7 @@ import {PostprocessCreatureProfile, RenderTextElement} from "@/js/libArkumida";
         // Getting and rendering About information
         aboutInfoAsElements.value = (await (await WebClientSendGetRequest("/api/Users/" + creatureId.value + "/About/GetAsElements")).json()).elements
         renderedAbout.value = ""
-        aboutInfoAsElements.value.forEach(e => renderedAbout.value += RenderTextElement(e))
+        aboutInfoAsElements.value.forEach(e => renderedAbout.value += RenderTextElement(e, TextRendererOperationModes.NonText))
     }
 
     async function StartToRename()

@@ -1,7 +1,7 @@
 <script setup>
     import {defineProps, onMounted, ref} from "vue";
     import moment from "moment";
-    import {AvatarClass, Messages} from "@/js/constants";
+    import {AvatarClass, Messages, TextRendererOperationModes} from "@/js/constants";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {RenderTextElement} from "@/js/libArkumida";
@@ -29,9 +29,7 @@
     async function OnLoad()
     {
         renderedComment.value = ""
-        props.comment.messageParsed.forEach(e => renderedComment.value += RenderTextElement(e))
-
-        console.log(renderedComment)
+        props.comment.messageParsed.forEach(e => renderedComment.value += RenderTextElement(e, TextRendererOperationModes.NonText))
 
         isLoading.value = false
     }

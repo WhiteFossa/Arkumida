@@ -189,6 +189,8 @@ export class TextElementType
     static SizedAsciiArtEnd = 32
     static EmbeddedImage = 33
     static ComicsImage = 34
+    static CreatureQuoteBegin = 35 // Creature's quote (for forum and comments)
+    static CreatureQuoteEnd = 36
 }
 
 // Prefix for IDs of fullsize images
@@ -286,4 +288,14 @@ export class TextsCommentsConstants
 {
     // Load no more than this amount of last comments for text
     static CommentsCountToLoad = 10
+}
+
+// Possible operation modes for text renderer
+export class TextRendererOperationModes
+{
+    // Rendering text (i.e. text, not a comments/userinfo and so on)
+    static Text = 0
+
+    // Rendering anything else than text
+    static NonText = 1
 }
