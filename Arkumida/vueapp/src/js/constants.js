@@ -200,6 +200,9 @@ export const FullsizeImageIdPrefix = "e76eb871-7129-4ad2-be31-d94068051923_";
 // Prefix for IDs of comics images
 export const ComicsImageIdPrefix = "e7cd4703-ba8b-4241-a873-3f4298ad9ca9_";
 
+// Prefix for IDs of external (hotlinked) images
+export const ExternalImagesIdsPrefix = "124e0a36-51e3-4620-81dc-0503f7c829e9_";
+
 // Login result
 export class LoginResult
 {

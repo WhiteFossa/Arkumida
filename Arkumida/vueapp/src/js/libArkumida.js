@@ -1,7 +1,7 @@
 // Add icon to icons list
 
 import {
-    ComicsImageIdPrefix,
+    ComicsImageIdPrefix, ExternalImagesIdsPrefix,
     FullsizeImageIdPrefix, Messages, ProfileConsts,
     SpecialTextType,
     TagMeaning,
@@ -300,14 +300,14 @@ function RenderTextElement(element, mode)
     if (element.type === TextElementType.EmbeddedImage)
     {
         return "<div class='centered'>" +
-            "<img id='" + FullsizeImageIdPrefix + element.parameters[0] + "' class='text-image-preview' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "'/>" +
+            "<img id='" + FullsizeImageIdPrefix + element.parameters[0] + "' class='text-image-preview' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "' alt='Иллюстрация' />" +
             "</div>";
     }
 
     if (element.type === TextElementType.ComicsImage)
     {
         return "<div class='comics-image-container'>" +
-            "<img id='" + ComicsImageIdPrefix + element.parameters[0] + "' class='comics-image' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "'/>" +
+            "<img id='" + ComicsImageIdPrefix + element.parameters[0] + "' class='comics-image' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "' alt='Страница комикса'/>" +
             "</div>";
     }
 
@@ -327,7 +327,7 @@ function RenderTextElement(element, mode)
     if (element.type === TextElementType.ExternalImage)
     {
         return "<div class='centered'>" +
-            "<img class='external-image-preview' src='" + element.parameters[0] + "'/>" +
+            "<img id='" + ExternalImagesIdsPrefix + element.parameters[1] + "' class='external-image-preview' src='" + element.parameters[0] + "' alt='Внешнее изображение' />" +
             "</div>";
     }
 

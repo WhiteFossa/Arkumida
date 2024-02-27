@@ -2766,4 +2766,52 @@ body {
   color: hsl(219, 83%, 59%);
 }
 /* Text comments ends here */
+/* Urled (external) image popup begin */
+/* Urled image popup upper layer */
+.urled-image-popup-upper-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+}
+/* Urled image popup lower layer */
+.urled-image-popup-lower-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background: hsla(0, 0%, 10%, 0.8);
+}
+/* Urled image - popup itself */
+.urled-image-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: auto;
+}
+/* Image in urled image popup */
+.urled-image-popup-image {
+  border-radius: 0.5rem;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+/* Urled image popup close button */
+.urled-image-popup-close-button {
+  background: transparent;
+  border: 0 none hsl(0, 0%, 100%);
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+/* Urled image popup close button image */
+.urled-image-popup-close-button-image {
+  width: 2rem;
+  height: 2rem;
+}
+/* Full size image popup end */
 /*# sourceMappingURL=arkumida.css.map */

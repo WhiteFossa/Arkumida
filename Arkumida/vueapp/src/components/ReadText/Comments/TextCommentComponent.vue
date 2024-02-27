@@ -1,10 +1,16 @@
 <script setup>
     import {defineProps, onMounted, ref} from "vue";
     import moment from "moment";
-    import {AvatarClass, Messages, TextRendererOperationModes} from "@/js/constants";
+    import {
+        AvatarClass,
+        ExternalImagesIdsPrefix,
+        Messages,
+        TextRendererOperationModes
+    } from "@/js/constants";
     import AvatarComponent from "@/components/Shared/AvatarComponent.vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {RenderTextElement} from "@/js/libArkumida";
+    import PopupUrledImage from "@/components/Shared/Popups/PopupUrledImage.vue";
 
     const isLoading = ref(true)
 
@@ -21,6 +27,9 @@
 
     const renderedComment = ref("")
 
+    const isExternalImagePopupShown = ref(false)
+    const popupExternalImageUrl = ref("")
+
     onMounted(async () =>
     {
         await OnLoad();
@@ -32,6 +41,31 @@
         props.comment.messageParsed.forEach(e => renderedComment.value += RenderTextElement(e, TextRendererOperationModes.NonText))
 
         isLoading.value = false
+    }
+
+    // Handle clicks on rendered elements
+    async function HandleClick(e)
+    {
+        const clickedElementId = e.target.id
+
+        if (clickedElementId.startsWith(ExternalImagesIdsPrefix))
+        {
+            // We've got external image preview clicked
+            await ShowExternalImagePopup(e.target.src)
+
+            return
+        }
+    }
+
+    async function ShowExternalImagePopup(imageUrl)
+    {
+        popupExternalImageUrl.value = imageUrl
+        isExternalImagePopupShown.value = true
+    }
+
+    async function HideExternalImagePopup()
+    {
+        isExternalImagePopupShown.value = false
     }
 </script>
 
@@ -72,9 +106,10 @@
             </div>
 
             <!-- Message itself -->
-            <div v-html="renderedComment">
+            <div v-html="renderedComment" @click="async (e) => await HandleClick(e)">
             </div>
 
+            <PopupUrledImage v-if="isExternalImagePopupShown" :url="popupExternalImageUrl" @closePopup="async () => await HideExternalImagePopup()" />
         </div>
 
     </div>

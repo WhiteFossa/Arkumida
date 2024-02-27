@@ -17,6 +17,7 @@
 #endregion
 
 using System.Text.RegularExpressions;
+using webapi.Helpers;
 using webapi.Models.Api.DTOs;
 using webapi.Models.Enums;
 
@@ -53,7 +54,7 @@ public class ParserExternalImage : ParserTagBase
             .First()
             .Groups
             .Values
-            .ToList()[1] // Captured image name
+            .ToList()[1] // Captured image url
             .Value;
 
         return new Tuple<bool, int, IReadOnlyCollection<string>>(true, matchedContentLength, new string[] { imageUrl });
@@ -62,8 +63,13 @@ public class ParserExternalImage : ParserTagBase
     public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups, IReadOnlyCollection<TextFile> textFiles)
     {
         var matchGroupsList = matchGroups.ToList();
+
+        var imageUrl = matchGroupsList[0];
+        
+        // Image URL hash acts as unique image identifier
+        var imageUrlHash = SHA512Helper.CalculateSHA512(imageUrl);
         
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText , new string[] {}));
-        elements.Add(new TextElementDto(TextElementType.ExternalImage, "", new string[] { matchGroupsList[0] }));
+        elements.Add(new TextElementDto(TextElementType.ExternalImage, "", new string[] { imageUrl, imageUrlHash }));
     }
 }
