@@ -2,7 +2,7 @@
 <script setup>
 import {defineEmits, defineProps, ref} from "vue";
 import {RenderTextElement} from "@/js/libArkumida";
-import {ComicsImageIdPrefix, FullsizeImageIdPrefix, TextRendererOperationModes} from "@/js/constants";
+import {ImagesPrefixes, TextRendererOperationModes} from "@/js/constants";
 import FullsizeImagePopup from "@/components/ReadText/Illustrations/FullsizeImagePopup.vue";
 
     const props = defineProps({
@@ -33,15 +33,15 @@ import FullsizeImagePopup from "@/components/ReadText/Illustrations/FullsizeImag
     {
         const clickedElementId = e.target.id
 
-        if (clickedElementId.startsWith(FullsizeImageIdPrefix))
+        if (clickedElementId.startsWith(ImagesPrefixes.FullsizeImage))
         {
             // We have image to show
-            const imageId = clickedElementId.substring(FullsizeImageIdPrefix.length)
+            const imageId = clickedElementId.substring(ImagesPrefixes.FullsizeImage.length)
             ShowImagePopup(imageId)
             return
         }
 
-        if (clickedElementId.startsWith(ComicsImageIdPrefix))
+        if (clickedElementId.startsWith(ImagesPrefixes.ComicsImage))
         {
             await GoToNextPage()
             return

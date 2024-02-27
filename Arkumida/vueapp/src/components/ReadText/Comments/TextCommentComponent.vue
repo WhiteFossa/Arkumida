@@ -3,7 +3,7 @@
     import moment from "moment";
     import {
         AvatarClass,
-        ExternalImagesIdsPrefix,
+        ImagesPrefixes,
         Messages,
         TextRendererOperationModes
     } from "@/js/constants";
@@ -48,7 +48,7 @@
     {
         const clickedElementId = e.target.id
 
-        if (clickedElementId.startsWith(ExternalImagesIdsPrefix))
+        if (clickedElementId.startsWith(ImagesPrefixes.ExternalImage))
         {
             // We've got external image preview clicked
             await ShowExternalImagePopup(e.target.src)
