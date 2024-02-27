@@ -101,7 +101,8 @@
 
                 <!-- Post time (always visible) -->
                 <div class="read-text-comments-comment-dates">
-                    {{ moment(props.comment.postTime).format('HH:mm DD.MM.YYYY')  }}
+                    {{ moment(props.comment.postTime).format('HH:mm DD.MM.YYYY') }}
+                    <span v-if="props.comment.postTime !== props.comment.lastUpdateTime">, отредактировано {{ moment(props.comment.lastUpdateTime).format('HH:mm DD.MM.YYYY') }}</span>
                 </div>
             </div>
 
