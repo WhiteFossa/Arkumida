@@ -22,9 +22,9 @@ using webapi.Models.Enums;
 
 namespace webapi.Models.ParserTags;
 
-public class ParserCreatureQuote : ParserTagBase
+public class ParserCreatureQuoteBegin : ParserTagBase
 {
-    private const string MatchRegexp = @"^\[quote=(\S+)\](.+)\[/quote\]";
+    private const string MatchRegexp = @"^\[quote=(\S+)\]";
     private readonly Regex _regexp = new Regex(MatchRegexp, RegexOptions.Compiled | RegexOptions.IgnoreCase);
     
     public override string GetMatchString()
@@ -56,14 +56,7 @@ public class ParserCreatureQuote : ParserTagBase
             .ToList()[1]
             .Value;
         
-        var quote = matches
-            .First()
-            .Groups
-            .Values
-            .ToList()[2]
-            .Value;
-        
-        return new Tuple<bool, int, IReadOnlyCollection<string>>(true, matchedContentLength, new string[] { creatureName, quote });
+        return new Tuple<bool, int, IReadOnlyCollection<string>>(true, matchedContentLength, new string[] { creatureName });
     }
 
     public override void Action(List<TextElementDto> elements, string currentText, IReadOnlyCollection<string> matchGroups, IReadOnlyCollection<TextFile> textFiles)
@@ -71,9 +64,7 @@ public class ParserCreatureQuote : ParserTagBase
         var matchGroupsList = matchGroups.ToList();
         
         elements.Add(new TextElementDto(TextElementType.PlainText, currentText , new string[] {}));
-        
         elements.Add(new TextElementDto(TextElementType.CreatureQuoteBegin, "", new string[] { matchGroupsList[0] }));
-        elements.Add(new TextElementDto(TextElementType.PlainText, matchGroupsList[1], new string[] {}));
-        elements.Add(new TextElementDto(TextElementType.CreatureQuoteEnd, "", new string[] { }));
+        elements.Add(new TextElementDto(TextElementType.ParagraphBegin, "", new string[] {}));
     }
 }
