@@ -279,6 +279,9 @@ export class CommonConstants
 
     // Do requests for list of creatures by part of name only when part of name longer or equal to this value
     static NamePartMinimalLengthToLookup = 3
+
+    // Enter button keycode
+    static EnterKeycode = 13
 }
 
 // Constants, related to texts search

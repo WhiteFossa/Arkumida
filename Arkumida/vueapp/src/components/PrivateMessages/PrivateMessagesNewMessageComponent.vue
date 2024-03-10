@@ -6,6 +6,7 @@ import {defineEmits, defineProps, onMounted, reactive, ref} from "vue";
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
     import {WebClientSendPostRequest} from "@/js/libWebClient";
     import {Messages} from "@/js/constants";
+import {IsCtrlEnterKeyupEvent} from "@/js/libArkumida";
 
     // Add this height to new message textarea when calculating its height. It is needed to avoid vertical scrollbar
     const newMessageTextareaHeightAdd = 5
@@ -54,6 +55,14 @@ import {defineEmits, defineProps, onMounted, reactive, ref} from "vue";
         newMessageTextarea.value.style.height = `${newMessageTextarea.value.scrollHeight + newMessageTextareaHeightAdd}px`
     }
 
+    async function OnNewMessageTextareaKeyup(e)
+    {
+        if (await IsCtrlEnterKeyupEvent(e))
+        {
+            await SendNewMessage()
+        }
+    }
+
     async function SendNewMessage()
     {
         isNewMessageBeingSent.value = true
@@ -92,6 +101,7 @@ import {defineEmits, defineProps, onMounted, reactive, ref} from "vue";
                 :class="(newMessageFormValidator.message.$error)?'private-messages-new-message-textarea-invalid':'private-messages-new-message-textarea'"
                 placeholder="Введите новое сообщение здесь"
                 v-model="newMessageFormData.message"
+                @keyup="async(e) => await OnNewMessageTextareaKeyup(e)"
                 @input="async () => await OnNewMessageTextareaContentChange()"/>
         </div>
 

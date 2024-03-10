@@ -2765,6 +2765,70 @@ body {
   text-decoration: none;
   color: hsl(219, 83%, 59%);
 }
+/* Container for max comments button */
+.read-text-comments-more-comments-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+/* More comments button */
+.read-text-comments-more-comments-button {
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  background: hsl(207, 90%, 54%);
+  color: hsl(0, 0%, 100%);
+  font-size: 1.3rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+/* More comments link */
+.read-text-comments-more-comments-link {
+  text-decoration: none;
+}
+/* New text comment container */
+.read-text-comments-new-comment-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  background: hsl(0, 0%, 100%);
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+/* Container for textarea with new text comment */
+.read-text-comments-new-comment-textarea-container {
+  flex: 99%;
+}
+/* New text comment textarea */
+.mixin-read-text-comments-new-comment-textarea {
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+.read-text-comments-new-comment-textarea {
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+.read-text-comments-new-comment-textarea-invalid {
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+/* New text comment send button */
+.read-text-comments-new-comment-send-button-container {
+  flex: 1%;
+  align-self: end;
+}
+/* Send text comment icon */
+.read-text-comments-send-new-comment-icon {
+  width: 2rem;
+}
 /* Text comments ends here */
 /* Urled (external) image popup begin */
 /* Urled image popup upper layer */

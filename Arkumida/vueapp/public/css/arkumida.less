@@ -133,7 +133,8 @@
 @font-size-smaller1: 0.8rem;
 @font-size-smaller2: 0.85rem;
 @font-size-bigger1: 1.1rem;
-@font-size-bigger2: 1.5rem;
+@font-size-bigger2: 1.3rem;
+@font-size-bigger3: 1.5rem;
 @font-size-big: 2rem;
 
 /* Gaps */
@@ -204,6 +205,8 @@
 
 /* Texts comments */
 @texts-comments-author-link-color: hsl(219, 83%, 59%);
+@more-text-comments-button-background-color: hsl(207, 90%, 54%);
+@text-comments-send-icon-width: 2rem;
 
 /* Variables end here */
 
@@ -318,7 +321,7 @@
   border-radius: @border-radius-normal;
 
   height: @input-height-big;
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
 
   width: 100%;
   box-sizing: border-box;
@@ -368,7 +371,7 @@
   height: @input-height-big;
   width: 100%;
 
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
 }
 
 /* Base for popups lower layer */
@@ -710,7 +713,7 @@ body {
   width: 20rem;
   padding-top: @padding-normal;
   padding-bottom: @padding-normal;
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
   .mixin-centered-text-base();
   cursor: pointer;
 }
@@ -1111,7 +1114,7 @@ body {
 
 /* Title for categories and tags */
 .categories-and-tags-title {
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
   .mixin-centered-text-base();
 }
 
@@ -1684,7 +1687,7 @@ body {
 
 /* All illustrations title */
 .all-illustrations-title {
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
   .mixin-bold-text-base();
   .mixin-centered-text-base();
 }
@@ -1702,7 +1705,7 @@ body {
 .login-form-title {
   .mixin-centered-text-base();
   .mixin-bold-text-base();
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
 }
 
 /* Incorrect login credentials message */
@@ -1762,7 +1765,7 @@ body {
 /* Registration form title */
 .registration-form-title {
   .mixin-centered-text-base();
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
   .mixin-bold-text-base();
 }
 
@@ -1832,7 +1835,7 @@ body {
 .password-reset-form-title {
   .mixin-centered-text-base();
   .mixin-bold-text-base();
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
 }
 
 /* Container for small links at the bottom of password reset form */
@@ -1888,7 +1891,7 @@ body {
 .password-reset-confirmation-form-title {
   .mixin-centered-text-base();
   .mixin-bold-text-base();
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
 }
 
 /* Text fields in password reset confirmation form */
@@ -1986,7 +1989,7 @@ body {
   width: 15rem;
   padding-top: @padding-normal;
   padding-bottom: @padding-normal;
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
   .mixin-centered-text-base();
   color: @darkest-color1;
   cursor: pointer;
@@ -2487,7 +2490,7 @@ body {
 /* Popup title */
 .popup-title {
   .mixin-centered-text-base();
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
   .mixin-bold-text-base();
   padding-bottom: @padding-smaller1;
 }
@@ -2502,7 +2505,7 @@ body {
 
 /* Popup button(s) */
 .popup-button {
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
 
   padding-left: @padding-smaller1;
   padding-right: @padding-smaller1;
@@ -2662,7 +2665,7 @@ body {
 /* Private messages title */
 .private-messages-title {
   .mixin-centered-text-base();
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
   .mixin-bold-text-base();
 }
 
@@ -2888,7 +2891,7 @@ body {
   border-radius: @border-radius-normal;
 
   height: @input-height-big;
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
 
   width: 100%;
   box-sizing: border-box;
@@ -3033,7 +3036,7 @@ body {
   border-top-left-radius: @border-radius-normal;
   border-bottom-left-radius: @border-radius-normal;
   border: @border-thin-thickness @border-style @light-color1;
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
   line-height: @pagination-height;
   vertical-align: middle;
 }
@@ -3067,7 +3070,7 @@ body {
   min-width: 3.5rem;
   .mixin-centered-text-base();
   border: @border-thin-thickness @border-style @light-color1;
-  font-size: @font-size-bigger2;
+  font-size: @font-size-bigger3;
   line-height: @pagination-height;
   vertical-align: middle;
   cursor: pointer;
@@ -3215,6 +3218,83 @@ body {
   .mixin-no-text-decorations();
 
   color: @texts-comments-author-link-color;
+}
+
+/* Container for max comments button */
+.read-text-comments-more-comments-button-container {
+  .mixin-horizontally-and-vertically-centered-flex();
+
+  margin-top: @margin-smaller1;
+}
+
+/* More comments button */
+.read-text-comments-more-comments-button {
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
+
+  background: @more-text-comments-button-background-color;
+
+  color: @lightest-color1;
+
+  font-size: @font-size-bigger2;
+
+  padding-left: @padding-smaller1;
+  padding-right: @padding-smaller1;
+  padding-top: @padding-small1;
+  padding-bottom: @padding-small1;
+}
+
+/* More comments link */
+.read-text-comments-more-comments-link {
+  .mixin-no-text-decorations();
+}
+
+/* New text comment container */
+.read-text-comments-new-comment-container {
+  .mixin-flex-row-base();
+  gap: @gap-small;
+
+  background: @lightest-color1;
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-small;
+
+  padding: @padding-smaller1;
+
+  margin-bottom: @margin-normal;
+}
+
+/* Container for textarea with new text comment */
+.read-text-comments-new-comment-textarea-container {
+  flex: 99%;
+}
+
+/* New text comment textarea */
+.mixin-read-text-comments-new-comment-textarea {
+  border-radius: @border-radius-small;
+
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.read-text-comments-new-comment-textarea {
+  .mixin-read-text-comments-new-comment-textarea();
+}
+
+.read-text-comments-new-comment-textarea-invalid {
+  .mixin-read-text-comments-new-comment-textarea();
+
+  border: @border-thick-thickness @border-style @alert-color;
+}
+
+/* New text comment send button */
+.read-text-comments-new-comment-send-button-container {
+  flex: 1%;
+  align-self: end;
+}
+
+/* Send text comment icon */
+.read-text-comments-send-new-comment-icon {
+  width: @text-comments-send-icon-width;
 }
 
 /* Text comments ends here */

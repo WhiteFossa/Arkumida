@@ -5,6 +5,8 @@
     import {WebClientSendGetRequest} from "@/js/libWebClient";
     import {TextsCommentsConstants} from "@/js/constants";
     import TextCommentComponent from "@/components/ReadText/Comments/TextCommentComponent.vue";
+    import {AuthIsCreatureLoggedIn} from "@/js/auth";
+    import NewTextCommentComponent from "@/components/ReadText/Comments/NewTextCommentComponent.vue";
 
 
     const props = defineProps({
@@ -13,9 +15,12 @@
 
     const isLoading = ref(true)
 
+    const isCreatureLoggedIn = ref(false)
+
     const commentsTopicId = ref(null)
     const commentsTopicInfo = ref(null)
     const lastComments = ref([])
+    const skippedCommentsCount = ref(0)
 
     onMounted(async () =>
     {
@@ -24,6 +29,9 @@
 
     async function OnLoad()
     {
+        // Is creature logged in?
+        isCreatureLoggedIn.value = await AuthIsCreatureLoggedIn()
+
         // Getting comments topic and comments in it (if exist)
         commentsTopicId.value = (await (await WebClientSendGetRequest("/api/Texts/" + props.textId + "/GetCommentsTopic")).json()).topicId
 
@@ -31,13 +39,13 @@
         {
             commentsTopicInfo.value = (await (await WebClientSendGetRequest("/api/Forum/Topics/" + commentsTopicId.value + "/GetInfo")).json()).forumTopicInfo
 
-            let skipComments = commentsTopicInfo.value.messagesCount - TextsCommentsConstants.CommentsCountToLoad
-            if (skipComments < 0)
+            skippedCommentsCount.value = commentsTopicInfo.value.messagesCount - TextsCommentsConstants.CommentsCountToLoad
+            if (skippedCommentsCount.value < 0)
             {
-                skipComments = 0;
+                skippedCommentsCount.value = 0;
             }
 
-            lastComments.value = (await (await WebClientSendGetRequest("/api/Forum/Topics/" + commentsTopicId.value + "/Messages?skip=" + skipComments + "&take=" + TextsCommentsConstants.CommentsCountToLoad)).json())
+            lastComments.value = (await (await WebClientSendGetRequest("/api/Forum/Topics/" + commentsTopicId.value + "/Messages?skip=" + skippedCommentsCount.value + "&take=" + TextsCommentsConstants.CommentsCountToLoad)).json())
                 .messages
             OrderTextComments(lastComments.value)
         }
@@ -62,6 +70,10 @@
 
     <div v-if="!isLoading">
 
+        <!-- Add new comment -->
+        <NewTextCommentComponent
+            v-if="isCreatureLoggedIn"/>
+
         <!-- No comments yet message -->
         <div
             v-if="commentsTopicId === null"
@@ -77,6 +89,23 @@
             <TextCommentComponent
                 v-for="comment in lastComments" :key="comment.id"
                 :comment="comment" />
+
+        </div>
+
+        <!-- More comments button -->
+        <div
+            v-if="skippedCommentsCount > 0"
+            class="read-text-comments-more-comments-button-container">
+
+            <a
+                class="read-text-comments-more-comments-link"
+                :href="'/forum/topics/' + commentsTopicId">
+
+                <div class="read-text-comments-more-comments-button">
+                    Ещё {{ skippedCommentsCount }} старых комментариев на форуме
+                </div>
+
+            </a>
 
         </div>
     </div>

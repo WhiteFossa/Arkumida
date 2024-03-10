@@ -1,6 +1,7 @@
 // Add icon to icons list
 
 import {
+    CommonConstants,
     ImagesPrefixes, Messages, ProfileConsts,
     SpecialTextType,
     TagMeaning,
@@ -436,6 +437,12 @@ async function GetLikesCountAsync(textId)
         .likesCount
 }
 
+// Checks if given keyup event represents Ctrl-Enter combo
+async function IsCtrlEnterKeyupEvent(e)
+{
+    return (e.ctrlKey && e.keyCode === CommonConstants.EnterKeycode)
+}
+
 export
 {
     AddIconToList,
@@ -457,5 +464,6 @@ export
     DecodeSearchQuery,
     UnicodeStringToBase64,
     Base64ToUnicodeString,
-    GetLikesCountAsync
+    GetLikesCountAsync,
+    IsCtrlEnterKeyupEvent
 }
