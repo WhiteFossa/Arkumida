@@ -22,6 +22,7 @@ using webapi.Dao.Abstract;
 using webapi.Dao.Models;
 using webapi.Dao.Models.Forum;
 using webapi.Mappers.Abstract;
+using webapi.Models.Api.Responses.Forum;
 using webapi.Models.Forum;
 using webapi.Models.Forum.Infos;
 using webapi.Models.Settings;
@@ -38,7 +39,7 @@ public class ForumService : IForumService
     private readonly ITextUtilsService _textUtilsService;
     private readonly ITextsDao _textsDao;
     private readonly ForumSettings _forumSettings;
-    private readonly ITextsMapper _textsMapper;
+    private readonly IAccountsService _accountsService;
 
     public ForumService
     (
@@ -48,7 +49,7 @@ public class ForumService : IForumService
         ITextUtilsService textUtilsService,
         ITextsDao textsDao,
         IOptions<ForumSettings> forumSettings,
-        ITextsMapper textsMapper
+        IAccountsService accountsService
     )
     {
         _forumDao = forumDao;
@@ -57,7 +58,7 @@ public class ForumService : IForumService
         _textUtilsService = textUtilsService;
         _textsDao = textsDao;
         _forumSettings = forumSettings.Value;
-        _textsMapper = textsMapper;
+        _accountsService = accountsService;
     }
     
     public async Task<ForumSection> CreateSectionAsync(string name, string description, Guid authorId, Guid? id = null)
@@ -186,6 +187,50 @@ public class ForumService : IForumService
     public async Task<int> GetTopicMessagesCountAsync(Guid topicId)
     {
         return await _forumDao.GetTopicMessagesCountAsync(topicId);
+    }
+
+    public async Task<ForumMessage> AddMessageAsync(Guid topicId, Guid authorId, Guid? replyTo, string message)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            throw new ArgumentException("Message must have some content!", nameof(message));
+        }
+        
+        var topic = await GetTopicInfoAsync(topicId);
+        if (topic == null)
+        {
+            throw new ArgumentException($"Topic with ID={ topicId } doesn't exist!", nameof(topicId));
+        }
+
+        var author = await _accountsService.GetProfileByCreatureIdAsync(authorId);
+        if (author == null)
+        {
+            throw new ArgumentException($"Creature with ID={ authorId } doesn't exist!", nameof(authorId));
+        }
+
+        ForumMessage replyToMessage = null;
+        if (replyTo.HasValue)
+        {
+            replyToMessage = await _forumMapper.MapAsync(await _forumDao.GetMessageByIdAsync(replyTo.Value));
+
+            if (replyToMessage.TopicId != topicId)
+            {
+                throw new ArgumentException($"Attempt to reply to a message (ID = { replyTo.Value }) in a different topic!", nameof(replyTo));
+            }
+        }
+        
+        var currentTime = DateTime.UtcNow;
+        
+        var messageToAdd = new ForumMessage()
+        {
+            Author = author,
+            ReplyTo = replyToMessage,
+            PostTime = currentTime,
+            LastUpdateTime = currentTime,
+            Message = message
+        };
+        
+        return await _forumMapper.MapAsync(await _forumDao.CreateMessageAsync(_forumMapper.Map(messageToAdd), topicId));
     }
 
     public async Task<ForumMessage> AddTextCommentAsync(Guid textId, ForumMessage messageToAdd)

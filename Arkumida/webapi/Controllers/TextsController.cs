@@ -243,7 +243,7 @@ public class TextsController : ControllerBase
     }
 
     /// <summary>
-    /// Import text comment. It's similar to AddComment(), but allows to set Author and times.
+    /// Import text comment
     /// </summary>
     [Authorize(Roles = RolesConstants.ImporterRole)]
     [Route("api/Texts/{textId}/ImportComment")]

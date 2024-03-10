@@ -69,6 +69,12 @@ public class ForumMessageDto
     /// </summary>
     [JsonPropertyName("messageParsed")]
     public IReadOnlyCollection<TextElementDto> ParsedMessage { get; set; }
+    
+    /// <summary>
+    /// The message belongs to this topic
+    /// </summary>
+    [JsonPropertyName("topicId")]
+    public Guid TopicId { get; set; }
 
     public ForumMessage ToForumMessage()
     {
@@ -79,7 +85,8 @@ public class ForumMessageDto
             ReplyTo = ReplyTo?.ToForumMessage(),
             PostTime = PostTime,
             LastUpdateTime = LastUpdateTime,
-            Message = PlaintextMessage
+            Message = PlaintextMessage,
+            TopicId = TopicId
         };
     }
 }

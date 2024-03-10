@@ -303,4 +303,16 @@ public class ForumDao : IForumDao
 
             .LastAsync();
     }
+
+    public async Task<ForumMessageDbo> GetMessageByIdAsync(Guid messageId)
+    {
+        return await _dbContext
+            .ForumMessages
+
+            .Include(fm => fm.Author)
+            .Include(fm => fm.ReplyTo)
+            .ThenInclude(rm => rm.Author)
+
+            .SingleAsync(fm => fm.Id == messageId);
+    }
 }

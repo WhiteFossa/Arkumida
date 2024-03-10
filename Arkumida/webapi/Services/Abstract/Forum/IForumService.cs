@@ -94,6 +94,17 @@ public interface IForumService
     /// Get messages count in topic
     /// </summary>
     Task<int> GetTopicMessagesCountAsync(Guid topicId);
+
+    /// <summary>
+    /// Add message to forum topic
+    /// </summary>
+    Task<ForumMessage> AddMessageAsync
+    (
+        Guid topicId,
+        Guid authorId,
+        Guid? replyTo,
+        string message
+    );
     
     #endregion
     

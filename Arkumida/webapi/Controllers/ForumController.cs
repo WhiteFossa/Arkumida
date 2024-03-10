@@ -19,6 +19,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Models.Api.DTOs.Forum;
+using webapi.Models.Api.Requests.Forum;
 using webapi.Models.Api.Responses.Forum;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Forum;
@@ -34,15 +35,18 @@ public class ForumController : ControllerBase
 {
     private readonly IForumService _forumService;
     private readonly ITextUtilsService _textUtilsService;
+    private readonly IAccountsService _accountsService;
 
     public ForumController
     (
         IForumService forumService,
-        ITextUtilsService textUtilsService
+        ITextUtilsService textUtilsService,
+        IAccountsService accountsService
     )
     {
         _forumService = forumService;
         _textUtilsService = textUtilsService;
+        _accountsService = accountsService;
     }
     
     /// <summary>
@@ -80,6 +84,36 @@ public class ForumController : ControllerBase
                 skip,
                 take,
                 messages.Select(m => m.ToDto(_textUtilsService)).ToList()
+            )
+        );
+    }
+
+    /// <summary>
+    /// Add message to forum
+    /// </summary>
+    [Route("api/Forum/Topics/{topicId}/Messages")]
+    [HttpPost]
+    public async Task<ActionResult<ForumMessageAddedResponse>> AddMessageAsync(Guid topicId, [FromBody] AddForumMessageRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+        
+        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+
+        return Ok
+        (
+            new ForumMessageAddedResponse
+            (
+                (await _forumService.AddMessageAsync
+                    (
+                        topicId,
+                        loggedInCreature.Id,
+                        request.Message.ReplyTo,
+                        request.Message.Message
+                    )
+                ).ToDto(_textUtilsService)
             )
         );
     }

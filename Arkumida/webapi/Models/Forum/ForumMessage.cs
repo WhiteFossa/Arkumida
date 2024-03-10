@@ -58,6 +58,11 @@ public class ForumMessage
     public string Message { get; set; }
 
     /// <summary>
+    /// The message belongs to this topic
+    /// </summary>
+    public Guid TopicId { get; set; }
+
+    /// <summary>
     /// Convert to forum message DTO
     /// </summary>
     public ForumMessageDto ToDto(ITextUtilsService textUtilsService)
@@ -70,7 +75,8 @@ public class ForumMessage
             PostTime = PostTime,
             LastUpdateTime = LastUpdateTime,
             PlaintextMessage = Message,
-            ParsedMessage = textUtilsService.ParseTextToElements(Message, new List<TextFile>()) // For now we act like forum messages have no attached files
+            ParsedMessage = textUtilsService.ParseTextToElements(Message, new List<TextFile>()), // For now we act like forum messages have no attached files
+            TopicId = TopicId
         };
     }
 }

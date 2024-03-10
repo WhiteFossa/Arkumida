@@ -74,7 +74,8 @@ public class ForumMapper : IForumMapper
             ReplyTo = await MapAsync(message.ReplyTo),
             PostTime = message.PostTime,
             LastUpdateTime = message.LastUpdateTime,
-            Message = message.Message
+            Message = message.Message,
+            TopicId = message.ForumTopicId
         };
     }
 

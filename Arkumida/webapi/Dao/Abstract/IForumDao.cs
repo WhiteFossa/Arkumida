@@ -106,5 +106,10 @@ public interface IForumDao
     /// </summary>
     Task<ForumMessageDbo> GetLastMessageInTopicAsync(Guid topicId);
 
+    /// <summary>
+    /// Get forum message by Id. Will throw an exception if message with given ID doesn't exist
+    /// </summary>
+    Task<ForumMessageDbo> GetMessageByIdAsync(Guid messageId);
+
     #endregion
 }
