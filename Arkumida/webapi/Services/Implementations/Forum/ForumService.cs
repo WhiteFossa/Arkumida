@@ -196,7 +196,7 @@ public class ForumService : IForumService
             throw new ArgumentException("Message must have some content!", nameof(message));
         }
         
-        var topic = await GetTopicInfoAsync(topicId);
+        var topic = await _forumDao.GetTopicByIdAsync(topicId);
         if (topic == null)
         {
             throw new ArgumentException($"Topic with ID={ topicId } doesn't exist!", nameof(topicId));

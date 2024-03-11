@@ -97,12 +97,12 @@ public interface IForumDao
     Task<ForumTopicDbo> GetTopicWithoutMessagesByIdAsync(Guid id);
 
     /// <summary>
-    /// Get first message in topic. Will throw an exception if topic doesn't exist
+    /// Get first message in topic
     /// </summary>
     Task<ForumMessageDbo> GetFirstMessageInTopicAsync(Guid topicId);
 
     /// <summary>
-    /// Get last message in topic. Will throw an exception if topic doesn't exist
+    /// Get last message in topic
     /// </summary>
     Task<ForumMessageDbo> GetLastMessageInTopicAsync(Guid topicId);
 

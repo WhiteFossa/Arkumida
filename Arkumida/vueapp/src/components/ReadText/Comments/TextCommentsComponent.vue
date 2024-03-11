@@ -32,7 +32,13 @@
         // Is creature logged in?
         isCreatureLoggedIn.value = await AuthIsCreatureLoggedIn()
 
-        // Getting comments topic and comments in it (if exist)
+        await LoadComments()
+
+        isLoading.value = false
+    }
+
+    async function LoadComments()
+    {
         commentsTopicId.value = (await (await WebClientSendGetRequest("/api/Texts/" + props.textId + "/GetCommentsTopic")).json()).topicId
 
         if (commentsTopicId.value !== null)
@@ -49,8 +55,6 @@
                 .messages
             OrderTextComments(lastComments.value)
         }
-
-        isLoading.value = false
     }
 
     // Order text comments (for now newest comments are on top, i.e. in first positions)
@@ -60,6 +64,11 @@
         {
             return b.postTime.localeCompare(a.postTime);
         });
+    }
+
+    async function OnNewCommentPosted()
+    {
+        await LoadComments()
     }
 
 </script>
@@ -73,7 +82,8 @@
         <!-- Add new comment -->
         <NewTextCommentComponent
             v-if="isCreatureLoggedIn"
-            :textId="props.textId" />
+            :textId="props.textId"
+            @newCommentPosted="async() => await OnNewCommentPosted()" />
 
         <!-- No comments yet message -->
         <div
