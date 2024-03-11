@@ -49,7 +49,7 @@
 
     <div
         v-if="!isLoading"
-        class="read-text-footer">
+        class="read-text-votes">
 
         <div class="read-text-votes-container">
 

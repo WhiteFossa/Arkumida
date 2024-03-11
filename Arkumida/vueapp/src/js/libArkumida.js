@@ -1,12 +1,12 @@
 // Add icon to icons list
 
 import {
-    ComicsImageIdPrefix,
-    FullsizeImageIdPrefix, Messages, ProfileConsts,
+    CommonConstants,
+    ImagesPrefixes, Messages, ProfileConsts,
     SpecialTextType,
     TagMeaning,
     TextElementType,
-    TextIconType,
+    TextIconType, TextRendererOperationModes,
     TextType
 } from "@/js/constants";
 import {WebClientSendGetRequest} from "@/js/libWebClient";
@@ -119,17 +119,31 @@ function InjectInclompleteIcon(icons)
     icons.value.push({ "type": TextIconType.Incomplete, "url": "" });
 }
 
-function RenderTextElement(element)
+function RenderTextElement(element, mode)
 {
-    if (element.type === TextElementType.ParagraphBegin) {
-        return "<div class='text-paragraph'>";
+    if (element.type === TextElementType.ParagraphBegin)
+    {
+        if (mode === TextRendererOperationModes.Text)
+        {
+            return "<div class='text-paragraph'>";
+        }
+        else if (mode === TextRendererOperationModes.NonText)
+        {
+            return "<div class='text-paragraph-no-indent'>";
+        }
+        else
+        {
+            throw new Error("Unknown text rendering mode for Text element!");
+        }
     }
 
-    if (element.type === TextElementType.PlainText) {
+    if (element.type === TextElementType.PlainText)
+    {
         return element.content;
     }
 
-    if (element.type === TextElementType.ParagraphEnd) {
+    if (element.type === TextElementType.ParagraphEnd)
+    {
         return "</div>";
     }
 
@@ -286,14 +300,34 @@ function RenderTextElement(element)
     if (element.type === TextElementType.EmbeddedImage)
     {
         return "<div class='centered'>" +
-            "<img id='" + FullsizeImageIdPrefix + element.parameters[0] + "' class='text-image-preview' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "'/>" +
+            "<img id='" + ImagesPrefixes.FullsizeImage + element.parameters[0] + "' class='text-image-preview' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "' alt='Иллюстрация' />" +
             "</div>";
     }
 
     if (element.type === TextElementType.ComicsImage)
     {
         return "<div class='comics-image-container'>" +
-            "<img id='" + ComicsImageIdPrefix + element.parameters[0] + "' class='comics-image' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "'/>" +
+            "<img id='" + ImagesPrefixes.ComicsImage + element.parameters[0] + "' class='comics-image' src='" + process.env.VUE_APP_API_URL + "/api/Files/Download/" + element.parameters[0] + "' alt='Страница комикса'/>" +
+            "</div>";
+    }
+
+    if (element.type === TextElementType.CreatureQuoteBegin)
+    {
+        return "<div class='creature-quote'>" +
+            "<div>" +
+            "<strong>" + element.parameters[0] + " пишет:</strong>" +
+            "</div>";
+    }
+
+    if (element.type === TextElementType.CreatureQuoteEnd)
+    {
+        return "</div>";
+    }
+
+    if (element.type === TextElementType.ExternalImage)
+    {
+        return "<div class='centered'>" +
+            "<img id='" + ImagesPrefixes.ExternalImage + element.parameters[1] + "' class='external-image-preview' src='" + element.parameters[0] + "' alt='Внешнее изображение' />" +
             "</div>";
     }
 
@@ -403,6 +437,12 @@ async function GetLikesCountAsync(textId)
         .likesCount
 }
 
+// Checks if given keyup event represents Ctrl-Enter combo
+async function IsCtrlEnterKeyupEvent(e)
+{
+    return (e.ctrlKey && e.keyCode === CommonConstants.EnterKeycode)
+}
+
 export
 {
     AddIconToList,
@@ -424,5 +464,6 @@ export
     DecodeSearchQuery,
     UnicodeStringToBase64,
     Base64ToUnicodeString,
-    GetLikesCountAsync
+    GetLikesCountAsync,
+    IsCtrlEnterKeyupEvent
 }

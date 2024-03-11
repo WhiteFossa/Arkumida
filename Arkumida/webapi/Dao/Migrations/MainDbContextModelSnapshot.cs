@@ -349,6 +349,98 @@ namespace webapi.Dao.Migrations
                     b.ToTable("Files");
                 });
 
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumMessageDbo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ForumTopicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("PostTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("ReplyToId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ForumTopicId");
+
+                    b.HasIndex("ReplyToId");
+
+                    b.ToTable("ForumMessages");
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumSectionDbo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("ForumSectionDboId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ForumSectionDboId");
+
+                    b.ToTable("ForumSections");
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumTopicDbo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CommentsForTextId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ForumSectionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentsForTextId");
+
+                    b.HasIndex("ForumSectionId");
+
+                    b.ToTable("ForumTopics");
+                });
+
             modelBuilder.Entity("webapi.Dao.Models.PrivateMessageDbo", b =>
                 {
                     b.Property<Guid>("Id")
@@ -718,6 +810,59 @@ namespace webapi.Dao.Migrations
                     b.Navigation("CurrentAvatar");
                 });
 
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumMessageDbo", b =>
+                {
+                    b.HasOne("webapi.Dao.Models.CreatureDbo", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.HasOne("webapi.Dao.Models.Forum.ForumTopicDbo", "ForumTopic")
+                        .WithMany("Messages")
+                        .HasForeignKey("ForumTopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Dao.Models.Forum.ForumMessageDbo", "ReplyTo")
+                        .WithMany()
+                        .HasForeignKey("ReplyToId");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("ForumTopic");
+
+                    b.Navigation("ReplyTo");
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumSectionDbo", b =>
+                {
+                    b.HasOne("webapi.Dao.Models.CreatureDbo", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.HasOne("webapi.Dao.Models.Forum.ForumSectionDbo", null)
+                        .WithMany("Subsections")
+                        .HasForeignKey("ForumSectionDboId");
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumTopicDbo", b =>
+                {
+                    b.HasOne("webapi.Dao.Models.TextDbo", "CommentsForText")
+                        .WithMany()
+                        .HasForeignKey("CommentsForTextId");
+
+                    b.HasOne("webapi.Dao.Models.Forum.ForumSectionDbo", "ForumSection")
+                        .WithMany("Topics")
+                        .HasForeignKey("ForumSectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CommentsForText");
+
+                    b.Navigation("ForumSection");
+                });
+
             modelBuilder.Entity("webapi.Dao.Models.PrivateMessageDbo", b =>
                 {
                     b.HasOne("webapi.Dao.Models.CreatureDbo", "Receiver")
@@ -816,6 +961,18 @@ namespace webapi.Dao.Migrations
             modelBuilder.Entity("webapi.Dao.Models.CreatureProfileDbo", b =>
                 {
                     b.Navigation("Avatars");
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumSectionDbo", b =>
+                {
+                    b.Navigation("Subsections");
+
+                    b.Navigation("Topics");
+                });
+
+            modelBuilder.Entity("webapi.Dao.Models.Forum.ForumTopicDbo", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("webapi.Dao.Models.TextDbo", b =>

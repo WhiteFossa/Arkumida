@@ -17,6 +17,7 @@
 #endregion
 
 using System.Security.Cryptography;
+using System.Text;
 
 namespace webapi.Helpers;
 
@@ -47,5 +48,13 @@ public class SHA512Helper
         var resultBytes = calculator.ComputeHash(data);
 
         return Convert.ToBase64String(resultBytes, Base64FormattingOptions.None);
+    }
+
+    /// <summary>
+    /// Calculate SHA512 hash of string
+    /// </summary>
+    public static string CalculateSHA512(string data)
+    {
+        return CalculateSHA512(Encoding.Unicode.GetBytes(data));
     }
 }

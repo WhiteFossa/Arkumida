@@ -15,8 +15,9 @@
     import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
     import ReadTextDownloadComponent from "@/components/ReadText/Download/ReadTextDownloadComponent.vue";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
-    import ReadTextFooterComponent from "@/components/ReadText/Footer/ReadTextFooterComponent.vue";
+    import ReadTextVotesComponent from "@/components/ReadText/Footer/ReadTextVotesComponent.vue";
     import {AuthIsCreatureLoggedIn} from "@/js/auth";
+    import TextCommentsComponent from "@/components/ReadText/Comments/TextCommentsComponent.vue";
 
     const props = defineProps({
         id: Guid,
@@ -157,9 +158,18 @@
             <ReadTextDownloadComponent :plaintextFileId="textData.textData.plainTextFile.id" />
         </div>
 
-        <!-- Footer (for now only for logged-in creatures) -->
-        <ReadTextFooterComponent
-            v-if="isCreatureLoggedIn"
-            :textId="props.id" />
+        <div class="gaped-normal-rows-container">
+
+            <!-- Votes (for now only for logged-in creatures) -->
+            <ReadTextVotesComponent
+                v-if="isCreatureLoggedIn"
+                :textId="props.id" />
+
+            <!-- Text comments -->
+            <TextCommentsComponent
+                :textId="props.id" />
+
+        </div>
+
     </div>
 </template>

@@ -1,6 +1,6 @@
 <!-- Popup with question -->
 <script setup>
-import {defineEmits, defineProps} from "vue";
+    import {defineEmits, defineProps} from "vue";
 
     const props = defineProps({
         title: String,

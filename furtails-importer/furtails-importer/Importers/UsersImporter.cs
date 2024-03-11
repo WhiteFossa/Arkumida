@@ -16,6 +16,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
+using System.Collections.Concurrent;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -41,7 +42,7 @@ public class UsersImporter
         _httpClient = httpClient;
     }
 
-    public async Task ImportAsync()
+    public async Task ImportAsync(ConcurrentDictionary<int, Guid> creaturesMapping)
     {
         var users = _connection.Query<FtUser>
             (
@@ -63,11 +64,13 @@ public class UsersImporter
         
         await Parallel.ForEachAsync(users, parallelismDegree, async (userToAdd, token) =>
         {
-            await AddUserToArkumidaAsync(userToAdd);
+            var arkumidaCreatureId = await AddUserToArkumidaAsync(userToAdd);
+
+            creaturesMapping.TryAdd(userToAdd.Id, arkumidaCreatureId);
         });
     }
 
-    private async Task AddUserToArkumidaAsync(FtUser user)
+    private async Task<Guid> AddUserToArkumidaAsync(FtUser user)
     {
         #region Creature data fixup
 
@@ -113,7 +116,7 @@ public class UsersImporter
                 registrationData.Login = newLogin;
             }
             
-            await RegisterUserAsync(registrationData);
+            var registrationResult = await RegisterUserAsync(registrationData);
             
             Console.WriteLine("Starting to edit profile...");
 
@@ -156,6 +159,8 @@ public class UsersImporter
             }
 
             Console.WriteLine("Done");
+
+            return registrationResult.UserId;
     }
     
     public string GeneratePassword()
@@ -212,7 +217,7 @@ public class UsersImporter
         return responseData.CheckResult.IsTaken;
     }
     
-    public async Task<CreatureDto> FindCreatureByLogin(string login)
+    public async Task<CreatureDto> FindCreatureByLoginAsync(string login)
     {
         var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Users/FindByLogin", new FindCreatureByLoginRequest() { SearchData = new FindCreatureByLoginDto() { Login = login }});
         if (!response.IsSuccessStatusCode)
@@ -329,7 +334,7 @@ public class UsersImporter
             .Single()
             .Username;
 
-        var arkumidaCreature = await FindCreatureByLogin(login);
+        var arkumidaCreature = await FindCreatureByLoginAsync(login);
         
         return arkumidaCreature.Id;
     }

@@ -18,12 +18,17 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using webapi.Constants;
 using webapi.Dao.Models.Enums;
 using webapi.Dao.Models.Enums.Statistics;
 using webapi.Helpers;
 using webapi.Models.Api.Requests;
+using webapi.Models.Api.Requests.Forum;
+using webapi.Models.Api.Requests.TextsComments;
 using webapi.Models.Api.Responses;
+using webapi.Models.Api.Responses.TextsComments;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.Forum;
 using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Controllers;
@@ -39,19 +44,22 @@ public class TextsController : ControllerBase
     private readonly ITextUtilsService _textUtilsService;
     private readonly ITextsStatisticsService _textsStatisticsService;
     private readonly IAccountsService _accountsService;
+    private readonly IForumService _forumService;
     
     public TextsController
     (
         ITextsService textsService,
         ITextUtilsService textUtilsService,
         ITextsStatisticsService textsStatisticsService,
-        IAccountsService accountsService
+        IAccountsService accountsService,
+        IForumService forumService
     )
     {
         _textsService = textsService;
         _textUtilsService = textUtilsService;
         _textsStatisticsService = textsStatisticsService;
         _accountsService = accountsService;
+        _forumService = forumService;
     }
 
     /// <summary>
@@ -233,5 +241,66 @@ public class TextsController : ControllerBase
         await _textsService.AddFileToTextAsync(request.TextId, request.Name, request.FileId);
 
         return Ok();
+    }
+
+    /// <summary>
+    /// Import text comment
+    /// </summary>
+    [Authorize(Roles = RolesConstants.ImporterRole)]
+    [Route("api/Texts/{textId}/ImportComment")]
+    [HttpPost]
+    public async Task<ActionResult<TextCommentAddedResponse>> ImportCommentAsync(Guid textId, [FromBody] ImportTextCommentRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        return Ok(new TextCommentAddedResponse((await _forumService.ImportTextCommentAsync(textId, request.Comment.ToForumMessage())).ToDto(_textUtilsService)));
+    }
+
+    /// <summary>
+    /// Add text comment
+    /// </summary>
+    [Route("api/Texts/{textId}/AddComment")]
+    [HttpPost]
+    public async Task<ActionResult<TextCommentAddedResponse>> AddCommentAsync(Guid textId, [FromBody] AddForumMessageRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        
+        return Ok
+        (
+            new TextCommentAddedResponse
+            (
+                (
+                    await _forumService.AddTextCommentAsync
+                    (
+                        textId,
+                        loggedInCreature.Id,
+                        request.Message.ReplyTo,
+                        request.Message.Message
+                    )
+                )
+                .ToDto(_textUtilsService)
+            )
+        );
+    }
+    
+    /// <summary>
+    /// Get text comments topic
+    /// </summary>
+    [AllowAnonymous]
+    [Route("api/Texts/{textId}/GetCommentsTopic")]
+    [HttpGet]
+    public async Task<ActionResult<GetTextCommentsTopicResponse>> GetTextCommentsTopicAsync(Guid textId)
+    {
+        var commentsTopic = await _forumService.GetTextCommentsTopicByTextIdAsync(textId);
+
+        return Ok(new GetTextCommentsTopicResponse(commentsTopic?.Id));
     }
 }
