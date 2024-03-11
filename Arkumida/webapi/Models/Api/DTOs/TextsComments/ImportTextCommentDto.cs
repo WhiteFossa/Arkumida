@@ -17,17 +17,15 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using OpenSearch.Client;
-using webapi.Models.Api.DTOs.Creatures;
 using webapi.Models.Creatures;
 using webapi.Models.Forum;
 
 namespace webapi.Models.Api.DTOs.TextsComments;
 
 /// <summary>
-/// Simplified DTO for adding text comment
+/// Simplified DTO for importing text comment
 /// </summary>
-public class AddTextCommentDto
+public class ImportTextCommentDto
 {
     /// <summary>
     /// Message author ID

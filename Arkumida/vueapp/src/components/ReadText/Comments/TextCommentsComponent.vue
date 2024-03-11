@@ -72,7 +72,8 @@
 
         <!-- Add new comment -->
         <NewTextCommentComponent
-            v-if="isCreatureLoggedIn"/>
+            v-if="isCreatureLoggedIn"
+            :textId="props.textId" />
 
         <!-- No comments yet message -->
         <div

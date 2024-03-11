@@ -111,9 +111,20 @@ public interface IForumService
     #region Texts comments (special messages)
 
     /// <summary>
-    /// Add comment to text. Creates special topic if there is no topic for text comments
+    /// Import comment to a text (inserts message as is). Creates special topic if there is no topic for text comments
     /// </summary>
-    Task<ForumMessage> AddTextCommentAsync(Guid textId, ForumMessage messageToAdd);
+    Task<ForumMessage> ImportTextCommentAsync(Guid textId, ForumMessage messageToAdd);
+    
+    /// <summary>
+    /// Add comment to a text. Creates special topic if there is no topic for text comments
+    /// </summary>
+    Task<ForumMessage> AddTextCommentAsync
+    (
+        Guid textId,
+        Guid authorId,
+        Guid? replyTo,
+        string message
+    );
 
     #endregion
 }

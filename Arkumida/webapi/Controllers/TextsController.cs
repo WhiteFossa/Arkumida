@@ -23,6 +23,7 @@ using webapi.Dao.Models.Enums;
 using webapi.Dao.Models.Enums.Statistics;
 using webapi.Helpers;
 using webapi.Models.Api.Requests;
+using webapi.Models.Api.Requests.Forum;
 using webapi.Models.Api.Requests.TextsComments;
 using webapi.Models.Api.Responses;
 using webapi.Models.Api.Responses.TextsComments;
@@ -255,9 +256,40 @@ public class TextsController : ControllerBase
             return BadRequest("Request must be provided.");
         }
 
-        return Ok(new TextCommentAddedResponse((await _forumService.AddTextCommentAsync(textId, request.Comment.ToForumMessage())).ToDto(_textUtilsService)));
+        return Ok(new TextCommentAddedResponse((await _forumService.ImportTextCommentAsync(textId, request.Comment.ToForumMessage())).ToDto(_textUtilsService)));
     }
 
+    /// <summary>
+    /// Add text comment
+    /// </summary>
+    [Route("api/Texts/{textId}/AddComment")]
+    [HttpPost]
+    public async Task<ActionResult<TextCommentAddedResponse>> AddCommentAsync(Guid textId, [FromBody] AddForumMessageRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        var loggedInCreature = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        
+        return Ok
+        (
+            new TextCommentAddedResponse
+            (
+                (
+                    await _forumService.AddTextCommentAsync
+                    (
+                        textId,
+                        loggedInCreature.Id,
+                        request.Message.ReplyTo,
+                        request.Message.Message
+                    )
+                )
+                .ToDto(_textUtilsService)
+            )
+        );
+    }
     
     /// <summary>
     /// Get text comments topic

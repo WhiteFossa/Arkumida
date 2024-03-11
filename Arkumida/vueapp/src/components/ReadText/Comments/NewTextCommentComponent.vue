@@ -1,9 +1,15 @@
 <script setup>
     import LoadingSymbol from "@/components/Shared/LoadingSymbol.vue";
-    import {onMounted, reactive, ref} from "vue";
+    import {defineProps, onMounted, reactive, ref} from "vue";
     import {required} from "@vuelidate/validators";
     import useVuelidate from "@vuelidate/core";
     import {IsCtrlEnterKeyupEvent} from "@/js/libArkumida";
+    import {WebClientSendPostRequest} from "@/js/libWebClient";
+    import {Messages} from "@/js/constants";
+
+    const props = defineProps({
+        textId: String
+    })
 
     // Add this height to new comment textarea when calculating its height. It is needed to avoid vertical scrollbar
     const newCommentTextareaHeightAdd = 10
@@ -57,7 +63,20 @@
     {
         isNewCommentBeingSent.value = true
 
-        alert("Оправляем комментарий: " + newCommentFormData.comment)
+        const sendCommentResponse = await WebClientSendPostRequest(
+            "/api/Texts/" + props.textId + "/AddComment",
+            {
+                "message": {
+                    "message": newCommentFormData.comment
+                },
+            })
+
+        if (!sendCommentResponse.ok)
+        {
+            isNewCommentBeingSent.value = false
+            alert(Messages.TextCommentFailedToSend)
+            return
+        }
 
         newCommentFormData.comment = ""
 

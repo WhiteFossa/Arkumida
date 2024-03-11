@@ -233,7 +233,7 @@ public class ForumService : IForumService
         return await _forumMapper.MapAsync(await _forumDao.CreateMessageAsync(_forumMapper.Map(messageToAdd), topicId));
     }
 
-    public async Task<ForumMessage> AddTextCommentAsync(Guid textId, ForumMessage messageToAdd)
+    public async Task<ForumMessage> ImportTextCommentAsync(Guid textId, ForumMessage messageToAdd)
     {
         var textMetadata = await _textUtilsService.GetTextMetadataAsync(textId);
         if (textMetadata == null)
@@ -241,19 +241,39 @@ public class ForumService : IForumService
             throw new ArgumentException($"Text with ID={textId} is not found!", nameof(textId));
         }
 
+        var textCommentsTopic = await GetOrCreateTextCommentsTopic(textId, textMetadata.Title);
+
+        return await _forumMapper.MapAsync(await _forumDao.CreateMessageAsync(_forumMapper.Map(messageToAdd), textCommentsTopic.Id));
+    }
+
+    public async Task<ForumMessage> AddTextCommentAsync(Guid textId, Guid authorId, Guid? replyTo, string message)
+    {
+        var textMetadata = await _textUtilsService.GetTextMetadataAsync(textId);
+        if (textMetadata == null)
+        {
+            throw new ArgumentException($"Text with ID={textId} is not found!", nameof(textId));
+        }
+
+        var textCommentsTopic = await GetOrCreateTextCommentsTopic(textId, textMetadata.Title);
+
+        return await AddMessageAsync(textCommentsTopic.Id, authorId, replyTo, message);
+    }
+
+    private async Task<ForumTopic> GetOrCreateTextCommentsTopic(Guid textId, string textTitle)
+    {
         var textCommentsTopic = await GetTextCommentsTopicByTextIdAsync(textId);
         if (textCommentsTopic == null)
         {
             // Topic not found, creating it
             textCommentsTopic = await CreateTopicAsync
             (
-                string.Format(_forumSettings.TextCommentsTopicNameTemplate, textMetadata.Title),
-                string.Format(_forumSettings.TextCommentsTopicDescriptionTemplate, textMetadata.Title),
+                string.Format(_forumSettings.TextCommentsTopicNameTemplate, textTitle),
+                string.Format(_forumSettings.TextCommentsTopicDescriptionTemplate, textTitle),
                 _forumSettings.TextsCommentsSectionId,
                 textId
             );
         }
 
-        return await _forumMapper.MapAsync(await _forumDao.CreateMessageAsync(_forumMapper.Map(messageToAdd), textCommentsTopic.Id));
+        return textCommentsTopic;
     }
 }

@@ -61,6 +61,8 @@ export class Messages
     static UserNotFoundByName = "Пользователь с таким именем не найден."
 
     static CriticsSettingsFailedToUpdate = "Не удалось обновить настройки критики. Обновите страницу."
+
+    static TextCommentFailedToSend = "Не удалось отправить комментарий к тексту, повторите попытку позже или свяжитесь с администраторами."
 }
 
 export class ProfileConsts

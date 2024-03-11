@@ -30,5 +30,5 @@ public class ImportTextCommentRequest
     /// Comment to import
     /// </summary>
     [JsonPropertyName("comment")]
-    public AddTextCommentDto Comment { get; set; }
+    public ImportTextCommentDto Comment { get; set; }
 }
