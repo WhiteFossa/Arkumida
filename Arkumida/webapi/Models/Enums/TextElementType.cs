@@ -91,5 +91,11 @@ public enum TextElementType
     
     EmbeddedImage = 33,
     
-    ComicsImage = 34 // Like embedded image, but preview is full-size
+    ComicsImage = 34, // Like embedded image, but preview is full-size,
+    
+    CreatureQuoteBegin = 35, // Creature's quote (for forum and comments)
+    
+    CreatureQuoteEnd = 36,
+    
+    ExternalImage = 37 // External (hotlinked) image
 }

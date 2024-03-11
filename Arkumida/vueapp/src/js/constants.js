@@ -61,6 +61,8 @@ export class Messages
     static UserNotFoundByName = "Пользователь с таким именем не найден."
 
     static CriticsSettingsFailedToUpdate = "Не удалось обновить настройки критики. Обновите страницу."
+
+    static TextCommentFailedToSend = "Не удалось отправить комментарий к тексту, повторите попытку позже или свяжитесь с администраторами."
 }
 
 export class ProfileConsts
@@ -189,13 +191,20 @@ export class TextElementType
     static SizedAsciiArtEnd = 32
     static EmbeddedImage = 33
     static ComicsImage = 34
+    static CreatureQuoteBegin = 35 // Creature's quote (for forum and comments)
+    static CreatureQuoteEnd = 36
+    static ExternalImage = 37 // External (hotlinked) image
 }
 
-// Prefix for IDs of fullsize images
-export const FullsizeImageIdPrefix = "e76eb871-7129-4ad2-be31-d94068051923_";
+// Prefixes for images (used to show popups in rendered HTML)
+export class ImagesPrefixes
+{
+    static FullsizeImage = "e76eb871-7129-4ad2-be31-d94068051923_"
 
-// Prefix for IDs of comics images
-export const ComicsImageIdPrefix = "e7cd4703-ba8b-4241-a873-3f4298ad9ca9_";
+    static ComicsImage = "e7cd4703-ba8b-4241-a873-3f4298ad9ca9_";
+
+    static ExternalImage = "124e0a36-51e3-4620-81dc-0503f7c829e9_";
+}
 
 // Login result
 export class LoginResult
@@ -272,6 +281,9 @@ export class CommonConstants
 
     // Do requests for list of creatures by part of name only when part of name longer or equal to this value
     static NamePartMinimalLengthToLookup = 3
+
+    // Enter button keycode
+    static EnterKeycode = 13
 }
 
 // Constants, related to texts search
@@ -279,4 +291,21 @@ export class SearchConstants
 {
     // Search page size
     static PageSize = 10
+}
+
+// Constants, related to texts comments
+export class TextsCommentsConstants
+{
+    // Load no more than this amount of last comments for text
+    static CommentsCountToLoad = 10
+}
+
+// Possible operation modes for text renderer
+export class TextRendererOperationModes
+{
+    // Rendering text (i.e. text, not a comments/userinfo and so on)
+    static Text = 0
+
+    // Rendering anything else than text
+    static NonText = 1
 }

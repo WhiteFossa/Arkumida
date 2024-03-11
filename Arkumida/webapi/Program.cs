@@ -36,12 +36,14 @@ using webapi.OpenSearch.Services.Implementations;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Access;
 using webapi.Services.Abstract.Email;
+using webapi.Services.Abstract.Forum;
 using webapi.Services.Abstract.Search;
 using webapi.Services.Abstract.TextRenderers;
 using webapi.Services.Abstract.TextsStatistics;
 using webapi.Services.Implementations;
 using webapi.Services.Implementations.Access;
 using webapi.Services.Implementations.Email;
+using webapi.Services.Implementations.Forum;
 using webapi.Services.Implementations.Hosted;
 using webapi.Services.Implementations.Search;
 using webapi.Services.Implementations.TextRenderers;
@@ -90,6 +92,10 @@ builder.Services.AddScoped<ITextsStatisticsService, TextsStatisticsService>();
 
 builder.Services.AddScoped<ITextsAccessService, TextsAccessService>();
 
+builder.Services.AddScoped<IForumDao, ForumDao>();
+builder.Services.AddScoped<IForumService, ForumService>();
+builder.Services.AddScoped<IForumMapper, ForumMapper>();
+
 #endregion
 
 #region Singletons
@@ -115,6 +121,7 @@ builder.Services.AddSingleton<IArkumidaOpenSearchClient, ArkumidaOpenSearchClien
 #region Hosted
 
 builder.Services.AddHostedService<BuiltInUsersAndRolesCreator>();
+builder.Services.AddHostedService<ForumSeeder>();
 
 #endregion
 
@@ -127,6 +134,7 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(
 builder.Services.Configure<ImporterUserSettings>(builder.Configuration.GetSection(nameof(ImporterUserSettings)));
 builder.Services.Configure<SiteInfoSettings>(builder.Configuration.GetSection(nameof(SiteInfoSettings)));
 builder.Services.Configure<OpenSearchSettings>(builder.Configuration.GetSection(nameof(OpenSearchSettings)));
+builder.Services.Configure<ForumSettings>(builder.Configuration.GetSection(nameof(ForumSettings)));
 
 #endregion
 

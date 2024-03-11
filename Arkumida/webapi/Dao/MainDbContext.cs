@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Models;
+using webapi.Dao.Models.Forum;
 
 namespace webapi.Dao;
 
@@ -83,6 +84,25 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
     /// </summary>
     public DbSet<TextsStatisticsEventDbo> TextsStatisticsEvents { get; set; }
 
+    #region Forum
+
+    /// <summary>
+    /// Forum sections
+    /// </summary>
+    public DbSet<ForumSectionDbo> ForumSections { get; set; }
+
+    /// <summary>
+    /// Forum topics
+    /// </summary>
+    public DbSet<ForumTopicDbo> ForumTopics { get; set; }
+
+    /// <summary>
+    /// Forum messages
+    /// </summary>
+    public DbSet<ForumMessageDbo> ForumMessages { get; set; }
+
+    #endregion
+    
     public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
     {
         
@@ -180,5 +200,48 @@ public class MainDbContext : IdentityDbContext<CreatureDbo, IdentityRole<Guid>, 
         modelBuilder
             .Entity<TextsStatisticsEventDbo>()
             .HasOne(tse => tse.CausedByCreature);
+        
+        #region Forum
+
+        // Forum message have one author
+        modelBuilder
+            .Entity<ForumMessageDbo>()
+            .HasOne(fm => fm.Author);
+
+        // Forum message may be a reply to other forum message
+        modelBuilder
+            .Entity<ForumMessageDbo>()
+            .HasOne(fm => fm.ReplyTo);
+
+        // Forum topic may be a comments topic for a text
+        modelBuilder
+            .Entity<ForumTopicDbo>()
+            .HasOne(ft => ft.CommentsForText);
+
+        // Forum topic have many messages
+        modelBuilder
+            .Entity<ForumTopicDbo>()
+            .HasMany(ft => ft.Messages)
+            .WithOne(fm => fm.ForumTopic)
+            .HasForeignKey(fm => fm.ForumTopicId);
+
+        // Forum section have one author
+        modelBuilder
+            .Entity<ForumSectionDbo>()
+            .HasOne(fs => fs.Author);
+
+        // Forum section may have many subsections
+        modelBuilder
+            .Entity<ForumSectionDbo>()
+            .HasMany(fs => fs.Subsections);
+
+        // Forum section may have many topics
+        modelBuilder
+            .Entity<ForumSectionDbo>()
+            .HasMany(fs => fs.Topics)
+            .WithOne(ft => ft.ForumSection)
+            .HasForeignKey(ft => ft.ForumSectionId);
+
+        #endregion
     }
 }

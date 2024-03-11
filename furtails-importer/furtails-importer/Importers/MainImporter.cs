@@ -16,6 +16,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
+using System.Collections.Concurrent;
 using furtails_importer.Helpers;
 using MySqlConnector;
 
@@ -38,7 +39,7 @@ public class MainImporter
     public const string UsersDbRoot = @"/home/fossa/Projects/Arkumida-private/furtails-site/furtails/public/filedb/users/";
 
     public const int ParallelismDegree = 10;
-    public const int TextsImportParallelismDegree = 10;
+    public const int TextsImportParallelismDegree = 4;
 
     public async Task ImportAsync()
     {
@@ -46,16 +47,21 @@ public class MainImporter
         using (var httpClient = await LoginHelper.LogInAsUserAsync(Login, Password))
         {
             // Importing users
+            var creaturesMapping = new ConcurrentDictionary<int, Guid>(); // FT to Arkumida creatures mapping
+            
             var usersImporter = new UsersImporter(connection, httpClient);
-            await usersImporter.ImportAsync();
+            await usersImporter.ImportAsync(creaturesMapping);
 
             // Importing tags
             var tagsImporter = new TagsImporter(connection, httpClient);
             await tagsImporter.Import();
             
+            // Forums importer (we need it here for comments import)
+            var forumImporter = new ForumImporter(connection, httpClient);
+            
             // Importing texts
-            var textsImporter = new TextsImporter(connection, httpClient, usersImporter);
-            await textsImporter.Import();
+            var textsImporter = new TextsImporter(connection, httpClient, usersImporter, forumImporter);
+            await textsImporter.Import(creaturesMapping);
             
             // Importing private messages
             var privateMessagesImporter = new PrivateMessagesImporter(connection, httpClient, usersImporter);

@@ -76,4 +76,9 @@ public interface ITextsService
     /// Add existing file to given text under provided name
     /// </summary>
     Task AddFileToTextAsync(Guid textId, string fileName, Guid existingFileId);
+    
+    #region Comments
+    
+    
+    #endregion
 }

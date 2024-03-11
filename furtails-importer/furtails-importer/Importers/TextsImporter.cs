@@ -16,6 +16,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -36,15 +37,17 @@ public class TextsImporter
     private readonly MySqlConnection _connection;
     private readonly HttpClient _httpClient;
     private readonly UsersImporter _usersImporter;
+    private readonly ForumImporter _forumImporter;
 
-    public TextsImporter(MySqlConnection connection, HttpClient httpClient, UsersImporter usersImporter)
+    public TextsImporter(MySqlConnection connection, HttpClient httpClient, UsersImporter usersImporter, ForumImporter forumImporter)
     {
         _connection = connection;
         _httpClient = httpClient;
         _usersImporter = usersImporter;
+        _forumImporter = forumImporter;
     }
 
-    public async Task Import()
+    public async Task Import(ConcurrentDictionary<int, Guid> creaturesMapping)
     {
         var categories = LoadCategories(_connection);
         
@@ -83,7 +86,7 @@ public class TextsImporter
             .ToList();
         
         // Importer creature
-        var importerCreature = await _usersImporter.FindCreatureByLogin(MainImporter.Login);
+        var importerCreature = await _usersImporter.FindCreatureByLoginAsync(MainImporter.Login);
         
         // Importing creatures, who are authors, editors and translators
         var creaturesFromTexts = new List<string>();
@@ -117,7 +120,7 @@ public class TextsImporter
         
         await Parallel.ForEachAsync(texts, textsImportParallelismDegree, async (text, token) =>
         {
-            await AddTextToArkumidaAsync(categories, text, importerCreature);
+            await AddTextToArkumidaAsync(categories, text, importerCreature, creaturesMapping);
         });
     }
 
@@ -145,7 +148,7 @@ public class TextsImporter
         return result;
     }
 
-    private async Task AddTextToArkumidaAsync(IReadOnlyCollection<FtCategory> categories, FtText text, CreatureDto importerCreature)
+    private async Task AddTextToArkumidaAsync(IReadOnlyCollection<FtCategory> categories, FtText text, CreatureDto importerCreature, ConcurrentDictionary<int, Guid> creaturesMapping)
     {
         if (text.IsDeleted != 0)
         {
@@ -389,7 +392,7 @@ public class TextsImporter
         // Checking do we have users and creating them if not
         
         // Publisher - always exist
-        var publisherCreature = await _usersImporter.FindCreatureByLogin(text.UploaderUserName.Trim());
+        var publisherCreature = await _usersImporter.FindCreatureByLoginAsync(text.UploaderUserName.Trim());
         
         // Authors
         var authors = new List<CreatureDto>();
@@ -403,7 +406,7 @@ public class TextsImporter
             var authorsNames = text.Author.Split(',').Select(an => an.Trim()); // Trim helps to remove spaces, which can be after comma
             foreach (var authorName in authorsNames)
             {
-                authors.Add(await _usersImporter.FindCreatureByLogin(authorName));
+                authors.Add(await _usersImporter.FindCreatureByLoginAsync(authorName));
             }
         }
         
@@ -414,7 +417,7 @@ public class TextsImporter
             var translatorsNames = text.Translator.Split(',').Select(tn => tn.Trim());
             foreach (var translatorName in translatorsNames)
             {
-                translators.Add(await _usersImporter.FindCreatureByLogin(translatorName));
+                translators.Add(await _usersImporter.FindCreatureByLoginAsync(translatorName));
             }
         }
 
@@ -517,7 +520,6 @@ public class TextsImporter
         }
         
         // Adding reads count (via simulated read events)
-        // !!! DO NOT PARALLELIZE ME !!! Database overload !!!
         for (var readIndex = 0; readIndex < text.ReadsCount; readIndex++)
         {
             var readEvent = new TextsStatisticsEventDto()
@@ -555,6 +557,31 @@ public class TextsImporter
             };
 
             await AddTextsStatisticsEventToArkumidaAsync(readEvent);
+        }
+        
+        // Importing text comments
+        if (text.Tid != 0)
+        {
+            var commentsTopic = _forumImporter.GetTopicById(connection, text.Tid);
+            if (commentsTopic != null)
+            {
+                // We have some comments
+                var comments = _forumImporter.LoadOrderedPostsByTopicId(connection, commentsTopic.Id);
+
+                foreach (var comment in comments)
+                {
+                    var commentToImport = new AddTextCommentDto()
+                    {
+                        AuthorId = creaturesMapping[comment.PosterId],
+                        ReplyTo = null, // FT forum have no such functionality
+                        PostTime = DateTimeHelper.FromUnixTimeToZulu(comment.PostedTimestamp),
+                        LastUpdateTime = comment.EditedTimestamp.HasValue ? DateTimeHelper.FromUnixTimeToZulu(comment.EditedTimestamp.Value) : DateTimeHelper.FromUnixTimeToZulu(comment.PostedTimestamp),
+                        Message = comment.Message
+                    };
+
+                    await AddTextCommentAsync(arkumidaTextId, commentToImport);
+                }
+            }    
         }
     }
     
@@ -799,11 +826,11 @@ public class TextsImporter
     {
         Console.WriteLine($"Trying to register a creature with login { login }...");
         
-        var creature = await _usersImporter.FindCreatureByLogin(login);
+        var creature = await _usersImporter.FindCreatureByLoginAsync(login);
         if (creature == null)
         {
             await _usersImporter.RegisterUserAsync(new RegistrationDataDto() { Login = login, Email = string.Empty, Password = _usersImporter.GeneratePassword()} );
-            creature = await _usersImporter.FindCreatureByLogin(login);
+            creature = await _usersImporter.FindCreatureByLoginAsync(login);
         }
 
         return creature;
@@ -840,5 +867,18 @@ public class TextsImporter
                 new { textId = textId }
             )
             .ToList();
+    }
+    
+    private async Task<ForumMessageDto> AddTextCommentAsync(Guid textId, AddTextCommentDto commentDto)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Texts/{textId}/ImportComment", new ImportTextCommentRequest() { Comment = commentDto});
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+            
+        var responseData = JsonSerializer.Deserialize<TextCommentAddedResponse>(await response.Content.ReadAsStringAsync());
+
+        return responseData.Comment;
     }
 }

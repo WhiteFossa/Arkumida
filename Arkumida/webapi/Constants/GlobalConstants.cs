@@ -31,13 +31,4 @@ public static class GlobalConstants
     public const int MinFindCreaturesByDisplayNamePartPartLength = 3;
 
     #endregion
-
-    #region Parallelism-related
-
-    /// <summary>
-    /// Parallelism degree when giving creatures role User on startup
-    /// </summary>
-    public const int AddingUserRoleToCreaturesParallelismLevel = 12;
-
-    #endregion
 }
