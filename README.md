@@ -277,9 +277,9 @@ ports:
 to docker-compose-arkumida-infrastructure.yml and restarting infrastructure container
 
 4) Clear opensearch data:
-curl --request DELETE \ --url http://127.0.0.1:9200/creatures
-curl --request DELETE \ --url http://127.0.0.1:9200/tags
-curl --request DELETE \ --url http://127.0.0.1:9200/texts
+curl --request DELETE --url http://127.0.0.1:9200/creatures
+curl --request DELETE --url http://127.0.0.1:9200/tags
+curl --request DELETE --url http://127.0.0.1:9200/texts
 
 5) Close OpenSearch control port and restart Infrastructure container again
 6) Run migrations
