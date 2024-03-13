@@ -254,13 +254,6 @@ public class ForumDao : IForumDao
             .ToListAsync();
     }
 
-    public async Task<int> GetTopicMessagesCountAsync(Guid topicId)
-    {
-        return await _dbContext
-            .ForumMessages
-            .CountAsync(fm => fm.ForumTopicId == topicId);
-    }
-
     public async Task<ForumTopicDbo> GetTopicWithoutMessagesByIdAsync(Guid id)
     {
         return await _dbContext

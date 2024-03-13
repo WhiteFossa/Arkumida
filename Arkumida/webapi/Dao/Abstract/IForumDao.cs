@@ -85,12 +85,7 @@ public interface IForumDao
     /// Get last messages (by original posting time) from given topic
     /// </summary>
     Task<IReadOnlyCollection<ForumMessageDbo>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take);
-
-    /// <summary>
-    /// Get topic's messages count
-    /// </summary>
-    Task<int> GetTopicMessagesCountAsync(Guid topicId);
-
+    
     /// <summary>
     /// Like GetTopicByIdAsync(), but messages wouldn't be loaded
     /// </summary>

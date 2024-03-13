@@ -172,7 +172,7 @@ public class ForumService : IForumService
             Id = topic.Id,
             Name = topic.Name,
             Description = topic.Description,
-            MessagesCount = await _forumDao.GetTopicMessagesCountAsync(topicId),
+            MessagesCount = (await _forumDao.GetMessagesCountsByTopicsIdsAsync(new [] { topicId })).Values.Single(),
             FirstMessage = await _forumMapper.MapAsync(await _forumDao.GetFirstMessageInTopicAsync(topicId)),
             LastMessage = await _forumMapper.MapAsync(await _forumDao.GetLastMessageInTopicAsync(topicId)),
             CommentsForText = topic.CommentsForText?.Id
@@ -192,11 +192,6 @@ public class ForumService : IForumService
     public async Task<IReadOnlyCollection<ForumMessage>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take)
     {
         return await _forumMapper.MapAsync(await _forumDao.GetLastMessagesInTopicAsync(topicId, skip, take));
-    }
-
-    public async Task<int> GetTopicMessagesCountAsync(Guid topicId)
-    {
-        return await _forumDao.GetTopicMessagesCountAsync(topicId);
     }
 
     public async Task<ForumMessage> AddMessageAsync(Guid topicId, Guid authorId, Guid? replyTo, string message)

@@ -105,11 +105,6 @@ public interface IForumService
     Task<IReadOnlyCollection<ForumMessage>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take);
 
     /// <summary>
-    /// Get messages count in topic
-    /// </summary>
-    Task<int> GetTopicMessagesCountAsync(Guid topicId);
-
-    /// <summary>
     /// Add message to forum topic
     /// </summary>
     Task<ForumMessage> AddMessageAsync
