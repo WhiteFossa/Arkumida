@@ -85,12 +85,7 @@ public interface IForumDao
     /// Get last messages (by original posting time) from given topic
     /// </summary>
     Task<IReadOnlyCollection<ForumMessageDbo>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take);
-
-    /// <summary>
-    /// Get topic's messages count
-    /// </summary>
-    Task<int> GetTopicMessagesCountAsync(Guid topicId);
-
+    
     /// <summary>
     /// Like GetTopicByIdAsync(), but messages wouldn't be loaded
     /// </summary>
@@ -110,6 +105,16 @@ public interface IForumDao
     /// Get forum message by Id. Will throw an exception if message with given ID doesn't exist
     /// </summary>
     Task<ForumMessageDbo> GetMessageByIdAsync(Guid messageId);
+    
+    /// <summary>
+    /// Get texts comments topics IDs for given texts IDs. Topic ID may be null if there is no comments at all for text
+    /// </summary>
+    Task<IDictionary<Guid, Guid?>> GetTextsTopicsIdsByTextsIds(IReadOnlyCollection<Guid> textsIds);
+    
+    /// <summary>
+    /// Get messages counts for topics (given topics must exist)
+    /// </summary>
+    Task<Dictionary<Guid, int>> GetMessagesCountsByTopicsIdsAsync(IReadOnlyCollection<Guid> topicsIds);
 
     #endregion
 }

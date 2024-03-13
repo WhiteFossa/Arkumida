@@ -16,7 +16,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endregion
 
-using System.Runtime.InteropServices.JavaScript;
 using Microsoft.EntityFrameworkCore;
 using webapi.Dao.Abstract;
 using webapi.Dao.Models.Forum;
@@ -255,13 +254,6 @@ public class ForumDao : IForumDao
             .ToListAsync();
     }
 
-    public async Task<int> GetTopicMessagesCountAsync(Guid topicId)
-    {
-        return await _dbContext
-            .ForumMessages
-            .CountAsync(fm => fm.ForumTopicId == topicId);
-    }
-
     public async Task<ForumTopicDbo> GetTopicWithoutMessagesByIdAsync(Guid id)
     {
         return await _dbContext
@@ -314,5 +306,37 @@ public class ForumDao : IForumDao
             .ThenInclude(rm => rm.Author)
 
             .SingleAsync(fm => fm.Id == messageId);
+    }
+
+    public async Task<IDictionary<Guid, Guid?>> GetTextsTopicsIdsByTextsIds(IReadOnlyCollection<Guid> textsIds)
+    {
+        var result = await _dbContext
+            .ForumTopics
+                
+            .Include(ft => ft.CommentsForText)
+                
+            .Where(ft => textsIds.Contains(ft.CommentsForText.Id))
+
+            .ToDictionaryAsync(ft => ft.CommentsForText.Id, ft => (Guid?)ft.Id);
+
+        // For some texts we may have no comments topics at all
+        foreach (var textId in textsIds)
+        {
+            result.TryAdd(textId, null);
+        }
+        
+        return result;
+    }
+
+    public async Task<Dictionary<Guid, int>> GetMessagesCountsByTopicsIdsAsync(IReadOnlyCollection<Guid> topicsIds)
+    {
+        return await _dbContext
+            .ForumMessages
+
+            .Where(fm => topicsIds.Contains(fm.ForumTopicId))
+
+            .GroupBy(fm => fm.ForumTopicId)
+
+            .ToDictionaryAsync(g => g.Key, g => g.Count());
     }
 }
