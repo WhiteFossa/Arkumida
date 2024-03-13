@@ -179,6 +179,16 @@ public class ForumService : IForumService
         };
     }
 
+    public async Task<Dictionary<Guid, int>> GetMessagesCountsByTopicsIdsAsync(IReadOnlyCollection<Guid> topicsIds)
+    {
+        return await _forumDao.GetMessagesCountsByTopicsIdsAsync(topicsIds);
+    }
+
+    public async Task<IDictionary<Guid, Guid?>> GetTextsTopicsIdsByTextsIdsAsync(IReadOnlyCollection<Guid> textsIds)
+    {
+        return await _forumDao.GetTextsTopicsIdsByTextsIds(textsIds);
+    }
+
     public async Task<IReadOnlyCollection<ForumMessage>> GetLastMessagesInTopicAsync(Guid topicId, int skip, int take)
     {
         return await _forumMapper.MapAsync(await _forumDao.GetLastMessagesInTopicAsync(topicId, skip, take));

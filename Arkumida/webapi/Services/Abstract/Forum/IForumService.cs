@@ -80,6 +80,20 @@ public interface IForumService
     /// Get topic metadata. Will return null if topic with given ID doesn't exist
     /// </summary>
     Task<ForumTopicInfo> GetTopicInfoAsync(Guid topicId);
+
+    /// <summary>
+    /// Get messages counts for topics (given topics must exist)
+    /// </summary>
+    Task<Dictionary<Guid, int>> GetMessagesCountsByTopicsIdsAsync(IReadOnlyCollection<Guid> topicsIds);
+    
+    #endregion
+    
+    #region Texts comments topics
+
+    /// <summary>
+    /// Get texts comments topics IDs for given texts IDs. Topic ID may be null if there is no comments at all for text
+    /// </summary>
+    Task<IDictionary<Guid, Guid?>> GetTextsTopicsIdsByTextsIdsAsync(IReadOnlyCollection<Guid> textsIds);
     
     #endregion
     
@@ -125,6 +139,6 @@ public interface IForumService
         Guid? replyTo,
         string message
     );
-
+    
     #endregion
 }

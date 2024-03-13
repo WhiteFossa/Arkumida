@@ -26,6 +26,7 @@ using webapi.Models.Enums;
 using webapi.OpenSearch.Models;
 using webapi.OpenSearch.Services.Abstract;
 using webapi.Services.Abstract;
+using webapi.Services.Abstract.Forum;
 using webapi.Services.Abstract.TextsStatistics;
 
 namespace webapi.Services.Implementations;
@@ -41,6 +42,7 @@ public class TextsService : ITextsService
     private readonly ITextUtilsService _textUtilsService;
     private readonly IArkumidaOpenSearchClient _arkumidaOpenSearchClient;
     private readonly ITextsStatisticsService _textsStatisticsService;
+    private readonly IForumService _forumService;
 
     public TextsService
     (
@@ -52,7 +54,8 @@ public class TextsService : ITextsService
         ITextsRenderingService textsRenderingService,
         ITextUtilsService textUtilsService,
         IArkumidaOpenSearchClient arkumidaOpenSearchClient,
-        ITextsStatisticsService textsStatisticsService
+        ITextsStatisticsService textsStatisticsService,
+        IForumService forumService
     )
     {
         _textsDao = textsDao;
@@ -64,6 +67,7 @@ public class TextsService : ITextsService
         _textUtilsService = textUtilsService;
         _arkumidaOpenSearchClient = arkumidaOpenSearchClient;
         _textsStatisticsService = textsStatisticsService;
+        _forumService = forumService;
     }
 
     public async Task<Text> CreateTextAsync(Text text)
@@ -123,6 +127,30 @@ public class TextsService : ITextsService
 
         var readsCounts = await _textsStatisticsService.GetTextsReadsCountsAsync(textsIds);
 
+        #region Texts comments
+
+        var commentsTopicsIds = await _forumService.GetTextsTopicsIdsByTextsIdsAsync(textsIds);
+        
+        // Some topics aren't exist, so we are skipping them
+        var commentsCountsByTopics = await _forumService.GetMessagesCountsByTopicsIdsAsync
+        (
+            commentsTopicsIds
+                .Where(t => t.Value.HasValue)
+                .Select(t => t.Value.Value)
+                .ToList()
+        );
+
+        var commentsCountsByTexts = textsIds
+            .ToDictionary
+            (
+                tid => tid,
+                tid => commentsTopicsIds.ContainsKey(tid) && commentsTopicsIds[tid].HasValue
+                    ? commentsCountsByTopics[commentsTopicsIds[tid].Value]
+                    : 0
+            );
+        
+        #endregion
+            
         var result = new List<TextInfoDto>();
 
         foreach (var textMetadata in textsMetadatas)
@@ -154,7 +182,7 @@ public class TextsService : ITextsService
                     textMetadata.Title,
                     textMetadata.CreateTime,
                     readsCounts[textMetadata.Id],
-                    0,
+                    commentsCountsByTexts[textMetadata.Id],
                     _tagsService.OrderTags(textMetadata.Tags)
                         .Select(t => t.ToTextTagDto())
                         .ToList(),
@@ -186,6 +214,19 @@ public class TextsService : ITextsService
             .Single(rc => rc.Key == textId)
             .Value;
         
+        #region Text comments
+
+        var commentsTopicId = (await _forumService
+            .GetTextsTopicsIdsByTextsIdsAsync(new []{ textId }))
+            .Values
+            .Single();
+        
+        var commentsCount = commentsTopicId.HasValue
+            ? (await _forumService.GetMessagesCountsByTopicsIdsAsync(new [] { commentsTopicId.Value })).Values.Single()
+            : 0;
+        
+        #endregion
+        
         return new TextInfoDto
         (
             textMetadata.Id,
@@ -205,7 +246,7 @@ public class TextsService : ITextsService
             textMetadata.Title,
             textMetadata.CreateTime,
             readsCount,
-            0,
+            commentsCount,
             _tagsService
                 .OrderTags(textMetadata.Tags)
                 .Select(t => t.ToTextTagDto())
