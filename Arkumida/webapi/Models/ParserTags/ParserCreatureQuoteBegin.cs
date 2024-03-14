@@ -24,7 +24,7 @@ namespace webapi.Models.ParserTags;
 
 public class ParserCreatureQuoteBegin : ParserTagBase
 {
-    private const string MatchRegexp = @"^\[quote=(\S+)\]";
+    private const string MatchRegexp = @"^\[quote=(.+?)\]";
     private readonly Regex _regexp = new Regex(MatchRegexp, RegexOptions.Compiled | RegexOptions.IgnoreCase);
     
     public override string GetMatchString()
