@@ -392,61 +392,51 @@ public class TextsImporter
         // Checking do we have users and creating them if not
         
         // Publisher - always exist
-        var publisherCreature = await _usersImporter.FindCreatureByLoginAsync(text.UploaderUserName.Trim());
+        var publisherCreatureId = (await _usersImporter.FindCreatureByLoginAsync(text.UploaderUserName.Trim())).Id;
         
         // Authors
-        var authors = new List<CreatureDto>();
+        var authorsIds = new List<Guid>();
         if (string.IsNullOrWhiteSpace(text.Author))
         {
             // Special case - no information on authors - use publisher instead
-            authors.Add(publisherCreature);
+            authorsIds.Add(publisherCreatureId);
         }
         else
         {
             var authorsNames = text.Author.Split(',').Select(an => an.Trim()); // Trim helps to remove spaces, which can be after comma
             foreach (var authorName in authorsNames)
             {
-                authors.Add(await _usersImporter.FindCreatureByLoginAsync(authorName));
+                authorsIds.Add((await _usersImporter.FindCreatureByLoginAsync(authorName)).Id);
             }
         }
         
         // Translators
-        var translators = new List<CreatureDto>();
+        var translatorsIds = new List<Guid>();
         if (!string.IsNullOrWhiteSpace(text.Translator))
         {
             var translatorsNames = text.Translator.Split(',').Select(tn => tn.Trim());
             foreach (var translatorName in translatorsNames)
             {
-                translators.Add(await _usersImporter.FindCreatureByLoginAsync(translatorName));
+                translatorsIds.Add((await _usersImporter.FindCreatureByLoginAsync(translatorName)).Id);
             }
         }
 
         // Now we have text model ready
-        var textToCreate = new TextDto()
+        var textToCreate = new ImportTextDto()
         {
-            Id = Guid.Empty,
             CreateTime = text.CreateTime.ToUniversalTime(),
             LastUpdateTime = (text.UpdateTime.HasValue ? text.UpdateTime.Value : text.CreateTime).ToUniversalTime(),
             Title = text.Title,
             Description = text.Description,
             Pages = new Collection<TextPageDto>(),
             
-            Tags = arkumidaTagsIds.Select(tid => new TagDto()
-            {
-                Id = tid, // Only ID important right now, because tag already exist
-                FurryReadableId = "Not important",
-                Name = "Not important",
-                Subtype = TagSubtype.Actions,
-                CategoryOrder = 0,
-                IsCategory = false,
-                CategoryTagType = CategoryTagType.Normal
-            }).ToList(),
+            TagsIds = arkumidaTagsIds,
             
             IsIncomplete = text.IsNotFinished,
             
-            Authors = authors,
-            Translators = translators,
-            Publisher = publisherCreature
+            AuthorsIds = authorsIds,
+            TranslatorsIds = translatorsIds,
+            PublisherId = publisherCreatureId
         };
 
         foreach (var page in textModel.Pages)
@@ -493,7 +483,7 @@ public class TextsImporter
                 .Add(pageToCreate);
         }
 
-        var arkumidaTextId = await AddTextToArkumidaAsync(textToCreate);
+        var arkumidaTextId = await ImportTextToArkumidaAsync(textToCreate);
         
         // Now getting files for this text
         foreach (var fileMetadata in textFilesMetadata)
@@ -724,18 +714,18 @@ public class TextsImporter
         return result;
     }
     
-    private async Task<Guid> AddTextToArkumidaAsync(TextDto textDto)
+    private async Task<Guid> ImportTextToArkumidaAsync(ImportTextDto importTextDto)
     {
-        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Texts/Create", new CreateTextRequest() { Text = textDto });
+        var response = await _httpClient.PostAsJsonAsync($"{MainImporter.BaseUrl}Texts/Import", new ImportTextRequest() { Text = importTextDto });
         if (!response.IsSuccessStatusCode)
         {
-            Console.WriteLine($"Failed to import text: { textDto.Title }");
+            Console.WriteLine($"Failed to import text: { importTextDto.Title }");
             Console.WriteLine(response.StatusCode);
             
             throw new InvalidOperationException();
         }
             
-        var responseData = JsonSerializer.Deserialize<CreateTextResponse>(await response.Content.ReadAsStringAsync());
+        var responseData = JsonSerializer.Deserialize<ImportTextResponse>(await response.Content.ReadAsStringAsync());
 
         return responseData.Text.Id;
     }

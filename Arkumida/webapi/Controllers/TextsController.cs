@@ -24,8 +24,10 @@ using webapi.Dao.Models.Enums.Statistics;
 using webapi.Helpers;
 using webapi.Models.Api.Requests;
 using webapi.Models.Api.Requests.Forum;
+using webapi.Models.Api.Requests.Texts.Import;
 using webapi.Models.Api.Requests.TextsComments;
 using webapi.Models.Api.Responses;
+using webapi.Models.Api.Responses.Texts.Import;
 using webapi.Models.Api.Responses.TextsComments;
 using webapi.Services.Abstract;
 using webapi.Services.Abstract.Forum;
@@ -218,6 +220,33 @@ public class TextsController : ControllerBase
         return Ok
         (
             new CreateTextResponse(createdText.ToDto(_textUtilsService))
+        );
+    }
+    
+    /// <summary>
+    /// Import new text
+    /// </summary>
+    [Authorize(Roles = RolesConstants.ImporterRole)]
+    [Route("api/Texts/Import")]
+    [HttpPost]
+    public async Task<ActionResult<ImportTextResponse>> ImportTextAsync([FromBody] ImportTextRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Request must be provided.");
+        }
+
+        if (request.Text == null)
+        {
+            return BadRequest("Text must not be null.");
+        }
+
+        var textToCreate = request.Text.ToText();
+        var createdText = await _textsService.CreateTextAsync(textToCreate);
+
+        return Ok
+        (
+            new ImportTextResponse(createdText.ToDto(_textUtilsService))
         );
     }
 
