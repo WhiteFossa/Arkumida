@@ -17,26 +17,18 @@
 #endregion
 
 using System.Text.Json.Serialization;
-using webapi.Models.Api.DTOs;
+using webapi.Models.Api.DTOs.Texts.Create;
 
-namespace webapi.Models.Api.Responses;
+namespace webapi.Models.Api.Requests.Texts.Create;
 
 /// <summary>
-/// Text creation response
+/// Request to create a new text
 /// </summary>
-public class CreateTextResponse
+public class CreateTextRequest
 {
     /// <summary>
     /// Text
     /// </summary>
     [JsonPropertyName("text")]
-    public TextDto Text { get; private set; }
-    
-    public CreateTextResponse
-    (
-        TextDto text
-    )
-    {
-        Text = text ?? throw new ArgumentNullException(nameof(text), "Text must be populated.");
-    }
+    public CreateTextDto Text { get; set; }
 }

@@ -27,6 +27,11 @@ public class TagsDao : ITagsDao
 {
     private readonly MainDbContext _dbContext;
 
+    /// <summary>
+    /// If tag have on of those meanings than tag is text type tag
+    /// </summary>
+    private readonly TagMeaning[] TextTypeTagsMeanings = new[] { TagMeaning.TypeStories, TagMeaning.TypeNovels, TagMeaning.TypePoetry, TagMeaning.TypeComics }; 
+
     public TagsDao
     (
         MainDbContext dbContext
@@ -105,5 +110,27 @@ public class TagsDao : ITagsDao
             .Where(t => !t.IsHidden)
             .Include(t => t.Texts)
             .MaxAsync(t => t.Texts.Count);
+    }
+
+    public async Task<int> CountCategoryTagsAsync(IReadOnlyCollection<Guid> tagsIds)
+    {
+        _ = tagsIds ?? throw new ArgumentNullException(nameof(tagsIds), "Tags list mustn't be null.");
+        
+        return await _dbContext
+            .Tags
+            .Where(t => t.IsCategory)
+            .Where(t => tagsIds.Contains(t.Id))
+            .CountAsync();
+    }
+
+    public async Task<int> CountTextTypeTagsAsync(IReadOnlyCollection<Guid> tagsIds)
+    {
+        _ = tagsIds ?? throw new ArgumentNullException(nameof(tagsIds), "Tags list mustn't be null.");
+        
+        return await _dbContext
+            .Tags
+            .Where(t => TextTypeTagsMeanings.Contains(t.Meaning))
+            .Where(t => tagsIds.Contains(t.Id))
+            .CountAsync();
     }
 }

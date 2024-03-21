@@ -24,9 +24,11 @@ using webapi.Dao.Models.Enums.Statistics;
 using webapi.Helpers;
 using webapi.Models.Api.Requests;
 using webapi.Models.Api.Requests.Forum;
+using webapi.Models.Api.Requests.Texts.Create;
 using webapi.Models.Api.Requests.Texts.Import;
 using webapi.Models.Api.Requests.TextsComments;
 using webapi.Models.Api.Responses;
+using webapi.Models.Api.Responses.Texts.Create;
 using webapi.Models.Api.Responses.Texts.Import;
 using webapi.Models.Api.Responses.TextsComments;
 using webapi.Services.Abstract;
@@ -214,8 +216,8 @@ public class TextsController : ControllerBase
             return BadRequest("Text must not be null.");
         }
 
-        var textToCreate = request.Text.ToText();
-        var createdText = await _textsService.CreateTextAsync(textToCreate);
+        var publisher = await _accountsService.FindUserByLoginAsync(User.Identity.Name);
+        var createdText = await _textsService.CreateTextAsync(request.Text.ToText(publisher.Id));
 
         return Ok
         (
@@ -240,9 +242,8 @@ public class TextsController : ControllerBase
         {
             return BadRequest("Text must not be null.");
         }
-
-        var textToCreate = request.Text.ToText();
-        var createdText = await _textsService.CreateTextAsync(textToCreate);
+        
+        var createdText = await _textsService.CreateTextAsync(request.Text.ToText());
 
         return Ok
         (

@@ -53,4 +53,14 @@ public interface ITagsService
     /// Order tags (for displaying in text info, for example)
     /// </summary>
     IReadOnlyCollection<Tag> OrderTags(IEnumerable<Tag> tags);
+    
+    /// <summary>
+    /// How much category tags we have in given tags collection?
+    /// </summary>
+    Task<int> CountCategoryTagsAsync(IReadOnlyCollection<Guid> tagsIds);
+    
+    /// <summary>
+    /// How much text type tags we have in given tags collection?
+    /// </summary>
+    Task<int> CountTextTypeTagsAsync(IReadOnlyCollection<Guid> tagsIds);
 }

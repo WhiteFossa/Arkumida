@@ -74,6 +74,22 @@ public class TextsService : ITextsService
     {
         _ = text ?? throw new ArgumentNullException(nameof(text), "Text mustn't be null.");
 
+        var tagsIds = text
+            .Tags
+            .Select(t => t.Id)
+            .ToList();
+        
+        // We need at least one category tag for text
+        if (await _tagsService.CountCategoryTagsAsync(tagsIds) == 0)
+        {
+            throw new ArgumentException("At least one category tag required!", nameof(text.Tags));
+        }
+
+        if (await _tagsService.CountTextTypeTagsAsync(tagsIds) != 1)
+        {
+            throw new ArgumentException("One and only one text type tag is required!", nameof(text.Tags));
+        }
+        
         text.TextFiles = new List<TextFile>(); // We have no files when creating text, they will be (if any) attached later
         
         var dbText = _textsMapper.Map(text);

@@ -155,7 +155,17 @@ public class TagsService : ITagsService
 
         return result;
     }
-    
+
+    public async Task<int> CountCategoryTagsAsync(IReadOnlyCollection<Guid> tagsIds)
+    {
+        return await _tagsDao.CountCategoryTagsAsync(tagsIds);
+    }
+
+    public async Task<int> CountTextTypeTagsAsync(IReadOnlyCollection<Guid> tagsIds)
+    {
+        return await _tagsDao.CountTextTypeTagsAsync(tagsIds);
+    }
+
     private async Task PostprocessTags(IReadOnlyCollection<Tag> tags)
     {
         // Popularity
