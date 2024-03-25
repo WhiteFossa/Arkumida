@@ -208,6 +208,9 @@
 @more-text-comments-button-background-color: hsl(207, 90%, 54%);
 @text-comments-send-icon-width: 2rem;
 
+/* Add new text */
+@add-new-text-description-field-height: 10rem;
+
 /* Variables end here */
 
 /* Mixins start here */
@@ -3348,3 +3351,128 @@ body {
 }
 
 /* Full size image popup end */
+
+/* Add new text begin */
+
+/* New text title */
+.add-new-text-title {
+  .mixin-centered-text-base();
+  font-size: @font-size-bigger3;
+  .mixin-bold-text-base();
+}
+
+/* New text title and description container container (outer, paddingless) */
+.add-new-text-title-and-description-outer-container {
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
+
+  overflow: hidden;
+}
+
+/* New text title and description container container (inner, with padding) */
+.add-new-text-title-and-description-inner-container {
+  padding: @padding-smaller1;
+}
+
+/* Small text "Title and description" */
+.add-new-text-title-and-description-caption {
+  font-size: @font-size-smaller1;
+  color: @darker-color1;
+
+  text-align: right;
+  width: 100%;
+
+  .mixin-flex-row-base();
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: @gap-small;
+
+  padding-bottom: @padding-small2;
+}
+
+/* Text title hint container */
+.add-new-text-title-hint-container {
+  .mixin-horizontally-and-vertically-centered-flex();
+  flex-wrap: nowrap;
+  gap: @gap-smallest;
+
+  color: @darker-color2;
+}
+
+/* Text title container */
+.add-new-text-title-container {
+  .mixin-horizontally-and-vertically-centered-flex();
+  flex-wrap: nowrap;
+  gap: @gap-smallest;
+}
+
+/* Base for text title field */
+.mixin-add-new-text-title-field-base {
+  border-radius: @border-radius-normal;
+
+  height: @input-height-big;
+  font-size: @font-size-bigger3;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: @padding-smaller1;
+  margin-bottom: @margin-smaller1;
+}
+
+/* Valid text title field */
+.add-new-text-title-field-valid {
+  .mixin-add-new-text-title-field-base();
+}
+
+/* Invalid text title field */
+.add-new-text-title-field-invalid {
+  .mixin-add-new-text-title-field-base();
+
+  border: @border-thick-thickness @border-style @alert-color;
+}
+
+/* Text description hint container */
+.add-new-text-description-hint-container {
+  .mixin-horizontally-and-vertically-centered-flex();
+  flex-wrap: nowrap;
+  gap: @gap-smallest;
+
+  color: @darker-color2;
+}
+
+/* Text description container */
+.add-new-text-description-container {
+  .mixin-horizontally-and-vertically-centered-flex();
+  flex-wrap: nowrap;
+  gap: @gap-smallest;
+}
+
+/* Description textarea base */
+.mixin-add-new-text-description-field-base {
+  width: 100%;
+  height: @add-new-text-description-field-height;
+
+  box-sizing: border-box;
+
+  border-radius: @border-radius-normal;
+
+  padding: @padding-smaller1;
+  margin-bottom: @margin-smaller1;
+
+  font-size: @font-size-bigger1;
+}
+
+/* Textarea with text description (valid) */
+.add-new-text-description-textarea-valid {
+  .mixin-add-new-text-description-field-base();
+}
+
+/* Textarea with text description (invalid) */
+.add-new-text-description-textarea-invalid {
+  .mixin-add-new-text-description-field-base();
+
+  border: @border-thick-thickness @border-style @alert-color;
+}
+
+/* Add new text end*/

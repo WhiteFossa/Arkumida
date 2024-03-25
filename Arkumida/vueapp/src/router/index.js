@@ -11,6 +11,7 @@ import PasswordResetView from "@/views/PasswordResetView.vue";
 import PrivateMessagesView from "@/views/PrivateMessagesView.vue";
 import SearchView from "@/views/SearchView.vue";
 import VotesHistoryView from "@/views/VotesHistoryView.vue";
+import AddTextView from "@/views/AddTextView.vue";
 
 const routes =
 [
@@ -103,6 +104,13 @@ const routes =
         name: 'votesHistory',
         component: VotesHistoryView,
         props: true
+    },
+
+    // Add new text
+    {
+        path: '/addText',
+        name: 'addText',
+        component: AddTextView
     },
 ]
 

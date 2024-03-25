@@ -31,6 +31,7 @@
 /* Private messages */
 /* Like/dislike buttons */
 /* Texts comments */
+/* Add new text */
 /* Variables end here */
 /* Mixins start here */
 /* Footer column base */
@@ -2878,4 +2879,131 @@ body {
   height: 2rem;
 }
 /* Full size image popup end */
+/* Add new text begin */
+/* New text title */
+.add-new-text-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+/* New text title and description container container (outer, paddingless) */
+.add-new-text-title-and-description-outer-container {
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+/* New text title and description container container (inner, with padding) */
+.add-new-text-title-and-description-inner-container {
+  padding: 0.5rem;
+}
+/* Small text "Title and description" */
+.add-new-text-title-and-description-caption {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+  text-align: right;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  padding-bottom: 0.3rem;
+}
+/* Text title hint container */
+.add-new-text-title-hint-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  color: hsl(0, 0%, 36%);
+}
+/* Text title container */
+.add-new-text-title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+}
+/* Base for text title field */
+.mixin-add-new-text-title-field-base {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+/* Valid text title field */
+.add-new-text-title-field-valid {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+/* Invalid text title field */
+.add-new-text-title-field-invalid {
+  border-radius: 0.5rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+/* Text description hint container */
+.add-new-text-description-hint-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  color: hsl(0, 0%, 36%);
+}
+/* Text description container */
+.add-new-text-description-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+}
+/* Description textarea base */
+.mixin-add-new-text-description-field-base {
+  width: 100%;
+  height: 10rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+/* Textarea with text description (valid) */
+.add-new-text-description-textarea-valid {
+  width: 100%;
+  height: 10rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+/* Textarea with text description (invalid) */
+.add-new-text-description-textarea-invalid {
+  width: 100%;
+  height: 10rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  border: 0.2rem solid hsl(0, 100%, 56%);
+}
+/* Add new text end*/
 /*# sourceMappingURL=arkumida.css.map */
