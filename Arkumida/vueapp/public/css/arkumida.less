@@ -3354,6 +3354,13 @@ body {
 
 /* Add new text begin */
 
+/* Container with parts of "add new text" form */
+.add-new-text-form-container {
+  .mixin-flex-column-base();
+
+  gap: @gap-normal;
+}
+
 /* New text title */
 .add-new-text-title {
   .mixin-centered-text-base();
@@ -3361,7 +3368,7 @@ body {
   .mixin-bold-text-base();
 }
 
-/* New text title and description container container (outer, paddingless) */
+/* New text title and description container (outer, paddingless) */
 .add-new-text-title-and-description-outer-container {
   border: @border-thin-thickness @border-style @light-color1;
   border-radius: @border-radius-normal;
@@ -3369,7 +3376,7 @@ body {
   overflow: hidden;
 }
 
-/* New text title and description container container (inner, with padding) */
+/* New text title and description container (inner, with padding) */
 .add-new-text-title-and-description-inner-container {
   padding: @padding-smaller1;
 }
@@ -3473,6 +3480,42 @@ body {
   .mixin-add-new-text-description-field-base();
 
   border: @border-thick-thickness @border-style @alert-color;
+}
+
+/* New text creatures container (outer, paddingless) */
+.add-new-text-creatures-outer-container {
+  border: @border-thin-thickness @border-style @light-color1;
+  border-radius: @border-radius-normal;
+
+  overflow: hidden;
+}
+
+/* New text creatures container (inner, with padding) */
+.add-new-text-creatures-inner-container {
+  padding: @padding-smaller1;
+}
+
+/* New text author / translator / publisher info container */
+.add-new-text-creatures-subcontainer {
+  .mixin-flex-row-base();
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+/* Small text "Authors and translators" */
+.add-new-text-creatures-caption {
+  font-size: @font-size-smaller1;
+  color: @darker-color1;
+
+  text-align: right;
+  width: 100%;
+
+  .mixin-flex-row-base();
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: @gap-small;
+
+  padding-bottom: @padding-small2;
 }
 
 /* Add new text end*/

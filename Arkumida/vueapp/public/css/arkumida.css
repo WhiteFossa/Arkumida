@@ -2880,19 +2880,25 @@ body {
 }
 /* Full size image popup end */
 /* Add new text begin */
+/* Container with parts of "add new text" form */
+.add-new-text-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 /* New text title */
 .add-new-text-title {
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
 }
-/* New text title and description container container (outer, paddingless) */
+/* New text title and description container (outer, paddingless) */
 .add-new-text-title-and-description-outer-container {
   border: 0.1rem solid hsl(225, 5%, 85%);
   border-radius: 0.5rem;
   overflow: hidden;
 }
-/* New text title and description container container (inner, with padding) */
+/* New text title and description container (inner, with padding) */
 .add-new-text-title-and-description-inner-container {
   padding: 0.5rem;
 }
@@ -3004,6 +3010,36 @@ body {
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
   border: 0.2rem solid hsl(0, 100%, 56%);
+}
+/* New text creatures container (outer, paddingless) */
+.add-new-text-creatures-outer-container {
+  border: 0.1rem solid hsl(225, 5%, 85%);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+/* New text creatures container (inner, with padding) */
+.add-new-text-creatures-inner-container {
+  padding: 0.5rem;
+}
+/* New text author / translator / publisher info container */
+.add-new-text-creatures-subcontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+/* Small text "Authors and translators" */
+.add-new-text-creatures-caption {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 60%);
+  text-align: right;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  padding-bottom: 0.3rem;
 }
 /* Add new text end*/
 /*# sourceMappingURL=arkumida.css.map */

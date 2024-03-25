@@ -12,12 +12,13 @@
     import {TextType} from "@/js/constants";
     import ReadTextPagination from "@/components/Shared/Pagination/PaginationComponent.vue";
     import router from "@/router";
-    import CreaturesInfoComponent from "@/components/ReadText/Creatures/CreaturesInfoComponent.vue";
     import ReadTextDownloadComponent from "@/components/ReadText/Download/ReadTextDownloadComponent.vue";
     import {WebClientSendGetRequest} from "@/js/libWebClient";
     import ReadTextVotesComponent from "@/components/ReadText/Footer/ReadTextVotesComponent.vue";
     import {AuthIsCreatureLoggedIn} from "@/js/auth";
     import TextCommentsComponent from "@/components/ReadText/Comments/TextCommentsComponent.vue";
+    import CreaturesInfoWithNonexistentCreaturesComponent
+        from "@/components/Shared/Creatures/CreaturesInfoComponent.vue";
 
     const props = defineProps({
         id: Guid,
@@ -105,18 +106,18 @@
         <div class="read-text-author-publisher-translator-container">
 
             <!-- Publisher -->
-            <CreaturesInfoComponent
-                :creaturesIds="[textData.textData.publisher.entityId]"
+            <CreaturesInfoWithNonexistentCreaturesComponent
+                :creatures="[ { id: textData.textData.publisher.entityId }]"
                 creaturesRole="Загрузил" />
 
             <!-- Authors -->
-            <CreaturesInfoComponent
-                :creaturesIds="textData.textData.authors.map(a => a.entityId)"
+            <CreaturesInfoWithNonexistentCreaturesComponent
+                :creatures="textData.textData.authors.map(a => ({ id: a.entityId }))"
                 creaturesRole="Автор(ы)"/>
 
             <!-- Translators -->
-            <CreaturesInfoComponent
-                :creaturesIds="textData.textData.translators.map(t => t.entityId)"
+            <CreaturesInfoWithNonexistentCreaturesComponent
+                :creatures="textData.textData.translators.map(t => ({ id: t.entityId }))"
                 creaturesRole="Переводчик(и)"/>
         </div>
 
